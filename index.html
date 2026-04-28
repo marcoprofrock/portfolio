@@ -1,0 +1,1422 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marco Pröfrock — Portfolio</title>
+<meta name="description" content="Marco Pröfrock — Creative at Scholz & Friends, Stuttgart.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* --- Reset / base --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+img, svg, iframe { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+
+:root {
+  --bg: #0a0a0a;
+  --fg: #f4f4f2;
+  --muted: rgba(244,244,242,0.55);
+  --rule: rgba(244,244,242,0.10);
+  --rule-strong: rgba(244,244,242,0.20);
+  --pad-x: clamp(20px, 4vw, 64px);
+  --top-h: 56px;
+  --subnav-h: 48px;
+  --content-max: 1200px;
+}
+
+::selection { background: var(--fg); color: var(--bg); }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.55;
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+[id] { scroll-margin-top: calc(var(--top-h) + 16px); }
+.project[id] { scroll-margin-top: calc(var(--top-h) + var(--subnav-h) + 12px); }
+
+/* --- Top bar --- */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px var(--pad-x);
+  min-height: var(--top-h);
+  background: rgba(10,10,10,0.78);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 0.5px solid var(--rule);
+}
+.top .brand { font-size: 13px; font-weight: 500; letter-spacing: 0.01em; }
+.top nav ul { display: flex; gap: clamp(16px, 3vw, 28px); }
+.top nav a { font-size: 13px; color: var(--muted); transition: color .2s ease; }
+.top nav a:hover, .top nav a[aria-current="page"] { color: var(--fg); }
+
+/* ============================================================
+   INTRO — Mosaic scroll animation
+   ============================================================
+   The intro section is a scroll container: the sticky wrapper
+   is pinned for ~140vh of scroll, giving the mosaic time to
+   animate back to the grid positions before the user continues.
+*/
+.intro {
+  position: relative;
+  min-height: calc(100vh - var(--top-h) + 420px); /* sticky overshoot */
+  border-bottom: 0.5px solid var(--rule);
+}
+
+/* Sticky shell keeps the whole intro layout visible while
+   the mosaic animation plays out over the extra scroll height */
+.intro-sticky {
+  position: sticky;
+  top: var(--top-h);
+  height: calc(100vh - var(--top-h));
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
+  padding: clamp(56px, 9vw, 120px) var(--pad-x) clamp(40px, 6vw, 80px);
+  max-width: calc(var(--content-max) + var(--pad-x) * 2);
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.intro-text {
+  display: grid;
+  gap: clamp(20px, 3vw, 36px);
+  align-content: center;
+  /* opacity controlled by JS */
+}
+
+/* Right column figures — scattered collage of 10 images.
+   Each .fig is absolutely positioned via inline left/top/width/height
+   that is computed from the data-pos attribute (percentages of
+   the .intro-figs box).
+   Important pieces (Cannes / ICAD / ADC / Scholz) sit larger and
+   more central; documentary photography fills the spaces around them. */
+.intro-figs {
+  position: relative;
+  width: 100%;
+  /* Tall enough to host 10 images comfortably without crowding the text */
+  height: clamp(420px, 44vw, 600px);
+  min-height: clamp(420px, 44vw, 600px);
+}
+.intro-figs .fig {
+  position: absolute;
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+  /* JS sets left/top/width/height inline from data-pos.
+     Defaults below prevent flash of unpositioned (full-size) images
+     before JS runs. */
+  left: 0; top: 0; width: 0; height: 0;
+}
+.intro-figs .fig img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.intro-figs .fig figcaption {
+  /* Captions are only used by the animated overlay (where they fade out
+     during the mosaic → grid animation). The static end-state grid is
+     intentionally caption-free. */
+  display: none;
+}
+.intro-figs .fig-portrait img { object-position: center 18%; }
+
+.intro .lede {
+  font-size: clamp(28px, 4.6vw, 60px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  max-width: 22ch;
+  color: var(--fg);
+}
+.intro .bio {
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.65;
+  color: rgba(244,244,242,0.78);
+  max-width: 70ch;
+}
+.award-strip {
+  margin-top: clamp(16px, 2vw, 28px);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: clamp(18px, 3vw, 32px);
+}
+.award-strip li { display: flex; align-items: center; height: 40px; }
+.award-strip a { display: inline-flex; align-items: center; justify-content: center; height: 100%; }
+.award-strip img {
+  height: 100%; width: auto; max-width: 60px; object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.7;
+  transition: opacity .25s ease, transform .25s ease;
+}
+.award-strip a:hover img, .award-strip a:focus-visible img { opacity: 1; transform: translateY(-1px); }
+
+/* ============================================================
+   MOSAIC OVERLAY — three fixed images that animate from
+   full-screen back to their in-grid positions.
+   All sizing/positioning is set by JavaScript.
+============================================================ */
+#mosaic-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60; /* above content, below top bar (z:100) */
+  pointer-events: none; /* never intercept clicks */
+  /* Start hidden so the (yet-unpositioned) mosaic-img elements don't
+     flash at their natural pixel size before JS lays them out. JS
+     fades the overlay in once setPos() has run. */
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+#mosaic-overlay.is-ready { opacity: 1; }
+#mosaic-overlay.is-done { opacity: 0 !important; pointer-events: none; }
+
+.mosaic-img {
+  position: absolute; /* positioned within fixed #mosaic-overlay */
+  overflow: hidden;
+  border-radius: 4px;
+  will-change: left, top, width, height;
+  /* border-radius transitions separately for a nice feel */
+  transition: border-radius 0.05s ease;
+}
+.mosaic-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+.mosaic-img figcaption {
+  position: absolute;
+  left: 10px; bottom: 8px; right: 10px;
+  font-size: 10px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.55);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* ============================================================
+   Scroll hint: tiny chevron at bottom of mosaic screen
+============================================================ */
+#scroll-hint {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 65;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+#scroll-hint span {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(244,244,242,0.5);
+}
+#scroll-hint svg {
+  animation: bounceY 1.6s ease-in-out infinite;
+}
+@keyframes bounceY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+/* ============================================================
+   WORK section
+============================================================ */
+.work { padding: 0 0 clamp(40px, 6vw, 80px); }
+
+.work-nav {
+  position: sticky;
+  top: var(--top-h);
+  z-index: 90;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 0.5px solid var(--rule);
+}
+.work-nav ul {
+  display: flex; align-items: center; gap: 0;
+  min-height: var(--subnav-h);
+  padding: 0 var(--pad-x);
+  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+  max-width: calc(var(--content-max) + var(--pad-x) * 2);
+  margin: 0 auto;
+}
+.work-nav ul::-webkit-scrollbar { display: none; }
+.work-nav li { flex: 0 0 auto; }
+.work-nav a {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 14px; font-size: 13px; font-weight: 400;
+  color: var(--muted); white-space: nowrap; transition: color .2s ease;
+}
+.work-nav li:not(:last-child) a { margin-right: clamp(2px, 1vw, 8px); }
+.work-nav a .num { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; color: rgba(244,244,242,0.40); transition: color .2s ease; }
+.work-nav a:hover { color: var(--fg); }
+.work-nav a:hover .num { color: var(--muted); }
+.work-nav a[aria-current="true"] { color: var(--fg); font-weight: 500; }
+.work-nav a[aria-current="true"] .num { color: var(--fg); }
+
+.project {
+  padding: clamp(80px, 10vw, 160px) var(--pad-x) clamp(80px, 10vw, 160px);
+  border-top: 1px solid var(--rule-strong);
+  max-width: calc(var(--content-max) + var(--pad-x) * 2);
+  margin: 0 auto;
+}
+.project .cover {
+  margin: 0 0 clamp(40px, 5vw, 72px);
+  border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.03);
+}
+.project .cover img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+
+/* Project header: SVG logo as the prominent left-aligned brand mark,
+   with "— NN  ProjectName" as a small caption below it. Year on the right. */
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(14px, 2vw, 28px);
+  padding-bottom: clamp(20px, 2.5vw, 32px);
+  border-bottom: 0.5px solid var(--rule);
+}
+.head .head-main {
+  display: flex; flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(14px, 1.6vw, 22px);
+  min-width: 0;
+}
+.head .logo {
+  height: clamp(44px, 5.4vw, 84px);
+  width: auto;
+  max-width: min(70vw, 560px);
+  display: block;
+}
+/* Per-logo optical sizing tweaks (each SVG has different proportions) */
+.head .logo[src$="uturn.svg"] { height: clamp(34px, 4.2vw, 64px); }
+.head .logo[src$="opera.svg"] { height: clamp(56px, 7vw, 108px); }
+.head .title-line {
+  display: flex; align-items: baseline;
+  gap: clamp(12px, 1.6vw, 20px);
+}
+.head .num { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; color: var(--muted); }
+.head .title-small { font-size: 13px; font-weight: 500; color: var(--fg); letter-spacing: 0.02em; }
+.head .title { font-size: clamp(32px, 4.5vw, 56px); font-weight: 500; line-height: 1.05; letter-spacing: -0.025em; }
+.head .year { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; color: var(--muted); white-space: nowrap; padding-bottom: 2px; }
+
+.info {
+  margin-top: clamp(28px, 4vw, 44px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.9fr);
+  gap: clamp(28px, 5vw, 80px);
+  align-items: start;
+}
+.copy { font-size: clamp(14px, 1.05vw, 16px); line-height: 1.7; color: rgba(244,244,242,0.86); max-width: 70ch; }
+
+.awards { display: flex; flex-direction: column; gap: 12px; }
+.awards li {
+  display: grid; grid-template-columns: 36px 1fr; align-items: center; gap: 14px;
+  padding: 12px 14px; border: 0.5px solid var(--rule-strong); border-radius: 4px;
+  background: rgba(255,255,255,0.02);
+}
+.awards img { width: 36px; height: 36px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.92; }
+.awards span { display: flex; flex-direction: column; gap: 2px; font-size: 13px; color: var(--muted); }
+.awards strong { font-size: 13px; font-weight: 500; color: var(--fg); letter-spacing: 0.01em; }
+
+.meta { display: grid; grid-template-columns: auto 1fr; column-gap: 18px; row-gap: 8px; font-size: 13px; align-self: start; }
+.meta dt { color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; font-size: 11px; padding-top: 3px; }
+.meta dd { color: var(--fg); }
+
+.media { margin-top: clamp(36px, 5vw, 64px); }
+.video-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; overflow: hidden; border-radius: 4px; }
+.video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.gallery { margin-top: clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: clamp(8px, 1vw, 14px); }
+.gallery img { width: 100%; height: auto; background: rgba(255,255,255,0.03); border-radius: 2px; }
+/* Former cover thumbnails sit smaller and centered inside the gallery
+   so they play as a section opener, not the dominant hero image. */
+.gallery img.cover-thumb {
+  max-width: min(58%, 520px);
+  align-self: center;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  margin-bottom: clamp(8px, 1.2vw, 18px);
+}
+.gallery .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(8px, 1vw, 14px); align-items: stretch; }
+.gallery .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: clamp(8px, 1vw, 14px); align-items: stretch; }
+/* In side-by-side rows, force both/three images to share the row's height
+   and crop with object-fit so there are no awkward blank gaps when their
+   aspect ratios differ. Default ratio is landscape (4:3); add `.tall` to
+   the row when the images are portrait so they aren't cropped. */
+.gallery .row-2 img, .gallery .row-3 img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3; }
+.gallery .row-2.tall img, .gallery .row-3.tall img { aspect-ratio: 2 / 3; }
+.gallery .row-2.wide img, .gallery .row-3.wide img { aspect-ratio: 16 / 9; }
+/* `.natural` keeps each image at its own aspect ratio (no cropping). Use
+   when a row mixes portrait + landscape, or when the source ratios are
+   unusual and can't share a forced container ratio. */
+.gallery .row-2.natural, .gallery .row-3.natural { align-items: start; }
+.gallery .row-2.natural img, .gallery .row-3.natural img {
+  height: auto; aspect-ratio: auto; object-fit: contain;
+}
+/* `.row-fit`: pair (or trio) of images that share the same row height
+   while staying fully visible (no cropping). Each img sets its own
+   aspect ratio via `style="--ar: <w>/<h>"`; flex-grow uses that ratio,
+   so column widths are proportional to each image's aspect ratio,
+   which makes the resulting heights match exactly. */
+.gallery .row-fit {
+  display: flex;
+  gap: clamp(8px, 1vw, 14px);
+  align-items: stretch;
+}
+.gallery .row-fit img {
+  flex: var(--ar, 1) 1 0;
+  min-width: 0;
+  width: 100%; height: auto; display: block;
+  aspect-ratio: var(--ar, 1);
+  object-fit: cover; /* with proportional widths, heights match exactly so nothing is actually cropped */
+  border-radius: 2px;
+  background: rgba(255,255,255,0.03);
+}
+
+.credits {
+  margin-top: clamp(36px, 5vw, 64px); padding-top: clamp(24px, 3vw, 36px);
+  border-top: 0.5px solid var(--rule);
+  display: grid; grid-template-columns: minmax(140px, 200px) 1fr;
+  column-gap: clamp(20px, 3vw, 40px); row-gap: 12px; font-size: 13px; max-width: 760px;
+}
+/* Credits with a tall image to the right. The image sits at the top
+   with the same small spacing the gallery uses between images, and the
+   credits column on the left aligns its last line to the image's
+   bottom edge. On mobile, the image stacks above the credits. */
+.credits-with-side {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(220px, 28%, 340px);
+  gap: clamp(20px, 3vw, 40px);
+  align-items: end;
+  /* Same small top gap as gallery images to each other */
+  margin-top: clamp(8px, 1vw, 14px);
+}
+.credits-with-side .credits {
+  max-width: none; margin-top: 0; padding-top: 0; border-top: 0;
+}
+.credits-with-side .side-tall {
+  width: 100%; height: auto; display: block; border-radius: 2px;
+  background: rgba(255,255,255,0.03);
+  align-self: start; /* image hugs the top of the row */
+}
+@media (max-width: 720px) {
+  .credits-with-side { grid-template-columns: 1fr; align-items: start; gap: clamp(20px, 4vw, 32px); }
+  .credits-with-side .side-tall { order: -1; } /* image above credits on mobile */
+}
+.credits dt { color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; font-weight: 500; padding-top: 2px; }
+.credits dd { color: var(--fg); line-height: 1.6; }
+
+/* Section head */
+.section-head { padding: 0 var(--pad-x); margin-bottom: clamp(20px, 3vw, 36px); display: grid; gap: 8px; }
+.section-head .kicker { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.section-head .section-title { font-size: clamp(32px, 5vw, 64px); font-weight: 500; line-height: 1.02; letter-spacing: -0.025em; color: var(--fg); }
+.section-head .section-sub { font-size: clamp(14px, 1.05vw, 16px); color: var(--muted); max-width: 60ch; }
+
+.work-header {
+  max-width: calc(var(--content-max) + var(--pad-x) * 2);
+  margin: 0 auto;
+  padding-top: clamp(64px, 9vw, 120px); padding-bottom: clamp(24px, 3vw, 40px);
+  border-top: 1px solid var(--rule-strong);
+}
+
+/* Photography */
+.photo-strip { padding: clamp(48px, 7vw, 96px) 0 clamp(48px, 6vw, 80px); max-width: calc(var(--content-max) + var(--pad-x) * 2); margin: 0 auto; }
+.photo-track {
+  display: flex; gap: clamp(8px, 1vw, 14px); overflow-x: auto;
+  scroll-snap-type: x proximity; scrollbar-width: none; -ms-overflow-style: none;
+  padding: 0 var(--pad-x) 4px;
+}
+.photo-track::-webkit-scrollbar { display: none; }
+.photo-track figure { flex: 0 0 auto; width: clamp(180px, 22vw, 280px); aspect-ratio: 4 / 5; margin: 0; border-radius: 3px; overflow: hidden; background: rgba(255,255,255,0.04); scroll-snap-align: start; }
+.photo-track img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-track:empty { display: none; }
+
+/* About */
+.about { padding: clamp(64px, 9vw, 140px) var(--pad-x); border-top: 1px solid var(--rule-strong); max-width: calc(var(--content-max) + var(--pad-x) * 2); margin: 0 auto; }
+.about h2 { font-size: clamp(28px, 4vw, 48px); font-weight: 500; letter-spacing: -0.02em; line-height: 1.05; margin-bottom: clamp(20px, 3vw, 28px); }
+.about-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr); gap: clamp(28px, 5vw, 64px); align-items: start; margin-bottom: clamp(48px, 7vw, 96px); }
+.about-text p + p { margin-top: 14px; }
+.about-text p { font-size: clamp(14px, 1.05vw, 16px); line-height: 1.7; color: rgba(244,244,242,0.86); max-width: 64ch; }
+.about-portrait img { width: 100%; height: auto; border-radius: 4px; filter: grayscale(0.1) contrast(1.02); }
+
+.cv { margin-top: clamp(36px, 5vw, 60px); }
+.cv h3 { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+.cv-rows { display: grid; grid-template-columns: 180px 1fr; gap: 0; }
+.cv-rows .yr, .cv-rows .it { padding: 14px 0; border-top: 0.5px solid var(--rule); font-size: 14px; }
+.cv-rows .yr { color: var(--muted); }
+.cv-rows .it strong { font-weight: 500; }
+.cv-rows .it small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+.cv-rows > *:nth-last-child(-n+2) { border-bottom: 0.5px solid var(--rule); }
+
+.awards-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.awards-table tr { border-top: 0.5px solid var(--rule); }
+.awards-table tr:last-child { border-bottom: 0.5px solid var(--rule); }
+.awards-table th, .awards-table td { text-align: left; padding: 14px 0; font-weight: 400; vertical-align: middle; }
+.awards-table th { width: 50%; font-weight: 500; }
+.awards-table th .logo-stack { display: inline-flex; align-items: center; gap: 6px; vertical-align: middle; margin-right: 12px; flex: 0 0 auto; }
+.awards-table th .label { vertical-align: middle; }
+.awards-table th img { width: 22px; height: 22px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.85; flex: 0 0 auto; }
+.awards-table td { color: var(--muted); text-align: right; font-size: 13px; }
+
+/* Footer */
+.foot { padding: clamp(48px, 7vw, 96px) var(--pad-x) clamp(28px, 4vw, 48px); border-top: 1px solid var(--rule-strong); }
+.foot-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr) auto; gap: clamp(24px, 4vw, 64px); align-items: start; max-width: calc(var(--content-max) + var(--pad-x) * 2); margin: 0 auto; }
+.foot-contact { display: flex; flex-direction: column; gap: 6px; }
+.foot-contact a { font-size: clamp(20px, 2.4vw, 32px); font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; transition: color .2s; }
+.foot-contact a:nth-child(n+2) { font-size: 13px; font-weight: 400; color: var(--muted); }
+.foot-contact a:nth-child(2) { margin-top: 12px; }
+.foot-contact a:hover { color: var(--fg); }
+.foot-imprint h4 { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.foot-imprint p { font-size: 12px; line-height: 1.6; color: var(--muted); max-width: 48ch; }
+.foot-imprint p + p { margin-top: 10px; }
+.foot-copy { font-size: 12px; color: var(--muted); letter-spacing: 0.04em; white-space: nowrap; align-self: end; }
+
+/* Lightbox */
+.lightbox {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(5,5,5,0.94);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(16px, 4vw, 56px);
+  opacity: 0; visibility: hidden;
+  transition: opacity .22s ease, visibility .22s ease;
+}
+.lightbox.is-open { opacity: 1; visibility: visible; }
+.lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 3px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+.lightbox .lb-close {
+  position: absolute; top: 18px; right: 18px;
+  width: 40px; height: 40px; border-radius: 999px;
+  border: 0.5px solid var(--rule-strong); background: rgba(0,0,0,0.5);
+  color: var(--fg); font-size: 22px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s ease, transform .15s ease;
+}
+.lightbox .lb-close:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+.gallery img, .project .cover img, .photo-track img { cursor: zoom-in; transition: opacity .2s ease; }
+.gallery img:hover, .project .cover img:hover, .photo-track img:hover { opacity: 0.92; }
+body.lb-open { overflow: hidden; }
+
+/* Responsive */
+@media (max-width: 860px) {
+  .info { grid-template-columns: 1fr; gap: 24px; }
+  /* Header stays as flex row (logo+caption on left, year on right);
+     no mobile-specific overrides needed for the new layout. */
+  /* Mobile: stack text above the collage; the sticky shell still
+     pins so the mosaic animation can play. The figs box keeps a
+     square aspect ratio so the % collage positions still work. */
+  .intro-sticky {
+    grid-template-columns: 1fr;
+    height: calc(100vh - var(--top-h));
+    align-content: start;
+    /* More breathing room between the award badges (bottom of intro-text)
+       and the mosaic images that sit below them on mobile. */
+    gap: clamp(40px, 10vw, 72px);
+    padding-top: clamp(24px, 5vw, 48px);
+  }
+  .intro-figs {
+    height: auto;
+    aspect-ratio: 1 / 1;
+    flex: 1 1 auto;
+  }
+  .gallery .row-3 { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+}
+@media (max-width: 720px) {
+  .top { padding: 14px 20px; }
+  .top .brand { font-size: 12px; }
+  .top nav ul { gap: 16px; }
+  .intro-figs { grid-template-columns: 1.4fr 1fr; gap: 8px; }
+  .intro-figs .fig figcaption { font-size: 9px; }
+  .project .cover { margin-bottom: 32px; }
+  .project .cover img { aspect-ratio: 4 / 3; }
+  .photo-track figure { width: 62vw; max-width: 260px; }
+  .work-nav ul { padding: 0 16px; }
+  .work-nav a { padding: 12px 10px; font-size: 12px; }
+  .gallery .row-3 { grid-template-columns: 1fr; gap: 8px; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-portrait { max-width: 280px; }
+  .cv-rows { grid-template-columns: 1fr; }
+  .cv-rows .yr { padding-bottom: 4px; border-top: 0.5px solid var(--rule); }
+  .cv-rows .it { padding-top: 0; border-top: 0; }
+  .cv-rows > *:nth-last-child(-n+2) { border-bottom: 0; }
+  .cv-rows > *:last-child { border-bottom: 0.5px solid var(--rule); }
+  .awards-table tr { display: grid; grid-template-columns: 1fr; padding: 10px 0; }
+  .awards-table th, .awards-table td { padding: 4px 0; border: 0; width: 100%; }
+  .awards-table th { display: flex; align-items: center; gap: 0; }
+  .awards-table td { text-align: left; }
+  .credits { grid-template-columns: 1fr; row-gap: 4px; }
+  .credits dt { padding-top: 14px; }
+  .credits dt:first-child { padding-top: 0; }
+  .foot-grid { grid-template-columns: 1fr; gap: 32px; }
+  .foot-copy { align-self: start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     MOSAIC OVERLAY — 10 fixed images, positioned by JS.
+     Order matters: index 0..9 must match the 10 .fig entries
+     inside .intro-figs below.
+============================================================ -->
+<div id="mosaic-overlay" aria-hidden="true">
+  <!-- 1. Cannes — important (large at end) -->
+  <figure class="mosaic-img" data-key="cannes">
+    <img src="assets/07_home/06_MarcoUndTeamInCannesTheBrief.jpg" alt="">
+    <figcaption>Cannes — THE BRIEF #4</figcaption>
+  </figure>
+  <!-- 2. ICAD — important -->
+  <figure class="mosaic-img" data-key="icad">
+    <img src="assets/07_home/11_MarcoBeiICADAwards.png" alt="">
+    <figcaption>ICAD Awards, Dublin</figcaption>
+  </figure>
+  <!-- 3. ADC — important -->
+  <figure class="mosaic-img" data-key="adc">
+    <img src="assets/07_home/05_MarcoBeimADCGermany.jpg" alt="">
+    <figcaption>ADC Talent Award, Germany</figcaption>
+  </figure>
+  <!-- 4. Scholz & Friends Stuttgart -->
+  <figure class="mosaic-img" data-key="scholz">
+    <img src="assets/07_home/15_ScholzAndFriensStuttgartGrafik.png" alt="">
+    <figcaption>Scholz &amp; Friends, Stuttgart</figcaption>
+  </figure>
+  <!-- 5..10 Photography -->
+  <!-- p1 / p6 swapped: top-left now uses DSCF0762, bottom-right uses DSCF4329 -->
+  <figure class="mosaic-img" data-key="p1"><img src="assets/08_Photography/DSCF0762.JPG" alt=""></figure>
+  <figure class="mosaic-img" data-key="p2"><img src="assets/08_Photography/DSCF3824.JPG" alt=""></figure>
+  <figure class="mosaic-img" data-key="p3"><img src="assets/08_Photography/DSCF3537.JPG" alt=""></figure>
+  <figure class="mosaic-img" data-key="p4"><img src="assets/08_Photography/DSCF4259.JPG" alt=""></figure>
+  <figure class="mosaic-img" data-key="p5"><img src="assets/08_Photography/DSCF0586.JPG" alt=""></figure>
+  <figure class="mosaic-img" data-key="p6"><img src="assets/08_Photography/DSCF4329.JPG" alt=""></figure>
+</div>
+
+<!-- Scroll hint -->
+<div id="scroll-hint" aria-hidden="true">
+  <span>Scroll</span>
+  <svg width="16" height="10" viewBox="0 0 16 10" fill="none">
+    <path d="M1 1L8 9L15 1" stroke="rgba(244,244,242,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+
+<header class="top">
+  <a href="#top" class="brand">Marco Pröfrock</a>
+  <nav aria-label="Primary">
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#photography">Gallery</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#imprint">Imprint</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- INTRO — sticky shell creates the scroll room for the mosaic animation -->
+  <section class="intro">
+    <div class="intro-sticky">
+      <div class="intro-text">
+        <h1 class="lede">Marco is a Creative at Scholz&nbsp;&amp;&nbsp;Friends in Stuttgart.</h1>
+        <p class="bio">His work has been recognised by The One Club for Creativity's Art Directors Club (ADC) and Type Directors Club (TDC), the Art Directors Club Germany (ADC), the Institute of Creative Advertising and Design Ireland (ICAD), and the Cannes Lions International Festival of Creativity—where he won the global competition THE BRIEF #4.</p>
+        <ul class="award-strip" aria-label="Recognised by">
+          <li><a href="#awards-list" aria-label="Cannes Lions"><img src="assets/awards/cannes.svg" alt=""></a></li>
+          <li><a href="#awards-list" aria-label="The One Club Young Ones"><img src="assets/awards/YoungOnesLogo.svg" alt=""></a></li>
+          <li><a href="#awards-list" aria-label="ADC New York"><img src="assets/awards/adc-ny.png" alt=""></a></li>
+          <li><a href="#awards-list" aria-label="TDC"><img src="assets/awards/tdc.png" alt=""></a></li>
+          <li><a href="#awards-list" aria-label="ADC Germany"><img src="assets/awards/adc-germany.svg" alt=""></a></li>
+          <li><a href="#awards-list" aria-label="ICAD Ireland"><img src="assets/awards/icad.svg" alt=""></a></li>
+          <li><a href="#awards-list" aria-label="COMM Awards"><img src="assets/awards/comm.svg" alt=""></a></li>
+        </ul>
+      </div>
+      <!--
+        End-position collage. Each .fig has data-pos="L T W H" as %
+        of the .intro-figs box (left, top, width, height).
+        Layout was hand-tuned so important images (Cannes, ICAD, ADC,
+        Scholz) anchor the composition while the documentary photos
+        scatter around them without overlap.
+      -->
+      <div class="intro-figs" aria-hidden="true">
+        <!-- 1. Cannes — top-left, large -->
+        <figure class="fig fig-cannes" data-pos="4 14 50 34">
+          <img src="assets/07_home/06_MarcoUndTeamInCannesTheBrief.jpg" alt="" loading="eager">
+          <figcaption>Cannes — THE BRIEF #4</figcaption>
+        </figure>
+        <!-- 2. ICAD — top-right, large -->
+        <figure class="fig fig-icad" data-pos="58 0 42 30">
+          <img src="assets/07_home/11_MarcoBeiICADAwards.png" alt="" loading="eager">
+          <figcaption>ICAD Awards, Dublin</figcaption>
+        </figure>
+        <!-- 3. ADC — bottom-left, large -->
+        <figure class="fig fig-adc" data-pos="0 54 50 36">
+          <img src="assets/07_home/05_MarcoBeimADCGermany.jpg" alt="" loading="eager">
+          <figcaption>ADC Talent Award</figcaption>
+        </figure>
+        <!-- 4. Scholz & Friends — bottom-right, square -->
+        <figure class="fig fig-scholz" data-pos="62 56 30 30">
+          <img src="assets/07_home/15_ScholzAndFriensStuttgartGrafik.png" alt="" loading="lazy">
+          <figcaption>Scholz &amp; Friends, Stuttgart</figcaption>
+        </figure>
+        <!-- 5..10 Photography — small accents.
+             Note: top-left p1 and bottom-right p6 were swapped per
+             art direction — DSCF0762 now anchors top-left, DSCF4329 bottom. -->
+        <figure class="fig" data-pos="0 0 12 11"><img src="assets/08_Photography/DSCF0762.JPG" alt="" loading="lazy"></figure>
+        <figure class="fig" data-pos="32 0 22 11"><img src="assets/08_Photography/DSCF3824.JPG" alt="" loading="lazy"></figure>
+        <figure class="fig" data-pos="58 32 18 22"><img src="assets/08_Photography/DSCF3537.JPG" alt="" loading="lazy"></figure>
+        <figure class="fig" data-pos="79 30 14 24"><img src="assets/08_Photography/DSCF4259.JPG" alt="" loading="lazy"></figure>
+        <figure class="fig" data-pos="94 56 6 32"><img src="assets/08_Photography/DSCF0586.JPG" alt="" loading="lazy"></figure>
+        <figure class="fig" data-pos="30 92 26 8"><img src="assets/08_Photography/DSCF4329.JPG" alt="" loading="lazy"></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work" class="work">
+    <header class="section-head work-header">
+      <span class="kicker">— Selected Projects</span>
+      <h1 class="section-title">Work</h1>
+    </header>
+
+    <nav class="work-nav" aria-label="Projects">
+      <ul>
+        <li><a href="#p-500ls"><span class="num">01</span>500l/s</a></li>
+        <li><a href="#p-hope"><span class="num">02</span>Hope in Action</a></li>
+        <li><a href="#p-wind"><span class="num">03</span>Windkulturerbe</a></li>
+        <li><a href="#p-uturn"><span class="num">04</span>U-Turn</a></li>
+        <li><a href="#p-opera"><span class="num">05</span>The Mediterainy Opera</a></li>
+      </ul>
+    </nav>
+
+    <!-- 01 -->
+    <article class="project" id="p-500ls">
+      <header class="head">
+        <div class="head-main">
+          <img class="logo" src="assets/09_projektlogos/500ls.svg" alt="500l/s">
+          <span class="title-line">
+            <span class="num">— 01</span>
+            <h3 class="title-small">500l/s</h3>
+          </span>
+        </div>
+        <span class="year">2026</span>
+      </header>
+      <div class="info">
+        <p class="copy">After Budapest, Stuttgart is home to Europe's second-largest mineral water deposit. 19 springs pump 44 million liters (500 liters per second) to the surface every single day. However, this urban treasure is practically invisible to the city's young population, with 75% being completely unaware of its existence. The water is physically and culturally repositioned within the city: a physical "mineral water trail" makes the springs visible in the urban space, while local bars take on "spring sponsorships," transforming traditional health spa water into signature drinks at the bar. The core of this new brand identity is a generative design system that turns chemical facts into visual communication. A custom script translates measurement data from 13 distinct springs into individual waveforms, resulting in the custom typeface "500l/s" with 13 unique styles.</p>
+        <ul class="awards">
+          <li><img src="assets/awards/tdc.png" alt=""><span><strong>TDC Young Ones 2026</strong>Finalist</span></li>
+          <li><img src="assets/awards/adc-ny.png" alt=""><span><strong>ADC Young Ones 2026</strong>Finalist</span></li>
+        </ul>
+      </div>
+      <div class="media video-wrap">
+        <iframe src="https://www.youtube.com/embed/JCJF8uDo0tQ" title="500l/s — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="gallery">
+        <img class="board" src="assets/05_500ls/04_5d0052ef.jpg" alt="500l/s — board" loading="lazy">
+        <div class="row-2">
+          <img src="assets/05_500ls/02_223d3fef.jpg" alt="500l/s OOH" loading="lazy">
+          <img src="assets/05_500ls/01_03c19a53.jpg" alt="500l/s — Stuttgart mineral water" loading="lazy">
+        </div>
+        <img class="board" src="assets/05_500ls/06_9495e648.jpg" alt="500l/s identity" loading="lazy">
+        <div class="row-2">
+          <img src="assets/05_500ls/05_6953b6c6.jpg" alt="500l/s detail" loading="lazy">
+          <img src="assets/05_500ls/07_95625748.jpg" alt="500l/s detail" loading="lazy">
+        </div>
+        <img class="board" src="assets/05_500ls/08_9dde72a4.jpg" alt="500l/s typography system" loading="lazy">
+        <div class="row-2">
+          <img src="assets/05_500ls/09_a4214e3f.jpg" alt="500l/s detail" loading="lazy">
+          <img src="assets/05_500ls/10_a8472395.jpg" alt="500l/s detail" loading="lazy">
+        </div>
+      </div>
+      <dl class="credits">
+        <dt>Year</dt><dd>2026</dd>
+        <dt>Role</dt><dd>Art Direction</dd>
+        <dt>Supervision</dt><dd>Prof. Ursula Drees, Lucie Ilg</dd>
+        <dt>Awards</dt><dd>TDC Young Ones 2026 — Finalist<br>ADC Young Ones 2026 — Finalist</dd>
+      </dl>
+    </article>
+
+    <!-- 02 -->
+    <article class="project" id="p-hope">
+      <header class="head">
+        <div class="head-main">
+          <img class="logo" src="assets/09_projektlogos/hope.svg" alt="Hope in Action">
+          <span class="title-line">
+            <span class="num">— 02</span>
+            <h3 class="title-small">Hope in Action</h3>
+          </span>
+        </div>
+        <span class="year">2025</span>
+      </header>
+      <div class="info">
+        <p class="copy">"Hope in Action" is UNICEF's platform that makes hope tangible as real, measurable impact—right where Gen-Z and Millennials consume content. In series, films, livestreams, and games, five-second non-intrusive inserts appear, contextually tied to the scene in real time.</p>
+        <ul class="awards">
+          <li><img src="assets/awards/cannes.svg" alt=""><span><strong>Cannes Lions THE BRIEF #4</strong>Global Winner</span></li>
+        </ul>
+      </div>
+      <div class="gallery">
+        <img class="board" src="assets/04_hope/08_board.png" alt="Hope in Action — board" loading="lazy">
+        <div class="row-2 wide">
+          <img src="assets/04_hope/01_109b8a4e.png" alt="Hope in Action — UNICEF" loading="lazy">
+          <img src="assets/04_hope/06_b91aac7c.jpg" alt="" loading="lazy">
+        </div>
+        <div class="row-fit">
+          <img style="--ar: calc(1248/1850)" src="assets/04_hope/02_134e8cbc.png" alt="" loading="lazy">
+          <img style="--ar: calc(2210/1244)" src="assets/04_hope/03_734d2da4.png" alt="" loading="lazy">
+        </div>
+        <img class="board" src="assets/04_hope/05_9728e846.png" alt="" loading="lazy">
+        <div class="row-2">
+          <img src="assets/04_hope/04_800fb060.png" alt="" loading="lazy">
+          <img src="assets/04_hope/07_c7249baf.png" alt="" loading="lazy">
+        </div>
+      </div>
+      <dl class="credits">
+        <dt>Year</dt><dd>2025</dd>
+        <dt>Role</dt><dd>Art Direction</dd>
+        <dt>Team</dt><dd>Kunal Khade<br>Mohamad Al Qarawi<br>Marion Mondoloni<br>Niamh Aremband<br>Melissa Duarte de Almeida</dd>
+        <dt>Award</dt><dd>Cannes Lions THE BRIEF #4 — Global Winner</dd>
+      </dl>
+    </article>
+
+    <!-- 03 -->
+    <article class="project" id="p-wind">
+      <header class="head">
+        <div class="head-main">
+          <img class="logo" src="assets/09_projektlogos/wind.svg" alt="Windkulturerbe">
+          <span class="title-line">
+            <span class="num">— 03</span>
+            <h3 class="title-small">Windkulturerbe</h3>
+          </span>
+        </div>
+        <span class="year">2025</span>
+      </header>
+      <div class="info">
+        <p class="copy">Mallorca is home to over 3,300 windmills—many now decaying. EnBW transforms these relics into UNESCO World Heritage candidates, restoring them on the outside while upgrading them with modern wind technology inside.</p>
+        <ul class="awards">
+          <li><img src="assets/awards/comm.svg" alt=""><span><strong>COMM Awards 25</strong>1× Bronze</span></li>
+        </ul>
+      </div>
+      <div class="media video-wrap">
+        <iframe src="https://www.youtube.com/embed/VYUYr6bSIUo" title="Windkulturerbe — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="gallery">
+        <img class="board" src="assets/03_wind/03_55774050.jpg" alt="Windkulturerbe — board" loading="lazy">
+        <div class="row-2">
+          <img style="object-position: 80% center" src="assets/03_wind/05_b340ac3c.jpg" alt="" loading="lazy">
+          <img src="assets/03_wind/04_8be2ddd4.jpg" alt="" loading="lazy">
+        </div>
+        <img class="board" src="assets/03_wind/02_2ecbcc90.jpg" alt="" loading="lazy">
+      </div>
+      <dl class="credits">
+        <dt>Year</dt><dd>2025</dd>
+        <dt>Role</dt><dd>Art Direction, Concept</dd>
+        <dt>Copywriting</dt><dd>Hannah Kormann</dd>
+        <dt>Award</dt><dd>COMM Awards 25 — 1× Bronze</dd>
+      </dl>
+    </article>
+
+    <!-- 04 -->
+    <article class="project" id="p-uturn">
+      <header class="head">
+        <div class="head-main">
+          <img class="logo" src="assets/09_projektlogos/uturn.svg" alt="U-Turn — Bitte Wenden!">
+          <span class="title-line">
+            <span class="num">— 04</span>
+            <h3 class="title-small">U-Turn — Bitte Wenden!</h3>
+          </span>
+        </div>
+        <span class="year">2025</span>
+      </header>
+      <div class="info">
+        <p class="copy">U-Turn ist ein interaktiver Erlebnisraum, der Stuttgarts Mobilitätsfrage zuspitzt. Im symbolischen Duell Auto vs. Bahn geht es weniger um Technik als um Haltung.</p>
+        <dl class="meta">
+          <dt>Role</dt><dd>Creative Direction, Graphic Design, Documentation</dd>
+          <dt>Typeface</dt><dd>Neue Serie57</dd>
+        </dl>
+      </div>
+      <div class="media video-wrap">
+        <iframe src="https://www.youtube.com/embed/wq7H9TDo9vg" title="U-Turn — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="gallery">
+        <div class="row-2">
+          <img src="assets/02_u-turn/01_0faa8148.jpg" alt="" loading="lazy">
+          <img src="assets/02_u-turn/02_1ec3bd8b.jpg" alt="" loading="lazy">
+        </div>
+        <div class="row-2">
+          <img src="assets/02_u-turn/03_29a5ac25.jpg" alt="" loading="lazy">
+          <img src="assets/02_u-turn/04_54d9fcc9.jpg" alt="" loading="lazy">
+        </div>
+      </div>
+      <dl class="credits">
+        <dt>Year</dt><dd>2025</dd>
+        <dt>Role</dt><dd>Creative Direction, Graphic Design, Documentation</dd>
+        <dt>Production</dt><dd>Jakob Schmid</dd>
+        <dt>Creative Direction</dt><dd>Felin Jokuszies, Marco Pröfrock</dd>
+        <dt>Graphic Design</dt><dd>Marco Pröfrock</dd>
+        <dt>Medientechnik</dt><dd>Jakob Zill, Leon Marschollek, Markus Walter, Jakob Schmid</dd>
+        <dt>Sound</dt><dd>Michael Baumann, Jakob Zill</dd>
+        <dt>Light</dt><dd>Lukas Sabo</dd>
+        <dt>Social Media</dt><dd>Philine-Marie Heinrich, Meg Löffler</dd>
+        <dt>Editing</dt><dd>Marie Grob, Marco Pröfrock</dd>
+        <dt>Bühne</dt><dd>all</dd>
+        <dt>Supervision</dt><dd>Prof. Ursula Drees, Moritz Stuhlfauth, Nadja Weber</dd>
+        <dt>Typeface</dt><dd>Neue Serie57</dd>
+      </dl>
+    </article>
+
+    <!-- 05 -->
+    <article class="project" id="p-opera">
+      <header class="head">
+        <div class="head-main">
+          <img class="logo" src="assets/09_projektlogos/opera.svg" alt="The Mediterainy Opera">
+          <span class="title-line">
+            <span class="num">— 05</span>
+            <h3 class="title-small">The Mediterainy Opera</h3>
+          </span>
+        </div>
+        <span class="year">2025</span>
+      </header>
+      <div class="info">
+        <p class="copy">The Royal Irish Academy of Music in Dublin is promoting the Italian opera La vera costanza with a creative campaign to engage both Gen-Z and veteran opera fans. This humorous cultural contrast bridges Italian grandeur with Dublin's charm, sparking curiosity.</p>
+        <ul class="awards">
+          <li><img src="assets/awards/adc-germany.svg" alt=""><span><strong>ADC Talent Award 25</strong>1× Silver · 4× Merit</span></li>
+          <li><img src="assets/awards/comm.svg" alt=""><span><strong>COMM Awards 25</strong>1× Bronze · 2× Shortlist</span></li>
+          <li><img src="assets/awards/icad.svg" alt=""><span><strong>ICAD Awards 25</strong>2× Commendation</span></li>
+        </ul>
+      </div>
+      <div class="media video-wrap">
+        <iframe src="https://www.youtube.com/embed/Ae-zdGS-ILQ" title="The Mediterainy Opera — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="gallery">
+        <img class="board" src="assets/01_opera/06_Board_mediterainy_adc.jpg" alt="The Mediterainy Opera — board" loading="lazy">
+        <img class="board" src="assets/01_opera/04_a9d34618.jpg" alt="" loading="lazy">
+        <div class="row-2 tall">
+          <img src="assets/01_opera/01_0c148900.jpg" alt="" loading="lazy">
+          <img src="assets/01_opera/02_1a33c528.jpg" alt="" loading="lazy">
+        </div>
+        <img class="board" src="assets/01_opera/05_f106d632.jpg" alt="" loading="lazy">
+      </div>
+      <dl class="credits">
+        <dt>Year</dt><dd>2025</dd>
+        <dt>Credits</dt><dd>Marco Pröfrock</dd>
+        <dt>Typeface</dt><dd>Neue Serie57</dd>
+        <dt>Awards</dt><dd>ADC Talent Award 25 — 1× Silver, 4× Merit<br>COMM Awards 25 — 1× Bronze, 2× Shortlist<br>ICAD Awards 25 — 2× Commendation</dd>
+      </dl>
+    </article>
+
+  </section>
+
+  <!-- PHOTOGRAPHY -->
+  <section id="photography" class="photo-strip" aria-label="Photography">
+    <header class="section-head">
+      <span class="kicker">— Photography</span>
+      <h2 class="section-title">Snapshots</h2>
+      <p class="section-sub">A few moments from along the way.</p>
+    </header>
+    <div class="photo-track" data-photo-track></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about">
+    <div class="about-grid">
+      <div class="about-text">
+        <h2>About</h2>
+        <p>Marco is a Creative at Scholz &amp; Friends in Stuttgart.</p>
+        <p>His work has been recognised by The One Club for Creativity's Art Directors Club (ADC) and Type Directors Club (TDC), the Art Directors Club Germany (ADC), the Institute of Creative Advertising and Design Ireland (ICAD), and the Cannes Lions International Festival of Creativity—where he won the global competition THE BRIEF #4.</p>
+        <p>He just wrapped up his bachelor's degree at Stuttgart Media University (HdM) after an Erasmus semester at IADT in Dublin.</p>
+      </div>
+      <div class="about-portrait">
+        <img src="assets/06_about/02_c217dbac.png" alt="Marco Pröfrock" loading="lazy">
+      </div>
+    </div>
+    <div class="cv">
+      <h3>Education</h3>
+      <div class="cv-rows">
+        <div class="yr">2021 — 2026</div><div class="it"><strong>Stuttgart Media University (HdM)</strong><small>Integrated Product Design — B.A.</small></div>
+        <div class="yr">2024</div><div class="it"><strong>Institute of Art, Design + Technology Dún Laoghaire</strong><small>Graphic Design — ERASMUS</small></div>
+      </div>
+    </div>
+    <div class="cv">
+      <h3>Experience</h3>
+      <div class="cv-rows">
+        <div class="yr">03/26 — Today</div><div class="it"><strong>Scholz &amp; Friends</strong><small>Creative Fellow</small></div>
+        <div class="yr">09/24 — 03/26</div><div class="it"><strong>Scholz &amp; Friends</strong><small>Art Director / Student</small></div>
+        <div class="yr">03/24 — 09/24</div><div class="it"><strong>Scholz &amp; Friends</strong><small>Art Director / Intern</small></div>
+      </div>
+    </div>
+    <div class="cv" id="awards-list">
+      <h3>Awards</h3>
+      <table class="awards-table">
+        <tbody>
+          <tr><th><span class="logo-stack"><img src="assets/awards/YoungOnesLogo.svg" alt=""><img src="assets/awards/tdc.png" alt=""><img src="assets/awards/adc-ny.png" alt=""></span><span class="label">Young Ones 2026</span></th><td>TDC Finalist · ADC Finalist</td></tr>
+          <tr><th><span class="logo-stack"><img src="assets/awards/cannes.svg" alt=""></span><span class="label">Young Lions Germany 2026</span></th><td>Top 5 Print · Top 5 Digital · Top 5 PR</td></tr>
+          <tr><th><span class="logo-stack"><img src="assets/awards/cannes.svg" alt=""></span><span class="label">Cannes Lions THE BRIEF #4</span></th><td>Global Winner</td></tr>
+          <tr><th><span class="logo-stack"><img src="assets/awards/adc-germany.svg" alt=""></span><span class="label">ADC Talent Award 2025</span></th><td>Silver · Merit · Merit · Merit · Merit</td></tr>
+          <tr><th><span class="logo-stack"><img src="assets/awards/icad.svg" alt=""></span><span class="label">ICAD Awards 2025</span></th><td>Top 3 Design Students · Top 2 Advertising Students</td></tr>
+          <tr><th><span class="logo-stack"><img src="assets/awards/comm.svg" alt=""></span><span class="label">COMM Awards 2025</span></th><td>Bronze · Bronze · Finalist · Finalist</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer id="imprint" class="foot">
+  <div class="foot-grid">
+    <div class="foot-contact">
+      <a href="/cdn-cgi/l/email-protection#1e737f6c7d71306e6c71786c717d755e7f7773307d7173"><span class="__cf_email__" data-cfemail="fc919d8e9f93d28c8e939a8e939f97bc9d9591d29f9391">marco.profrock@aim.com</span></a>
+      <a href="https://www.instagram.com/marco.proe/" target="_blank" rel="noopener">Instagram ↗</a>
+      <a href="https://www.linkedin.com/in/marco-pröfrock/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+    <div class="foot-imprint">
+      <h4>Imprint</h4>
+      <p>Marco Pröfrock<br>Reinsburgstraße 69a<br>70178 Stuttgart<br>Deutschland</p>
+      <p>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Marco Pröfrock.</p>
+    </div>
+    <div class="foot-copy">© Marco Pröfrock</div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+  <button class="lb-close" type="button" aria-label="Close">×</button>
+  <img alt="">
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ============================================================
+   MOSAIC HERO ANIMATION
+   ─────────────────────────────────────────────────────────
+   Concept:
+   · At scroll = 0: 3 fixed-position images fill the screen
+     as a full-bleed mosaic (portrait left, two stacked right).
+   · As the user scrolls, the images smoothly fly to their
+     natural positions inside the .intro-figs grid.
+   · At animation end: fixed overlays vanish, real figs appear.
+   · The .intro section has extra height so the sticky wrapper
+     stays pinned while the animation plays out.
+============================================================ */
+(function () {
+  var HEADER_H = 56;
+  var GAP = 3; // px gap between mosaic panels
+  var ANIM_SCROLL = 0;
+
+  var overlay      = document.getElementById('mosaic-overlay');
+  var moImgs       = Array.prototype.slice.call(overlay.querySelectorAll('.mosaic-img'));
+  var scrollHint   = document.getElementById('scroll-hint');
+  var figs         = Array.prototype.slice.call(document.querySelectorAll('.intro-figs .fig'));
+  var figsBox      = document.querySelector('.intro-figs');
+  var introText    = document.querySelector('.intro-text');
+  var introSection = document.querySelector('section.intro');
+
+  // Mosaic layout uses col/row spans so cells aren't on a strict 2-row line.
+  // Some images stretch across 2 rows (taller), others across 2 cols (wider),
+  // so the top/bottom edges step up and down across the screen and a bottom
+  // tile can be wider than the one "above" it. Tracks have varied fractions
+  // for additional aspect-ratio variety. Sum across cells still tiles fully —
+  // no gaps, no overlap.
+  // Landscape: 5 cols × 3 rows. Portrait: 3 cols × 5 rows.
+  var COLS_LANDSCAPE = [1.10, 0.92, 1.05, 0.95, 0.98]; // sum = 5
+  var ROWS_LANDSCAPE = [0.95, 1.10, 0.95];             // sum = 3
+  var COLS_PORTRAIT  = [1.05, 0.92, 1.03];             // sum = 3
+  var ROWS_PORTRAIT  = [1.10, 0.95, 1.05, 0.92, 0.98]; // sum = 5
+
+  // {c, r, cs, rs} per image. cs/rs = column / row span.
+  // Anchors (Cannes/ICAD/ADC/Scholz) get the bigger 2-cell tiles.
+  var SPANS_LANDSCAPE = [
+    /* 0 Cannes */ { c: 1, r: 0, cs: 1, rs: 2 }, // tall left-of-center
+    /* 1 ICAD   */ { c: 4, r: 0, cs: 1, rs: 2 }, // tall right edge
+    /* 2 ADC    */ { c: 2, r: 0, cs: 2, rs: 1 }, // wide top center
+    /* 3 Scholz */ { c: 1, r: 2, cs: 2, rs: 1 }, // wide bottom center
+    /* 4 p1     */ { c: 0, r: 0, cs: 1, rs: 1 },
+    /* 5 p2     */ { c: 2, r: 1, cs: 1, rs: 1 },
+    /* 6 p3     */ { c: 3, r: 1, cs: 1, rs: 1 },
+    /* 7 p4     */ { c: 0, r: 1, cs: 1, rs: 2 }, // tall bottom-left
+    /* 8 p5     */ { c: 3, r: 2, cs: 1, rs: 1 },
+    /* 9 p6     */ { c: 4, r: 2, cs: 1, rs: 1 }
+  ];
+  var SPANS_PORTRAIT = [
+    /* 0 Cannes */ { c: 1, r: 0, cs: 2, rs: 1 }, // wide top
+    /* 1 ICAD   */ { c: 0, r: 1, cs: 1, rs: 2 }, // tall left
+    /* 2 ADC    */ { c: 1, r: 2, cs: 1, rs: 2 }, // tall center
+    /* 3 Scholz */ { c: 1, r: 4, cs: 2, rs: 1 }, // wide bottom
+    /* 4 p1     */ { c: 0, r: 0, cs: 1, rs: 1 },
+    /* 5 p2     */ { c: 1, r: 1, cs: 1, rs: 1 },
+    /* 6 p3     */ { c: 2, r: 1, cs: 1, rs: 2 }, // tall right
+    /* 7 p4     */ { c: 0, r: 3, cs: 1, rs: 1 },
+    /* 8 p5     */ { c: 2, r: 3, cs: 1, rs: 1 },
+    /* 9 p6     */ { c: 0, r: 4, cs: 1, rs: 1 }
+  ];
+
+  var targets = null;
+  var initialized = false;
+
+  /* ── helpers ───────────────────────────────────────────── */
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function ease(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+  function easeText(t) {
+    var s = Math.max(0, (t - 0.4) / 0.6);
+    return Math.min(1, s * s);
+  }
+  function setPos(el, left, top, w, h) {
+    el.style.left   = left + 'px';
+    el.style.top    = top  + 'px';
+    el.style.width  = w    + 'px';
+    el.style.height = h    + 'px';
+  }
+
+  /* ── mosaic start positions: span-based tiled grid, varied tracks ── */
+  function getMosaicRects() {
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    var availH = vh - HEADER_H;
+    var portrait = vw < vh;
+    var cols  = portrait ? COLS_PORTRAIT  : COLS_LANDSCAPE;
+    var rows  = portrait ? ROWS_PORTRAIT  : ROWS_LANDSCAPE;
+    var spans = portrait ? SPANS_PORTRAIT : SPANS_LANDSCAPE;
+    var nC = cols.length, nR = rows.length;
+
+    var sumC = cols.reduce(function (a, b) { return a + b; }, 0);
+    var sumR = rows.reduce(function (a, b) { return a + b; }, 0);
+    var unitW = (vw - GAP * (nC - 1)) / sumC;
+    var unitH = (availH - GAP * (nR - 1)) / sumR;
+
+    var lefts = [0];
+    for (var c = 0; c < nC - 1; c++) lefts.push(lefts[c] + unitW * cols[c] + GAP);
+    var tops = [HEADER_H];
+    for (var r = 0; r < nR - 1; r++) tops.push(tops[r] + unitH * rows[r] + GAP);
+
+    return spans.map(function (s) {
+      var w = 0;
+      for (var i = 0; i < s.cs; i++) w += unitW * cols[s.c + i];
+      w += GAP * (s.cs - 1);
+      var h = 0;
+      for (var j = 0; j < s.rs; j++) h += unitH * rows[s.r + j];
+      h += GAP * (s.rs - 1);
+      return { left: lefts[s.c], top: tops[s.r], w: w, h: h };
+    });
+  }
+
+  /* ── target rects: read data-pos="L T W H" (% of figs box) ─────── */
+  function getTargetRects() {
+    var box = figsBox.getBoundingClientRect();
+    return figs.map(function (fig) {
+      var pos = (fig.getAttribute('data-pos') || '0 0 100 100').split(/\s+/).map(parseFloat);
+      return {
+        left: box.left + (pos[0] / 100) * box.width,
+        top:  box.top  + (pos[1] / 100) * box.height,
+        w:    (pos[2] / 100) * box.width,
+        h:    (pos[3] / 100) * box.height
+      };
+    });
+  }
+
+  /* ── main tick ─────────────────────────────────────────── */
+  function tick() {
+    if (!initialized || !targets) return;
+    var raw = Math.min(1, window.scrollY / ANIM_SCROLL);
+    var t   = ease(raw);
+
+    if (raw >= 1) {
+      overlay.classList.add('is-done');
+      scrollHint.style.opacity = '0';
+      figs.forEach(function (f) { f.style.opacity = '1'; });
+      introText.style.opacity  = '1';
+      return;
+    }
+
+    overlay.classList.remove('is-done');
+    scrollHint.style.opacity  = Math.max(0, 1 - raw * 6).toString();
+    introText.style.opacity   = easeText(raw).toString();
+    // Keep static figs hidden during the animation. Without this they
+    // would stay at opacity:1 once the user scrolled past the end and
+    // remain visible behind the animated overlay if the user scrolled
+    // back up — the "ghost duplicate" the user reported.
+    figs.forEach(function (f) { f.style.opacity = '0'; });
+
+    var starts = getMosaicRects();
+    var capOpacity = Math.max(0, 1 - raw * 2.5).toString();
+
+    for (var i = 0; i < moImgs.length; i++) {
+      var s = starts[i], e = targets[i];
+      setPos(
+        moImgs[i],
+        lerp(s.left, e.left, t),
+        lerp(s.top,  e.top,  t),
+        lerp(s.w,    e.w,    t),
+        lerp(s.h,    e.h,    t)
+      );
+      var cap = moImgs[i].querySelector('figcaption');
+      if (cap) cap.style.opacity = capOpacity;
+    }
+  }
+
+  /* ── helper: apply data-pos %ages to the static figs ─── */
+  function applyFigPositions() {
+    figs.forEach(function (f) {
+      var pos = (f.getAttribute('data-pos') || '0 0 100 100').split(/\s+/).map(parseFloat);
+      f.style.left   = pos[0] + '%';
+      f.style.top    = pos[1] + '%';
+      f.style.width  = pos[2] + '%';
+      f.style.height = pos[3] + '%';
+    });
+  }
+
+  /* ── init ──────────────────────────────────────────────── */
+  function init() {
+    ANIM_SCROLL = window.innerHeight * 0.95;
+    if (window.scrollY > ANIM_SCROLL * 0.9) {
+      overlay.style.display    = 'none';
+      scrollHint.style.display = 'none';
+      // Make sure static figs are positioned and visible
+      // when we skip the animation entirely.
+      applyFigPositions();
+      figs.forEach(function (f) { f.style.opacity = '1'; });
+      introText.style.opacity = '1';
+      return;
+    }
+
+    // Extra room on the intro section so the sticky wrapper stays pinned
+    // for the full animation + a "dwell" beat at the end so the user
+    // can take in the final composition before the section scrolls away.
+    var DWELL = window.innerHeight * 0.35;
+    introSection.style.minHeight =
+      'calc(' + (window.innerHeight - HEADER_H) + 'px + ' + ANIM_SCROLL + 'px + ' + DWELL + 'px)';
+
+    // Position static .fig elements from their data-pos="L T W H" %ages.
+    // Without this they default to 0/0/auto/auto and render at the
+    // image's natural pixel size, all stacked at the top-left of the
+    // figs box — visible behind the overlay as "oversized duplicates".
+    applyFigPositions();
+
+    targets = getTargetRects();
+    var starts = getMosaicRects();
+    for (var i = 0; i < moImgs.length; i++) {
+      setPos(moImgs[i], starts[i].left, starts[i].top, starts[i].w, starts[i].h);
+    }
+
+    // Hide real figs + text until animation hands them over
+    figs.forEach(function (f) {
+      f.style.opacity = '0';
+      f.style.transition = 'opacity 0.3s ease';
+    });
+    introText.style.opacity   = '0';
+    introText.style.transition = 'opacity 0.4s ease';
+
+    initialized = true;
+    tick();
+    // Reveal the overlay only after positions are set — prevents the
+    // brief "oversized images" flash on initial load.
+    overlay.classList.add('is-ready');
+    window.addEventListener('scroll', tick, { passive: true });
+  }
+
+  if (document.readyState === 'complete') setTimeout(init, 60);
+  else window.addEventListener('load', function () { setTimeout(init, 60); });
+
+  // Re-init on resize (debounced)
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      initialized = false;
+      overlay.style.display    = '';
+      scrollHint.style.display = '';
+      figs.forEach(function (f) { f.style.opacity = ''; });
+      introText.style.opacity  = '';
+      introSection.style.minHeight = '';
+      init();
+    }, 200);
+  });
+})();
+
+/* ============================================================
+   ORIGINAL SITE JS (nav, work sub-nav, photos, lightbox)
+============================================================ */
+(function () {
+  // Top nav active section
+  var topLinks   = Array.from(document.querySelectorAll('.top nav a'));
+  var topTargets = topLinks
+    .map(function (a) {
+      var id = a.getAttribute('href');
+      return id && id.startsWith('#') ? document.querySelector(id) : null;
+    })
+    .filter(Boolean);
+
+  if ('IntersectionObserver' in window && topTargets.length) {
+    var map = new Map();
+    topTargets.forEach(function (t, i) { map.set(t, topLinks[i]); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var link = map.get(e.target);
+        if (!link) return;
+        if (e.isIntersecting) {
+          topLinks.forEach(function (l) { l.removeAttribute('aria-current'); });
+          link.setAttribute('aria-current', 'page');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    topTargets.forEach(function (t) { io.observe(t); });
+  }
+
+  // Work sub-nav
+  var workNav      = document.querySelector('.work-nav');
+  var workLinks    = Array.from(document.querySelectorAll('.work-nav a'));
+  var projectTargets = workLinks
+    .map(function (a) {
+      var id = a.getAttribute('href');
+      return id && id.startsWith('#') ? document.querySelector(id) : null;
+    })
+    .filter(Boolean);
+
+  if ('IntersectionObserver' in window && projectTargets.length) {
+    var pmap    = new Map();
+    var visible = new Set();
+    projectTargets.forEach(function (t, i) { pmap.set(t, workLinks[i]); });
+
+    var setActive = function () {
+      if (!visible.size) return;
+      var activationY = (window.innerHeight || document.documentElement.clientHeight) * 0.4;
+      var best = null, bestDist = Infinity;
+      visible.forEach(function (el) {
+        var rect = el.getBoundingClientRect();
+        var dist = Math.abs(rect.top - activationY);
+        if (dist < bestDist) { bestDist = dist; best = el; }
+      });
+      if (!best) return;
+      workLinks.forEach(function (l) { l.removeAttribute('aria-current'); });
+      var link = pmap.get(best);
+      if (link) {
+        link.setAttribute('aria-current', 'true');
+        var navUl = workNav && workNav.querySelector('ul');
+        if (navUl) {
+          var linkRect = link.getBoundingClientRect();
+          var navRect  = navUl.getBoundingClientRect();
+          if (linkRect.left < navRect.left + 16)
+            navUl.scrollBy({ left: linkRect.left - navRect.left - 24, behavior: 'smooth' });
+          else if (linkRect.right > navRect.right - 16)
+            navUl.scrollBy({ left: linkRect.right - navRect.right + 24, behavior: 'smooth' });
+        }
+      }
+    };
+
+    var pio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) visible.add(e.target); else visible.delete(e.target);
+      });
+      setActive();
+    }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+    projectTargets.forEach(function (t) { pio.observe(t); });
+  }
+
+  // Photography strip
+  (async function loadPhotos() {
+    var track = document.querySelector('[data-photo-track]');
+    if (!track) return;
+    var folder = 'assets/08_Photography/';
+    var exts   = /\.(jpe?g|png|webp|avif|gif)$/i;
+    var files  = [];
+
+    // 1. Preferred: read a static manifest (`index.json`) so this works
+    //    on any host, not just python -m http.server. Regenerate by
+    //    running the one-liner in CLAUDE.md when files change.
+    try {
+      var mres = await fetch(folder + 'index.json', { cache: 'no-cache' });
+      if (mres.ok) {
+        var list = await mres.json();
+        if (Array.isArray(list)) files = list.filter(function (h) { return exts.test(h); });
+      }
+    } catch (_) {}
+
+    // 2. Fallback: parse the python http.server directory listing.
+    if (!files.length) {
+      try {
+        var res = await fetch(folder, { headers: { Accept: 'text/html' } });
+        if (res.ok) {
+          var html = await res.text();
+          var doc2 = new DOMParser().parseFromString(html, 'text/html');
+          files = Array.from(doc2.querySelectorAll('a'))
+            .map(function (a) { return decodeURIComponent(a.getAttribute('href') || ''); })
+            .filter(function (h) { return h && exts.test(h) && !h.includes('/') && !h.startsWith('.'); });
+        }
+      } catch (_) {}
+    }
+
+    if (!files.length) return; // nothing to show
+    files.sort();
+    var frag = document.createDocumentFragment();
+    files.forEach(function (name) {
+      var fig = document.createElement('figure');
+      var img = document.createElement('img');
+      img.src = folder + name; img.alt = ''; img.loading = 'lazy';
+      fig.appendChild(img); frag.appendChild(fig);
+    });
+    track.appendChild(frag);
+  })();
+
+  // Lightbox
+  (function lightbox() {
+    var lb     = document.getElementById('lightbox');
+    if (!lb) return;
+    var lbImg   = lb.querySelector('img');
+    var lbClose = lb.querySelector('.lb-close');
+
+    var isZoomable = function (el) {
+      return el.tagName === 'IMG' &&
+        (el.closest('.gallery') || el.closest('.project .cover') || el.closest('.photo-track'));
+    };
+
+    var open = function (src, alt) {
+      lbImg.src = src; lbImg.alt = alt || '';
+      lb.removeAttribute('hidden');
+      void lb.offsetHeight;
+      lb.classList.add('is-open');
+      document.body.classList.add('lb-open');
+    };
+
+    var close = function () {
+      lb.classList.remove('is-open');
+      document.body.classList.remove('lb-open');
+      setTimeout(function () { lb.setAttribute('hidden', ''); lbImg.src = ''; }, 240);
+    };
+
+    document.addEventListener('click', function (e) {
+      if (e.target instanceof Element && isZoomable(e.target)) {
+        e.preventDefault();
+        open(e.target.currentSrc || e.target.src, e.target.alt);
+      }
+    });
+    lbClose.addEventListener('click', close);
+    lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && lb.classList.contains('is-open')) close();
+    });
+  })();
+})();
+</script>
+</body>
+</html>

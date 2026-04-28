@@ -1,0 +1,850 @@
+/* --- Reset / base --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+img, svg, iframe { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+
+:root {
+  --bg: #0a0a0a;
+  --fg: #f4f4f2;
+  --muted: rgba(244,244,242,0.55);
+  --rule: rgba(244,244,242,0.10);
+  --rule-strong: rgba(244,244,242,0.20);
+  --pad-x: clamp(20px, 4vw, 64px);
+  --top-h: 56px;
+  --subnav-h: 48px;
+  --content-max: 1200px;
+}
+
+::selection { background: var(--fg); color: var(--bg); }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.55;
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Anchor scroll offset so sticky header(s) don't cover targets */
+[id] { scroll-margin-top: calc(var(--top-h) + 16px); }
+/* Project anchors sit below both top bar AND work sub-nav */
+.project[id] { scroll-margin-top: calc(var(--top-h) + var(--subnav-h) + 12px); }
+
+/* --- Top bar --- */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px var(--pad-x);
+  min-height: var(--top-h);
+  background: rgba(10,10,10,0.78);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 0.5px solid var(--rule);
+}
+.top .brand {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.top nav ul {
+  display: flex;
+  gap: clamp(16px, 3vw, 28px);
+}
+.top nav a {
+  font-size: 13px;
+  color: var(--muted);
+  transition: color .2s ease;
+}
+.top nav a:hover,
+.top nav a[aria-current="page"] { color: var(--fg); }
+
+/* --- Intro --- */
+.intro {
+  padding: clamp(56px, 9vw, 120px) var(--pad-x) clamp(40px, 6vw, 80px);
+  border-bottom: 0.5px solid var(--rule);
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
+  max-width: calc(var(--content-max) + var(--pad-x) * 2);
+  margin: 0 auto;
+}
+.intro-text {
+  display: grid;
+  gap: clamp(20px, 3vw, 36px);
+  align-content: center;
+}
+
+/* Personality montage on the right of the intro (desktop only).
+   A loose collage of three pictures — overlapping a touch but not crowded. */
+.intro-figs {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 14px;
+  min-height: clamp(280px, 30vw, 420px);
+}
+.intro-figs .fig {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+}
+.intro-figs .fig img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.intro-figs .fig figcaption {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  right: 10px;
+  font-size: 10px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.55);
+  pointer-events: none;
+}
+.intro-figs .fig-portrait {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  aspect-ratio: 3 / 4;
+}
+.intro-figs .fig-moment-a {
+  grid-column: 2;
+  grid-row: 1;
+  aspect-ratio: 4 / 3;
+}
+/* Show the upper part of the Cannes shot (so the "Cannes Lions" backdrop is visible) */
+.intro-figs .fig-moment-a img { object-position: center 18%; }
+.intro-figs .fig-moment-b {
+  grid-column: 2;
+  grid-row: 2;
+  aspect-ratio: 4 / 3;
+}
+
+.intro .lede {
+  font-size: clamp(28px, 4.6vw, 60px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  max-width: 22ch;
+  color: var(--fg);
+}
+
+.intro .bio {
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.65;
+  color: rgba(244,244,242,0.78);
+  max-width: 70ch;
+}
+
+.award-strip {
+  margin-top: clamp(16px, 2vw, 28px);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: clamp(18px, 3vw, 32px);
+}
+.award-strip li {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+.award-strip a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.award-strip img {
+  height: 100%;
+  width: auto;
+  max-width: 60px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.7;
+  transition: opacity .25s ease, transform .25s ease;
+}
+.award-strip a:hover img,
+.award-strip a:focus-visible img {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+/* --- WORK section --- */
+.work { padding: 0 0 clamp(40px, 6vw, 80px); }
+
+/* Sticky sub-nav: appears below main header while inside .work */
+.work-nav {
+  position: sticky;
+  top: var(--top-h);
+  z-index: 90;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 0.5px solid var(--rule);
+}
+.work-nav ul {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-height: var(--subnav-h);
+  padding: 0 var(--pad-x);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  max-width: calc(var(--content-max) + var(--pad-x) * 2);
+  margin: 0 auto;
+}
+.work-nav ul::-webkit-scrollbar { display: none; }
+.work-nav li { flex: 0 0 auto; }
+.work-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 14px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color .2s ease;
+}
+.work-nav li:not(:last-child) a {
+  margin-right: clamp(2px, 1vw, 8px);
+}
+.work-nav a .num {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: rgba(244,244,242,0.40);
+  transition: color .2s ease;
+}
+.work-nav a:hover { color: var(--fg); }
+.work-nav a:hover .num { color: var(--muted); }
+.work-nav a[aria-current="true"] {
+  color: var(--fg);
+  font-weight: 500;
+}
+.work-nav a[aria-current="true"] .num { color: var(--fg); }
+
+/* Project — strong vertical rhythm and clear separation, capped width.
+   Generous top/bottom padding to make each project feel like its own room. */
+.project {
+  padding: clamp(80px, 10vw, 160px) var(--pad-x) clamp(80px, 10vw, 160px);
+  border-top: 1px solid var(--rule-strong);
+  max-width: calc(var(--content-max) + var(--pad-x) * 2);
+  margin: 0 auto;
+}
+.project:first-of-type { border-top: 1px solid var(--rule-strong); }
+
+/* Cover image: sits at the top of each project, INSIDE the article so it
+   visually belongs to the project that follows (not the previous one). */
+.project .cover {
+  margin: 0 0 clamp(40px, 5vw, 72px);
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+}
+.project .cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* Project header: number + title + year */
+.head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: clamp(14px, 2vw, 28px);
+  padding-bottom: clamp(20px, 2.5vw, 32px);
+  border-bottom: 0.5px solid var(--rule);
+}
+.head .num {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+.head .title {
+  font-size: clamp(32px, 4.5vw, 56px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+.head .year {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Info: copy + awards/meta sit side-by-side under the head */
+.info {
+  margin-top: clamp(28px, 4vw, 44px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.9fr);
+  gap: clamp(28px, 5vw, 80px);
+  align-items: start;
+}
+
+.copy {
+  font-size: clamp(14px, 1.05vw, 16px);
+  line-height: 1.7;
+  color: rgba(244,244,242,0.86);
+  max-width: 70ch;
+}
+
+/* Awards list per project */
+.awards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.awards li {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 0.5px solid var(--rule-strong);
+  border-radius: 4px;
+  background: rgba(255,255,255,0.02);
+}
+.awards img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
+}
+.awards span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.awards strong {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg);
+  letter-spacing: 0.01em;
+}
+
+/* Compact meta (when no awards) */
+.meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 18px;
+  row-gap: 8px;
+  font-size: 13px;
+  align-self: start;
+}
+.meta dt {
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 11px;
+  padding-top: 3px;
+}
+.meta dd { color: var(--fg); }
+
+/* Media */
+.media {
+  margin-top: clamp(36px, 5vw, 64px);
+}
+.video-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Gallery */
+.gallery {
+  margin-top: clamp(20px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1vw, 14px);
+}
+.gallery img {
+  width: 100%;
+  height: auto;
+  background: rgba(255,255,255,0.03);
+  border-radius: 2px;
+}
+/* Boards (poster / typography sheets with text) — full container width */
+.gallery img.board { width: 100%; }
+/* Two-up tiles */
+.gallery .row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(8px, 1vw, 14px);
+}
+/* Three-up tiles for photo grids (more compact, less full-bleed dominance) */
+.gallery .row-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: clamp(8px, 1vw, 14px);
+}
+
+/* Credits — appear at the end of each project, like the original site */
+.credits {
+  margin-top: clamp(36px, 5vw, 64px);
+  padding-top: clamp(24px, 3vw, 36px);
+  border-top: 0.5px solid var(--rule);
+  display: grid;
+  grid-template-columns: minmax(140px, 200px) 1fr;
+  column-gap: clamp(20px, 3vw, 40px);
+  row-gap: 12px;
+  font-size: 13px;
+  max-width: 760px;
+}
+.credits dt {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+  font-weight: 500;
+  padding-top: 2px;
+}
+.credits dd {
+  color: var(--fg);
+  line-height: 1.6;
+}
+
+/* --- ABOUT --- */
+.about {
+  padding: clamp(64px, 9vw, 140px) var(--pad-x);
+  border-top: 1px solid var(--rule-strong);
+  max-width: calc(var(--content-max) + var(--pad-x) * 2);
+  margin: 0 auto;
+}
+.about h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: clamp(20px, 3vw, 28px);
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+  margin-bottom: clamp(48px, 7vw, 96px);
+}
+.about-text p + p { margin-top: 14px; }
+.about-text p {
+  font-size: clamp(14px, 1.05vw, 16px);
+  line-height: 1.7;
+  color: rgba(244,244,242,0.86);
+  max-width: 64ch;
+}
+.about-portrait img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  filter: grayscale(0.1) contrast(1.02);
+}
+
+.cv {
+  margin-top: clamp(36px, 5vw, 60px);
+}
+.cv h3 {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.cv-rows {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 0;
+}
+.cv-rows .yr,
+.cv-rows .it {
+  padding: 14px 0;
+  border-top: 0.5px solid var(--rule);
+  font-size: 14px;
+}
+.cv-rows .yr { color: var(--muted); }
+.cv-rows .it strong { font-weight: 500; }
+.cv-rows .it small {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 2px;
+}
+.cv-rows > *:nth-last-child(-n+2) { border-bottom: 0.5px solid var(--rule); }
+
+/* Awards table — uses a fixed-width logo column so logos never wrap above text */
+.awards-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.awards-table tr {
+  border-top: 0.5px solid var(--rule);
+}
+.awards-table tr:last-child {
+  border-bottom: 0.5px solid var(--rule);
+}
+.awards-table th,
+.awards-table td {
+  text-align: left;
+  padding: 14px 0;
+  font-weight: 400;
+  vertical-align: middle;
+}
+.awards-table th {
+  width: 50%;
+  font-weight: 500;
+}
+.awards-table th .logo-stack {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  vertical-align: middle;
+  margin-right: 12px;
+  flex: 0 0 auto;
+}
+.awards-table th .label {
+  vertical-align: middle;
+}
+.awards-table th img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+  flex: 0 0 auto;
+}
+.awards-table td {
+  color: var(--muted);
+  text-align: right;
+  font-size: 13px;
+}
+
+/* --- FOOTER --- */
+.foot {
+  padding: clamp(48px, 7vw, 96px) var(--pad-x) clamp(28px, 4vw, 48px);
+  border-top: 1px solid var(--rule-strong);
+}
+.foot-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr) auto;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
+  max-width: calc(var(--content-max) + var(--pad-x) * 2);
+  margin: 0 auto;
+}
+.foot-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.foot-contact a {
+  font-size: clamp(20px, 2.4vw, 32px);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  transition: color .2s;
+}
+.foot-contact a:nth-child(n+2) {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.foot-contact a:nth-child(2) { margin-top: 12px; }
+.foot-contact a:hover { color: var(--fg); }
+
+.foot-imprint h4 {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.foot-imprint p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 48ch;
+}
+.foot-imprint p + p { margin-top: 10px; }
+.foot-copy {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  align-self: end;
+}
+
+/* --- Section header: shared between Photography + Work + others --- */
+.section-head {
+  padding: 0 var(--pad-x);
+  margin-bottom: clamp(20px, 3vw, 36px);
+  display: grid;
+  gap: 8px;
+}
+.section-head .kicker {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.section-head .section-title {
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--fg);
+}
+.section-head .section-sub {
+  font-size: clamp(14px, 1.05vw, 16px);
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+/* Work header sits above the sticky sub-nav, gives the section a real start */
+.work-header {
+  max-width: calc(var(--content-max) + var(--pad-x) * 2);
+  margin: 0 auto;
+  padding-top: clamp(64px, 9vw, 120px);
+  padding-bottom: clamp(24px, 3vw, 40px);
+  border-top: 1px solid var(--rule-strong);
+}
+
+/* --- Photography strip: own section, with prominent header --- */
+.photo-strip {
+  padding: clamp(48px, 7vw, 96px) 0 clamp(48px, 6vw, 80px);
+  max-width: calc(var(--content-max) + var(--pad-x) * 2);
+  margin: 0 auto;
+}
+.photo-track {
+  display: flex;
+  gap: clamp(8px, 1vw, 14px);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 var(--pad-x) 4px;
+}
+.photo-track::-webkit-scrollbar { display: none; }
+.photo-track figure {
+  flex: 0 0 auto;
+  width: clamp(180px, 22vw, 280px);
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  border-radius: 3px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  scroll-snap-align: start;
+}
+.photo-track img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.photo-track:empty {
+  display: none;
+}
+
+/* --- Lightbox: clicking gallery, cover, or photo-track images opens here --- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(5,5,5,0.94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 56px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .22s ease, visibility .22s ease;
+}
+.lightbox.is-open { opacity: 1; visibility: visible; }
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 3px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+.lightbox .lb-close {
+  position: absolute;
+  top: 18px; right: 18px;
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  border: 0.5px solid var(--rule-strong);
+  background: rgba(0,0,0,0.5);
+  color: var(--fg);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s ease, transform .15s ease;
+}
+.lightbox .lb-close:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+.gallery img,
+.project .cover img,
+.photo-track img {
+  cursor: zoom-in;
+  transition: opacity .2s ease;
+}
+.gallery img:hover,
+.project .cover img:hover,
+.photo-track img:hover { opacity: 0.92; }
+body.lb-open { overflow: hidden; }
+
+/* --- Tablet --- */
+@media (max-width: 860px) {
+  .info {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .head {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    row-gap: 6px;
+    align-items: end;
+  }
+  .head .num   { grid-column: 1; grid-row: 1; }
+  .head .year  { grid-column: 2; grid-row: 1; text-align: right; }
+  .head .title { grid-column: 1 / -1; grid-row: 2; }
+
+  /* Intro: stack image montage below the text on tablet */
+  .intro {
+    grid-template-columns: 1fr;
+  }
+  .intro-figs {
+    max-width: 520px;
+    margin-top: 12px;
+    min-height: 320px;
+  }
+
+  /* Three-up tile: keep landscape photos in 3-up at tablet width to avoid
+     the awkward 2+1 wrap. They're small enough at 768-860px. */
+  .gallery .row-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 720px) {
+  .top { padding: 14px 20px; }
+  .top .brand { font-size: 12px; }
+  .top nav ul { gap: 16px; }
+
+  .intro { padding-top: 56px; padding-bottom: 36px; }
+  .intro-figs {
+    grid-template-columns: 1.4fr 1fr;
+    gap: 8px;
+    min-height: 260px;
+  }
+  .intro-figs .fig figcaption { font-size: 9px; }
+
+  /* Project covers a touch tighter on phones */
+  .project .cover { margin-bottom: 32px; }
+  .project .cover img { aspect-ratio: 4 / 3; }
+
+  /* Photo strip on mobile */
+  .photo-strip-head { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .photo-track figure { width: 62vw; max-width: 260px; }
+
+  .work-nav ul { padding: 0 16px; }
+  .work-nav a { padding: 12px 10px; font-size: 12px; }
+  .work-nav a .num { font-size: 10px; }
+
+  /* U-Turn-style 3-up grid: collapse to a single column on phones so the
+     leftover-photo wrap goes away and gaps become consistent. */
+  .gallery .row-3 {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .about-grid { grid-template-columns: 1fr; }
+  .about-portrait { max-width: 280px; }
+
+  .cv-rows { grid-template-columns: 1fr; }
+  .cv-rows .yr {
+    padding-bottom: 4px;
+    border-top: 0.5px solid var(--rule);
+  }
+  .cv-rows .it {
+    padding-top: 0;
+    border-top: 0;
+  }
+  .cv-rows > *:nth-last-child(-n+2) { border-bottom: 0; }
+  .cv-rows > *:last-child { border-bottom: 0.5px solid var(--rule); }
+
+  /* Awards table: stack td under th, with logos always on same line as label */
+  .awards-table tr {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 10px 0;
+  }
+  .awards-table th,
+  .awards-table td {
+    padding: 4px 0;
+    border: 0;
+    width: 100%;
+  }
+  .awards-table th {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .awards-table td { text-align: left; }
+
+  /* Credits stack on mobile */
+  .credits {
+    grid-template-columns: 1fr;
+    row-gap: 4px;
+  }
+  .credits dt { padding-top: 14px; }
+  .credits dt:first-child { padding-top: 0; }
+
+  .foot-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .foot-copy { align-self: start; }
+}

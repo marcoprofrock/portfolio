@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="COMM Awards">
+  <!-- Outer frame -->
+  <rect x="3" y="3" width="94" height="94" fill="none" stroke="#000" stroke-width="14"/>
+  <!-- Wordmark "CO / MM" stacked -->
+  <g fill="#000" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="900" font-size="34" text-anchor="middle" letter-spacing="-1">
+    <text x="50" y="48">CO</text>
+    <text x="50" y="80">MM</text>
+  </g>
+</svg>
