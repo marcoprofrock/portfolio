@@ -353,6 +353,20 @@ body {
 .media { margin-top: clamp(36px, 5vw, 64px); }
 .video-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; overflow: hidden; border-radius: 4px; }
 .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.cc-hint {
+  display: inline-block;
+  margin: 10px auto 0;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 0.5px solid var(--rule);
+  background: rgba(255,255,255,0.03);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  align-self: center;
+  text-align: center;
+}
+.media + .cc-hint { display: block; width: max-content; max-width: 100%; }
 
 .gallery { margin-top: clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: clamp(8px, 1vw, 14px); }
 .gallery img { width: 100%; height: auto; background: rgba(255,255,255,0.03); border-radius: 2px; }
@@ -738,6 +752,7 @@ body.lb-open { overflow: hidden; }
       <div class="media video-wrap">
         <iframe src="https://www.youtube.com/embed/JCJF8uDo0tQ" title="500l/s — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
       </div>
+      <p class="cc-hint">Subtitles available — press CC</p>
       <div class="gallery">
         <img class="board" src="assets/05_500ls/04_5d0052ef.jpg" alt="500l/s — board" loading="lazy">
         <div class="row-2">
@@ -826,6 +841,7 @@ body.lb-open { overflow: hidden; }
       <div class="media video-wrap">
         <iframe src="https://www.youtube.com/embed/VYUYr6bSIUo" title="Windkulturerbe — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
       </div>
+      <p class="cc-hint">Subtitles available — press CC</p>
       <div class="gallery">
         <img class="board" src="assets/03_wind/03_55774050.jpg" alt="Windkulturerbe — board" loading="lazy">
         <div class="row-2">
@@ -864,6 +880,7 @@ body.lb-open { overflow: hidden; }
       <div class="media video-wrap">
         <iframe src="https://www.youtube.com/embed/wq7H9TDo9vg" title="U-Turn — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
       </div>
+      <p class="cc-hint">Subtitles available — press CC</p>
       <div class="gallery">
         <div class="row-2">
           <img src="assets/02_u-turn/01_0faa8148.jpg" alt="" loading="lazy">
@@ -914,6 +931,7 @@ body.lb-open { overflow: hidden; }
       <div class="media video-wrap">
         <iframe src="https://www.youtube.com/embed/Ae-zdGS-ILQ" title="The Mediterainy Opera — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
       </div>
+      <p class="cc-hint">Subtitles available — press CC</p>
       <div class="gallery">
         <img class="board" src="assets/01_opera/06_Board_mediterainy_adc.jpg" alt="The Mediterainy Opera — board" loading="lazy">
         <img class="board" src="assets/01_opera/04_a9d34618.jpg" alt="" loading="lazy">
@@ -926,6 +944,7 @@ body.lb-open { overflow: hidden; }
       <div class="media video-wrap">
         <iframe src="https://www.youtube.com/embed/tnB9l-Qv7OQ" title="The Mediterainy Opera — Film 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
       </div>
+      <p class="cc-hint">Subtitles available — press CC</p>
       <dl class="credits">
         <dt>Year</dt><dd>2025</dd>
         <dt>Credits</dt><dd>Marco Pröfrock</dd>
