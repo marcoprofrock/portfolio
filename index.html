@@ -534,12 +534,15 @@ body.lb-open { overflow: hidden; }
      square aspect ratio so the % collage positions still work. */
   .intro-sticky {
     grid-template-columns: 1fr;
-    height: calc(100vh - var(--top-h));
+    height: auto;
+    min-height: 0;
+    overflow: visible;
     align-content: start;
     /* More breathing room between the award badges (bottom of intro-text)
        and the mosaic images that sit below them on mobile. */
     gap: clamp(40px, 10vw, 72px);
     padding-top: clamp(24px, 5vw, 48px);
+    padding-bottom: clamp(40px, 8vw, 80px);
   }
   .intro-figs {
     height: auto;
