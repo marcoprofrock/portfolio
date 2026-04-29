@@ -353,14 +353,21 @@ details:not([open]) > summary.head {
   align-items: flex-end;
   justify-content: space-between;
   gap: clamp(14px, 2vw, 28px);
-  padding-bottom: clamp(20px, 2.5vw, 32px);
+  padding-bottom: clamp(28px, 3.4vw, 44px);
   border-bottom: 0.5px solid var(--rule);
 }
 .head .head-main {
   display: flex; flex-direction: column;
   align-items: flex-start;
-  gap: clamp(14px, 1.6vw, 22px);
+  /* Slightly more space between the project logo and the title/tags
+     line below it. */
+  gap: clamp(20px, 2.4vw, 32px);
   min-width: 0;
+}
+.head .logo-wrap {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
 }
 .head .logo {
   height: clamp(44px, 5.4vw, 84px);
@@ -368,9 +375,25 @@ details:not([open]) > summary.head {
   max-width: min(70vw, 560px);
   display: block;
 }
+/* Color version stacked on top of mono; fades in on hover or when the
+   project is expanded. */
+.head .logo-color {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: 100%;
+  opacity: 0;
+  transition: opacity .25s ease;
+  pointer-events: none;
+}
+.head .logo-mono { transition: opacity .25s ease; }
+summary.head:hover .logo-color,
+details[open] > summary.head .logo-color { opacity: 1; }
+summary.head:hover .logo-mono,
+details[open] > summary.head .logo-mono { opacity: 0; }
 /* Per-logo optical sizing tweaks (each SVG has different proportions) */
-.head .logo[src$="uturn.svg"] { height: clamp(34px, 4.2vw, 64px); }
-.head .logo[src$="opera.svg"] { height: clamp(56px, 7vw, 108px); }
+.head .logo[src$="uturn.svg"], .head .logo[src$="uturn_color.svg"] { height: clamp(34px, 4.2vw, 64px); }
+.head .logo[src$="opera.svg"], .head .logo[src$="opera_color.svg"] { height: clamp(56px, 7vw, 108px); }
 .head .title-line {
   display: flex; align-items: baseline;
   gap: clamp(12px, 1.6vw, 20px);
@@ -844,9 +867,9 @@ body.lb-open { overflow: hidden; }
     <nav class="work-nav" aria-label="Projects">
       <ul>
         <li><a href="#p-500ls"><span class="num">01</span>500l/s</a></li>
-        <li><a href="#p-hope"><span class="num">02</span>Hope in Action</a></li>
-        <li><a href="#p-wind"><span class="num">03</span>Windkulturerbe</a></li>
-        <li><a href="#p-uturn"><span class="num">04</span>U-Turn</a></li>
+        <li><a href="#p-wind"><span class="num">02</span>Windkulturerbe</a></li>
+        <li><a href="#p-uturn"><span class="num">03</span>U-Turn</a></li>
+        <li><a href="#p-hope"><span class="num">04</span>Hope in Action</a></li>
         <li><a href="#p-opera"><span class="num">05</span>The Mediterainy Opera</a></li>
       </ul>
     </nav>
@@ -856,7 +879,7 @@ body.lb-open { overflow: hidden; }
       <details class="project-details">
         <summary class="head">
         <div class="head-main">
-          <img loading="lazy" decoding="async" class="logo" src="assets/09_projektlogos/500ls.svg" alt="500l/s">
+          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/500ls.svg" alt="500l/s"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/500ls_color.svg" alt="" aria-hidden="true"></span>
           <span class="title-line">
             <span class="num">— 01</span>
             <h3 class="title-small">500l/s</h3>
@@ -905,60 +928,13 @@ body.lb-open { overflow: hidden; }
     </article>
 
     <!-- 02 -->
-    <article class="project" id="p-hope">
-      <details class="project-details">
-        <summary class="head">
-        <div class="head-main">
-          <img loading="lazy" decoding="async" class="logo" src="assets/09_projektlogos/hope.svg" alt="Hope in Action">
-          <span class="title-line">
-            <span class="num">— 02</span>
-            <h3 class="title-small">Hope in Action</h3>
-            <span class="tags">Integrated Campaign, Competition</span>
-          </span>
-        </div>
-        <div class="head-meta"><ul class="head-badges" aria-hidden="true"><li><img loading="lazy" decoding="async" src="assets/awards/cannes.svg" alt=""></li></ul><span class="year">2025</span><span class="caret" aria-hidden="true"></span></div>
-      </summary>
-        <div class="project-body">
-<div class="info">
-        <p class="copy">"Hope in Action" is UNICEF's platform that makes hope tangible as real, measurable impact—right where Gen-Z and Millennials consume content. In series, films, livestreams, and games, five-second non-intrusive inserts appear, contextually tied to the scene in real time.</p>
-        <ul class="awards">
-          <li><img loading="lazy" decoding="async" src="assets/awards/cannes.svg" alt=""><span><strong>Cannes Lions THE BRIEF #4</strong>Global Winner</span></li>
-        </ul>
-      </div>
-      <div class="gallery">
-        <img decoding="async" class="board" src="assets/04_hope/08_board.webp" alt="Hope in Action — board" loading="lazy">
-        <div class="row-2 wide">
-          <img decoding="async" src="assets/04_hope/01_109b8a4e.webp" alt="Hope in Action — UNICEF" loading="lazy">
-          <img decoding="async" src="assets/04_hope/06_b91aac7c.webp" alt="" loading="lazy">
-        </div>
-        <div class="row-fit">
-          <img decoding="async" style="--ar: calc(1248/1850)" src="assets/04_hope/02_134e8cbc.webp" alt="" loading="lazy">
-          <img decoding="async" style="--ar: calc(2210/1244)" src="assets/04_hope/03_734d2da4.webp" alt="" loading="lazy">
-        </div>
-        <img decoding="async" class="board" src="assets/04_hope/05_9728e846.webp" alt="" loading="lazy">
-        <div class="row-2">
-          <img decoding="async" src="assets/04_hope/04_800fb060.webp" alt="" loading="lazy">
-          <img decoding="async" src="assets/04_hope/07_c7249baf.webp" alt="" loading="lazy">
-        </div>
-      </div>
-      <dl class="credits">
-        <dt>Year</dt><dd>2025</dd>
-        <dt>Role</dt><dd>Art Direction</dd>
-        <dt>Team</dt><dd>Kunal Khade<br>Mohamad Al Qarawi<br>Marion Mondoloni<br>Niamh Aremband<br>Melissa Duarte de Almeida</dd>
-        <dt>Award</dt><dd>Cannes Lions THE BRIEF #4 — Global Winner</dd>
-      </dl>
-        </div>
-      </details>
-    </article>
-
-    <!-- 03 -->
     <article class="project" id="p-wind">
       <details class="project-details">
         <summary class="head">
         <div class="head-main">
-          <img loading="lazy" decoding="async" class="logo" src="assets/09_projektlogos/wind.svg" alt="Windkulturerbe">
+          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/wind.svg" alt="Windkulturerbe"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/wind_color.svg" alt="" aria-hidden="true"></span>
           <span class="title-line">
-            <span class="num">— 03</span>
+            <span class="num">— 02</span>
             <h3 class="title-small">Windkulturerbe</h3>
             <span class="tags">PR Campaign, Activation</span>
           </span>
@@ -994,14 +970,14 @@ body.lb-open { overflow: hidden; }
       </details>
     </article>
 
-    <!-- 04 -->
+    <!-- 03 -->
     <article class="project" id="p-uturn">
       <details class="project-details">
         <summary class="head">
         <div class="head-main">
-          <img loading="lazy" decoding="async" class="logo" src="assets/09_projektlogos/uturn.svg" alt="U-Turn — Bitte Wenden!">
+          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/uturn.svg" alt="U-Turn — Bitte Wenden!"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/uturn_color.svg" alt="" aria-hidden="true"></span>
           <span class="title-line">
-            <span class="num">— 04</span>
+            <span class="num">— 03</span>
             <h3 class="title-small">U-Turn — Bitte Wenden!</h3>
             <span class="tags">Corporate Design, Spatial Experience</span>
           </span>
@@ -1011,10 +987,6 @@ body.lb-open { overflow: hidden; }
         <div class="project-body">
 <div class="info">
         <p class="copy">U-Turn ist ein interaktiver Erlebnisraum, der Stuttgarts Mobilitätsfrage zuspitzt. Im symbolischen Duell Auto vs. Bahn geht es weniger um Technik als um Haltung.</p>
-        <dl class="meta">
-          <dt>Role</dt><dd>Creative Direction, Graphic Design, Documentation</dd>
-          <dt>Typeface</dt><dd>Neue Serie57</dd>
-        </dl>
       </div>
       <div class="media video-wrap">
         <iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/wq7H9TDo9vg" title="U-Turn — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
@@ -1049,19 +1021,66 @@ body.lb-open { overflow: hidden; }
       </details>
     </article>
 
+    <!-- 04 -->
+    <article class="project" id="p-hope">
+      <details class="project-details">
+        <summary class="head">
+        <div class="head-main">
+          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/hope.svg" alt="Hope in Action"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/hope_color.svg" alt="" aria-hidden="true"></span>
+          <span class="title-line">
+            <span class="num">— 04</span>
+            <h3 class="title-small">Hope in Action</h3>
+            <span class="tags">Integrated Campaign, Competition</span>
+          </span>
+        </div>
+        <div class="head-meta"><ul class="head-badges" aria-hidden="true"><li><img loading="lazy" decoding="async" src="assets/awards/cannes.svg" alt=""></li></ul><span class="year">2024</span><span class="caret" aria-hidden="true"></span></div>
+      </summary>
+        <div class="project-body">
+<div class="info">
+        <p class="copy">"Hope in Action" is UNICEF's platform that makes hope tangible as real, measurable impact—right where Gen-Z and Millennials consume content. In series, films, livestreams, and games, five-second non-intrusive inserts appear, contextually tied to the scene in real time.</p>
+        <ul class="awards">
+          <li><img loading="lazy" decoding="async" src="assets/awards/cannes.svg" alt=""><span><strong>Cannes Lions THE BRIEF #4</strong>Global Winner</span></li>
+        </ul>
+      </div>
+      <div class="gallery">
+        <img decoding="async" class="board" src="assets/04_hope/08_board.webp" alt="Hope in Action — board" loading="lazy">
+        <div class="row-2 wide">
+          <img decoding="async" src="assets/04_hope/01_109b8a4e.webp" alt="Hope in Action — UNICEF" loading="lazy">
+          <img decoding="async" src="assets/04_hope/06_b91aac7c.webp" alt="" loading="lazy">
+        </div>
+        <div class="row-fit">
+          <img decoding="async" style="--ar: calc(1248/1850)" src="assets/04_hope/02_134e8cbc.webp" alt="" loading="lazy">
+          <img decoding="async" style="--ar: calc(2210/1244)" src="assets/04_hope/03_734d2da4.webp" alt="" loading="lazy">
+        </div>
+        <img decoding="async" class="board" src="assets/04_hope/05_9728e846.webp" alt="" loading="lazy">
+        <div class="row-2">
+          <img decoding="async" src="assets/04_hope/04_800fb060.webp" alt="" loading="lazy">
+          <img decoding="async" src="assets/04_hope/07_c7249baf.webp" alt="" loading="lazy">
+        </div>
+      </div>
+      <dl class="credits">
+        <dt>Year</dt><dd>2024</dd>
+        <dt>Role</dt><dd>Art Direction</dd>
+        <dt>Team</dt><dd>Kunal Khade<br>Mohamad Al Qarawi<br>Marion Mondoloni<br>Niamh Aremband<br>Melissa Duarte de Almeida</dd>
+        <dt>Award</dt><dd>Cannes Lions THE BRIEF #4 — Global Winner</dd>
+      </dl>
+        </div>
+      </details>
+    </article>
+
     <!-- 05 -->
     <article class="project" id="p-opera">
       <details class="project-details">
         <summary class="head">
         <div class="head-main">
-          <img loading="lazy" decoding="async" class="logo" src="assets/09_projektlogos/opera.svg" alt="The Mediterainy Opera">
+          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/opera.svg" alt="The Mediterainy Opera"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/opera_color.svg" alt="" aria-hidden="true"></span>
           <span class="title-line">
             <span class="num">— 05</span>
             <h3 class="title-small">The Mediterainy Opera</h3>
             <span class="tags">Integrated Campaign</span>
           </span>
         </div>
-        <div class="head-meta"><ul class="head-badges" aria-hidden="true"><li><img loading="lazy" decoding="async" src="assets/awards/adc-germany.svg" alt=""></li><li><img loading="lazy" decoding="async" src="assets/awards/comm.svg" alt=""></li><li><img loading="lazy" decoding="async" src="assets/awards/icad.svg" alt=""></li></ul><span class="year">2025</span><span class="caret" aria-hidden="true"></span></div>
+        <div class="head-meta"><ul class="head-badges" aria-hidden="true"><li><img loading="lazy" decoding="async" src="assets/awards/adc-germany.svg" alt=""></li><li><img loading="lazy" decoding="async" src="assets/awards/comm.svg" alt=""></li><li><img loading="lazy" decoding="async" src="assets/awards/icad.svg" alt=""></li></ul><span class="year">2024</span><span class="caret" aria-hidden="true"></span></div>
       </summary>
         <div class="project-body">
 <div class="info">
@@ -1090,7 +1109,7 @@ body.lb-open { overflow: hidden; }
       </div>
       <p class="cc-hint">Subtitles available — press CC</p>
       <dl class="credits">
-        <dt>Year</dt><dd>2025</dd>
+        <dt>Year</dt><dd>2024</dd>
         <dt>Credits</dt><dd>Marco Pröfrock</dd>
         <dt>Typeface</dt><dd>Neue Serie57</dd>
         <dt>Awards</dt><dd>ADC Talent Award 25 — 1× Silver, 4× Merit<br>COMM Awards 25 — 1× Bronze, 2× Shortlist<br>ICAD Awards 25 — 2× Commendation</dd>
@@ -1497,10 +1516,13 @@ body.lb-open { overflow: hidden; }
     var el;
     try { el = document.querySelector(hash); } catch (_) { return; }
     if (!el) return;
-    var det = el.querySelector('details.project-details');
+    // Only auto-open when the hash points DIRECTLY at a project article.
+    // Without this guard, navigating to #work would query for the first
+    // nested .project-details inside the section and unintentionally
+    // open project 01.
+    if (!el.classList || !el.classList.contains('project')) return;
+    var det = el.querySelector(':scope > details.project-details');
     if (det && !det.open) det.open = true;
-    // Re-scroll after opening so the header lands at the top of viewport.
-    requestAnimationFrame(function () { el.scrollIntoView({ block: 'start', behavior: 'smooth' }); });
   }
   window.addEventListener('hashchange', openTargetProject);
   // Also handle initial load (in case user lands on a deep link).
