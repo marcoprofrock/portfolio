@@ -109,8 +109,13 @@ body {
   display: grid;
   gap: clamp(20px, 3vw, 36px);
   align-content: center;
+  /* Prevent unbreakable runs ("Scholz & Friends" with non-breaking
+     spaces) from forcing the grid track wider than the viewport. */
+  min-width: 0;
   /* opacity controlled by JS */
 }
+.intro-text .lede,
+.intro-text .bio { min-width: 0; overflow-wrap: anywhere; word-break: break-word; }
 
 /* Right column figures — scattered collage of 10 images.
    Each .fig is absolutely positioned via inline left/top/width/height
@@ -167,6 +172,8 @@ body {
   align-items: center;
   flex-wrap: wrap;
   gap: clamp(18px, 3vw, 32px);
+  min-width: 0;
+  max-width: 100%;
 }
 .award-strip li { display: flex; align-items: center; height: 40px; }
 .award-strip a { display: inline-flex; align-items: center; justify-content: center; height: 100%; }
@@ -633,7 +640,11 @@ body.lb-open { overflow: hidden; }
      pins so the mosaic animation can play. The figs box keeps a
      square aspect ratio so the % collage positions still work. */
   .intro-sticky {
-    grid-template-columns: 1fr;
+    /* `minmax(0, 1fr)` (not bare `1fr`) so the column can shrink below
+       its intrinsic min-content size — otherwise an unbreakable phrase
+       like "Scholz & Friends" forces the column wider than the viewport
+       and pushes the bio + award badges out the right edge. */
+    grid-template-columns: minmax(0, 1fr);
     height: auto;
     min-height: 0;
     overflow: visible;
@@ -746,7 +757,7 @@ body.lb-open { overflow: hidden; }
   <section class="intro">
     <div class="intro-sticky">
       <div class="intro-text">
-        <h1 class="lede">Marco is a Creative at Scholz&nbsp;&amp;&nbsp;Friends in Stuttgart.</h1>
+        <h1 class="lede">Marco is a Creative at Scholz &amp; Friends in Stuttgart.</h1>
         <p class="bio">His work has been recognised by The One Club for Creativity's Art Directors Club (ADC) and Type Directors Club (TDC), the Art Directors Club Germany (ADC), the Institute of Creative Advertising and Design Ireland (ICAD), and the Cannes Lions International Festival of Creativity—where he won the global competition THE BRIEF #4.</p>
         <ul class="award-strip" aria-label="Recognised by">
           <li><a href="#awards-list" aria-label="Cannes Lions"><img loading="eager" decoding="async" src="assets/awards/cannes.svg" alt=""></a></li>
