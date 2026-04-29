@@ -242,10 +242,7 @@ html.js-pending #mosaic-overlay {
   position: absolute; /* positioned within fixed #mosaic-overlay */
   overflow: hidden;
   border-radius: 4px;
-  /* Compositor-only animation: each frame writes transform, never
-     left/top/width/height — no per-frame layout, runs on the GPU. */
-  will-change: transform;
-  transform-origin: 0 0;
+  will-change: left, top, width, height;
   /* border-radius transitions separately for a nice feel */
   transition: border-radius 0.05s ease;
 }
@@ -1307,17 +1304,6 @@ body.lb-open { overflow: hidden; }
     el.style.width  = w    + 'px';
     el.style.height = h    + 'px';
   }
-  // Compositor-only morph: the element stays at its TARGET layout
-  // box (set once via setPos) and we transform it from there to the
-  // current frame's interpolated rect. transform doesn't trigger
-  // layout, so this runs entirely on the GPU during scroll.
-  function setTransform(el, curLeft, curTop, curW, curH, targetLeft, targetTop, targetW, targetH) {
-    var dx = curLeft - targetLeft;
-    var dy = curTop  - targetTop;
-    var sx = curW / targetW;
-    var sy = curH / targetH;
-    el.style.transform = 'translate3d(' + dx + 'px,' + dy + 'px,0) scale(' + sx + ',' + sy + ')';
-  }
 
   /* ── mosaic start positions: span-based tiled grid, varied tracks ── */
   function getMosaicRects() {
@@ -1396,13 +1382,12 @@ body.lb-open { overflow: hidden; }
 
     for (var i = 0; i < moImgs.length; i++) {
       var s = startsCache[i], e = targets[i];
-      setTransform(
+      setPos(
         moImgs[i],
         lerp(s.left, e.left, t),
         lerp(s.top,  e.top,  t),
         lerp(s.w,    e.w,    t),
-        lerp(s.h,    e.h,    t),
-        e.left, e.top, e.w, e.h
+        lerp(s.h,    e.h,    t)
       );
       var cap = moImgs[i].querySelector('figcaption');
       if (cap) cap.style.opacity = capOpacity;
@@ -1456,13 +1441,8 @@ body.lb-open { overflow: hidden; }
 
     targets     = getTargetRects();
     startsCache = getMosaicRects();
-    // Place each mosaic-img permanently at its TARGET rect (one layout pass).
-    // The frame() loop morphs them via transform — no layout per frame.
     for (var i = 0; i < moImgs.length; i++) {
-      setPos(moImgs[i], targets[i].left, targets[i].top, targets[i].w, targets[i].h);
-      // Initial transform = full-screen start
-      var s0 = startsCache[i], e0 = targets[i];
-      setTransform(moImgs[i], s0.left, s0.top, s0.w, s0.h, e0.left, e0.top, e0.w, e0.h);
+      setPos(moImgs[i], startsCache[i].left, startsCache[i].top, startsCache[i].w, startsCache[i].h);
     }
 
     // Hide real figs + text until animation hands them over
