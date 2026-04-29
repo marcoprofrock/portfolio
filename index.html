@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Marco Pröfrock — Portfolio</title>
 <link rel="icon" type="image/png" href="assets/10_favicon/favicon.png">
+<script>document.documentElement.classList.add('js-pending');</script>
 <meta name="description" content="Marco Pröfrock — Creative at Scholz & Friends, Stuttgart.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,6 +33,11 @@ ul, ol { list-style: none; }
 
 ::selection { background: var(--fg); color: var(--bg); }
 
+/* `overflow-x: clip` (instead of hidden) — clips horizontal overflow
+   without creating a scroll container, so position:sticky on the top
+   nav / work-nav / intro-sticky keeps working. */
+html, body { overflow-x: clip; max-width: 100%; }
+
 body {
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif;
   font-weight: 400;
@@ -41,6 +47,10 @@ body {
   color: var(--fg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Prevent long unbreakable tokens (em-dashes, URLs, etc.) from
+     forcing horizontal overflow on narrow viewports. */
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 [id] { scroll-margin-top: calc(var(--top-h) + 16px); }
@@ -182,10 +192,25 @@ body {
      flash at their natural pixel size before JS lays them out. JS
      fades the overlay in once setPos() has run. */
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.25s ease;
+  background: var(--bg); /* solid fill so the underlying intro content
+                            is fully covered the moment JS positions
+                            the mosaic-imgs (no flash of header text). */
 }
 #mosaic-overlay.is-ready { opacity: 1; }
-#mosaic-overlay.is-done { opacity: 0 !important; pointer-events: none; }
+#mosaic-overlay.is-done { opacity: 0 !important; pointer-events: none; background: transparent; }
+
+/* Hide the intro content by default — JS reveals it as the mosaic
+   animation completes. Without this rule the user briefly sees the
+   header text + figs grid before the overlay covers them. */
+html.js-pending .intro-text,
+html.js-pending .intro-figs .fig { opacity: 0; }
+/* While JS is still booting, paint a solid splash over the intro so the
+   user never sees a flash of unstyled text behind the loading mosaic. */
+html.js-pending #mosaic-overlay {
+  opacity: 1;
+  background: var(--bg);
+}
 
 .mosaic-img {
   position: absolute; /* positioned within fixed #mosaic-overlay */
@@ -1178,6 +1203,8 @@ body.lb-open { overflow: hidden; }
   ];
 
   var targets = null;
+  var startsCache = null; // mosaic start rects, recomputed on resize only
+  var rafId = null;
   var initialized = false;
 
   /* ── helpers ───────────────────────────────────────────── */
@@ -1243,33 +1270,36 @@ body.lb-open { overflow: hidden; }
   }
 
   /* ── main tick ─────────────────────────────────────────── */
-  function tick() {
-    if (!initialized || !targets) return;
+  // The actual frame work — runs inside requestAnimationFrame so the
+  // browser only paints once per frame even when scroll fires hundreds
+  // of times per second.
+  function frame() {
+    rafId = null;
+    if (!initialized || !targets || !startsCache) return;
     var raw = Math.min(1, window.scrollY / ANIM_SCROLL);
     var t   = ease(raw);
 
     if (raw >= 1) {
       overlay.classList.add('is-done');
-      scrollHint.style.opacity = '0';
+      if (scrollHint) scrollHint.style.opacity = '0';
       figs.forEach(function (f) { f.style.opacity = '1'; });
       introText.style.opacity  = '1';
       return;
     }
 
     overlay.classList.remove('is-done');
-    scrollHint.style.opacity  = Math.max(0, 1 - raw * 6).toString();
-    introText.style.opacity   = easeText(raw).toString();
+    if (scrollHint) scrollHint.style.opacity = Math.max(0, 1 - raw * 6).toString();
+    introText.style.opacity = easeText(raw).toString();
     // Keep static figs hidden during the animation. Without this they
     // would stay at opacity:1 once the user scrolled past the end and
     // remain visible behind the animated overlay if the user scrolled
     // back up — the "ghost duplicate" the user reported.
-    figs.forEach(function (f) { f.style.opacity = '0'; });
+    for (var k = 0; k < figs.length; k++) figs[k].style.opacity = '0';
 
-    var starts = getMosaicRects();
     var capOpacity = Math.max(0, 1 - raw * 2.5).toString();
 
     for (var i = 0; i < moImgs.length; i++) {
-      var s = starts[i], e = targets[i];
+      var s = startsCache[i], e = targets[i];
       setPos(
         moImgs[i],
         lerp(s.left, e.left, t),
@@ -1280,6 +1310,10 @@ body.lb-open { overflow: hidden; }
       var cap = moImgs[i].querySelector('figcaption');
       if (cap) cap.style.opacity = capOpacity;
     }
+  }
+  // Scroll handler: throttle to one frame per rAF.
+  function tick() {
+    if (rafId == null) rafId = requestAnimationFrame(frame);
   }
 
   /* ── helper: apply data-pos %ages to the static figs ─── */
@@ -1296,14 +1330,17 @@ body.lb-open { overflow: hidden; }
   /* ── init ──────────────────────────────────────────────── */
   function init() {
     ANIM_SCROLL = window.innerHeight * 0.95;
+
     if (window.scrollY > ANIM_SCROLL * 0.9) {
       overlay.style.display    = 'none';
-      scrollHint.style.display = 'none';
+      if (scrollHint) scrollHint.style.display = 'none';
       // Make sure static figs are positioned and visible
       // when we skip the animation entirely.
       applyFigPositions();
       figs.forEach(function (f) { f.style.opacity = '1'; });
       introText.style.opacity = '1';
+      // Drop the splash class so revealed content can fade in.
+      document.documentElement.classList.remove('js-pending');
       return;
     }
 
@@ -1320,10 +1357,10 @@ body.lb-open { overflow: hidden; }
     // figs box — visible behind the overlay as "oversized duplicates".
     applyFigPositions();
 
-    targets = getTargetRects();
-    var starts = getMosaicRects();
+    targets     = getTargetRects();
+    startsCache = getMosaicRects();
     for (var i = 0; i < moImgs.length; i++) {
-      setPos(moImgs[i], starts[i].left, starts[i].top, starts[i].w, starts[i].h);
+      setPos(moImgs[i], startsCache[i].left, startsCache[i].top, startsCache[i].w, startsCache[i].h);
     }
 
     // Hide real figs + text until animation hands them over
@@ -1335,15 +1372,24 @@ body.lb-open { overflow: hidden; }
     introText.style.transition = 'opacity 0.4s ease';
 
     initialized = true;
-    tick();
+    frame();
     // Reveal the overlay only after positions are set — prevents the
-    // brief "oversized images" flash on initial load.
+    // brief "oversized images" flash on initial load. We can also drop
+    // the splash class now: inline styles already hold intro-text/figs
+    // at opacity 0, so removing the class won't cause a flash.
     overlay.classList.add('is-ready');
+    document.documentElement.classList.remove('js-pending');
     window.addEventListener('scroll', tick, { passive: true });
   }
 
-  if (document.readyState === 'complete') setTimeout(init, 60);
-  else window.addEventListener('load', function () { setTimeout(init, 60); });
+  // Run as soon as the DOM is parsed — we don't need to wait for the
+  // 30 MB of intro images to fully decode before laying out the
+  // animation. The mosaic-imgs themselves render progressively.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 
   // Re-init on resize (debounced)
   var resizeTimer;
@@ -1351,8 +1397,10 @@ body.lb-open { overflow: hidden; }
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
       initialized = false;
+      startsCache = null;
+      targets = null;
       overlay.style.display    = '';
-      scrollHint.style.display = '';
+      if (scrollHint) scrollHint.style.display = '';
       figs.forEach(function (f) { f.style.opacity = ''; });
       introText.style.opacity  = '';
       introSection.style.minHeight = '';
