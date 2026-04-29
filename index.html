@@ -170,15 +170,24 @@ body {
   margin-top: clamp(16px, 2vw, 28px);
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: clamp(18px, 3vw, 32px);
+  /* Stay on one line — badges scale down on narrow screens instead. */
+  flex-wrap: nowrap;
+  gap: clamp(8px, 2.4vw, 32px);
   min-width: 0;
   max-width: 100%;
 }
-.award-strip li { display: flex; align-items: center; height: 40px; }
-.award-strip a { display: inline-flex; align-items: center; justify-content: center; height: 100%; }
+.award-strip li {
+  display: flex; align-items: center;
+  /* Height shrinks with viewport width so 7 badges fit one row on iPhone. */
+  height: clamp(22px, 5.2vw, 40px);
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.award-strip a { display: inline-flex; align-items: center; justify-content: center; height: 100%; min-width: 0; }
 .award-strip img {
-  height: 100%; width: auto; max-width: 60px; object-fit: contain;
+  height: 100%; width: auto;
+  max-width: clamp(30px, 7vw, 60px);
+  object-fit: contain;
   filter: brightness(0) invert(1);
   opacity: 0.7;
   transition: opacity .25s ease, transform .25s ease;
