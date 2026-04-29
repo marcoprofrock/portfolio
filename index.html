@@ -267,16 +267,22 @@ html.js-pending #mosaic-overlay {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   pointer-events: none;
   transition: opacity 0.4s ease;
+  background: rgba(0,0,0,0.8);
+  padding: 18px 38px 22px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.35);
 }
 #scroll-hint span {
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(244,244,242,0.5);
+  color: rgba(244,244,242,0.92);
 }
 #scroll-hint svg {
   animation: bounceY 1.6s ease-in-out infinite;
