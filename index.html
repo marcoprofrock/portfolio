@@ -231,6 +231,11 @@ html.js-pending #mosaic-overlay {
 
 .mosaic-img {
   position: absolute; /* positioned within fixed #mosaic-overlay */
+  /* Collapse to zero before JS positions them. Without these defaults,
+     each .mosaic-img briefly renders at its image's natural pixel size
+     (multi-thousand-px photos) on first paint — a giant flash of
+     oversized images and a huge CLS hit. */
+  left: 0; top: 0; width: 0; height: 0;
   overflow: hidden;
   border-radius: 4px;
   will-change: left, top, width, height;
