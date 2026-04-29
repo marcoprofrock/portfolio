@@ -375,10 +375,23 @@ details:not([open]) > summary.head {
   display: flex; align-items: baseline;
   gap: clamp(12px, 1.6vw, 20px);
 }
-.head .num { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; color: var(--muted); }
-.head .title-small { font-size: 13px; font-weight: 500; color: var(--fg); letter-spacing: 0.02em; }
+.head .num { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; color: var(--muted); white-space: nowrap; }
+.head .title-small { font-size: 13px; font-weight: 500; color: var(--fg); letter-spacing: 0.02em; white-space: nowrap; }
 .head .tags { font-size: 13px; font-weight: 400; color: rgba(244,244,242,0.45); letter-spacing: 0.01em; }
-.head .title-line { flex-wrap: wrap; row-gap: 4px; }
+/* On wide screens align tags into a fixed column so they all start at
+   the same x across projects — gives the header strip a grid feel.
+   The title column is sized for the longest project name. */
+@media (min-width: 720px) {
+  .head .title-line {
+    display: grid;
+    grid-template-columns: auto clamp(180px, 22vw, 260px) 1fr;
+    align-items: baseline;
+    column-gap: clamp(20px, 3vw, 40px);
+  }
+}
+@media (max-width: 719.98px) {
+  .head .title-line { flex-wrap: wrap; row-gap: 4px; }
+}
 .head .title { font-size: clamp(32px, 4.5vw, 56px); font-weight: 500; line-height: 1.05; letter-spacing: -0.025em; }
 .head .year { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; color: var(--muted); white-space: nowrap; padding-bottom: 2px; }
 
