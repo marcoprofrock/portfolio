@@ -9,8 +9,7 @@
 <meta name="description" content="Marco Pröfrock — Creative at Scholz & Friends, Stuttgart.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" onload="this.rel='stylesheet'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* --- Reset / base --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -227,15 +226,6 @@ html.js-pending .intro-figs .fig { opacity: 0; }
 html.js-pending #mosaic-overlay {
   opacity: 1;
   background: var(--bg);
-}
-
-/* Reduced-motion / no-JS fallback: skip the mosaic intro animation
-   entirely. The intro grid + text paints immediately and becomes the
-   LCP candidate, instead of the overlay's giant photography frames. */
-@media (prefers-reduced-motion: reduce) {
-  html.js-pending .intro-text,
-  html.js-pending .intro-figs .fig { opacity: 1 !important; }
-  #mosaic-overlay { display: none !important; }
 }
 
 .mosaic-img {
@@ -773,32 +763,32 @@ body.lb-open { overflow: hidden; }
 <div id="mosaic-overlay" aria-hidden="true">
   <!-- 1. Cannes — important (large at end) -->
   <figure class="mosaic-img" data-key="cannes">
-    <img loading="eager" fetchpriority="high" decoding="async" src="assets/07_home/06_MarcoUndTeamInCannesTheBrief.webp" alt="" width="1133" height="1683">
+    <img loading="eager" fetchpriority="high" decoding="async" src="assets/07_home/06_MarcoUndTeamInCannesTheBrief.webp" alt="">
     <figcaption>Cannes — THE BRIEF #4</figcaption>
   </figure>
   <!-- 2. ICAD — important -->
   <figure class="mosaic-img" data-key="icad">
-    <img loading="eager" fetchpriority="high" decoding="async" src="assets/07_home/11_MarcoBeiICADAwards.webp" alt="" width="880" height="1544">
+    <img loading="eager" fetchpriority="high" decoding="async" src="assets/07_home/11_MarcoBeiICADAwards.webp" alt="">
     <figcaption>ICAD Awards, Dublin</figcaption>
   </figure>
   <!-- 3. ADC — important -->
   <figure class="mosaic-img" data-key="adc">
-    <img loading="eager" fetchpriority="high" decoding="async" src="assets/07_home/05_MarcoBeimADCGermany.webp" alt="" width="1600" height="1065" srcset="assets/07_home/05_MarcoBeimADCGermany-800.webp 800w, assets/07_home/05_MarcoBeimADCGermany-1200.webp 1200w, assets/07_home/05_MarcoBeimADCGermany.webp 1600w" sizes="(max-width: 720px) 80vw, 35vw">
+    <img loading="eager" fetchpriority="high" decoding="async" src="assets/07_home/05_MarcoBeimADCGermany.webp" alt="">
     <figcaption>ADC Talent Award, Germany</figcaption>
   </figure>
   <!-- 4. Scholz & Friends Stuttgart -->
   <figure class="mosaic-img" data-key="scholz">
-    <img loading="eager" fetchpriority="high" decoding="async" src="assets/07_home/15_ScholzAndFriensStuttgartGrafik.webp" alt="" width="796" height="770">
+    <img loading="eager" fetchpriority="high" decoding="async" src="assets/07_home/15_ScholzAndFriensStuttgartGrafik.webp" alt="">
     <figcaption>Scholz &amp; Friends, Stuttgart</figcaption>
   </figure>
   <!-- 5..10 Photography -->
   <!-- p1 / p6 swapped: top-left now uses DSCF0762, bottom-right uses DSCF4329 -->
-  <figure class="mosaic-img" data-key="p1"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF0762.webp" alt="" width="4416" height="2944" srcset="assets/08_Photography/DSCF0762-800.webp 800w, assets/08_Photography/DSCF0762-1200.webp 1200w, assets/08_Photography/DSCF0762-2000.webp 2000w, assets/08_Photography/DSCF0762.webp 4416w" sizes="(max-width: 720px) 80vw, 35vw"></figure>
-  <figure class="mosaic-img" data-key="p2"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF3824.webp" alt="" width="5152" height="7728" srcset="assets/08_Photography/DSCF3824-800.webp 800w, assets/08_Photography/DSCF3824-1200.webp 1200w, assets/08_Photography/DSCF3824-2000.webp 2000w, assets/08_Photography/DSCF3824.webp 5152w" sizes="(max-width: 720px) 80vw, 35vw"></figure>
-  <figure class="mosaic-img" data-key="p3"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF3537.webp" alt="" width="5152" height="7728" srcset="assets/08_Photography/DSCF3537-800.webp 800w, assets/08_Photography/DSCF3537-1200.webp 1200w, assets/08_Photography/DSCF3537-2000.webp 2000w, assets/08_Photography/DSCF3537.webp 5152w" sizes="(max-width: 720px) 80vw, 35vw"></figure>
-  <figure class="mosaic-img" data-key="p4"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF4259.webp" alt="" width="7728" height="5152" srcset="assets/08_Photography/DSCF4259-800.webp 800w, assets/08_Photography/DSCF4259-1200.webp 1200w, assets/08_Photography/DSCF4259-2000.webp 2000w, assets/08_Photography/DSCF4259.webp 7728w" sizes="(max-width: 720px) 80vw, 35vw"></figure>
-  <figure class="mosaic-img" data-key="p5"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF0586.webp" alt="" width="2944" height="4416" srcset="assets/08_Photography/DSCF0586-800.webp 800w, assets/08_Photography/DSCF0586-1200.webp 1200w, assets/08_Photography/DSCF0586-2000.webp 2000w, assets/08_Photography/DSCF0586.webp 2944w" sizes="(max-width: 720px) 80vw, 35vw"></figure>
-  <figure class="mosaic-img" data-key="p6"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF4329.webp" alt="" width="5152" height="7728" srcset="assets/08_Photography/DSCF4329-800.webp 800w, assets/08_Photography/DSCF4329-1200.webp 1200w, assets/08_Photography/DSCF4329-2000.webp 2000w, assets/08_Photography/DSCF4329.webp 5152w" sizes="(max-width: 720px) 80vw, 35vw"></figure>
+  <figure class="mosaic-img" data-key="p1"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF0762.webp" alt=""></figure>
+  <figure class="mosaic-img" data-key="p2"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF3824.webp" alt=""></figure>
+  <figure class="mosaic-img" data-key="p3"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF3537.webp" alt=""></figure>
+  <figure class="mosaic-img" data-key="p4"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF4259.webp" alt=""></figure>
+  <figure class="mosaic-img" data-key="p5"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF0586.webp" alt=""></figure>
+  <figure class="mosaic-img" data-key="p6"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF4329.webp" alt=""></figure>
 </div>
 
 <!-- Scroll hint -->
@@ -830,13 +820,13 @@ body.lb-open { overflow: hidden; }
         <h1 class="lede">Marco is a Creative at Scholz &amp; Friends in Stuttgart.</h1>
         <p class="bio">His work has been recognised by The One Club for Creativity's Art Directors Club (ADC) and Type Directors Club (TDC), the Art Directors Club Germany (ADC), the Institute of Creative Advertising and Design Ireland (ICAD), and the Cannes Lions International Festival of Creativity—where he won the global competition THE BRIEF #4.</p>
         <ul class="award-strip" aria-label="Recognised by">
-          <li><a href="#awards-list" aria-label="Cannes Lions"><img loading="eager" decoding="async" src="assets/awards/cannes.svg" alt="" width="85" height="85"></a></li>
-          <li><a href="#awards-list" aria-label="The One Club Young Ones"><img loading="eager" decoding="async" src="assets/awards/YoungOnesLogo.svg" alt="" width="5660" height="5621"></a></li>
-          <li><a href="#awards-list" aria-label="ADC New York"><img loading="eager" decoding="async" src="assets/awards/adc-ny.webp" alt="" width="528" height="530"></a></li>
-          <li><a href="#awards-list" aria-label="TDC"><img loading="eager" decoding="async" src="assets/awards/tdc.webp" alt="" width="601" height="599"></a></li>
-          <li><a href="#awards-list" aria-label="ADC Germany"><img loading="eager" decoding="async" src="assets/awards/adc-germany.svg" alt="" width="85" height="85"></a></li>
-          <li><a href="#awards-list" aria-label="ICAD Ireland"><img loading="eager" decoding="async" src="assets/awards/icad.svg" alt="" width="3" height="12"></a></li>
-          <li><a href="#awards-list" aria-label="COMM Awards"><img loading="eager" decoding="async" src="assets/awards/comm.svg" alt="" width="94" height="94"></a></li>
+          <li><a href="#awards-list" aria-label="Cannes Lions"><img loading="eager" decoding="async" src="assets/awards/cannes.svg" alt=""></a></li>
+          <li><a href="#awards-list" aria-label="The One Club Young Ones"><img loading="eager" decoding="async" src="assets/awards/YoungOnesLogo.svg" alt=""></a></li>
+          <li><a href="#awards-list" aria-label="ADC New York"><img loading="eager" decoding="async" src="assets/awards/adc-ny.webp" alt=""></a></li>
+          <li><a href="#awards-list" aria-label="TDC"><img loading="eager" decoding="async" src="assets/awards/tdc.webp" alt=""></a></li>
+          <li><a href="#awards-list" aria-label="ADC Germany"><img loading="eager" decoding="async" src="assets/awards/adc-germany.svg" alt=""></a></li>
+          <li><a href="#awards-list" aria-label="ICAD Ireland"><img loading="eager" decoding="async" src="assets/awards/icad.svg" alt=""></a></li>
+          <li><a href="#awards-list" aria-label="COMM Awards"><img loading="eager" decoding="async" src="assets/awards/comm.svg" alt=""></a></li>
         </ul>
       </div>
       <!--
@@ -849,33 +839,33 @@ body.lb-open { overflow: hidden; }
       <div class="intro-figs" aria-hidden="true">
         <!-- 1. Cannes — top-left, large -->
         <figure class="fig fig-cannes" data-pos="4 14 50 34">
-          <img decoding="async" src="assets/07_home/06_MarcoUndTeamInCannesTheBrief.webp" alt="" loading="eager" width="1133" height="1683">
+          <img decoding="async" src="assets/07_home/06_MarcoUndTeamInCannesTheBrief.webp" alt="" loading="eager">
           <figcaption>Cannes — THE BRIEF #4</figcaption>
         </figure>
         <!-- 2. ICAD — top-right, large -->
         <figure class="fig fig-icad" data-pos="58 0 42 30">
-          <img decoding="async" src="assets/07_home/11_MarcoBeiICADAwards.webp" alt="" loading="eager" width="880" height="1544">
+          <img decoding="async" src="assets/07_home/11_MarcoBeiICADAwards.webp" alt="" loading="eager">
           <figcaption>ICAD Awards, Dublin</figcaption>
         </figure>
         <!-- 3. ADC — bottom-left, large -->
         <figure class="fig fig-adc" data-pos="0 54 50 36">
-          <img decoding="async" src="assets/07_home/05_MarcoBeimADCGermany.webp" alt="" loading="eager" width="1600" height="1065" srcset="assets/07_home/05_MarcoBeimADCGermany-800.webp 800w, assets/07_home/05_MarcoBeimADCGermany-1200.webp 1200w, assets/07_home/05_MarcoBeimADCGermany.webp 1600w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+          <img decoding="async" src="assets/07_home/05_MarcoBeimADCGermany.webp" alt="" loading="eager">
           <figcaption>ADC Talent Award</figcaption>
         </figure>
         <!-- 4. Scholz & Friends — bottom-right, square -->
         <figure class="fig fig-scholz" data-pos="62 56 30 30">
-          <img decoding="async" src="assets/07_home/15_ScholzAndFriensStuttgartGrafik.webp" alt="" loading="lazy" width="796" height="770">
+          <img decoding="async" src="assets/07_home/15_ScholzAndFriensStuttgartGrafik.webp" alt="" loading="lazy">
           <figcaption>Scholz &amp; Friends, Stuttgart</figcaption>
         </figure>
         <!-- 5..10 Photography — small accents.
              Note: top-left p1 and bottom-right p6 were swapped per
              art direction — DSCF0762 now anchors top-left, DSCF4329 bottom. -->
-        <figure class="fig" data-pos="0 0 12 11"><img decoding="async" src="assets/08_Photography/DSCF0762.webp" alt="" loading="lazy" width="4416" height="2944" srcset="assets/08_Photography/DSCF0762-800.webp 800w, assets/08_Photography/DSCF0762-1200.webp 1200w, assets/08_Photography/DSCF0762-2000.webp 2000w, assets/08_Photography/DSCF0762.webp 4416w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px"></figure>
-        <figure class="fig" data-pos="32 0 22 11"><img decoding="async" src="assets/08_Photography/DSCF3824.webp" alt="" loading="lazy" width="5152" height="7728" srcset="assets/08_Photography/DSCF3824-800.webp 800w, assets/08_Photography/DSCF3824-1200.webp 1200w, assets/08_Photography/DSCF3824-2000.webp 2000w, assets/08_Photography/DSCF3824.webp 5152w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px"></figure>
-        <figure class="fig" data-pos="58 32 18 22"><img decoding="async" src="assets/08_Photography/DSCF3537.webp" alt="" loading="lazy" width="5152" height="7728" srcset="assets/08_Photography/DSCF3537-800.webp 800w, assets/08_Photography/DSCF3537-1200.webp 1200w, assets/08_Photography/DSCF3537-2000.webp 2000w, assets/08_Photography/DSCF3537.webp 5152w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px"></figure>
-        <figure class="fig" data-pos="79 30 14 24"><img decoding="async" src="assets/08_Photography/DSCF4259.webp" alt="" loading="lazy" width="7728" height="5152" srcset="assets/08_Photography/DSCF4259-800.webp 800w, assets/08_Photography/DSCF4259-1200.webp 1200w, assets/08_Photography/DSCF4259-2000.webp 2000w, assets/08_Photography/DSCF4259.webp 7728w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px"></figure>
-        <figure class="fig" data-pos="94 56 6 32"><img decoding="async" src="assets/08_Photography/DSCF0586.webp" alt="" loading="lazy" width="2944" height="4416" srcset="assets/08_Photography/DSCF0586-800.webp 800w, assets/08_Photography/DSCF0586-1200.webp 1200w, assets/08_Photography/DSCF0586-2000.webp 2000w, assets/08_Photography/DSCF0586.webp 2944w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px"></figure>
-        <figure class="fig" data-pos="30 92 26 8"><img decoding="async" src="assets/08_Photography/DSCF4329.webp" alt="" loading="lazy" width="5152" height="7728" srcset="assets/08_Photography/DSCF4329-800.webp 800w, assets/08_Photography/DSCF4329-1200.webp 1200w, assets/08_Photography/DSCF4329-2000.webp 2000w, assets/08_Photography/DSCF4329.webp 5152w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px"></figure>
+        <figure class="fig" data-pos="0 0 12 11"><img decoding="async" src="assets/08_Photography/DSCF0762.webp" alt="" loading="lazy"></figure>
+        <figure class="fig" data-pos="32 0 22 11"><img decoding="async" src="assets/08_Photography/DSCF3824.webp" alt="" loading="lazy"></figure>
+        <figure class="fig" data-pos="58 32 18 22"><img decoding="async" src="assets/08_Photography/DSCF3537.webp" alt="" loading="lazy"></figure>
+        <figure class="fig" data-pos="79 30 14 24"><img decoding="async" src="assets/08_Photography/DSCF4259.webp" alt="" loading="lazy"></figure>
+        <figure class="fig" data-pos="94 56 6 32"><img decoding="async" src="assets/08_Photography/DSCF0586.webp" alt="" loading="lazy"></figure>
+        <figure class="fig" data-pos="30 92 26 8"><img decoding="async" src="assets/08_Photography/DSCF4329.webp" alt="" loading="lazy"></figure>
       </div>
     </div>
   </section>
@@ -902,21 +892,21 @@ body.lb-open { overflow: hidden; }
       <details class="project-details">
         <summary class="head">
         <div class="head-main">
-          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/500ls.svg" alt="500l/s" width="398" height="159"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/500ls_color.svg" alt="" aria-hidden="true" width="398" height="159"></span>
+          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/500ls.svg" alt="500l/s"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/500ls_color.svg" alt="" aria-hidden="true"></span>
           <span class="title-line">
             <span class="num">— 01</span>
             <h3 class="title-small">500l/s</h3>
             <span class="tags">Parametric Design System, Brand Identity, Integrated Campaign</span>
           </span>
         </div>
-        <div class="head-meta"><ul class="head-badges" aria-hidden="true"><li><img loading="lazy" decoding="async" src="assets/awards/tdc.webp" alt="" width="601" height="599"></li><li><img loading="lazy" decoding="async" src="assets/awards/adc-ny.webp" alt="" width="528" height="530"></li></ul><span class="year">2026</span><span class="caret" aria-hidden="true"></span></div>
+        <div class="head-meta"><ul class="head-badges" aria-hidden="true"><li><img loading="lazy" decoding="async" src="assets/awards/tdc.webp" alt=""></li><li><img loading="lazy" decoding="async" src="assets/awards/adc-ny.webp" alt=""></li></ul><span class="year">2026</span><span class="caret" aria-hidden="true"></span></div>
       </summary>
         <div class="project-body">
 <div class="info">
         <p class="copy">After Budapest, Stuttgart is home to Europe's second-largest mineral water deposit. 19 springs pump 44 million liters (500 liters per second) to the surface every single day. However, this urban treasure is practically invisible to the city's young population, with 75% being completely unaware of its existence. The water is physically and culturally repositioned within the city: a physical "mineral water trail" makes the springs visible in the urban space, while local bars take on "spring sponsorships," transforming traditional health spa water into signature drinks at the bar. The core of this new brand identity is a generative design system that turns chemical facts into visual communication. A custom script translates measurement data from 13 distinct springs into individual waveforms, resulting in the custom typeface "500l/s" with 13 unique styles.</p>
         <ul class="awards">
-          <li><img loading="lazy" decoding="async" data-src="assets/awards/tdc.webp" alt="" width="601" height="599"><span><strong>TDC Young Ones 2026</strong>Finalist</span></li>
-          <li><img loading="lazy" decoding="async" data-src="assets/awards/adc-ny.webp" alt="" width="528" height="530"><span><strong>ADC Young Ones 2026</strong>Finalist</span></li>
+          <li><img loading="lazy" decoding="async" src="assets/awards/tdc.webp" alt=""><span><strong>TDC Young Ones 2026</strong>Finalist</span></li>
+          <li><img loading="lazy" decoding="async" src="assets/awards/adc-ny.webp" alt=""><span><strong>ADC Young Ones 2026</strong>Finalist</span></li>
         </ul>
       </div>
       <p class="cc-hint">Subtitles available — press CC</p>
@@ -924,20 +914,20 @@ body.lb-open { overflow: hidden; }
         <iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/JCJF8uDo0tQ" title="500l/s — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
       </div>
       <div class="gallery">
-        <img decoding="async" class="board" data-src="assets/05_500ls/04_5d0052ef.webp" alt="500l/s — board" loading="lazy" width="5687" height="4078" data-srcset="assets/05_500ls/04_5d0052ef-800.webp 800w, assets/05_500ls/04_5d0052ef-1200.webp 1200w, assets/05_500ls/04_5d0052ef-2000.webp 2000w, assets/05_500ls/04_5d0052ef.webp 5687w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+        <img decoding="async" class="board" src="assets/05_500ls/04_5d0052ef.webp" alt="500l/s — board" loading="lazy">
         <div class="row-2">
-          <img decoding="async" data-src="assets/05_500ls/02_223d3fef.webp" alt="500l/s OOH" loading="lazy" width="2048" height="1365" data-srcset="assets/05_500ls/02_223d3fef-800.webp 800w, assets/05_500ls/02_223d3fef-1200.webp 1200w, assets/05_500ls/02_223d3fef-2000.webp 2000w, assets/05_500ls/02_223d3fef.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
-          <img decoding="async" data-src="assets/05_500ls/01_03c19a53.webp" alt="500l/s — Stuttgart mineral water" loading="lazy" width="2048" height="1365" data-srcset="assets/05_500ls/01_03c19a53-800.webp 800w, assets/05_500ls/01_03c19a53-1200.webp 1200w, assets/05_500ls/01_03c19a53-2000.webp 2000w, assets/05_500ls/01_03c19a53.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+          <img decoding="async" src="assets/05_500ls/02_223d3fef.webp" alt="500l/s OOH" loading="lazy">
+          <img decoding="async" src="assets/05_500ls/01_03c19a53.webp" alt="500l/s — Stuttgart mineral water" loading="lazy">
         </div>
-        <img decoding="async" class="board" data-src="assets/05_500ls/06_9495e648.webp" alt="500l/s identity" loading="lazy" width="2048" height="1365" data-srcset="assets/05_500ls/06_9495e648-800.webp 800w, assets/05_500ls/06_9495e648-1200.webp 1200w, assets/05_500ls/06_9495e648-2000.webp 2000w, assets/05_500ls/06_9495e648.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+        <img decoding="async" class="board" src="assets/05_500ls/06_9495e648.webp" alt="500l/s identity" loading="lazy">
         <div class="row-2">
-          <img decoding="async" data-src="assets/05_500ls/05_6953b6c6.webp" alt="500l/s detail" loading="lazy" width="2048" height="1365" data-srcset="assets/05_500ls/05_6953b6c6-800.webp 800w, assets/05_500ls/05_6953b6c6-1200.webp 1200w, assets/05_500ls/05_6953b6c6-2000.webp 2000w, assets/05_500ls/05_6953b6c6.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
-          <img decoding="async" data-src="assets/05_500ls/07_95625748.webp" alt="500l/s detail" loading="lazy" width="2048" height="1365" data-srcset="assets/05_500ls/07_95625748-800.webp 800w, assets/05_500ls/07_95625748-1200.webp 1200w, assets/05_500ls/07_95625748-2000.webp 2000w, assets/05_500ls/07_95625748.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+          <img decoding="async" src="assets/05_500ls/05_6953b6c6.webp" alt="500l/s detail" loading="lazy">
+          <img decoding="async" src="assets/05_500ls/07_95625748.webp" alt="500l/s detail" loading="lazy">
         </div>
-        <img decoding="async" class="board" data-src="assets/05_500ls/08_9dde72a4.webp" alt="500l/s typography system" loading="lazy" width="2048" height="1374" data-srcset="assets/05_500ls/08_9dde72a4-800.webp 800w, assets/05_500ls/08_9dde72a4-1200.webp 1200w, assets/05_500ls/08_9dde72a4-2000.webp 2000w, assets/05_500ls/08_9dde72a4.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+        <img decoding="async" class="board" src="assets/05_500ls/08_9dde72a4.webp" alt="500l/s typography system" loading="lazy">
         <div class="row-2">
-          <img decoding="async" data-src="assets/05_500ls/09_a4214e3f.webp" alt="500l/s detail" loading="lazy" width="2048" height="1365" data-srcset="assets/05_500ls/09_a4214e3f-800.webp 800w, assets/05_500ls/09_a4214e3f-1200.webp 1200w, assets/05_500ls/09_a4214e3f-2000.webp 2000w, assets/05_500ls/09_a4214e3f.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
-          <img decoding="async" data-src="assets/05_500ls/10_a8472395.webp" alt="500l/s detail" loading="lazy" width="2048" height="1365" data-srcset="assets/05_500ls/10_a8472395-800.webp 800w, assets/05_500ls/10_a8472395-1200.webp 1200w, assets/05_500ls/10_a8472395-2000.webp 2000w, assets/05_500ls/10_a8472395.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+          <img decoding="async" src="assets/05_500ls/09_a4214e3f.webp" alt="500l/s detail" loading="lazy">
+          <img decoding="async" src="assets/05_500ls/10_a8472395.webp" alt="500l/s detail" loading="lazy">
         </div>
       </div>
       <dl class="credits">
@@ -955,20 +945,20 @@ body.lb-open { overflow: hidden; }
       <details class="project-details">
         <summary class="head">
         <div class="head-main">
-          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/wind.svg" alt="Windkulturerbe" width="424" height="125"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/wind_color.svg" alt="" aria-hidden="true" width="424" height="125"></span>
+          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/wind.svg" alt="Windkulturerbe"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/wind_color.svg" alt="" aria-hidden="true"></span>
           <span class="title-line">
             <span class="num">— 02</span>
             <h3 class="title-small">Windkulturerbe</h3>
             <span class="tags">PR Campaign, Activation</span>
           </span>
         </div>
-        <div class="head-meta"><ul class="head-badges" aria-hidden="true"><li><img loading="lazy" decoding="async" src="assets/awards/comm.svg" alt="" width="94" height="94"></li></ul><span class="year">2025</span><span class="caret" aria-hidden="true"></span></div>
+        <div class="head-meta"><ul class="head-badges" aria-hidden="true"><li><img loading="lazy" decoding="async" src="assets/awards/comm.svg" alt=""></li></ul><span class="year">2025</span><span class="caret" aria-hidden="true"></span></div>
       </summary>
         <div class="project-body">
 <div class="info">
         <p class="copy">Mallorca is home to over 3,300 windmills—many now decaying. EnBW transforms these relics into UNESCO World Heritage candidates, restoring them on the outside while upgrading them with modern wind technology inside.</p>
         <ul class="awards">
-          <li><img loading="lazy" decoding="async" data-src="assets/awards/comm.svg" alt="" width="94" height="94"><span><strong>COMM Awards 25</strong>1× Bronze</span></li>
+          <li><img loading="lazy" decoding="async" src="assets/awards/comm.svg" alt=""><span><strong>COMM Awards 25</strong>1× Bronze</span></li>
         </ul>
       </div>
       <p class="cc-hint">Subtitles available — press CC</p>
@@ -976,12 +966,12 @@ body.lb-open { overflow: hidden; }
         <iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/VYUYr6bSIUo" title="Windkulturerbe — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
       </div>
       <div class="gallery">
-        <img decoding="async" class="board" data-src="assets/03_wind/03_55774050.webp" alt="Windkulturerbe — board" loading="lazy" width="2048" height="1152" data-srcset="assets/03_wind/03_55774050-800.webp 800w, assets/03_wind/03_55774050-1200.webp 1200w, assets/03_wind/03_55774050-2000.webp 2000w, assets/03_wind/03_55774050.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+        <img decoding="async" class="board" src="assets/03_wind/03_55774050.webp" alt="Windkulturerbe — board" loading="lazy">
         <div class="row-2">
-          <img decoding="async" style="object-position: 80% center" data-src="assets/03_wind/05_b340ac3c.webp" alt="" loading="lazy" width="2048" height="1143" data-srcset="assets/03_wind/05_b340ac3c-800.webp 800w, assets/03_wind/05_b340ac3c-1200.webp 1200w, assets/03_wind/05_b340ac3c-2000.webp 2000w, assets/03_wind/05_b340ac3c.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
-          <img decoding="async" data-src="assets/03_wind/04_8be2ddd4.webp" alt="" loading="lazy" width="2048" height="1365" data-srcset="assets/03_wind/04_8be2ddd4-800.webp 800w, assets/03_wind/04_8be2ddd4-1200.webp 1200w, assets/03_wind/04_8be2ddd4-2000.webp 2000w, assets/03_wind/04_8be2ddd4.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+          <img decoding="async" style="object-position: 80% center" src="assets/03_wind/05_b340ac3c.webp" alt="" loading="lazy">
+          <img decoding="async" src="assets/03_wind/04_8be2ddd4.webp" alt="" loading="lazy">
         </div>
-        <img decoding="async" class="board" data-src="assets/03_wind/02_2ecbcc90.webp" alt="" loading="lazy" width="2048" height="1143" data-srcset="assets/03_wind/02_2ecbcc90-800.webp 800w, assets/03_wind/02_2ecbcc90-1200.webp 1200w, assets/03_wind/02_2ecbcc90-2000.webp 2000w, assets/03_wind/02_2ecbcc90.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+        <img decoding="async" class="board" src="assets/03_wind/02_2ecbcc90.webp" alt="" loading="lazy">
       </div>
       <dl class="credits">
         <dt>Year</dt><dd>2025</dd>
@@ -998,7 +988,7 @@ body.lb-open { overflow: hidden; }
       <details class="project-details">
         <summary class="head">
         <div class="head-main">
-          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/uturn.svg" alt="U-Turn — Bitte Wenden!" width="39" height="16"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/uturn_color.svg" alt="" aria-hidden="true" width="39" height="16"></span>
+          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/uturn.svg" alt="U-Turn — Bitte Wenden!"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/uturn_color.svg" alt="" aria-hidden="true"></span>
           <span class="title-line">
             <span class="num">— 03</span>
             <h3 class="title-small">U-Turn — Bitte Wenden!</h3>
@@ -1017,12 +1007,12 @@ body.lb-open { overflow: hidden; }
       </div>
       <div class="gallery">
         <div class="row-2">
-          <img decoding="async" data-src="assets/02_u-turn/01_0faa8148.webp" alt="" loading="lazy" width="4096" height="3072" data-srcset="assets/02_u-turn/01_0faa8148-800.webp 800w, assets/02_u-turn/01_0faa8148-1200.webp 1200w, assets/02_u-turn/01_0faa8148-2000.webp 2000w, assets/02_u-turn/01_0faa8148.webp 4096w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
-          <img decoding="async" data-src="assets/02_u-turn/02_1ec3bd8b.webp" alt="" loading="lazy" width="4096" height="3072" data-srcset="assets/02_u-turn/02_1ec3bd8b-800.webp 800w, assets/02_u-turn/02_1ec3bd8b-1200.webp 1200w, assets/02_u-turn/02_1ec3bd8b-2000.webp 2000w, assets/02_u-turn/02_1ec3bd8b.webp 4096w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+          <img decoding="async" src="assets/02_u-turn/01_0faa8148.webp" alt="" loading="lazy">
+          <img decoding="async" src="assets/02_u-turn/02_1ec3bd8b.webp" alt="" loading="lazy">
         </div>
         <div class="row-2">
-          <img decoding="async" data-src="assets/02_u-turn/03_29a5ac25.webp" alt="" loading="lazy" width="4096" height="3072" data-srcset="assets/02_u-turn/03_29a5ac25-800.webp 800w, assets/02_u-turn/03_29a5ac25-1200.webp 1200w, assets/02_u-turn/03_29a5ac25-2000.webp 2000w, assets/02_u-turn/03_29a5ac25.webp 4096w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
-          <img decoding="async" data-src="assets/02_u-turn/04_54d9fcc9.webp" alt="" loading="lazy" width="4096" height="3072" data-srcset="assets/02_u-turn/04_54d9fcc9-800.webp 800w, assets/02_u-turn/04_54d9fcc9-1200.webp 1200w, assets/02_u-turn/04_54d9fcc9-2000.webp 2000w, assets/02_u-turn/04_54d9fcc9.webp 4096w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+          <img decoding="async" src="assets/02_u-turn/03_29a5ac25.webp" alt="" loading="lazy">
+          <img decoding="async" src="assets/02_u-turn/04_54d9fcc9.webp" alt="" loading="lazy">
         </div>
       </div>
       <dl class="credits">
@@ -1049,36 +1039,36 @@ body.lb-open { overflow: hidden; }
       <details class="project-details">
         <summary class="head">
         <div class="head-main">
-          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/hope.svg" alt="Hope in Action" width="425" height="113"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/hope_color.svg" alt="" aria-hidden="true" width="425" height="113"></span>
+          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/hope.svg" alt="Hope in Action"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/hope_color.svg" alt="" aria-hidden="true"></span>
           <span class="title-line">
             <span class="num">— 04</span>
             <h3 class="title-small">Hope in Action</h3>
             <span class="tags">Integrated Campaign, Competition</span>
           </span>
         </div>
-        <div class="head-meta"><ul class="head-badges" aria-hidden="true"><li><img loading="lazy" decoding="async" src="assets/awards/cannes.svg" alt="" width="85" height="85"></li></ul><span class="year">2024</span><span class="caret" aria-hidden="true"></span></div>
+        <div class="head-meta"><ul class="head-badges" aria-hidden="true"><li><img loading="lazy" decoding="async" src="assets/awards/cannes.svg" alt=""></li></ul><span class="year">2024</span><span class="caret" aria-hidden="true"></span></div>
       </summary>
         <div class="project-body">
 <div class="info">
         <p class="copy">"Hope in Action" is UNICEF's platform that makes hope tangible as real, measurable impact—right where Gen-Z and Millennials consume content. In series, films, livestreams, and games, five-second non-intrusive inserts appear, contextually tied to the scene in real time.</p>
         <ul class="awards">
-          <li><img loading="lazy" decoding="async" data-src="assets/awards/cannes.svg" alt="" width="85" height="85"><span><strong>Cannes Lions THE BRIEF #4</strong>Global Winner</span></li>
+          <li><img loading="lazy" decoding="async" src="assets/awards/cannes.svg" alt=""><span><strong>Cannes Lions THE BRIEF #4</strong>Global Winner</span></li>
         </ul>
       </div>
       <div class="gallery">
-        <img decoding="async" class="board" data-src="assets/04_hope/08_board.webp" alt="Hope in Action — board" loading="lazy" width="3282" height="1842" data-srcset="assets/04_hope/08_board-800.webp 800w, assets/04_hope/08_board-1200.webp 1200w, assets/04_hope/08_board-2000.webp 2000w, assets/04_hope/08_board.webp 3282w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+        <img decoding="async" class="board" src="assets/04_hope/08_board.webp" alt="Hope in Action — board" loading="lazy">
         <div class="row-2 wide">
-          <img decoding="async" data-src="assets/04_hope/01_109b8a4e.webp" alt="Hope in Action — UNICEF" loading="lazy" width="2066" height="1164" data-srcset="assets/04_hope/01_109b8a4e-800.webp 800w, assets/04_hope/01_109b8a4e-1200.webp 1200w, assets/04_hope/01_109b8a4e-2000.webp 2000w, assets/04_hope/01_109b8a4e.webp 2066w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
-          <img decoding="async" data-src="assets/04_hope/06_b91aac7c.webp" alt="" loading="lazy" width="4977" height="2790" data-srcset="assets/04_hope/06_b91aac7c-800.webp 800w, assets/04_hope/06_b91aac7c-1200.webp 1200w, assets/04_hope/06_b91aac7c-2000.webp 2000w, assets/04_hope/06_b91aac7c.webp 4977w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+          <img decoding="async" src="assets/04_hope/01_109b8a4e.webp" alt="Hope in Action — UNICEF" loading="lazy">
+          <img decoding="async" src="assets/04_hope/06_b91aac7c.webp" alt="" loading="lazy">
         </div>
         <div class="row-fit">
-          <img decoding="async" style="--ar: calc(1248/1850)" data-src="assets/04_hope/02_134e8cbc.webp" alt="" loading="lazy" width="1248" height="1850">
-          <img decoding="async" style="--ar: calc(2210/1244)" data-src="assets/04_hope/03_734d2da4.webp" alt="" loading="lazy" width="2210" height="1244" data-srcset="assets/04_hope/03_734d2da4-800.webp 800w, assets/04_hope/03_734d2da4-1200.webp 1200w, assets/04_hope/03_734d2da4-2000.webp 2000w, assets/04_hope/03_734d2da4.webp 2210w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+          <img decoding="async" style="--ar: calc(1248/1850)" src="assets/04_hope/02_134e8cbc.webp" alt="" loading="lazy">
+          <img decoding="async" style="--ar: calc(2210/1244)" src="assets/04_hope/03_734d2da4.webp" alt="" loading="lazy">
         </div>
-        <img decoding="async" class="board" data-src="assets/04_hope/05_9728e846.webp" alt="" loading="lazy" width="3803" height="2533" data-srcset="assets/04_hope/05_9728e846-800.webp 800w, assets/04_hope/05_9728e846-1200.webp 1200w, assets/04_hope/05_9728e846-2000.webp 2000w, assets/04_hope/05_9728e846.webp 3803w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+        <img decoding="async" class="board" src="assets/04_hope/05_9728e846.webp" alt="" loading="lazy">
         <div class="row-2">
-          <img decoding="async" data-src="assets/04_hope/04_800fb060.webp" alt="" loading="lazy" width="1360" height="1148">
-          <img decoding="async" data-src="assets/04_hope/07_c7249baf.webp" alt="" loading="lazy" width="1466" height="1232" data-srcset="assets/04_hope/07_c7249baf-800.webp 800w, assets/04_hope/07_c7249baf-1200.webp 1200w, assets/04_hope/07_c7249baf.webp 1466w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+          <img decoding="async" src="assets/04_hope/04_800fb060.webp" alt="" loading="lazy">
+          <img decoding="async" src="assets/04_hope/07_c7249baf.webp" alt="" loading="lazy">
         </div>
       </div>
       <dl class="credits">
@@ -1096,22 +1086,22 @@ body.lb-open { overflow: hidden; }
       <details class="project-details">
         <summary class="head">
         <div class="head-main">
-          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/opera.svg" alt="The Mediterainy Opera" width="419" height="179"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/opera_color.svg" alt="" aria-hidden="true" width="419" height="179"></span>
+          <span class="logo-wrap"><img loading="lazy" decoding="async" class="logo logo-mono" src="assets/09_projektlogos/opera.svg" alt="The Mediterainy Opera"><img loading="lazy" decoding="async" class="logo logo-color" src="assets/09_projektlogos/opera_color.svg" alt="" aria-hidden="true"></span>
           <span class="title-line">
             <span class="num">— 05</span>
             <h3 class="title-small">The Mediterainy Opera</h3>
             <span class="tags">Integrated Campaign</span>
           </span>
         </div>
-        <div class="head-meta"><ul class="head-badges" aria-hidden="true"><li><img loading="lazy" decoding="async" src="assets/awards/adc-germany.svg" alt="" width="85" height="85"></li><li><img loading="lazy" decoding="async" src="assets/awards/comm.svg" alt="" width="94" height="94"></li><li><img loading="lazy" decoding="async" src="assets/awards/icad.svg" alt="" width="3" height="12"></li></ul><span class="year">2024</span><span class="caret" aria-hidden="true"></span></div>
+        <div class="head-meta"><ul class="head-badges" aria-hidden="true"><li><img loading="lazy" decoding="async" src="assets/awards/adc-germany.svg" alt=""></li><li><img loading="lazy" decoding="async" src="assets/awards/comm.svg" alt=""></li><li><img loading="lazy" decoding="async" src="assets/awards/icad.svg" alt=""></li></ul><span class="year">2024</span><span class="caret" aria-hidden="true"></span></div>
       </summary>
         <div class="project-body">
 <div class="info">
         <p class="copy">The Royal Irish Academy of Music in Dublin is promoting the Italian opera La vera costanza with a creative campaign to engage both Gen-Z and veteran opera fans. This humorous cultural contrast bridges Italian grandeur with Dublin's charm, sparking curiosity.</p>
         <ul class="awards">
-          <li><img loading="lazy" decoding="async" data-src="assets/awards/adc-germany.svg" alt="" width="85" height="85"><span><strong>ADC Talent Award 25</strong>1× Silver · 4× Merit</span></li>
-          <li><img loading="lazy" decoding="async" data-src="assets/awards/comm.svg" alt="" width="94" height="94"><span><strong>COMM Awards 25</strong>1× Bronze · 2× Shortlist</span></li>
-          <li><img loading="lazy" decoding="async" data-src="assets/awards/icad.svg" alt="" width="3" height="12"><span><strong>ICAD Awards 25</strong>2× Commendation</span></li>
+          <li><img loading="lazy" decoding="async" src="assets/awards/adc-germany.svg" alt=""><span><strong>ADC Talent Award 25</strong>1× Silver · 4× Merit</span></li>
+          <li><img loading="lazy" decoding="async" src="assets/awards/comm.svg" alt=""><span><strong>COMM Awards 25</strong>1× Bronze · 2× Shortlist</span></li>
+          <li><img loading="lazy" decoding="async" src="assets/awards/icad.svg" alt=""><span><strong>ICAD Awards 25</strong>2× Commendation</span></li>
         </ul>
       </div>
       <p class="cc-hint">Subtitles available — press CC</p>
@@ -1119,13 +1109,13 @@ body.lb-open { overflow: hidden; }
         <iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/Ae-zdGS-ILQ" title="The Mediterainy Opera — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
       </div>
       <div class="gallery">
-        <img decoding="async" class="board" data-src="assets/01_opera/06_Board_mediterainy_adc.webp" alt="The Mediterainy Opera — board" loading="lazy" width="2048" height="1152" data-srcset="assets/01_opera/06_Board_mediterainy_adc-800.webp 800w, assets/01_opera/06_Board_mediterainy_adc-1200.webp 1200w, assets/01_opera/06_Board_mediterainy_adc-2000.webp 2000w, assets/01_opera/06_Board_mediterainy_adc.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
-        <img decoding="async" class="board" data-src="assets/01_opera/04_a9d34618.webp" alt="" loading="lazy" width="2048" height="1365" data-srcset="assets/01_opera/04_a9d34618-800.webp 800w, assets/01_opera/04_a9d34618-1200.webp 1200w, assets/01_opera/04_a9d34618-2000.webp 2000w, assets/01_opera/04_a9d34618.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+        <img decoding="async" class="board" src="assets/01_opera/06_Board_mediterainy_adc.webp" alt="The Mediterainy Opera — board" loading="lazy">
+        <img decoding="async" class="board" src="assets/01_opera/04_a9d34618.webp" alt="" loading="lazy">
         <div class="row-2 tall">
-          <img decoding="async" data-src="assets/01_opera/01_0c148900.webp" alt="" loading="lazy" width="1024" height="1537">
-          <img decoding="async" data-src="assets/01_opera/02_1a33c528.webp" alt="" loading="lazy" width="1031" height="2048">
+          <img decoding="async" src="assets/01_opera/01_0c148900.webp" alt="" loading="lazy">
+          <img decoding="async" src="assets/01_opera/02_1a33c528.webp" alt="" loading="lazy">
         </div>
-        <img decoding="async" class="board" data-src="assets/01_opera/05_f106d632.webp" alt="" loading="lazy" width="2048" height="1152" data-srcset="assets/01_opera/05_f106d632-800.webp 800w, assets/01_opera/05_f106d632-1200.webp 1200w, assets/01_opera/05_f106d632-2000.webp 2000w, assets/01_opera/05_f106d632.webp 2048w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+        <img decoding="async" class="board" src="assets/01_opera/05_f106d632.webp" alt="" loading="lazy">
       </div>
       <p class="cc-hint">Subtitles available — press CC</p>
       <div class="media video-wrap">
@@ -1163,7 +1153,7 @@ body.lb-open { overflow: hidden; }
         <p>He just wrapped up his bachelor's degree at Stuttgart Media University (HdM) after an Erasmus semester at IADT in Dublin.</p>
       </div>
       <div class="about-portrait">
-        <img decoding="async" src="assets/06_about/02_c217dbac.webp" alt="Marco Pröfrock" loading="lazy" width="2580" height="1726" srcset="assets/06_about/02_c217dbac-800.webp 800w, assets/06_about/02_c217dbac-1200.webp 1200w, assets/06_about/02_c217dbac-2000.webp 2000w, assets/06_about/02_c217dbac.webp 2580w" sizes="(max-width: 720px) 100vw, (max-width: 1200px) 60vw, 1200px">
+        <img decoding="async" src="assets/06_about/02_c217dbac.webp" alt="Marco Pröfrock" loading="lazy">
       </div>
     </div>
     <div class="cv">
@@ -1185,12 +1175,12 @@ body.lb-open { overflow: hidden; }
       <h3>Awards</h3>
       <table class="awards-table">
         <tbody>
-          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/YoungOnesLogo.svg" alt="" width="5660" height="5621"><img loading="lazy" decoding="async" src="assets/awards/tdc.webp" alt="" width="601" height="599"><img loading="lazy" decoding="async" src="assets/awards/adc-ny.webp" alt="" width="528" height="530"></span><span class="label">Young Ones 2026</span></th><td>TDC Finalist · ADC Finalist</td></tr>
-          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/cannes.svg" alt="" width="85" height="85"></span><span class="label">Young Lions Germany 2026</span></th><td>Top 5 Print · Top 5 Digital · Top 5 PR</td></tr>
-          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/cannes.svg" alt="" width="85" height="85"></span><span class="label">Cannes Lions THE BRIEF #4</span></th><td>Global Winner</td></tr>
-          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/adc-germany.svg" alt="" width="85" height="85"></span><span class="label">ADC Talent Award 2025</span></th><td>Silver · Merit · Merit · Merit · Merit</td></tr>
-          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/icad.svg" alt="" width="3" height="12"></span><span class="label">ICAD Awards 2025</span></th><td>Top 3 Design Students · Top 2 Advertising Students</td></tr>
-          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/comm.svg" alt="" width="94" height="94"></span><span class="label">COMM Awards 2025</span></th><td>Bronze · Bronze · Finalist · Finalist</td></tr>
+          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/YoungOnesLogo.svg" alt=""><img loading="lazy" decoding="async" src="assets/awards/tdc.webp" alt=""><img loading="lazy" decoding="async" src="assets/awards/adc-ny.webp" alt=""></span><span class="label">Young Ones 2026</span></th><td>TDC Finalist · ADC Finalist</td></tr>
+          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/cannes.svg" alt=""></span><span class="label">Young Lions Germany 2026</span></th><td>Top 5 Print · Top 5 Digital · Top 5 PR</td></tr>
+          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/cannes.svg" alt=""></span><span class="label">Cannes Lions THE BRIEF #4</span></th><td>Global Winner</td></tr>
+          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/adc-germany.svg" alt=""></span><span class="label">ADC Talent Award 2025</span></th><td>Silver · Merit · Merit · Merit · Merit</td></tr>
+          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/icad.svg" alt=""></span><span class="label">ICAD Awards 2025</span></th><td>Top 3 Design Students · Top 2 Advertising Students</td></tr>
+          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/comm.svg" alt=""></span><span class="label">COMM Awards 2025</span></th><td>Bronze · Bronze · Finalist · Finalist</td></tr>
         </tbody>
       </table>
     </div>
@@ -1533,28 +1523,6 @@ body.lb-open { overflow: hidden; }
   // Auto-open the targeted project when arriving via #anchor (work-nav clicks
   // and direct deep-links). Without this, the page would scroll to the
   // collapsed header and the body would stay hidden.
-  // Hydrate any data-src/data-srcset images inside a project body
-  // exactly once when the section is opened. Keeps initial network
-  // payload tiny — gallery photos only fetch when the user expands.
-  function hydrateProjectImgs(det) {
-    if (!det || det.dataset.hydrated === '1') return;
-    var imgs = det.querySelectorAll('img[data-src]');
-    for (var i = 0; i < imgs.length; i++) {
-      var im = imgs[i];
-      var ds = im.getAttribute('data-srcset');
-      if (ds) { im.setAttribute('srcset', ds); im.removeAttribute('data-srcset'); }
-      im.setAttribute('src', im.getAttribute('data-src'));
-      im.removeAttribute('data-src');
-    }
-    det.dataset.hydrated = '1';
-  }
-  // Wire all project details to hydrate on open
-  document.querySelectorAll('details.project-details').forEach(function (det) {
-    det.addEventListener('toggle', function () {
-      if (det.open) hydrateProjectImgs(det);
-    });
-  });
-
   function openTargetProject() {
     var hash = window.location.hash;
     if (!hash || hash.length < 2) return;
@@ -1567,7 +1535,7 @@ body.lb-open { overflow: hidden; }
     // open project 01.
     if (!el.classList || !el.classList.contains('project')) return;
     var det = el.querySelector(':scope > details.project-details');
-    if (det && !det.open) { det.open = true; hydrateProjectImgs(det); }
+    if (det && !det.open) det.open = true;
   }
   window.addEventListener('hashchange', openTargetProject);
   // Also handle initial load (in case user lands on a deep link).
