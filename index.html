@@ -1609,25 +1609,52 @@ body.lb-open { overflow: hidden; }
   // the long page stays compact while the user browses through projects.
   var allDetails = document.querySelectorAll('details.project-details');
   allDetails.forEach(function (det) {
-    det.addEventListener('toggle', function () {
-      if (!det.open) return;
-      allDetails.forEach(function (other) {
-        if (other === det || !other.open) return;
-        // If the closing project sits above our viewport position, its
-        // collapse will pull all content (including the just-opened
-        // project) upward — making the user feel they're suddenly much
-        // further down the page. Measure the height delta and scroll
-        // down by exactly that amount so the visible position stays put.
-        var otherRectBefore = other.getBoundingClientRect();
-        var sitsAbove = otherRectBefore.top < det.getBoundingClientRect().top;
-        var hBefore = otherRectBefore.height;
-        other.open = false;
-        if (sitsAbove) {
-          var hAfter = other.getBoundingClientRect().height;
-          var delta = hBefore - hAfter;
-          if (delta > 0) window.scrollBy(0, -delta);
+    var summary = det.querySelector('summary');
+    if (!summary) return;
+    // Intercept the click on the summary so we can close any other open
+    // project AND open this one in a single synchronous step, then
+    // adjust scrollY in the same frame. The user only sees one paint
+    // with the new layout already at the correct position — no jitter.
+    summary.addEventListener('click', function (e) {
+      // Letting the user CLOSE the same project happens normally — no
+      // need to compensate, nothing collapses above the click target.
+      if (det.open) return;
+      // Are any others actually open? If not, default behaviour is fine.
+      var hasOpenOther = false;
+      for (var i = 0; i < allDetails.length; i++) {
+        if (allDetails[i] !== det && allDetails[i].open) { hasOpenOther = true; break; }
+      }
+      if (!hasOpenOther) return;
+
+      e.preventDefault(); // stop the browser's default toggle
+      // Anchor: how far is the clicked summary from the viewport top
+      // right now? After the swap we'll restore that exact offset.
+      var anchorBefore = summary.getBoundingClientRect().top;
+      // Close all other open projects + open this one — synchronously
+      for (var j = 0; j < allDetails.length; j++) {
+        if (allDetails[j] !== det && allDetails[j].open) allDetails[j].open = false;
+      }
+      det.open = true;
+      // Compensate the scroll so the summary is back at its original y.
+      // This runs before the next paint, so the user never sees the jump.
+      var anchorAfter = summary.getBoundingClientRect().top;
+      var diff = anchorAfter - anchorBefore;
+      if (diff !== 0) {
+        // Instant (not smooth) so the user never sees an animated jump.
+        // Bypassing scroll-behavior: smooth keeps the swap visually
+        // atomic — the new project is already at the right y in the
+        // first paint after the click.
+        try {
+          window.scrollBy({ top: diff, left: 0, behavior: 'instant' });
+        } catch (_) {
+          // Older browsers: temporarily disable smooth-scroll, then restore.
+          var html = document.documentElement;
+          var prev = html.style.scrollBehavior;
+          html.style.scrollBehavior = 'auto';
+          window.scrollBy(0, diff);
+          html.style.scrollBehavior = prev;
         }
-      });
+      }
     });
   });
 
