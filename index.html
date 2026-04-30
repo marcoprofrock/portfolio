@@ -505,6 +505,53 @@ details > .project-body { animation: project-open .35s ease both; }
 .media { margin-top: clamp(36px, 5vw, 64px); }
 .video-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; overflow: hidden; border-radius: 4px; }
 .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* Lightweight YouTube facade: shows the YouTube poster + a custom
+   minimal play button, no iframe loaded until the user clicks. Replaces
+   the gigantic red YouTube play button with something on-brand and
+   saves the YT iframe payload until it's actually wanted. */
+.lite-yt {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  padding: 0; margin: 0;
+  border: 0; background: #000;
+  cursor: pointer; overflow: hidden;
+  font: inherit; color: inherit;
+}
+.lite-yt img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform .35s ease, opacity .25s ease;
+  opacity: 0.92;
+}
+.lite-yt:hover img { transform: scale(1.02); opacity: 1; }
+.lite-yt-play {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(56px, 7vw, 78px);
+  height: clamp(56px, 7vw, 78px);
+  border-radius: 50%;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.18);
+  display: grid; place-items: center;
+  transition: transform .2s ease, background .2s ease;
+  pointer-events: none;
+}
+.lite-yt-play::before {
+  content: '';
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 11px 0 11px 17px;
+  border-color: transparent transparent transparent #fff;
+  margin-left: 5px;
+}
+.lite-yt:hover .lite-yt-play,
+.lite-yt:focus-visible .lite-yt-play {
+  background: rgba(0,0,0,0.78);
+  transform: translate(-50%, -50%) scale(1.06);
+}
 .cc-hint {
   display: block;
   width: max-content;
@@ -919,7 +966,7 @@ body.lb-open { overflow: hidden; }
       </div>
       <p class="cc-hint">Subtitles available — press CC</p>
       <div class="media video-wrap">
-        <iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/JCJF8uDo0tQ" title="500l/s — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <button type="button" class="lite-yt" data-id="JCJF8uDo0tQ" data-title="500l/s — Case film" aria-label="Play video: 500l/s — Case film"><img src="https://i.ytimg.com/vi/JCJF8uDo0tQ/hqdefault.jpg" srcset="https://i.ytimg.com/vi/JCJF8uDo0tQ/maxresdefault.jpg 1280w, https://i.ytimg.com/vi/JCJF8uDo0tQ/hqdefault.jpg 480w" sizes="(max-width: 720px) 100vw, 800px" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="lite-yt-play" aria-hidden="true"></span></button>
       </div>
       <div class="gallery">
         <img decoding="async" class="board" src="assets/05_500ls/04_5d0052ef.webp" alt="500l/s — board" loading="lazy" width="1600" height="1147">
@@ -973,7 +1020,7 @@ body.lb-open { overflow: hidden; }
       </div>
       <p class="cc-hint">Subtitles available — press CC</p>
       <div class="media video-wrap">
-        <iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/VYUYr6bSIUo" title="Windkulturerbe — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <button type="button" class="lite-yt" data-id="VYUYr6bSIUo" data-title="Windkulturerbe — Case film" aria-label="Play video: Windkulturerbe — Case film"><img src="https://i.ytimg.com/vi/VYUYr6bSIUo/hqdefault.jpg" srcset="https://i.ytimg.com/vi/VYUYr6bSIUo/maxresdefault.jpg 1280w, https://i.ytimg.com/vi/VYUYr6bSIUo/hqdefault.jpg 480w" sizes="(max-width: 720px) 100vw, 800px" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="lite-yt-play" aria-hidden="true"></span></button>
       </div>
       <div class="gallery">
         <img decoding="async" class="board" src="assets/03_wind/03_55774050.webp" alt="Windkulturerbe — board" loading="lazy" width="1600" height="900">
@@ -1015,7 +1062,7 @@ body.lb-open { overflow: hidden; }
       </div>
       <p class="cc-hint">Subtitles available — press CC</p>
       <div class="media video-wrap">
-        <iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/wq7H9TDo9vg" title="U-Turn — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <button type="button" class="lite-yt" data-id="wq7H9TDo9vg" data-title="U-Turn — Case film" aria-label="Play video: U-Turn — Case film"><img src="https://i.ytimg.com/vi/wq7H9TDo9vg/hqdefault.jpg" srcset="https://i.ytimg.com/vi/wq7H9TDo9vg/maxresdefault.jpg 1280w, https://i.ytimg.com/vi/wq7H9TDo9vg/hqdefault.jpg 480w" sizes="(max-width: 720px) 100vw, 800px" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="lite-yt-play" aria-hidden="true"></span></button>
       </div>
       <div class="gallery">
         <div class="row-2">
@@ -1121,7 +1168,7 @@ body.lb-open { overflow: hidden; }
       </div>
       <p class="cc-hint">Subtitles available — press CC</p>
       <div class="media video-wrap">
-        <iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/Ae-zdGS-ILQ" title="The Mediterainy Opera — Case film" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <button type="button" class="lite-yt" data-id="Ae-zdGS-ILQ" data-title="The Mediterainy Opera — Case film" aria-label="Play video: The Mediterainy Opera — Case film"><img src="https://i.ytimg.com/vi/Ae-zdGS-ILQ/hqdefault.jpg" srcset="https://i.ytimg.com/vi/Ae-zdGS-ILQ/maxresdefault.jpg 1280w, https://i.ytimg.com/vi/Ae-zdGS-ILQ/hqdefault.jpg 480w" sizes="(max-width: 720px) 100vw, 800px" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="lite-yt-play" aria-hidden="true"></span></button>
       </div>
       <div class="gallery">
         <img decoding="async" class="board" src="assets/01_opera/06_Board_mediterainy_adc.webp" alt="The Mediterainy Opera — board" loading="lazy" width="1600" height="900">
@@ -1134,7 +1181,7 @@ body.lb-open { overflow: hidden; }
       </div>
       <p class="cc-hint">Subtitles available — press CC</p>
       <div class="media video-wrap">
-        <iframe referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/tnB9l-Qv7OQ" title="The Mediterainy Opera — Film 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <button type="button" class="lite-yt" data-id="tnB9l-Qv7OQ" data-title="The Mediterainy Opera — Film 2" aria-label="Play video: The Mediterainy Opera — Film 2"><img src="https://i.ytimg.com/vi/tnB9l-Qv7OQ/hqdefault.jpg" srcset="https://i.ytimg.com/vi/tnB9l-Qv7OQ/maxresdefault.jpg 1280w, https://i.ytimg.com/vi/tnB9l-Qv7OQ/hqdefault.jpg 480w" sizes="(max-width: 720px) 100vw, 800px" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="lite-yt-play" aria-hidden="true"></span></button>
       </div>
       <dl class="credits">
         <dt>Year</dt><dd>2024</dd>
@@ -1539,6 +1586,37 @@ body.lb-open { overflow: hidden; }
   // Auto-open the targeted project when arriving via #anchor (work-nav clicks
   // and direct deep-links). Without this, the page would scroll to the
   // collapsed header and the body would stay hidden.
+  // YouTube facade: load the actual iframe only when the user clicks
+  // the poster. Saves the YT player payload up-front and replaces
+  // the giant red play button with our own minimal one.
+  document.querySelectorAll('.lite-yt').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var id = btn.getAttribute('data-id');
+      var title = btn.getAttribute('data-title') || '';
+      var iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + id +
+        '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+      iframe.title = title;
+      iframe.setAttribute('allow',
+        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      btn.parentNode.replaceChild(iframe, btn);
+    });
+  });
+
+  // Accordion: when one project opens, close all other open ones so
+  // the long page stays compact while the user browses through projects.
+  var allDetails = document.querySelectorAll('details.project-details');
+  allDetails.forEach(function (det) {
+    det.addEventListener('toggle', function () {
+      if (!det.open) return;
+      allDetails.forEach(function (other) {
+        if (other !== det && other.open) other.open = false;
+      });
+    });
+  });
+
   function openTargetProject() {
     var hash = window.location.hash;
     if (!hash || hash.length < 2) return;
