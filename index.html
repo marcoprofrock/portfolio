@@ -1612,7 +1612,21 @@ body.lb-open { overflow: hidden; }
     det.addEventListener('toggle', function () {
       if (!det.open) return;
       allDetails.forEach(function (other) {
-        if (other !== det && other.open) other.open = false;
+        if (other === det || !other.open) return;
+        // If the closing project sits above our viewport position, its
+        // collapse will pull all content (including the just-opened
+        // project) upward — making the user feel they're suddenly much
+        // further down the page. Measure the height delta and scroll
+        // down by exactly that amount so the visible position stays put.
+        var otherRectBefore = other.getBoundingClientRect();
+        var sitsAbove = otherRectBefore.top < det.getBoundingClientRect().top;
+        var hBefore = otherRectBefore.height;
+        other.open = false;
+        if (sitsAbove) {
+          var hAfter = other.getBoundingClientRect().height;
+          var delta = hBefore - hAfter;
+          if (delta > 0) window.scrollBy(0, -delta);
+        }
       });
     });
   });
