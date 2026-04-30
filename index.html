@@ -1777,6 +1777,33 @@ body.lb-open { overflow: hidden; }
     track.appendChild(frag);
   })();
 
+  // Shuffle gallery images on each load (Fisher–Yates)
+  (function shuffleGalleries() {
+    function shuffle(nodes) {
+      var arr = Array.prototype.slice.call(nodes);
+      for (var i = arr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+      }
+      return arr;
+    }
+    var galleries = document.querySelectorAll('.gallery');
+    for (var g = 0; g < galleries.length; g++) {
+      var gal = galleries[g];
+      // Shuffle imgs within each row first
+      var rows = gal.querySelectorAll('.row-2, .row-3, .row-fit');
+      for (var r = 0; r < rows.length; r++) {
+        var imgs = rows[r].querySelectorAll(':scope > img');
+        var shuffledImgs = shuffle(imgs);
+        for (var k = 0; k < shuffledImgs.length; k++) rows[r].appendChild(shuffledImgs[k]);
+      }
+      // Shuffle direct children of gallery (keeps row-layouts intact)
+      var kids = gal.querySelectorAll(':scope > *');
+      var shuffled = shuffle(kids);
+      for (var m = 0; m < shuffled.length; m++) gal.appendChild(shuffled[m]);
+    }
+  })();
+
   // Lightbox
   (function lightbox() {
     var lb     = document.getElementById('lightbox');
