@@ -335,15 +335,16 @@ html.js-pending #mosaic-overlay {
 .work-nav a[aria-current="true"] .num { color: var(--fg); }
 
 .project {
-  padding: clamp(80px, 10vw, 160px) var(--pad-x) clamp(80px, 10vw, 160px);
+  /* Top padding stays compact regardless of open/closed state so the
+     project logo doesn't shift downward when the user expands a project.
+     Only the bottom padding grows when expanded to give the body content
+     breathing room before the next project starts. */
+  padding: clamp(28px, 3.5vw, 52px) var(--pad-x) clamp(80px, 10vw, 160px);
   border-top: 1px solid var(--rule-strong);
   max-width: calc(var(--content-max) + var(--pad-x) * 2);
   margin: 0 auto;
 }
-/* Tighter vertical rhythm for collapsed projects so the work section
-   stays compact when nothing is expanded. */
 .project:has(details:not([open])) {
-  padding-top: clamp(28px, 3.5vw, 52px);
   padding-bottom: clamp(28px, 3.5vw, 52px);
 }
 /* Remove the original head's bottom border + padding while collapsed —
