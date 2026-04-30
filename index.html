@@ -413,13 +413,13 @@ details[open] > summary.head .logo-mono { opacity: 0; }
 .head .num { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; color: var(--muted); white-space: nowrap; }
 .head .title-small { font-size: 13px; font-weight: 500; color: var(--fg); letter-spacing: 0.02em; white-space: nowrap; }
 .head .tags { font-size: 13px; font-weight: 400; color: rgba(244,244,242,0.45); letter-spacing: 0.01em; }
-/* On wide screens align tags into a fixed column so they all start at
-   the same x across projects — gives the header strip a grid feel.
-   The title column is sized for the longest project name. */
+.head .client { font-size: 13px; font-weight: 400; color: rgba(244,244,242,0.65); letter-spacing: 0.01em; white-space: nowrap; }
+/* On wide screens align num / title / client / tags into a fixed
+   4-column grid so all rows align vertically across projects. */
 @media (min-width: 720px) {
   .head .title-line {
     display: grid;
-    grid-template-columns: auto clamp(180px, 22vw, 260px) 1fr;
+    grid-template-columns: auto clamp(180px, 22vw, 260px) clamp(110px, 12vw, 170px) 1fr;
     align-items: baseline;
     column-gap: clamp(20px, 3vw, 40px);
   }
@@ -902,6 +902,7 @@ body.lb-open { overflow: hidden; }
           <span class="title-line">
             <span class="num">— 01</span>
             <h3 class="title-small">500l/s</h3>
+            <span class="client">Stuttgart Baths</span>
             <span class="tags">Parametric Design System, Brand Identity, Integrated Campaign</span>
           </span>
         </div>
@@ -938,6 +939,7 @@ body.lb-open { overflow: hidden; }
       </div>
       <dl class="credits">
         <dt>Year</dt><dd>2026</dd>
+        <dt>Client</dt><dd>Stuttgart Baths</dd>
         <dt>Role</dt><dd>Art Direction</dd>
         <dt>Supervision</dt><dd>Prof. Ursula Drees, Lucie Ilg</dd>
         <dt>Awards</dt><dd>TDC Young Ones 2026 — Finalist<br>ADC Young Ones 2026 — Finalist</dd>
@@ -955,6 +957,7 @@ body.lb-open { overflow: hidden; }
           <span class="title-line">
             <span class="num">— 02</span>
             <h3 class="title-small">Windkulturerbe</h3>
+            <span class="client">EnBW</span>
             <span class="tags">PR Campaign, Activation</span>
           </span>
         </div>
@@ -981,6 +984,7 @@ body.lb-open { overflow: hidden; }
       </div>
       <dl class="credits">
         <dt>Year</dt><dd>2025</dd>
+        <dt>Client</dt><dd>EnBW</dd>
         <dt>Role</dt><dd>Art Direction, Concept</dd>
         <dt>Copywriting</dt><dd>Hannah Kormann</dd>
         <dt>Award</dt><dd>COMM Awards 25 — 1× Bronze</dd>
@@ -998,6 +1002,7 @@ body.lb-open { overflow: hidden; }
           <span class="title-line">
             <span class="num">— 03</span>
             <h3 class="title-small">U-Turn — Bitte Wenden!</h3>
+            <span class="client"></span>
             <span class="tags">Corporate Design, Spatial Experience</span>
           </span>
         </div>
@@ -1049,6 +1054,7 @@ body.lb-open { overflow: hidden; }
           <span class="title-line">
             <span class="num">— 04</span>
             <h3 class="title-small">Hope in Action</h3>
+            <span class="client">UNICEF</span>
             <span class="tags">Integrated Campaign, Competition</span>
           </span>
         </div>
@@ -1079,6 +1085,7 @@ body.lb-open { overflow: hidden; }
       </div>
       <dl class="credits">
         <dt>Year</dt><dd>2024</dd>
+        <dt>Client</dt><dd>UNICEF</dd>
         <dt>Role</dt><dd>Art Direction</dd>
         <dt>Team</dt><dd>Kunal Khade<br>Mohamad Al Qarawi<br>Marion Mondoloni<br>Niamh Aremband<br>Melissa Duarte de Almeida</dd>
         <dt>Award</dt><dd>Cannes Lions THE BRIEF #4 — Global Winner</dd>
@@ -1096,6 +1103,7 @@ body.lb-open { overflow: hidden; }
           <span class="title-line">
             <span class="num">— 05</span>
             <h3 class="title-small">The Mediterainy Opera</h3>
+            <span class="client">RIAM</span>
             <span class="tags">Integrated Campaign</span>
           </span>
         </div>
@@ -1129,6 +1137,7 @@ body.lb-open { overflow: hidden; }
       </div>
       <dl class="credits">
         <dt>Year</dt><dd>2024</dd>
+        <dt>Client</dt><dd>RIAM</dd>
         <dt>Credits</dt><dd>Marco Pröfrock</dd>
         <dt>Typeface</dt><dd>Neue Serie57</dd>
         <dt>Awards</dt><dd>ADC Talent Award 25 — 1× Silver, 4× Merit<br>COMM Awards 25 — 1× Bronze, 2× Shortlist<br>ICAD Awards 25 — 2× Commendation</dd>
