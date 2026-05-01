@@ -142,8 +142,8 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 320px;
-    height: 400px;
+    width: 420px;
+    height: 500px;
     background: #ffffff;
     border: 1px solid #e0e0e0;
     border-radius: 12px;
@@ -300,9 +300,21 @@
     font-weight: 500;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     .chat-panel {
-      width: calc(100vw - 48px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      border: none;
+    }
+
+    .chat-widget .chat-bubble {
+      bottom: 24px;
       right: 24px;
     }
   }
@@ -412,7 +424,13 @@
       .then(function(ipData) {
         var locationInfo = ipData.ip + ' (' + ipData.city + ', ' + ipData.country_name + ')';
         if (ipData.postal) locationInfo += ' PLZ: ' + ipData.postal;
+        if (ipData.region) locationInfo += ' Region: ' + ipData.region;
+        if (ipData.latitude && ipData.longitude) {
+          locationInfo += ' GPS: ' + ipData.latitude + ',' + ipData.longitude;
+        }
+        if (ipData.timezone) locationInfo += ' TZ: ' + ipData.timezone;
         if (ipData.org) locationInfo += ' ISP: ' + ipData.org;
+        if (ipData.asn) locationInfo += ' ASN: ' + ipData.asn;
 
         sendFormspree(userMessage, timestamp, userAgent, language, platform,
                      cookiesEnabled, onLine, referrer, screenInfo, timezone, url, locationInfo);
@@ -426,7 +444,7 @@
 
   function sendFormspree(userMessage, timestamp, userAgent, language, platform,
                         cookiesEnabled, onLine, referrer, screenInfo, timezone, url, locationInfo) {
-    var logData = '/io Chat Log:\n\n' +
+    var logData = 'SP.IO APPLICATION PAGE Chat Log:\n\n' +
       '=== USER MESSAGE ===\n' + userMessage + '\n\n' +
       '=== TECHNICAL INFO ===\n' +
       'Zeit: ' + timestamp + '\n' +
