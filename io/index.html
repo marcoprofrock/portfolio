@@ -309,13 +309,31 @@
       bottom: 0;
       width: 100vw;
       height: 100vh;
+      height: 100dvh; /* Dynamic viewport height for mobile */
       border-radius: 0;
       border: none;
+      overflow: hidden;
     }
 
     .chat-widget .chat-bubble {
       bottom: 24px;
       right: 24px;
+    }
+
+    .chat-panel .chat-messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      /* Reserve space for input when keyboard is open */
+      padding-bottom: calc(16px + env(keyboard-inset-height, 0px));
+      margin-bottom: env(keyboard-inset-height, 0px);
+    }
+
+    .chat-panel .chat-input {
+      flex-shrink: 0;
+      /* Stay above keyboard */
+      position: relative;
+      bottom: env(keyboard-inset-height, 0px);
     }
   }
 </style>
