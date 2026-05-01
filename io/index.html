@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="robots" content="noindex, nofollow">
 <title>Marco Pröfrock → ▞⬤™</title>
 <link rel="icon" type="image/png" href="../assets/10_favicon/favicon.png">
@@ -31,6 +31,10 @@
     display: flex;
     flex-direction: column;
     padding: var(--pad-y) var(--pad-x);
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
   }
   ::selection { background: var(--fg); color: var(--bg); }
   a { color: inherit; text-decoration: none; }
@@ -263,9 +267,11 @@
     border-radius: 20px;
     padding: 8px 16px;
     color: #000000;
-    font-size: 13px;
+    font-size: 16px;
     outline: none;
     transition: border-color 0.2s ease;
+    -webkit-appearance: none;
+    appearance: none;
   }
 
   .chat-textbox:focus {
@@ -302,17 +308,18 @@
 
   @media (max-width: 768px) {
     .chat-panel {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100vw;
-      height: 100vh;
-      height: 100dvh; /* Dynamic viewport height for mobile */
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
       border-radius: 0;
       border: none;
       overflow: hidden;
+      display: flex !important;
+      flex-direction: column !important;
     }
 
     .chat-widget .chat-bubble {
@@ -320,20 +327,47 @@
       right: 24px;
     }
 
+    .chat-panel .chat-header {
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+    }
+
     .chat-panel .chat-messages {
       flex: 1;
+      min-height: 0;
       padding: 16px;
       overflow-y: auto;
-      /* Reserve space for input when keyboard is open */
-      padding-bottom: calc(16px + env(keyboard-inset-height, 0px));
-      margin-bottom: env(keyboard-inset-height, 0px);
+      -webkit-overflow-scrolling: touch;
+      position: relative;
     }
 
     .chat-panel .chat-input {
       flex-shrink: 0;
-      /* Stay above keyboard */
-      position: relative;
-      bottom: env(keyboard-inset-height, 0px);
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border-top: 1px solid #e0e0e0;
+      z-index: 10;
+    }
+
+    .chat-panel .chat-contact {
+      position: fixed;
+      bottom: 100%;
+      left: 16px;
+      right: 16px;
+      z-index: 11;
+    }
+
+    /* Prevent body scroll when keyboard opens */
+    body.chat-open {
+      position: fixed !important;
+      width: 100% !important;
+      height: 100% !important;
+      overflow: hidden !important;
+      -webkit-overflow-scrolling: touch;
     }
   }
 </style>
@@ -494,11 +528,13 @@
 
   bubble.addEventListener('click', function() {
     panel.classList.add('open');
+    document.body.classList.add('chat-open');
     input.focus();
   });
 
   close.addEventListener('click', function() {
     panel.classList.remove('open');
+    document.body.classList.remove('chat-open');
   });
 
   form.addEventListener('submit', function(e) {
@@ -530,6 +566,7 @@
   document.addEventListener('click', function(e) {
     if (!panel.contains(e.target) && !bubble.contains(e.target)) {
       panel.classList.remove('open');
+      document.body.classList.remove('chat-open');
     }
   });
 })();
