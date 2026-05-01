@@ -99,6 +99,213 @@
     display: block;
     clear: both;
   }
+
+  /* Chat Widget */
+  .chat-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .chat-bubble {
+    width: 68px;
+    height: 68px;
+    background: var(--fg);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    animation: pulsing-glow 2s ease-in-out infinite;
+  }
+
+  .chat-bubble:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  }
+
+  @keyframes pulsing-glow {
+    0%, 100% {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15), 0 0 0 0 rgba(244,244,242,0.4);
+    }
+    50% {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15), 0 0 0 8px rgba(244,244,242,0.1);
+    }
+  }
+
+  .chat-panel {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 320px;
+    height: 400px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .chat-panel.open {
+    display: flex;
+  }
+
+  .chat-header {
+    padding: 16px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .chat-title {
+    color: #000000;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .chat-close {
+    background: none;
+    border: none;
+    color: #666666;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px;
+    transition: color 0.2s ease;
+  }
+
+  .chat-close:hover {
+    color: #000000;
+  }
+
+  .chat-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chat-message {
+    max-width: 80%;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .chat-message.user {
+    background: #000000;
+    color: #ffffff;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+
+  .chat-message.bot {
+    background: #f5f5f5;
+    color: #000000;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+
+  .chat-input {
+    padding: 16px;
+    border-top: 1px solid #e0e0e0;
+    position: relative;
+  }
+
+  .chat-contact {
+    position: absolute;
+    bottom: 100%;
+    left: 16px;
+    right: 16px;
+    background: #f8f8f8;
+    border: 1px solid #d0d0d0;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    padding: 8px 12px;
+    font-size: 11px;
+    color: #666666;
+    text-align: center;
+    line-height: 1.2;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.4s ease;
+    pointer-events: none;
+  }
+
+  .chat-contact.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .chat-contact a:hover {
+    text-decoration: underline !important;
+  }
+
+  .chat-form {
+    display: flex;
+    gap: 8px;
+  }
+
+  .chat-textbox {
+    flex: 1;
+    background: #f8f8f8;
+    border: 1px solid #d0d0d0;
+    border-radius: 20px;
+    padding: 8px 16px;
+    color: #000000;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .chat-textbox:focus {
+    border-color: #999999;
+  }
+
+  .chat-textbox::placeholder {
+    color: #999999;
+  }
+
+  .chat-send {
+    background: #000000;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .chat-send:hover {
+    transform: scale(1.05);
+  }
+
+  .chat-send::before {
+    content: "→";
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  @media (max-width: 480px) {
+    .chat-panel {
+      width: calc(100vw - 48px);
+      right: 24px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -127,5 +334,169 @@
     <a href="mailto:hello@marco.ad">hello@marco.ad</a>
     <a href="tel:+4915908323432">+49 1590 8323432</a>
 </footer>
+
+<!-- Chat Widget -->
+<div class="chat-widget">
+  <div class="chat-bubble" id="chatBubble"></div>
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-header">
+      <div class="chat-title">Ask Marco anything</div>
+      <button class="chat-close" id="chatClose">×</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-message bot">Hi there! I'm Marco's digital assistant. What would you like to know about Marco?</div>
+    </div>
+    <div class="chat-input">
+      <div class="chat-contact" id="chatContact">
+        <a href="https://marco.ad" style="color: inherit; text-decoration: none;">www.marco.ad</a><br>
+        <a href="mailto:hello@marco.ad" style="color: inherit; text-decoration: none;">hello@marco.ad</a> · <a href="tel:+4915908323432" style="color: inherit; text-decoration: none;">+49 1590 8323432</a>
+      </div>
+      <form class="chat-form" id="chatForm">
+        <input type="text" class="chat-textbox" id="chatInput" placeholder="Ask anything..." required>
+        <button type="submit" class="chat-send"></button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+// Chat Widget for /io page
+(function initChatWidget() {
+  var bubble = document.getElementById('chatBubble');
+  var panel = document.getElementById('chatPanel');
+  var close = document.getElementById('chatClose');
+  var form = document.getElementById('chatForm');
+  var input = document.getElementById('chatInput');
+  var messages = document.getElementById('chatMessages');
+  var contact = document.getElementById('chatContact');
+  var hasAskedQuestion = false;
+
+  var responses = [
+    "Check out his portfolio — it's pretty impressive!",
+    "You should totally invite him for an interview!",
+    "That sounds like perfect conversation material for a coffee meeting!",
+    "Marco would love to discuss that with you in person!",
+    "Why not browse his work and then give him a call?",
+    "That's exactly the kind of question to ask during an interview!",
+    "You should definitely schedule a meeting with Marco!",
+    "Have a look at his projects first, then let's chat!"
+  ];
+
+  function getRandomResponse() {
+    return responses[Math.floor(Math.random() * responses.length)];
+  }
+
+  function addMessage(text, isUser) {
+    var msg = document.createElement('div');
+    msg.className = 'chat-message ' + (isUser ? 'user' : 'bot');
+    msg.textContent = text;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function sendToEmail(userMessage) {
+    var timestamp = new Date().toISOString();
+    var userAgent = navigator.userAgent;
+    var language = navigator.language;
+    var platform = navigator.platform;
+    var cookiesEnabled = navigator.cookieEnabled;
+    var onLine = navigator.onLine;
+    var referrer = document.referrer;
+    var screenInfo = screen.width + 'x' + screen.height + ' (' + screen.colorDepth + 'bit)';
+    var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    var url = window.location.href;
+
+    // Try to get IP and location via external API
+    fetch('https://ipapi.co/json/')
+      .then(function(response) { return response.json(); })
+      .then(function(ipData) {
+        var locationInfo = ipData.ip + ' (' + ipData.city + ', ' + ipData.country_name + ')';
+        if (ipData.postal) locationInfo += ' PLZ: ' + ipData.postal;
+        if (ipData.org) locationInfo += ' ISP: ' + ipData.org;
+
+        sendFormspree(userMessage, timestamp, userAgent, language, platform,
+                     cookiesEnabled, onLine, referrer, screenInfo, timezone, url, locationInfo);
+      })
+      .catch(function() {
+        // Fallback without IP data
+        sendFormspree(userMessage, timestamp, userAgent, language, platform,
+                     cookiesEnabled, onLine, referrer, screenInfo, timezone, url, 'IP-Lookup failed');
+      });
+  }
+
+  function sendFormspree(userMessage, timestamp, userAgent, language, platform,
+                        cookiesEnabled, onLine, referrer, screenInfo, timezone, url, locationInfo) {
+    var logData = '/io Chat Log:\n\n' +
+      '=== USER MESSAGE ===\n' + userMessage + '\n\n' +
+      '=== TECHNICAL INFO ===\n' +
+      'Zeit: ' + timestamp + '\n' +
+      'URL: ' + url + '\n' +
+      'Referrer: ' + (referrer || 'Direkt') + '\n' +
+      'User Agent: ' + userAgent + '\n' +
+      'Sprache: ' + language + '\n' +
+      'Platform: ' + platform + '\n' +
+      'Screen: ' + screenInfo + '\n' +
+      'Timezone: ' + timezone + '\n' +
+      'Cookies: ' + (cookiesEnabled ? 'Aktiviert' : 'Deaktiviert') + '\n' +
+      'Online: ' + (onLine ? 'Ja' : 'Nein') + '\n\n' +
+      '=== LOCATION INFO ===\n' +
+      locationInfo;
+
+    fetch('https://formspree.io/f/mojrqzbp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: 'hello@marco.ad',
+        message: logData
+      })
+    }).catch(function() {
+      // Ignore errors silently
+    });
+  }
+
+  bubble.addEventListener('click', function() {
+    panel.classList.add('open');
+    input.focus();
+  });
+
+  close.addEventListener('click', function() {
+    panel.classList.remove('open');
+  });
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var userMessage = input.value.trim();
+    if (!userMessage) return;
+
+    addMessage(userMessage, true);
+    input.value = '';
+
+    // Send to email (hidden from user)
+    sendToEmail(userMessage);
+
+    // Bot response after delay
+    setTimeout(function() {
+      addMessage(getRandomResponse(), false);
+
+      // Show contact info after first question (delayed after bot response)
+      if (!hasAskedQuestion) {
+        hasAskedQuestion = true;
+        setTimeout(function() {
+          contact.classList.add('show');
+        }, 900);
+      }
+    }, 500);
+  });
+
+  // Close on outside click
+  document.addEventListener('click', function(e) {
+    if (!panel.contains(e.target) && !bubble.contains(e.target)) {
+      panel.classList.remove('open');
+    }
+  });
+})();
+</script>
 </body>
 </html>
