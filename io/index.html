@@ -49,7 +49,8 @@
   main {
     flex: 1;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
     max-width: 640px;
     position: relative;
   }
@@ -91,7 +92,13 @@
   }
   footer a { transition: color .2s ease; }
   footer a:hover { color: var(--fg); }
-  footer .portfolio { color: var(--fg); font-size: 15px; }
+  .portfolio {
+    color: var(--fg) !important;
+    font-size: 15px;
+    margin-top: 32px;
+    display: block;
+    clear: both;
+  }
 </style>
 </head>
 <body>
@@ -113,13 +120,13 @@
       <div class="lemon"></div>
       <div class="puddle"></div>
     </div>
+    <a class="portfolio" href="https://marco.ad">marco.ad → <img src="Rotating_globe.gif" alt="" style="display: inline-block; width: 16px; height: 16px; margin-left: 4px; vertical-align: middle; opacity: 0.7;"></a>
   </main>
 
   <footer>
-    <a class="portfolio" href="https://marco.ad">marco.ad → <img src="Rotating_globe.gif" alt="" style="display: inline-block; width: 16px; height: 16px; margin-left: 4px; vertical-align: middle; opacity: 0.7;"></a>
     <a href="mailto:hello@marco.ad">hello@marco.ad</a>
     <a href="tel:+4915908323432">+49 1590 8323432</a>
-    <p style="margin-top: 24px; font-size: 12px; line-height: 1.4;">⠎⠻⠧⠊⠉⠑⠏⠇⠁⠝⠲⠊⠕</p>
+    <p style="margin-top: 24px; font-size: 12px; line-height: 1.4;">⠠⠎⠉⠓⠕⠇⠵ ⠯ ⠠⠋⠗⠊⠑⠝⠙⠎</p>
 </footer>
 </body>
 </html>
