@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Marco Pröfrock → SP.IO</title>
+<title>Marco Pröfrock → ▞⬤™</title>
 <link rel="icon" type="image/png" href="../assets/10_favicon/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,6 +35,10 @@
   ::selection { background: var(--fg); color: var(--bg); }
   a { color: inherit; text-decoration: none; }
 
+  .logo {
+    display: flex;
+    align-items: center;
+  }
   .logo img {
     display: block;
     height: clamp(22px, 2.4vw, 28px);
@@ -47,6 +51,27 @@
     display: flex;
     align-items: center;
     max-width: 640px;
+    position: relative;
+  }
+
+  .lemon-animation {
+    display: none;
+  }
+
+  @keyframes squeeze {
+    0%, 30% { transform: scale(1, 1); }
+    50%, 70% { transform: scale(1.2, 0.6); }
+    100% { transform: scale(1, 1); }
+  }
+
+  @keyframes grow-puddle {
+    0%, 30% { transform: scale(0.2); opacity: 0.3; }
+    50%, 70% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(0.2); opacity: 0.3; }
+  }
+
+  @media (max-width: 768px) {
+    .lemon-animation { display: none; }
   }
 
   p.note {
@@ -71,18 +96,30 @@
 </head>
 <body>
   <div class="logo">
+    <span style="margin-right: 8px; font-size: clamp(18px, 2vw, 22px); opacity: 0.7;">→</span>
     <img src="logo-spio.svg" alt="SP.IO">
   </div>
 
   <main>
     <p class="note">
-      I want to work where the idea is the product — not the wrapper around it. Most agencies talk about design, technology and impact as if they were the same conversation; SP.IO is one of the few places where that's actually true. Dot Pad, Breastmilk Money, Space Trash Signs, Rainbow Wool, 855-HOW-TO-QUIT-OPIOIDS — none of those are campaigns. They're the thing itself. That's the kind of thinking I want to be around, and contribute to.
+      <span style="font-size: 14px; color: var(--muted); display: block; margin-bottom: 32px;">
+        From: Marco Pröfrock<br>
+        To: ⠎⠻⠧⠊⠉⠑⠏⠇⠁⠝⠲⠊⠕
+      </span>
+      I want to work where the idea is the product — not the wrapper around it. Most agencies talk about design, technology and impact as if they were the same conversation; ▞⬤™ is one of the few places where that's actually true.<br><br>That's the kind of thinking I want to be around, and contribute to.
     </p>
+    <div class="lemon-animation">
+      <div class="lemon-text">how i felt before io</div>
+      <div class="lemon"></div>
+      <div class="puddle"></div>
+    </div>
   </main>
 
   <footer>
-    <a class="portfolio" href="https://marco.ad">marco.ad →</a>
+    <a class="portfolio" href="https://marco.ad">marco.ad → <img src="Rotating_globe.gif" alt="" style="display: inline-block; width: 16px; height: 16px; margin-left: 4px; vertical-align: middle; opacity: 0.7;"></a>
     <a href="mailto:hello@marco.ad">hello@marco.ad</a>
-  </footer>
+    <a href="tel:+4915908323432">+49 1590 8323432</a>
+    <p style="margin-top: 24px; font-size: 12px; line-height: 1.4;">⠎⠻⠧⠊⠉⠑⠏⠇⠁⠝⠲⠊⠕</p>
+</footer>
 </body>
 </html>
