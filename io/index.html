@@ -31,10 +31,6 @@
     display: flex;
     flex-direction: column;
     padding: var(--pad-y) var(--pad-x);
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
-    height: 100vh;
   }
   ::selection { background: var(--fg); color: var(--bg); }
   a { color: inherit; text-decoration: none; }
@@ -337,6 +333,7 @@
       flex: 1;
       min-height: 0;
       padding: 16px;
+      padding-bottom: 80px;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       position: relative;
@@ -344,7 +341,7 @@
 
     .chat-panel .chat-input {
       flex-shrink: 0;
-      position: fixed;
+      position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
@@ -354,20 +351,16 @@
     }
 
     .chat-panel .chat-contact {
-      position: fixed;
+      position: absolute;
       bottom: 100%;
       left: 16px;
       right: 16px;
       z-index: 11;
     }
 
-    /* Prevent body scroll when keyboard opens */
+    /* Prevent body scroll when chat is open */
     body.chat-open {
-      position: fixed !important;
-      width: 100% !important;
-      height: 100% !important;
       overflow: hidden !important;
-      -webkit-overflow-scrolling: touch;
     }
   }
 </style>
