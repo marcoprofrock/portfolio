@@ -304,18 +304,21 @@
 
   @media (max-width: 768px) {
     .chat-panel {
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
       border-radius: 0;
       border: none;
       overflow: hidden;
-      display: flex !important;
-      flex-direction: column !important;
+      flex-direction: column;
+    }
+
+    .chat-panel.open {
+      display: flex;
     }
 
     .chat-widget .chat-bubble {
