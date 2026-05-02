@@ -704,8 +704,45 @@ details > .project-body { animation: project-open .35s ease both; }
 .awards-table th { width: 50%; font-weight: 500; }
 .awards-table th .logo-stack { display: inline-flex; align-items: center; gap: 6px; vertical-align: middle; margin-right: 12px; flex: 0 0 auto; }
 .awards-table th .label { vertical-align: middle; }
+#talks-publications .awards-table th { width: auto; white-space: nowrap; }
+#talks-publications .awards-table .badge-cell { width: 1px; white-space: nowrap; padding-left: 0; padding-right: 200px; text-align: left; }
+#talks-publications .awards-table tr td:last-child { width: auto; }
 .awards-table th img { width: 22px; height: 22px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.85; flex: 0 0 auto; }
 .awards-table td { color: var(--muted); text-align: right; font-size: 13px; }
+.talk-grid { display: inline-grid; grid-template-columns: 7em 1fr 1fr; gap: 0 1.5em; width: 100%; text-align: left; }
+.badge-pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(244,244,242,0.08);
+  border: 0.5px solid rgba(244,244,242,0.2);
+  border-radius: 999px;
+  padding: 2px 8px 2px 6px;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  vertical-align: middle;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+.badge-pending .dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--fg);
+}
+.badge-pending .dot:first-child { animation: dot-a 1.4s ease-in-out infinite; }
+.badge-pending .dot:last-child  { animation: dot-b 1.4s ease-in-out infinite; }
+@keyframes dot-a {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+@keyframes dot-b {
+  0%, 100% { opacity: 0; }
+  50%       { opacity: 1; }
+}
 
 /* Footer */
 .foot { padding: clamp(48px, 7vw, 96px) var(--pad-x) clamp(28px, 4vw, 48px); border-top: 1px solid var(--rule-strong); }
@@ -1495,10 +1532,12 @@ body.lb-open { overflow: hidden; }
       </table>
     </div>
     <div class="cv" id="talks-publications">
-      <h3>Talks &amp; Publications</h3>
+      <h3>Featured Talks &amp; Publications</h3>
       <table class="awards-table">
         <tbody>
-          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/adc-germany.svg" alt="" width="85" height="85"></span><span class="label">ADC Creative Club Stuttgart</span></th><td>19.05.2026 · Stuttgart, Club Schräglage · Windkulturerbe</td></tr>
+          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/tdc.webp" alt="" width="601" height="599"></span><span class="label">TDC Annual — World's Best Typography 2026</span></th><td class="badge-cell"><span class="badge-pending"><span class="dot"></span><span class="dot"></span>Upcoming</span></td><td><span class="talk-grid"><span>Q4 - 2026</span><span>ISBN</span><span>500l/s</span></span></td></tr>
+          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/adc-germany.svg" alt="" width="85" height="85"></span><span class="label">ADC Creative Club Stuttgart</span></th><td class="badge-cell"><span class="badge-pending"><span class="dot"></span><span class="dot"></span>Upcoming</span></td><td><span class="talk-grid"><span>19.05.2026</span><span>Stuttgart, Club Schräglage</span><span>Windkulturerbe</span></span></td></tr>
+          <tr><th><span class="logo-stack"><img loading="lazy" decoding="async" src="assets/awards/adc-germany.svg" alt="" width="85" height="85"></span><span class="label">ADC Creative Club Stuttgart</span></th><td class="badge-cell"><span class="badge-pending"><span class="dot"></span><span class="dot"></span>Upcoming</span></td><td><span class="talk-grid"><span>22.05.2026</span><span>Stuttgart, Club Schräglage</span><span>500l/s</span></span></td></tr>
         </tbody>
       </table>
     </div>
