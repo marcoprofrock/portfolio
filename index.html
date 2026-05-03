@@ -2131,7 +2131,11 @@ body.lb-open { overflow: hidden; }
     }
 
     if (!files.length) return; // nothing to show
-    files.sort();
+    // Fisher–Yates shuffle so order is random on each load
+    for (var i = files.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = files[i]; files[i] = files[j]; files[j] = tmp;
+    }
     var frag = document.createDocumentFragment();
     files.forEach(function (name) {
       var fig = document.createElement('figure');
