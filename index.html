@@ -1068,6 +1068,13 @@ body.lb-open { overflow: hidden; }
     aspect-ratio: 1 / 1;
     flex: 1 1 auto;
   }
+  /* Mobile: intro-text is stacked above the figs, so we don't tie its
+     visibility to scroll position — keep it always fully readable.
+     !important overrides the inline opacity that the mosaic JS sets. */
+  .intro-text { opacity: 1 !important; }
+  /* Also collapse the intro overshoot height so the text doesn't sit
+     above a long empty scroll zone before the next section. */
+  .intro { min-height: 0; }
   .gallery .row-3 { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 }
 @media (max-width: 720px) {
