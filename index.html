@@ -7,11 +7,29 @@
 <link rel="icon" type="image/png" href="assets/10_favicon/favicon.png">
 <script>document.documentElement.classList.add('js-pending');</script>
 <meta name="description" content="Marco Pröfrock — Creative at Scholz & Friends, Stuttgart.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"></noscript>
 <style>
+/* --- Local fonts (DSGVO) --- */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('assets/fonts/inter-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('assets/fonts/inter-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('assets/fonts/inter-latin.woff2') format('woff2');
+}
 /* --- Reset / base --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -1579,6 +1597,7 @@ body.lb-open { overflow: hidden; }
       <h4>Imprint</h4>
       <p>Marco Pröfrock</p>
       <p>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Marco Pröfrock.</p>
+      <p><a href="privacy.html">Privacy Policy ↗</a></p>
     </div>
     <div class="foot-copy">© Marco Pröfrock</div>
   </div>
@@ -2192,70 +2211,18 @@ body.lb-open { overflow: hidden; }
 
     function sendToEmail(userMessage) {
       var timestamp = new Date().toISOString();
-      var userAgent = navigator.userAgent;
-      var language = navigator.language;
-      var platform = navigator.platform;
-      var cookiesEnabled = navigator.cookieEnabled;
-      var onLine = navigator.onLine;
-      var referrer = document.referrer;
-      var screenInfo = screen.width + 'x' + screen.height + ' (' + screen.colorDepth + 'bit)';
-      var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      var url = window.location.href;
-
-      // Try to get IP and location via external API
-      fetch('https://ipapi.co/json/')
-        .then(function(response) { return response.json(); })
-        .then(function(ipData) {
-          var locationInfo = ipData.ip + ' (' + ipData.city + ', ' + ipData.country_name + ')';
-          if (ipData.postal) locationInfo += ' PLZ: ' + ipData.postal;
-          if (ipData.region) locationInfo += ' Region: ' + ipData.region;
-          if (ipData.latitude && ipData.longitude) {
-            locationInfo += ' GPS: ' + ipData.latitude + ',' + ipData.longitude;
-          }
-          if (ipData.timezone) locationInfo += ' TZ: ' + ipData.timezone;
-          if (ipData.org) locationInfo += ' ISP: ' + ipData.org;
-          if (ipData.asn) locationInfo += ' ASN: ' + ipData.asn;
-
-          sendFormspree(userMessage, timestamp, userAgent, language, platform,
-                       cookiesEnabled, onLine, referrer, screenInfo, timezone, url, locationInfo);
-        })
-        .catch(function() {
-          // Fallback without IP data
-          sendFormspree(userMessage, timestamp, userAgent, language, platform,
-                       cookiesEnabled, onLine, referrer, screenInfo, timezone, url, 'IP-Lookup failed');
-        });
-    }
-
-    function sendFormspree(userMessage, timestamp, userAgent, language, platform,
-                          cookiesEnabled, onLine, referrer, screenInfo, timezone, url, locationInfo) {
-      var logData = 'MAIN PORTFOLIO Chat Log:\n\n' +
-        '=== USER MESSAGE ===\n' + userMessage + '\n\n' +
-        '=== TECHNICAL INFO ===\n' +
-        'Zeit: ' + timestamp + '\n' +
-        'URL: ' + url + '\n' +
-        'Referrer: ' + (referrer || 'Direkt') + '\n' +
-        'User Agent: ' + userAgent + '\n' +
-        'Sprache: ' + language + '\n' +
-        'Platform: ' + platform + '\n' +
-        'Screen: ' + screenInfo + '\n' +
-        'Timezone: ' + timezone + '\n' +
-        'Cookies: ' + (cookiesEnabled ? 'Aktiviert' : 'Deaktiviert') + '\n' +
-        'Online: ' + (onLine ? 'Ja' : 'Nein') + '\n\n' +
-        '=== LOCATION INFO ===\n' +
-        locationInfo;
+      var logData = 'Portfolio Chat Message:\n\n' +
+        'Time: ' + timestamp + '\n' +
+        'Message: ' + userMessage;
 
       fetch('https://formspree.io/f/mojrqzbp', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: 'hello@marco.ad',
           message: logData
         })
-      }).catch(function() {
-        // Ignore errors silently
-      });
+      }).catch(function() {});
     }
 
     bubble.addEventListener('click', function() {
