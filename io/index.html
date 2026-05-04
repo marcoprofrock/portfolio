@@ -180,7 +180,7 @@ footer a:hover { color: var(--fg); }
 }
 .mac-closebox:hover { background: #000; }
 .mac-title {
-  font-family: 'Monaco', 'Menlo', monospace;
+  font-family: 'Monaco', 'Menlo', monospace, system-ui;
   font-size: 10px;
   font-weight: bold;
   color: #000;
@@ -200,7 +200,7 @@ footer a:hover { color: var(--fg); }
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+  font-family: 'Monaco', 'Menlo', 'Consolas', monospace, system-ui;
   font-size: 11px;
   line-height: 1.45;
   color: #000;
@@ -249,7 +249,7 @@ footer a:hover { color: var(--fg); }
   margin: 6px 0;
 }
 .mac-q-btn {
-  font-family: 'Monaco', 'Menlo', monospace;
+  font-family: 'Monaco', 'Menlo', monospace, system-ui;
   font-size: 10px;
   text-align: left;
   padding: 5px 8px;
@@ -276,7 +276,7 @@ footer a:hover { color: var(--fg); }
 }
 .mac-input {
   flex: 1;
-  font-family: 'Monaco', 'Menlo', monospace;
+  font-family: 'Monaco', 'Menlo', monospace, system-ui;
   font-size: 11px;
   border: 1px solid #888;
   padding: 4px 6px;
@@ -289,7 +289,7 @@ footer a:hover { color: var(--fg); }
 .mac-input:focus { border-color: #000; }
 .mac-input::placeholder { color: #999; }
 .mac-sendbtn {
-  font-family: 'Monaco', monospace;
+  font-family: 'Monaco', monospace, system-ui;
   font-size: 10px;
   font-weight: bold;
   padding: 4px 8px;
@@ -346,7 +346,7 @@ footer a:hover { color: var(--fg); }
   background: #f8f8f0;
   border: 1px dashed #999;
   padding: 5px 8px;
-  font-family: 'Monaco', monospace;
+  font-family: 'Monaco', monospace, system-ui;
   font-size: 9px;
   color: #555;
   text-align: center;
@@ -438,51 +438,51 @@ footer a:hover { color: var(--fg); }
   var qaPool = [
     {
       q: "What has he actually won?",
-      a: "Something at Cannes. Against like... a lot of people. He tries to be humble about it but he's bad at that. Just check his portfolio."
+      a: "Something at Cannes. Against like... a lot of people. He tries to be humble about it but he\u2019s bad at that. Just check his portfolio."
     },
     {
       q: "Why does he want to leave his current job?",
-      a: "Who said he wants to leave? Maybe he just wants YOU. Ever thought about that? Feels nice, doesn't it?"
+      a: "Who said he wants to leave? Maybe he just wants YOU. Ever thought about that? Feels nice, doesn\u2019t it?"
     },
     {
-      q: "What's his actual skill set?",
-      a: "Honestly, I don't even know anymore. Every week it's something new. Last month it was parametric typography. Before that, building chatbots inside fake Macintosh computers. The man doesn't stop."
+      q: "What\u2019s his actual skill set?",
+      a: "Honestly, I don\u2019t even know anymore. Every week it\u2019s something new. Last month it was parametric typography. Before that, building chatbots inside fake Macintosh computers. The man doesn\u2019t stop."
     },
     {
-      q: "Product design background, is that relevant?",
+      q: "Product design background \u2014 is that relevant?",
       a: "He designed chairs before he designed campaigns. Now he builds ideas that sit better than both. Make of that what you will."
     },
     {
       q: "How fast can he learn new tools?",
-      a: "Fast enough that I, a chatbot he built, exist. And I didn't exist two days ago. So."
+      a: "Fast enough that I \u2014 a chatbot he built \u2014 exist. And I didn\u2019t exist two days ago. So."
     },
     {
       q: "Is he a team player or a lone wolf?",
       a: "Yes."
     },
     {
-      q: "What would he actually do at ▞⬤™?",
-      a: "Nobody knows. Not even him. But that's kind of the point, give him a problem and he'll figure it out before you've finished explaining it. It's annoying, actually."
+      q: "What would he actually do at \u259E\u2B24\u2122?",
+      a: "Nobody knows. Not even him. But that\u2019s kind of the point \u2014 give him a problem and he\u2019ll figure it out before you\u2019ve finished explaining it. It\u2019s annoying, actually."
     },
     {
       q: "Can I see his work?",
-      a: "You're looking at it. But if you want the polished version: www.marco.ad. Go on. I'll wait here."
+      a: "You\u2019re looking at it. But if you want the polished version: www.marco.ad. Go on. I\u2019ll wait here."
     },
     {
-      q: "What's the catch?",
-      a: "He will google things at 3 AM. He will occasionally pitch ideas nobody asked for. He doesn't have hobbies. He has 'side projects that got out of hand.'"
+      q: "What\u2019s the catch?",
+      a: "He will google things at 3 AM. He will occasionally pitch ideas nobody asked for. He doesn\u2019t have hobbies. He has \u2018side projects that got out of hand.\u2019"
     },
     {
       q: "Is this chatbot actually useful?",
-      a: "No. But it's memorable. And isn't that literally the job?"
+      a: "No. But it\u2019s memorable. And isn\u2019t that literally the job?"
     },
     {
       q: "Why should I hire him?",
-      a: "I mean... you're on a custom-built application page talking to a 1984 Macintosh. The PDF people could never."
+      a: "I mean... you\u2019re on a custom-built application page talking to a 1984 Macintosh. The PDF people could never."
     },
     {
       q: "Does he actually know how to code?",
-      a: "Define 'know.' Can he build this? Yes. Can he explain what a binary tree is? Probably not. Does it matter? You tell me."
+      a: "Define \u2018know.\u2019 Can he build this? Yes. Can he explain what a binary tree is? Probably not. Does it matter? You tell me."
     }
   ];
 
@@ -527,7 +527,7 @@ footer a:hover { color: var(--fg); }
   function showQuestions() {
     var indices = getRandomQuestions(3);
     if (indices.length === 0) {
-      addMsg("You've asked everything. At this point, just call him: <a href='tel:+4915908323432' style='color:#000;text-decoration:underline'>+49 1590 8323432</a>", false);
+      addMsg("You\u2019ve asked everything. At this point, just call him: <a href='tel:+4915908323432' style='color:#000;text-decoration:underline'>+49 1590 8323432</a>", false);
       return;
     }
     var wrapper = document.createElement('div');
@@ -598,11 +598,11 @@ footer a:hover { color: var(--fg); }
     setTimeout(function() {
       removeTyping();
       var freeResponses = [
-        "Look, I'm a fake computer from 1984. I don't have answers. But Marco does. Ask him.",
-        "That's above my pay grade. And I don't get paid. Call Marco.",
+        "Look, I\u2019m a fake computer from 1984. I don\u2019t have answers. But Marco does. Ask him.",
+        "That\u2019s above my pay grade. And I don\u2019t get paid. Call Marco.",
         "Great question. Wrong computer. Try the guy who built me.",
-        "My RAM is 128KB. I can barely hold this conversation. Marco's free though.",
-        "I'm going to be honest with you: I have no idea. But I know a guy.",
+        "My RAM is 128KB. I can barely hold this conversation. Marco\u2019s free though.",
+        "I\u2019m going to be honest with you: I have no idea. But I know a guy.",
         "*pretends to think* ...yeah no. Just call him."
       ];
       addMsg(freeResponses[Math.floor(Math.random() * freeResponses.length)], false);
