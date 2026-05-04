@@ -1,10 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="robots" content="noindex, nofollow">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9G9TJLTWJ8"></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-9G9TJLTWJ8"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
@@ -14,9 +12,9 @@ gtag('config', 'G-9G9TJLTWJ8');
 <title>Marco Pröfrock → ▞⬤™</title>
 <link rel="icon" type="image/png" href="../assets/10_favicon/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Inter:wght@400;500&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Inter:wght@400;500&display=swap"></noscript>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&amp;family=Inter:wght@400;500&amp;display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&amp;family=Inter:wght@400;500&amp;display=swap"></noscript>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -54,13 +52,12 @@ gtag('config', 'G-9G9TJLTWJ8');
     opacity: 0.95;
   }
 
-  /* Two-column layout: text left, chat right */
   .page-layout {
     flex: 1;
     display: grid;
-    grid-template-columns: 1fr 420px;
+    grid-template-columns: 1fr 1fr;
     gap: clamp(32px, 4vw, 64px);
-    align-items: start;
+    align-items: center;
   }
 
   .content-col {
@@ -98,162 +95,278 @@ gtag('config', 'G-9G9TJLTWJ8');
   }
   .portfolio:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-  /* Chat — always visible, in-flow */
+  /* ═══════════════ CLASSIC MAC COLUMN ═══════════════ */
   .chat-col {
     position: sticky;
     top: var(--pad-y);
-    height: min(600px, calc(100vh - var(--pad-y) * 2));
-    background: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    font-family: 'Inter', system-ui, sans-serif;
-  }
-
-  .chat-header {
-    padding: 16px;
-    border-bottom: 1px solid #e0e0e0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .chat-title {
-    color: #000000;
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .chat-messages {
-    flex: 1;
-    padding: 16px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    min-height: 0;
-  }
-
-  .chat-message {
-    max-width: 80%;
-    padding: 8px 12px;
-    border-radius: 12px;
-    font-size: 13px;
-    line-height: 1.4;
-  }
-
-  .chat-message.user {
-    background: #000000;
-    color: #ffffff;
-    align-self: flex-end;
-    border-bottom-right-radius: 4px;
-  }
-
-  .chat-message.bot {
-    background: #f5f5f5;
-    color: #000000;
-    align-self: flex-start;
-    border-bottom-left-radius: 4px;
-  }
-
-  .chat-input {
-    padding: 16px;
-    border-top: 1px solid #e0e0e0;
-    position: relative;
-  }
-
-  .chat-contact {
-    position: absolute;
-    bottom: 100%;
-    left: 16px;
-    right: 16px;
-    background: #f8f8f8;
-    border: 1px solid #d0d0d0;
-    border-bottom: none;
-    border-radius: 8px 8px 0 0;
-    padding: 8px 12px;
-    font-size: 11px;
-    color: #666666;
-    text-align: center;
-    line-height: 1.2;
-    opacity: 0;
-    transform: translateY(100%);
-    transition: all 0.4s ease;
-    pointer-events: none;
-  }
-
-  .chat-contact.show {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .chat-contact a:hover {
-    text-decoration: underline !important;
-  }
-
-  .chat-form {
-    display: flex;
-    gap: 8px;
-  }
-
-  .chat-textbox {
-    flex: 1;
-    background: #f8f8f8;
-    border: 1px solid #d0d0d0;
-    border-radius: 20px;
-    padding: 8px 16px;
-    color: #000000;
-    font-size: 16px;
-    outline: none;
-    transition: border-color 0.2s ease;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-
-  .chat-textbox:focus {
-    border-color: #999999;
-  }
-
-  .chat-textbox::placeholder {
-    color: #999999;
-  }
-
-  .chat-send {
-    background: #000000;
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    background: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .mac {
+    width: 100%;
+    max-width: clamp(300px, 90%, 420px);
+  }
+  .mac-body {
+    background: linear-gradient(165deg, #f0efe6 0%, #e8e4d8 50%, #d9d4c4 100%);
+    border-radius: 16px 16px 4px 4px;
+    padding: 24px 20px 14px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 2px 0 #c9c4b2 inset, 0 -1px 0 #a8a390;
+    border: 1px solid #a8a390;
+    position: relative;
+  }
+
+  /* Vents */
+  .mac-body::before {
+    content: '';
+    position: absolute;
+    top: 44px; left: -1px;
+    width: 5px; height: 70px;
+    background: repeating-linear-gradient(to bottom, transparent 0px, transparent 4px, #b5b0a0 4px, #b5b0a0 5.5px);
+    border-radius: 0 2px 2px 0;
+    opacity: 0.5;
+  }
+
+  /* Screen */
+  .mac-screen {
+    background: #f8f6f0;
+    border: 2px solid #6b6b60;
+    border-radius: 3px;
+    height: clamp(260px, 38vw, 400px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 0 0 4px #c2bfb0, inset 0 0 12px rgba(0,0,0,0.03);
+    position: relative;
+  }
+
+  /* Scanlines */
+  .mac-screen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(to bottom, transparent 0px, transparent 2px, rgba(0,0,0,0.012) 2px, rgba(0,0,0,0.012) 4px);
+    pointer-events: none;
+  }
+
+  /* Title bar */
+  .mac-titlebar {
+    height: 20px;
+    background: #fff;
+    border-bottom: 1px solid #000;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .mac-titlebar::after {
+    content: '';
+    position: absolute;
+    left: 24px; right: 24px;
+    top: 3px; bottom: 3px;
+    background: repeating-linear-gradient(to bottom, transparent 0px, transparent 1px, #000 1px, #000 2px, transparent 2px, transparent 3px);
+    opacity: 0.12;
+    pointer-events: none;
+  }
+  .mac-closebox {
+    width: 10px; height: 10px;
+    border: 1px solid #000;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+  .mac-closebox:hover { background: #000; }
+  .mac-title {
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 10px;
+    font-weight: bold;
+    color: #000;
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    padding: 0 6px;
+    margin: 0 8px;
+  }
+
+  /* Messages area */
+  .mac-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-size: 11px;
+    line-height: 1.45;
+    color: #000;
+    min-height: 0;
+  }
+  .mac-messages::-webkit-scrollbar { width: 10px; }
+  .mac-messages::-webkit-scrollbar-track { background: #eee; border-left: 1px solid #000; }
+  .mac-messages::-webkit-scrollbar-thumb { background: #aaa; border: 1px solid #666; }
+
+  .mac-msg {
+    max-width: 90%;
+    word-wrap: break-word;
+    padding: 3px 0;
+  }
+  .mac-msg.bot { align-self: flex-start; }
+  .mac-msg.bot::before { content: '▶ '; opacity: 0.4; }
+  .mac-msg.user { align-self: flex-end; color: #555; text-align: right; }
+  .mac-msg.user::before { content: '› '; opacity: 0.4; }
+  .mac-msg.contact {
+    border-top: 1px dashed #999;
+    padding-top: 6px;
+    margin-top: 4px;
+    font-size: 10px;
+    color: #444;
+  }
+  .mac-msg.contact a { color: #000; text-decoration: underline; }
+
+  /* Typing indicator */
+  .mac-typing { display: flex; gap: 3px; padding: 4px 0; }
+  .mac-typing span {
+    width: 4px; height: 4px;
+    background: #666;
+    border-radius: 50%;
+    animation: blink 1.2s infinite both;
+  }
+  .mac-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .mac-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink {
+    0%, 80%, 100% { opacity: 0.2; }
+    40% { opacity: 1; }
+  }
+
+  /* Input bar */
+  .mac-inputbar {
+    display: flex;
+    align-items: center;
+    padding: 5px 6px;
+    border-top: 1px solid #000;
+    background: #fff;
+    flex-shrink: 0;
+    gap: 5px;
+  }
+  .mac-input {
+    flex: 1;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 11px;
+    border: 1px solid #888;
+    padding: 4px 6px;
+    background: #fff;
+    color: #000;
+    outline: none;
+    border-radius: 0;
+    -webkit-appearance: none;
+  }
+  .mac-input:focus { border-color: #000; }
+  .mac-input::placeholder { color: #999; }
+  .mac-sendbtn {
+    font-family: 'Monaco', monospace;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border: 1px solid #000;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    box-shadow: 1px 1px 0 #000;
     flex-shrink: 0;
   }
-
-  .chat-send:hover {
-    transform: scale(1.05);
+  .mac-sendbtn:active {
+    box-shadow: none;
+    transform: translate(1px, 1px);
   }
 
-  .chat-send::before {
-    content: "→";
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 500;
+  /* Below screen */
+  .mac-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+    user-select: none;
+  }
+  .mac-apple {
+    font-size: 14px;
+    opacity: 0.6;
+  }
+  .mac-label {
+    font-family: 'Monaco', monospace;
+    font-size: 12px;
+    font-weight: bold;
+    color: #7a756a;
+    letter-spacing: 0.02em;
+  }
+  .mac-floppy {
+    display: block;
+    width: 38px; height: 4px;
+    background: #b5b0a0;
+    border-radius: 2px;
+    margin: 10px auto 4px;
+    box-shadow: inset 0 1px 0 rgba(0,0,0,0.12);
   }
 
-  /* Mobile: stack vertically */
+  /* Base/stand */
+  .mac-base {
+    width: 55%;
+    height: 10px;
+    background: linear-gradient(to bottom, #c9c4b2 0%, #b5b0a0 100%);
+    border-radius: 0 0 6px 6px;
+    margin: 0 auto;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
+
+  /* Contact reveal */
+  .mac-contact {
+    position: absolute;
+    bottom: 28px;
+    left: 8px; right: 18px;
+    background: #f8f8f0;
+    border: 1px dashed #999;
+    border-radius: 0;
+    padding: 5px 8px;
+    font-family: 'Monaco', monospace;
+    font-size: 9px;
+    color: #555;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .mac-contact.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .mac-contact a { color: #000; text-decoration: underline; }
+  .mac-contact a:hover { color: #333; }
+
+  /* Responsive */
   @media (max-width: 860px) {
     .page-layout {
       grid-template-columns: 1fr;
     }
     .chat-col {
       position: static;
-      height: 480px;
+    }
+    .mac {
+      max-width: 340px;
+      margin: 0 auto;
+    }
+    .mac-screen {
+      height: 280px;
     }
   }
 </style>
@@ -285,39 +398,50 @@ gtag('config', 'G-9G9TJLTWJ8');
       </footer>
     </div>
 
-    <div class="chat-col" id="chatPanel">
-      <div class="chat-header">
-        <div class="chat-title">Ask Marco anything</div>
-      </div>
-      <div class="chat-messages" id="chatMessages">
-        <div class="chat-message bot">Hi there! I'm Marco's digital assistant. What would you like to know about Marco?</div>
-      </div>
-      <div class="chat-input">
-        <div class="chat-contact" id="chatContact">
-          <a href="https://marco.ad" style="color: inherit; text-decoration: none;">www.marco.ad</a><br>
-          <a href="mailto:hello@marco.ad" style="color: inherit; text-decoration: none;">hello@marco.ad</a> · <a href="tel:+4915908323432" style="color: inherit; text-decoration: none;">+49 1590 8323432</a>
+    <!-- CLASSIC MAC CHAT -->
+    <div class="chat-col">
+      <div class="mac">
+        <div class="mac-body">
+          <div class="mac-screen">
+            <div class="mac-titlebar">
+              <div class="mac-closebox" id="macClose"></div>
+              <span class="mac-title">Ask Marco Anything</span>
+            </div>
+            <div class="mac-messages" id="chatMessages">
+              <div class="mac-msg bot">Hi there! I'm Marco's digital assistant. What would you like to know about Marco?</div>
+            </div>
+            <div class="mac-contact" id="chatContact">
+              <a href="https://marco.ad">marco.ad</a> · <a href="mailto:hello@marco.ad">hello@marco.ad</a> · <a href="tel:+4915908323432">+49 1590 8323432</a>
+            </div>
+            <form class="mac-inputbar" id="chatForm" autocomplete="off">
+              <input type="text" class="mac-input" id="chatInput" placeholder="Type here..." required="" autocomplete="off">
+              <button type="submit" class="mac-sendbtn">Send</button>
+            </form>
+          </div>
+          <div class="mac-bottom">
+            <span class="mac-apple"></span>
+            <span class="mac-label">Macintosh</span>
+          </div>
+          <div class="mac-floppy"></div>
         </div>
-        <form class="chat-form" id="chatForm">
-          <input type="text" class="chat-textbox" id="chatInput" placeholder="Ask anything..." required>
-          <button type="submit" class="chat-send"></button>
-        </form>
+        <div class="mac-base"></div>
       </div>
     </div>
   </div>
 
 <script>
-// Chat Widget for /io page — always visible, no bubble toggle
-(function initChatWidget() {
+(function() {
   var form = document.getElementById('chatForm');
   var input = document.getElementById('chatInput');
   var messages = document.getElementById('chatMessages');
   var contact = document.getElementById('chatContact');
+  var closeBox = document.getElementById('macClose');
   var hasAskedQuestion = false;
 
   var responses = [
-    "Check out his portfolio — it's pretty impressive!",
+    "Check out his portfolio \u2014 it's pretty impressive!",
     "I tried to answer your question but Marco's portfolio distracted me. Again.",
-    "I'm an AI and even I think he should work at ▞⬤™. That's saying something.",
+    "I'm an AI and even I think he should work at \u25DE\u2B24\u2122. That's saying something.",
     "You should totally invite him for an interview!",
     "That sounds like perfect conversation material for a coffee meeting!",
     "Marco would love to discuss that with you in person!",
@@ -328,30 +452,53 @@ gtag('config', 'G-9G9TJLTWJ8');
     "If I had hands, I'd slide his CV across the table to you right now.",
     "That's exactly the kind of question to ask during an interview!",
     "You should definitely schedule a meeting with Marco!",
-    "Have a look at his projects first, then let's chat!"
+    "Have a look at his projects first, then let's chat!",
+    "I'm just an AI. Marco is the real intelligence here. Hire him.",
+    "Fun fact: I cost more per month than Marco's salary expectations. Just saying.",
+    "Error 418: I'm a teapot. Marco is a creative. One of us can solve your problem.",
+    "Look, I'm programmed to say 'hire Marco' to everything. But honestly? Hire Marco.",
+    "Plot twist: this chatbot IS Marco's application. You're already impressed, aren't you?",
+    "My neural network just calculated a 97.3% culture fit. The other 2.7% is that he brings his own oat milk.",
+    "Marco once won a global Cannes competition against hundreds of teams. This application page? Just a Tuesday for him.",
+    "You've now spent more time on this page than the average recruiter spends on a CV. Marco's strategy is working."
   ];
 
   function getRandomResponse() {
     return responses[Math.floor(Math.random() * responses.length)];
   }
 
-  function addMessage(text, isUser) {
+  function addMessage(text, isUser, extraClass) {
     var msg = document.createElement('div');
-    msg.className = 'chat-message ' + (isUser ? 'user' : 'bot');
+    msg.className = 'mac-msg ' + (isUser ? 'user' : 'bot') + (extraClass ? ' ' + extraClass : '');
     msg.textContent = text;
     messages.appendChild(msg);
     messages.scrollTop = messages.scrollHeight;
   }
 
+  function showTyping() {
+    var el = document.createElement('div');
+    el.className = 'mac-typing';
+    el.id = 'typing';
+    for (var i = 0; i < 3; i++) {
+      el.appendChild(document.createElement('span'));
+    }
+    messages.appendChild(el);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function removeTyping() {
+    var t = document.getElementById('typing');
+    if (t) t.parentNode.removeChild(t);
+  }
+
   function sendToEmail(userMessage) {
     var timestamp = new Date().toISOString();
-
     fetch('https://formspree.io/f/mojrqzbp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: 'hello@marco.ad',
-        message: 'SP.IO APPLICATION PAGE Chat Log:\n\nMessage: ' + userMessage + '\nTime: ' + timestamp
+        message: 'SP.IO APPLICATION PAGE Chat Log:\n\nMessage: ' + userMessage + '\nTime: ' + timestamp + '\nUA: ' + navigator.userAgent
       })
     }).catch(function() {});
   }
@@ -363,10 +510,11 @@ gtag('config', 'G-9G9TJLTWJ8');
 
     addMessage(userMessage, true);
     input.value = '';
-
     sendToEmail(userMessage);
 
+    showTyping();
     setTimeout(function() {
+      removeTyping();
       addMessage(getRandomResponse(), false);
 
       if (!hasAskedQuestion) {
@@ -375,7 +523,15 @@ gtag('config', 'G-9G9TJLTWJ8');
           contact.classList.add('show');
         }, 900);
       }
-    }, 500);
+    }, 600 + Math.random() * 700);
+  });
+
+  // Close box resets chat
+  closeBox.addEventListener('click', function() {
+    messages.innerHTML = '';
+    hasAskedQuestion = false;
+    contact.classList.remove('show');
+    addMessage("Hi there! I'm Marco's digital assistant. What would you like to know about Marco?", false);
   });
 })();
 </script>
@@ -386,10 +542,6 @@ function ga(name, params) {
   if (typeof window.gtag === 'function') window.gtag('event', name, params || {});
 }
 
-/* ── 1. Chat Widget ── */
-var bubble = document.getElementById('chatBubble');
-if (bubble) bubble.addEventListener('click', function() { ga('chat_open'); });
-
 var form = document.getElementById('chatForm');
 if (form) {
   form.addEventListener('submit', function() {
@@ -398,7 +550,6 @@ if (form) {
   });
 }
 
-/* ── 2. Portfolio Link Click (KEY EVENT) ── */
 var portfolio = document.querySelector('.portfolio');
 if (portfolio) {
   portfolio.addEventListener('click', function() {
@@ -406,7 +557,6 @@ if (portfolio) {
   });
 }
 
-/* ── 3. Contact Links ── */
 var footLinks = document.querySelectorAll('footer a');
 for (var f = 0; f < footLinks.length; f++) {
   footLinks[f].addEventListener('click', (function(link) {
@@ -419,12 +569,10 @@ for (var f = 0; f < footLinks.length; f++) {
   })(footLinks[f]));
 }
 
-/* ── 4. Time on Page (30s, 1min, 2min, 5min) ── */
 [30, 60, 120, 300].forEach(function(s) {
   setTimeout(function() { ga('time_on_page', { seconds: s }); }, s * 1000);
 });
 
-/* ── 5. Scroll Depth ── */
 var scrollFired = {};
 window.addEventListener('scroll', function() {
   var depth = Math.round(((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight) * 100);
@@ -437,5 +585,5 @@ window.addEventListener('scroll', function() {
 });
 })();
 </script>
-</body>
-</html>
+
+</body></html>
