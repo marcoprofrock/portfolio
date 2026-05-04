@@ -2295,5 +2295,120 @@ body.lb-open { overflow: hidden; }
   })();
 })();
 </script>
+<!-- GA4 Custom Event Tracking — Portfolio -->
+<script>
+(function() {
+function ga(name, params) {
+  if (typeof window.gtag === 'function') window.gtag('event', name, params || {});
+}
+
+/* ── 1. Project Opens ── */
+var details = document.querySelectorAll('.project-details');
+for (var i = 0; i < details.length; i++) {
+  details[i].addEventListener('toggle', (function(el) {
+    return function() {
+      if (el.open) {
+        var project = el.closest('.project');
+        ga('project_open', { project: project ? project.id : 'unknown' });
+      }
+    };
+  })(details[i]));
+}
+
+/* ── 2. Video Plays ── */
+var vids = document.querySelectorAll('.lite-yt');
+for (var v = 0; v < vids.length; v++) {
+  vids[v].addEventListener('click', (function(btn) {
+    return function() {
+      ga('video_play', {
+        video_title: btn.getAttribute('data-title') || 'unknown',
+        video_id: btn.getAttribute('data-id') || 'unknown'
+      });
+    };
+  })(vids[v]));
+}
+
+/* ── 3. Chat Widget ── */
+var bubble = document.getElementById('chatBubble');
+if (bubble) bubble.addEventListener('click', function() { ga('chat_open'); });
+
+var form = document.getElementById('chatForm');
+if (form) {
+  form.addEventListener('submit', function() {
+    var inp = document.getElementById('chatInput');
+    ga('chat_message_sent', { message_length: inp ? inp.value.length : 0 });
+  });
+}
+
+/* ── 4. Lightbox Image Views ── */
+document.addEventListener('click', function(e) {
+  if (e.target.tagName === 'IMG' &&
+     (e.target.closest('.gallery') || e.target.closest('.photo-track') || e.target.closest('.cover'))) {
+    ga('lightbox_view', { image: e.target.src.split('/').pop() });
+  }
+});
+
+/* ── 5. Scroll Depth (25 / 50 / 75 / 100%) ── */
+var scrollFired = {};
+window.addEventListener('scroll', function() {
+  var depth = Math.round(((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight) * 100);
+  [25, 50, 75, 100].forEach(function(m) {
+    if (!scrollFired[m] && depth >= m) {
+      scrollFired[m] = true;
+      ga('scroll_depth', { percent: m });
+    }
+  });
+});
+
+/* ── 6. Time on Page (30s, 1min, 2min, 5min) ── */
+[30, 60, 120, 300].forEach(function(s) {
+  setTimeout(function() { ga('time_on_page', { seconds: s }); }, s * 1000);
+});
+
+/* ── 7. Contact / Footer Links ── */
+var footLinks = document.querySelectorAll('.foot-contact a');
+for (var f = 0; f < footLinks.length; f++) {
+  footLinks[f].addEventListener('click', (function(link) {
+    return function() {
+      var href = link.href;
+      var type = 'other';
+      if (/mailto:/i.test(href)) type = 'email';
+      if (/tel:/i.test(href)) type = 'phone';
+      if (/instagram/i.test(href)) type = 'instagram';
+      if (/linkedin/i.test(href)) type = 'linkedin';
+      ga('contact_click', { link_type: type });
+    };
+  })(footLinks[f]));
+}
+
+/* ── 8. Award Strip Clicks ── */
+var awards = document.querySelectorAll('.award-strip a');
+for (var a = 0; a < awards.length; a++) {
+  awards[a].addEventListener('click', function() { ga('award_click'); });
+}
+
+/* ── 9. Photo Strip Engagement ── */
+var track = document.querySelector('.photo-track');
+if (track) {
+  var photoFired = false;
+  track.addEventListener('scroll', function() {
+    if (!photoFired && this.scrollLeft > this.scrollWidth * 0.25) {
+      photoFired = true;
+      ga('photo_strip_engaged');
+    }
+  });
+}
+
+/* ── 10. Work Nav Clicks ── */
+var navLinks = document.querySelectorAll('.work-nav a');
+for (var n = 0; n < navLinks.length; n++) {
+  navLinks[n].addEventListener('click', (function(link) {
+    return function() {
+      ga('nav_click', { target: link.textContent.trim() });
+    };
+  })(navLinks[n]));
+}
+})();
+</script>
 </body>
 </html>
