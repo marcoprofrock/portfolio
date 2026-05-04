@@ -379,5 +379,63 @@ gtag('config', 'G-9G9TJLTWJ8');
   });
 })();
 </script>
+<!-- GA4 Custom Event Tracking — /io Application -->
+<script>
+(function() {
+function ga(name, params) {
+  if (typeof window.gtag === 'function') window.gtag('event', name, params || {});
+}
+
+/* ── 1. Chat Widget ── */
+var bubble = document.getElementById('chatBubble');
+if (bubble) bubble.addEventListener('click', function() { ga('chat_open'); });
+
+var form = document.getElementById('chatForm');
+if (form) {
+  form.addEventListener('submit', function() {
+    var inp = document.getElementById('chatInput');
+    ga('chat_message_sent', { message_length: inp ? inp.value.length : 0 });
+  });
+}
+
+/* ── 2. Portfolio Link Click (KEY EVENT) ── */
+var portfolio = document.querySelector('.portfolio');
+if (portfolio) {
+  portfolio.addEventListener('click', function() {
+    ga('io_portfolio_click');
+  });
+}
+
+/* ── 3. Contact Links ── */
+var footLinks = document.querySelectorAll('footer a');
+for (var f = 0; f < footLinks.length; f++) {
+  footLinks[f].addEventListener('click', (function(link) {
+    return function() {
+      var type = 'other';
+      if (/mailto:/i.test(link.href)) type = 'email';
+      if (/tel:/i.test(link.href)) type = 'phone';
+      ga('contact_click', { link_type: type });
+    };
+  })(footLinks[f]));
+}
+
+/* ── 4. Time on Page (30s, 1min, 2min, 5min) ── */
+[30, 60, 120, 300].forEach(function(s) {
+  setTimeout(function() { ga('time_on_page', { seconds: s }); }, s * 1000);
+});
+
+/* ── 5. Scroll Depth ── */
+var scrollFired = {};
+window.addEventListener('scroll', function() {
+  var depth = Math.round(((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight) * 100);
+  [25, 50, 75, 100].forEach(function(m) {
+    if (!scrollFired[m] && depth >= m) {
+      scrollFired[m] = true;
+      ga('scroll_depth', { percent: m });
+    }
+  });
+});
+})();
+</script>
 </body>
 </html>
