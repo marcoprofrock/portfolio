@@ -93,136 +93,6 @@ white-space: nowrap;
 }
 }
 </style>
-
-<div id="cookie-overlay"></div>
-<div id="cookie-banner">
-This site uses cookies for analytics.
-<button id="cookie-ok">OK</button>
-<a id="cookie-no">Decline</a>
-</div>
-
-<script>
-(function() {
-var KEY = 'marco_consent';
-var overlay = document.getElementById('cookie-overlay');
-var banner = document.getElementById('cookie-banner');
-var consent = localStorage.getItem(KEY);
-
-function loadGA() {
-  if (window._gaLoaded) return;
-  window._gaLoaded = true;
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-9G9TJLTWJ8';
-  document.head.appendChild(s);
-  s.onload = function() {
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    window.gtag = gtag;
-    gtag('js', new Date());
-    gtag('config', 'G-9G9TJLTWJ8');
-  };
-}
-
-function hide() {
-  banner.classList.remove('active');
-  overlay.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-function wiggle() {
-  banner.classList.remove('wiggle');
-  void banner.offsetWidth; // reflow to restart animation
-  banner.classList.add('wiggle');
-}
-
-// Already chose → load or skip, no banner
-if (consent === 'yes') { loadGA(); return; }
-if (consent === 'no') return;
-
-// Show banner + overlay
-setTimeout(function() {
-  banner.classList.add('active');
-  overlay.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}, 300);
-
-// Wiggle on scroll attempt
-window.addEventListener('wheel', function(e) {
-  if (overlay.classList.contains('active')) {
-    e.preventDefault();
-    wiggle();
-  }
-}, { passive: false });
-
-// Wiggle on touch move (mobile scroll)
-window.addEventListener('touchmove', function(e) {
-  if (overlay.classList.contains('active')) {
-    e.preventDefault();
-    wiggle();
-  }
-}, { passive: false });
-
-// Wiggle on overlay click
-overlay.addEventListener('click', function() {
-  wiggle();
-});
-
-// Accept
-document.getElementById('cookie-ok').onclick = function() {
-  localStorage.setItem(KEY, 'yes');
-  hide();
-  loadGA();
-};
-
-// Decline
-document.getElementById('cookie-no').onclick = function() {
-  localStorage.setItem(KEY, 'no');
-  hide();
-};
-})();
-</script>
-(function() {
-var KEY = 'marco_consent';
-
-function loadGA() {
-  if (window._gaLoaded) return;
-  window._gaLoaded = true;
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-9G9TJLTWJ8';
-  document.head.appendChild(s);
-  s.onload = function() {
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    window.gtag = gtag;
-    gtag('js', new Date());
-    gtag('config', 'G-9G9TJLTWJ8');
-  };
-}
-
-var consent = localStorage.getItem(KEY);
-
-// Already accepted → load GA, no banner
-if (consent === 'yes') { loadGA(); return; }
-// Already declined → do nothing
-if (consent === 'no') return;
-
-// No choice yet → show banner
-var banner = document.getElementById('cookie-banner');
-setTimeout(function() { banner.style.display = 'flex'; }, 500);
-
-document.getElementById('cookie-ok').onclick = function() {
-  localStorage.setItem(KEY, 'yes');
-  banner.style.display = 'none';
-  loadGA();
-};
-document.getElementById('cookie-no').onclick = function() {
-  localStorage.setItem(KEY, 'no');
-  banner.style.display = 'none';
-};
-})();
-</script>
 <title>Marco Pröfrock — Portfolio</title>
 <link rel="icon" type="image/png" href="assets/10_favicon/favicon.png">
 <script>document.documentElement.classList.add('js-pending');</script>
@@ -1330,6 +1200,84 @@ body.lb-open { overflow: hidden; }
 </style>
 </head>
 <body>
+
+<body>
+
+<!-- Cookie Consent Banner -->
+<div id="cookie-overlay"></div>
+<div id="cookie-banner">
+This site uses cookies for analytics.
+<button id="cookie-ok">OK</button>
+<a id="cookie-no">Decline</a>
+</div>
+<script>
+(function() {
+var KEY = 'marco_consent';
+var overlay = document.getElementById('cookie-overlay');
+var banner = document.getElementById('cookie-banner');
+var consent = localStorage.getItem(KEY);
+
+function loadGA() {
+  if (window._gaLoaded) return;
+  window._gaLoaded = true;
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-9G9TJLTWJ8';
+  document.head.appendChild(s);
+  s.onload = function() {
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-9G9TJLTWJ8');
+  };
+}
+
+function hide() {
+  banner.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
+}
+
+function wiggle() {
+  banner.classList.remove('wiggle');
+  void banner.offsetWidth;
+  banner.classList.add('wiggle');
+}
+
+if (consent === 'yes') { loadGA(); return; }
+if (consent === 'no') return;
+
+setTimeout(function() {
+  banner.classList.add('active');
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
+}, 300);
+
+window.addEventListener('wheel', function(e) {
+  if (overlay.classList.contains('active')) { e.preventDefault(); wiggle(); }
+}, { passive: false });
+
+window.addEventListener('touchmove', function(e) {
+  if (overlay.classList.contains('active')) { e.preventDefault(); wiggle(); }
+}, { passive: false });
+
+overlay.addEventListener('click', function() { wiggle(); });
+
+document.getElementById('cookie-ok').onclick = function() {
+  localStorage.setItem(KEY, 'yes');
+  hide();
+  loadGA();
+};
+
+document.getElementById('cookie-no').onclick = function() {
+  localStorage.setItem(KEY, 'no');
+  hide();
+};
+})();
+</script>
 
 <!-- ============================================================
      MOSAIC OVERLAY — 10 fixed images, positioned by JS.
