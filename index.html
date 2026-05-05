@@ -277,6 +277,17 @@ body.lb-open { overflow: hidden; }
 #chatTrigger.settled { position: fixed; left: auto; right: 24px; bottom: 24px; top: auto; transform: none; cursor: pointer; pointer-events: auto; z-index: 1000; animation: jump-bounce 4s ease-in-out infinite; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4)); }
 #chatTrigger.settled svg { width: 98px; height: 119px; }
 #chatTrigger.settled:hover { opacity: 0.85; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.5)); }
+#chatTrigger.walking { animation: none !important; cursor: default; pointer-events: none; }
+#chatTrigger.face-right svg { transform: scaleX(-1); }
+#chatTrigger.on-left { right: auto; left: 24px; }
+.mac-bubble { position: absolute; top: 50%; background: #fff; color: #000; font-family: 'Monaco','Menlo',monospace; font-size: 10px; font-weight: bold; padding: 6px 12px; border-radius: 10px; white-space: nowrap; pointer-events: none; box-shadow: 0 3px 12px rgba(0,0,0,0.4); opacity: 0; z-index: 2; transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+.mac-bubble.visible { opacity: 1; }
+.mac-bubble.bubble-left { right: calc(100% + 14px); left: auto; transform: translateY(-50%) translateX(6px); }
+.mac-bubble.bubble-left.visible { transform: translateY(-50%) translateX(0); }
+.mac-bubble.bubble-left::after { content: ''; position: absolute; top: 50%; right: -5px; transform: translateY(-50%); border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 5px solid #fff; }
+.mac-bubble.bubble-right { left: calc(100% + 14px); right: auto; transform: translateY(-50%) translateX(-6px); }
+.mac-bubble.bubble-right.visible { transform: translateY(-50%) translateX(0); }
+.mac-bubble.bubble-right::after { content: ''; position: absolute; top: 50%; left: -5px; transform: translateY(-50%); border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-right: 5px solid #fff; }
 #mac-speech { position: fixed; z-index: 91; font-family: 'Monaco','Menlo','Consolas',monospace; font-size: clamp(13px, 1.8vw, 18px); color: var(--fg); text-align: center; opacity: 0; pointer-events: none; line-height: 1.5; letter-spacing: 0.01em; white-space: nowrap; max-width: 86vw; }
 .station { position: fixed; left: 8vw; top: 50%; transform: translateY(-50%); opacity: 0; pointer-events: none; display: flex; flex-direction: column; gap: 12px; max-width: min(420px, 45vw); z-index: 50; }
 .station img { width: 100%; height: auto; max-height: 56vh; object-fit: cover; border-radius: 4px; display: block; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
@@ -508,6 +519,119 @@ body.lb-open { overflow: hidden; }
     }
   }
   shuffleGalleries();
+})();
+/* ═══ MINI MAC WALK SYSTEM ═══ */
+(function(){
+  var trigger=document.getElementById('chatTrigger');
+  if(!trigger)return;
+  var BODY='#d4c8a0',SCREEN='#ff9e2c',D='#5a2800',SLOT='#b8a878';
+  var LEG_N='#d4c8a0',LEG_F='#bab097',EDGE='#c48a2c';
+  function r(x,y,w,h,f){return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+(f||D)+'"/>';}
+  function poly(pts,f){return '<polygon points="'+pts+'" fill="'+(f||D)+'"/>';}
+  function svgW(vw,vh,content){return '<svg width="'+Math.round(vw*7)+'" height="'+Math.round(vh*7)+'" viewBox="0 0 '+vw+' '+vh+'" fill="none" shape-rendering="crispEdges" style="image-rendering:pixelated">'+content+'</svg>';}
+  var FACES={
+    happy:[r(4,3,1,1),r(9,3,1,1),r(5,5,1,1),r(8,5,1,1),r(6,6,2,1)],
+    wink:[r(4,3,1,1),r(8,3,2,1),r(5,5,1,1),r(8,5,1,1),r(6,6,2,1)],
+    surprised:[r(4,2,1,2),r(9,2,1,2),r(6,5,2,2)],
+    bored:[r(3,4,2,1),r(8,4,2,1),r(5,6,4,1)],
+    cheeky:[r(4,3,1,1),r(8,3,2,1),r(6,6,2,1),r(7,7,1,1,'#d45050')],
+    sideEye:[r(5,3,1,1),r(10,3,1,1),r(7,6,1,1)],
+    excited:[r(4,2,1,1),r(9,2,1,1),r(4,5,1,1),r(9,5,1,1),r(5,6,4,1)],
+    dead:[r(3,3,1,1),r(5,3,1,1),r(4,4,1,1),r(8,3,1,1),r(10,3,1,1),r(9,4,1,1),r(6,6,2,1)]
+  };
+  var FACE_NAMES=Object.keys(FACES);
+  var SIDE_BODY=poly("4,0 12,0 12,13 2,13",BODY);
+  var SIDE_EDGE=poly("4,0 5,0 3,13 2,13",EDGE);
+  function frontBase(fk){return [r(1,0,12,13,BODY),r(2,1,10,7,SCREEN)].concat(FACES[fk]||FACES.happy).concat([r(5,10,4,1,SLOT)]);}
+  function sitFrame(face){return svgW(14,17,frontBase(face).concat([r(4,14,6,1,BODY),r(3,15,8,1,BODY)]).join(''));}
+  function legsHalfFrame(face){return svgW(14,19,frontBase(face).concat([r(5,14,2,4,BODY),r(7,14,2,4,BODY)]).join(''));}
+  function standFrame(face){return svgW(14,22,frontBase(face).concat([r(5,14,2,8,BODY),r(7,14,2,8,BODY)]).join(''));}
+  function turnFrame(){return svgW(14,22,[r(2,0,10,13,BODY),r(3,1,7,7,SCREEN),r(8,3,1,1,D),r(7,6,1,1,D),r(5,10,3,1,SLOT),r(5,14,2,8,BODY),r(7,14,2,8,BODY)].join(''));}
+  function sideFrame(){return svgW(14,22,[SIDE_BODY,SIDE_EDGE,r(6,14,2,8,BODY)].join(''));}
+  function walkFrame(v){var legs;switch(v){case 0:legs=r(4,14,2,8,LEG_N)+r(9,14,2,8,LEG_F);break;case 1:legs=r(6,14,2,8,LEG_F)+r(7,14,2,8,LEG_N);break;case 2:legs=r(9,14,2,8,LEG_N)+r(4,14,2,8,LEG_F);break;case 3:legs=r(7,14,2,8,LEG_F)+r(6,14,2,8,LEG_N);break;}return svgW(14,22,[SIDE_BODY,SIDE_EDGE,legs].join(''));}
+  var clickMsgs=["Click me","Click me!","Psst — click me.","Hey. Click me.","Click. Me.","Tap me!","Click here.","Just click me already.","One click. That's all.","I'm clickable.","Click?","Go on, click me.","You know you want to click.","Click me. I dare you.","→ Click ←"];
+  var otherMsgs=["I got bored.","New side, same Mac.","Still got it.","Legs: unlocked.","*stretches*","Better view here.","I'm portable now.","Miss me?"];
+  function getMessage(){if(Math.random()<0.75)return clickMsgs[Math.floor(Math.random()*clickMsgs.length)];return otherMsgs[Math.floor(Math.random()*otherMsgs.length)];}
+  var IDLE_DELAY=5000,FRAME_MS=170,WALK_STEPS=22,BOB_PX=2,MAC_W=98;
+  var currentSide='right',currentFace='happy';
+  var isWalking=false,idleTimer=null,bubble=null,walkActive=false;
+  function setSvg(html){var b=trigger.querySelector('.mac-bubble');trigger.innerHTML=html;if(b)trigger.appendChild(b);if(bubble&&!bubble.parentNode)trigger.appendChild(bubble);}
+  function showBubble(text){hideBubble();bubble=document.createElement('div');bubble.className='mac-bubble';bubble.classList.add(currentSide==='right'?'bubble-left':'bubble-right');bubble.textContent=text;trigger.appendChild(bubble);setTimeout(function(){if(bubble)bubble.classList.add('visible');},60);}
+  function hideBubble(){if(bubble){bubble.classList.remove('visible');var b=bubble;setTimeout(function(){if(b.parentNode)b.remove();},260);bubble=null;}}
+  function positionAt(side){trigger.style.left='';trigger.style.right='';trigger.style.transform='';trigger.classList.remove('on-left','face-right');if(side==='left')trigger.classList.add('on-left');}
+  function pickFace(){var opts=['happy','happy','happy','wink','excited','cheeky','surprised','sideEye'];currentFace=opts[Math.floor(Math.random()*opts.length)];}
+  function triggerWalk(){
+    if(isWalking||!walkActive)return;
+    isWalking=true;
+    var targetSide=(currentSide==='right')?'left':'right';
+    var goingLeft=(targetSide==='left');
+    var vw=window.innerWidth;
+    var startX=(currentSide==='right')?vw-24-MAC_W:24;
+    var endX=goingLeft?24:vw-24-MAC_W;
+    var stepSize=(endX-startX)/WALK_STEPS;
+    pickFace();
+    trigger.classList.remove('settled');trigger.classList.add('walking');
+    trigger.classList.remove('on-left','face-right');
+    trigger.style.right='auto';trigger.style.left=startX+'px';trigger.style.transform='';
+    if(!goingLeft)trigger.classList.add('face-right');
+    hideBubble();
+    var timeline=[],x=startX,startFace=currentFace;
+    timeline.push({svg:sitFrame(startFace),x:x});
+    timeline.push({svg:legsHalfFrame(startFace),x:x});
+    timeline.push({svg:standFrame(startFace),x:x});
+    timeline.push({svg:standFrame(startFace),x:x});
+    timeline.push({svg:turnFrame(),x:x});
+    timeline.push({svg:sideFrame(),x:x});
+    for(var i=0;i<WALK_STEPS;i++){x+=stepSize;timeline.push({svg:walkFrame(i%4),x:x,bob:(i%2===0)});}
+    timeline.push({svg:sideFrame(),x:endX});
+    timeline.push({svg:sideFrame(),x:endX});
+    timeline.push({svg:turnFrame(),x:endX});
+    timeline.push({svg:standFrame(currentFace),x:endX});
+    timeline.push({svg:legsHalfFrame(currentFace),x:endX});
+    timeline.push({svg:sitFrame(currentFace),x:endX,done:true});
+    var step=0;
+    function tick(){
+      if(step>=timeline.length)return;
+      var f=timeline[step];
+      setSvg(f.svg);
+      trigger.style.left=Math.round(f.x)+'px';
+      trigger.style.transform=f.bob?'translateY(-'+BOB_PX+'px)':'';
+      if(f.done){
+        currentSide=targetSide;isWalking=false;
+        trigger.classList.remove('walking','face-right');
+        trigger.classList.add('settled');
+        trigger.style.transform='';trigger.style.left='';trigger.style.right='';
+        positionAt(targetSide);
+        setSvg(sitFrame(currentFace));
+        setTimeout(function(){showBubble(getMessage());},200);
+        scheduleIdle();return;
+      }
+      step++;setTimeout(tick,FRAME_MS);
+    }
+    tick();
+  }
+  function scheduleIdle(){clearTimeout(idleTimer);idleTimer=setTimeout(triggerWalk,IDLE_DELAY);}
+  function onActivity(){if(!isWalking&&walkActive)scheduleIdle();}
+  ['mousemove','scroll','keydown','touchstart'].forEach(function(e){document.addEventListener(e,onActivity,{passive:true});});
+  /* Activate walk system when timeline settles the mac */
+  var walkObserver=new MutationObserver(function(mutations){
+    mutations.forEach(function(m){
+      if(m.type==='attributes'&&m.attributeName==='class'){
+        if(trigger.classList.contains('settled')&&!walkActive){
+          walkActive=true;
+          setSvg(sitFrame('happy'));
+          setTimeout(function(){showBubble(getMessage());},600);
+          scheduleIdle();
+        }
+        if(!trigger.classList.contains('settled')&&walkActive){
+          walkActive=false;clearTimeout(idleTimer);hideBubble();
+        }
+      }
+    });
+  });
+  walkObserver.observe(trigger,{attributes:true,attributeFilter:['class']});
+  /* If already settled (e.g. page loaded scrolled down) */
+  if(trigger.classList.contains('settled')){walkActive=true;setSvg(sitFrame('happy'));setTimeout(function(){showBubble(getMessage());},600);scheduleIdle();}
 })();
 (function(){var topLinks=Array.from(document.querySelectorAll('.top nav a'));var topTargets=topLinks.map(function(a){var id=a.getAttribute('href');return id&&id.startsWith('#')?document.querySelector(id):null}).filter(Boolean);if('IntersectionObserver' in window&&topTargets.length){var map=new Map();topTargets.forEach(function(t,i){map.set(t,topLinks[i])});var io=new IntersectionObserver(function(entries){entries.forEach(function(e){var link=map.get(e.target);if(!link)return;if(e.isIntersecting){topLinks.forEach(function(l){l.removeAttribute('aria-current')});link.setAttribute('aria-current','page')}})},{rootMargin:'-40% 0px -55% 0px',threshold:0});topTargets.forEach(function(t){io.observe(t)})}var workNav=document.querySelector('.work-nav');var workLinks=Array.from(document.querySelectorAll('.work-nav a'));var projectTargets=workLinks.map(function(a){var id=a.getAttribute('href');return id&&id.startsWith('#')?document.querySelector(id):null}).filter(Boolean);document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener('click',function(){var id=btn.getAttribute('data-id');var title=btn.getAttribute('data-title')||'';var iframe=document.createElement('iframe');iframe.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1&playsinline=1';iframe.title=title;iframe.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');iframe.allowFullscreen=true;iframe.referrerPolicy='strict-origin-when-cross-origin';btn.parentNode.replaceChild(iframe,btn)})});var allDetails=document.querySelectorAll('details.project-details');allDetails.forEach(function(det){var summary=det.querySelector('summary');if(!summary)return;summary.addEventListener('click',function(e){if(det.open)return;var hasOpenOther=false;for(var i=0;i<allDetails.length;i++){if(allDetails[i]!==det&&allDetails[i].open){hasOpenOther=true;break}}if(!hasOpenOther)return;e.preventDefault();var anchorBefore=summary.getBoundingClientRect().top;for(var j=0;j<allDetails.length;j++){if(allDetails[j]!==det&&allDetails[j].open)allDetails[j].open=false}det.open=true;var anchorAfter=summary.getBoundingClientRect().top;var diff=anchorAfter-anchorBefore;if(diff!==0){try{window.scrollBy({top:diff,left:0,behavior:'instant'})}catch(_){var html=document.documentElement;var prev=html.style.scrollBehavior;html.style.scrollBehavior='auto';window.scrollBy(0,diff);html.style.scrollBehavior=prev}}})});function openTargetProject(){var hash=window.location.hash;if(!hash||hash.length<2)return;var el;try{el=document.querySelector(hash)}catch(_){return}if(!el)return;if(!el.classList||!el.classList.contains('project'))return;var det=el.querySelector(':scope > details.project-details');if(det&&!det.open)det.open=true}window.addEventListener('hashchange',openTargetProject);if(document.readyState==='complete')openTargetProject();else window.addEventListener('load',openTargetProject);workLinks.forEach(function(a){a.addEventListener('click',function(){setTimeout(openTargetProject,0)})});if('IntersectionObserver' in window&&projectTargets.length){var pmap=new Map();var visible=new Set();projectTargets.forEach(function(t,i){pmap.set(t,workLinks[i])});var setActive=function(){if(!visible.size)return;var activationY=(window.innerHeight||document.documentElement.clientHeight)*0.4;var best=null,bestDist=Infinity;visible.forEach(function(el){var rect=el.getBoundingClientRect();var dist=Math.abs(rect.top-activationY);if(dist<bestDist){bestDist=dist;best=el}});if(!best)return;workLinks.forEach(function(l){l.removeAttribute('aria-current')});var link=pmap.get(best);if(link){link.setAttribute('aria-current','true');var navUl=workNav&&workNav.querySelector('ul');if(navUl){var linkRect=link.getBoundingClientRect();var navRect=navUl.getBoundingClientRect();if(linkRect.left<navRect.left+16)navUl.scrollBy({left:linkRect.left-navRect.left-24,behavior:'smooth'});else if(linkRect.right>navRect.right-16)navUl.scrollBy({left:linkRect.right-navRect.right+24,behavior:'smooth'})}}};var pio=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)visible.add(e.target);else visible.delete(e.target)});setActive()},{rootMargin:'-40% 0px -50% 0px',threshold:0});projectTargets.forEach(function(t){pio.observe(t)})}(async function(){var track=document.querySelector('[data-photo-track]');if(!track)return;var folder='assets/08_Photography/';var exts=/\.(jpe?g|png|webp|avif|gif)$/i;var files=[];try{var mres=await fetch(folder+'index.json',{cache:'no-cache'});if(mres.ok){var list=await mres.json();if(Array.isArray(list))files=list.filter(function(h){return exts.test(h)})}}catch(_){}if(!files.length){try{var res=await fetch(folder,{headers:{Accept:'text/html'}});if(res.ok){var html=await res.text();var doc2=new DOMParser().parseFromString(html,'text/html');files=Array.from(doc2.querySelectorAll('a')).map(function(a){return decodeURIComponent(a.getAttribute('href')||'')}).filter(function(h){return h&&exts.test(h)&&!h.includes('/')&&!h.startsWith('.')})}}catch(_){}}if(!files.length)return;for(var i=files.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=files[i];files[i]=files[j];files[j]=tmp}var frag=document.createDocumentFragment();files.forEach(function(name){var fig=document.createElement('figure');var img=document.createElement('img');img.src=folder+name;img.alt='';img.loading='lazy';fig.appendChild(img);frag.appendChild(fig)});track.appendChild(frag)})();(function(){var lb=document.getElementById('lightbox');if(!lb)return;var lbImg=lb.querySelector('img');var lbClose=lb.querySelector('.lb-close');var isZoomable=function(el){return el.tagName==='IMG'&&(el.closest('.gallery')||el.closest('.project .cover')||el.closest('.photo-track'))};var open=function(src,alt){lbImg.src=src;lbImg.alt=alt||'';lb.removeAttribute('hidden');void lb.offsetHeight;lb.classList.add('is-open');document.body.classList.add('lb-open')};var close=function(){lb.classList.remove('is-open');document.body.classList.remove('lb-open');setTimeout(function(){lb.setAttribute('hidden','');lbImg.src=''},240)};document.addEventListener('click',function(e){if(e.target instanceof Element&&isZoomable(e.target)){e.preventDefault();open(e.target.currentSrc||e.target.src,e.target.alt)}});lbClose.addEventListener('click',close);lb.addEventListener('click',function(e){if(e.target===lb)close()});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('is-open'))close()})})();
 (function(){var trigger=document.getElementById('chatTrigger');var overlay=document.getElementById('macOverlay');var closeBox=document.getElementById('macClose');var form=document.getElementById('macForm');var input=document.getElementById('macInput');var messages=document.getElementById('macMessages');var contact=document.getElementById('macContact');var questionCount=0;var qaPool = [
