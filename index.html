@@ -1,6 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!-- Cookie Consent Banner — blocks interaction until choice -->
@@ -96,8 +94,8 @@ white-space: nowrap;
 <title>Marco Pröfrock — Portfolio</title>
 <link rel="icon" type="image/png" href="assets/10_favicon/favicon.png">
 <script>document.documentElement.classList.add('js-pending');</script>
-<meta name="description" content="Marco Pröfrock — Creative at Scholz & Friends, Stuttgart.">
-<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="description" content="Marco Pröfrock — Creative at Scholz &amp; Friends, Stuttgart.">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin="">
 <style>
 /* --- Local fonts (DSGVO) --- */
 @font-face {
@@ -188,19 +186,13 @@ body {
 
 /* ============================================================
    INTRO — Mosaic scroll animation
-   ============================================================
-   The intro section is a scroll container: the sticky wrapper
-   is pinned for ~140vh of scroll, giving the mosaic time to
-   animate back to the grid positions before the user continues.
-*/
+   ============================================================ */
 .intro {
   position: relative;
-  min-height: calc(100vh - var(--top-h) + 420px); /* sticky overshoot */
+  min-height: calc(100vh - var(--top-h) + 420px);
   border-bottom: 0.5px solid var(--rule);
 }
 
-/* Sticky shell keeps the whole intro layout visible while
-   the mosaic animation plays out over the extra scroll height */
 .intro-sticky {
   position: sticky;
   top: var(--top-h);
@@ -219,24 +211,14 @@ body {
   display: grid;
   gap: clamp(20px, 3vw, 36px);
   align-content: center;
-  /* Prevent unbreakable runs ("Scholz & Friends" with non-breaking
-     spaces) from forcing the grid track wider than the viewport. */
   min-width: 0;
-  /* opacity controlled by JS */
 }
 .intro-text .lede,
 .intro-text .bio { min-width: 0; overflow-wrap: anywhere; word-break: break-word; }
 
-/* Right column figures — scattered collage of 10 images.
-   Each .fig is absolutely positioned via inline left/top/width/height
-   that is computed from the data-pos attribute (percentages of
-   the .intro-figs box).
-   Important pieces (Cannes / ICAD / ADC / Scholz) sit larger and
-   more central; documentary photography fills the spaces around them. */
 .intro-figs {
   position: relative;
   width: 100%;
-  /* Tall enough to host 10 images comfortably without crowding the text */
   height: clamp(420px, 44vw, 600px);
   min-height: clamp(420px, 44vw, 600px);
 }
@@ -246,18 +228,12 @@ body {
   overflow: hidden;
   background: rgba(255,255,255,0.04);
   box-shadow: 0 6px 24px rgba(0,0,0,0.25);
-  /* JS sets left/top/width/height inline from data-pos.
-     Defaults below prevent flash of unpositioned (full-size) images
-     before JS runs. */
   left: 0; top: 0; width: 0; height: 0;
 }
 .intro-figs .fig img {
   width: 100%; height: 100%; object-fit: cover; display: block;
 }
 .intro-figs .fig figcaption {
-  /* Captions are only used by the animated overlay (where they fade out
-     during the mosaic → grid animation). The static end-state grid is
-     intentionally caption-free. */
   display: none;
 }
 .intro-figs .fig-portrait img { object-position: center 18%; }
@@ -280,7 +256,6 @@ body {
   margin-top: clamp(16px, 2vw, 28px);
   display: flex;
   align-items: center;
-  /* Stay on one line — badges scale down on narrow screens instead. */
   flex-wrap: nowrap;
   gap: clamp(8px, 2.4vw, 32px);
   min-width: 0;
@@ -288,7 +263,6 @@ body {
 }
 .award-strip li {
   display: flex; align-items: center;
-  /* Height shrinks with viewport width so 7 badges fit one row on iPhone. */
   height: clamp(22px, 5.2vw, 40px);
   flex: 0 1 auto;
   min-width: 0;
@@ -305,50 +279,33 @@ body {
 .award-strip a:hover img, .award-strip a:focus-visible img { opacity: 1; transform: translateY(-1px); }
 
 /* ============================================================
-   MOSAIC OVERLAY — three fixed images that animate from
-   full-screen back to their in-grid positions.
-   All sizing/positioning is set by JavaScript.
+   MOSAIC OVERLAY
 ============================================================ */
 #mosaic-overlay {
   position: fixed;
   inset: 0;
-  z-index: 60; /* above content, below top bar (z:100) */
-  pointer-events: none; /* never intercept clicks */
-  /* Start hidden so the (yet-unpositioned) mosaic-img elements don't
-     flash at their natural pixel size before JS lays them out. JS
-     fades the overlay in once setPos() has run. */
+  z-index: 60;
+  pointer-events: none;
   opacity: 0;
   transition: opacity 0.25s ease;
-  background: var(--bg); /* solid fill so the underlying intro content
-                            is fully covered the moment JS positions
-                            the mosaic-imgs (no flash of header text). */
+  background: var(--bg);
 }
 #mosaic-overlay.is-ready { opacity: 1; }
 #mosaic-overlay.is-done { opacity: 0 !important; pointer-events: none; background: transparent; }
 
-/* Hide the intro content by default — JS reveals it as the mosaic
-   animation completes. Without this rule the user briefly sees the
-   header text + figs grid before the overlay covers them. */
 html.js-pending .intro-text,
 html.js-pending .intro-figs .fig { opacity: 0; }
-/* While JS is still booting, paint a solid splash over the intro so the
-   user never sees a flash of unstyled text behind the loading mosaic. */
 html.js-pending #mosaic-overlay {
   opacity: 1;
   background: var(--bg);
 }
 
 .mosaic-img {
-  position: absolute; /* positioned within fixed #mosaic-overlay */
-  /* Collapse to zero before JS positions them. Without these defaults,
-     each .mosaic-img briefly renders at its image's natural pixel size
-     (multi-thousand-px photos) on first paint — a giant flash of
-     oversized images and a huge CLS hit. */
+  position: absolute;
   left: 0; top: 0; width: 0; height: 0;
   overflow: hidden;
   border-radius: 4px;
   will-change: left, top, width, height;
-  /* border-radius transitions separately for a nice feel */
   transition: border-radius 0.05s ease;
 }
 .mosaic-img img {
@@ -371,7 +328,7 @@ html.js-pending #mosaic-overlay {
 }
 
 /* ============================================================
-   Scroll hint: tiny chevron at bottom of mosaic screen
+   Scroll hint
 ============================================================ */
 #scroll-hint {
   position: fixed;
@@ -444,10 +401,6 @@ html.js-pending #mosaic-overlay {
 .work-nav a[aria-current="true"] .num { color: var(--fg); }
 
 .project {
-  /* Top padding stays compact regardless of open/closed state so the
-     project logo doesn't shift downward when the user expands a project.
-     Only the bottom padding grows when expanded to give the body content
-     breathing room before the next project starts. */
   padding: clamp(28px, 3.5vw, 52px) var(--pad-x) clamp(80px, 10vw, 160px);
   border-top: 1px solid var(--rule-strong);
   max-width: calc(var(--content-max) + var(--pad-x) * 2);
@@ -456,8 +409,6 @@ html.js-pending #mosaic-overlay {
 .project:has(details:not([open])) {
   padding-bottom: clamp(28px, 3.5vw, 52px);
 }
-/* Remove the original head's bottom border + padding while collapsed —
-   each .project already has its own top border that acts as the divider. */
 details:not([open]) > summary.head {
   padding-bottom: 0;
   border-bottom: 0;
@@ -468,8 +419,6 @@ details:not([open]) > summary.head {
 }
 .project .cover img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
 
-/* Project header: SVG logo as the prominent left-aligned brand mark,
-   with "— NN  ProjectName" as a small caption below it. Year on the right. */
 .head {
   display: flex;
   align-items: flex-end;
@@ -481,8 +430,6 @@ details:not([open]) > summary.head {
 .head .head-main {
   display: flex; flex-direction: column;
   align-items: flex-start;
-  /* Slightly more space between the project logo and the title/tags
-     line below it. */
   gap: clamp(20px, 2.4vw, 32px);
   min-width: 0;
 }
@@ -497,8 +444,6 @@ details:not([open]) > summary.head {
   max-width: min(70vw, 560px);
   display: block;
 }
-/* Color version stacked on top of mono; fades in on hover or when the
-   project is expanded. */
 .head .logo-color {
   position: absolute;
   inset: 0;
@@ -513,7 +458,6 @@ summary.head:hover .logo-color,
 details[open] > summary.head .logo-color { opacity: 1; }
 summary.head:hover .logo-mono,
 details[open] > summary.head .logo-mono { opacity: 0; }
-/* Per-logo optical sizing tweaks (each SVG has different proportions) */
 .head .logo[src$="uturn.svg"], .head .logo[src$="uturn_color.svg"] { height: clamp(34px, 4.2vw, 64px); }
 .head .logo[src$="opera.svg"], .head .logo[src$="opera_color.svg"] { height: clamp(56px, 7vw, 108px); }
 .head .title-line {
@@ -524,8 +468,6 @@ details[open] > summary.head .logo-mono { opacity: 0; }
 .head .title-small { font-size: 13px; font-weight: 500; color: var(--fg); letter-spacing: 0.02em; white-space: nowrap; }
 .head .tags { font-size: 13px; font-weight: 400; color: rgba(244,244,242,0.45); letter-spacing: 0.01em; }
 .head .client { font-size: 13px; font-weight: 400; color: rgba(244,244,242,0.65); letter-spacing: 0.01em; white-space: nowrap; }
-/* On wide screens align num / title / client / tags into a fixed
-   4-column grid so all rows align vertically across projects. */
 @media (min-width: 720px) {
   .head .title-line {
     display: grid;
@@ -540,8 +482,6 @@ details[open] > summary.head .logo-mono { opacity: 0; }
 .head .title { font-size: clamp(32px, 4.5vw, 56px); font-weight: 500; line-height: 1.05; letter-spacing: -0.025em; }
 .head .year { font-size: 12px; font-weight: 500; letter-spacing: 0.18em; color: var(--muted); white-space: nowrap; padding-bottom: 2px; }
 
-/* Compact award badges shown inside the project header (always visible,
-   even when the project is collapsed). */
 .head .head-meta { display: flex; align-items: center; gap: clamp(14px, 2vw, 24px); flex-wrap: wrap; justify-content: flex-end; }
 .head-badges { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .head-badges li { display: flex; align-items: center; }
@@ -550,7 +490,6 @@ details[open] > summary.head .logo-mono { opacity: 0; }
   filter: brightness(0) invert(1); opacity: 0.62;
 }
 
-/* Caret affordance — rotates when project is open */
 .head .caret {
   width: 14px; height: 14px; flex: 0 0 auto;
   display: inline-block; position: relative;
@@ -566,18 +505,15 @@ details[open] > summary.head .logo-mono { opacity: 0; }
 details[open] > summary .caret::after { transform: translate(-50%, -50%) rotate(0deg); }
 details[open] > summary .caret { opacity: 0.9; }
 
-/* Make <summary> behave exactly like the original .head element */
 summary.head { list-style: none; cursor: pointer; user-select: none; }
 summary.head::-webkit-details-marker { display: none; }
 summary.head::marker { display: none; }
 summary.head:hover .caret { opacity: 0.95; }
 summary.head:focus-visible { outline: 1px dashed rgba(255,255,255,0.35); outline-offset: 6px; border-radius: 2px; }
 
-/* The collapsed/expanded body wrapper */
 .project-body { display: block; }
 details:not([open]) > .project-body { display: none; }
 
-/* Smooth disclosure */
 details > .project-body { animation: project-open .35s ease both; }
 @keyframes project-open {
   from { opacity: 0; transform: translateY(-4px); }
@@ -597,6 +533,7 @@ details > .project-body { animation: project-open .35s ease both; }
   align-items: start;
 }
 .copy { font-size: clamp(14px, 1.05vw, 16px); line-height: 1.7; color: rgba(244,244,242,0.86); max-width: 70ch; }
+.copy strong { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg); }
 
 .awards { display: flex; flex-direction: column; gap: 12px; }
 .awards li {
@@ -616,10 +553,6 @@ details > .project-body { animation: project-open .35s ease both; }
 .video-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; overflow: hidden; border-radius: 4px; }
 .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
-/* Lightweight YouTube facade: shows the YouTube poster + a custom
-   minimal play button, no iframe loaded until the user clicks. Replaces
-   the gigantic red YouTube play button with something on-brand and
-   saves the YT iframe payload until it's actually wanted. */
 .lite-yt {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
@@ -686,8 +619,6 @@ details > .project-body { animation: project-open .35s ease both; }
 
 .gallery { margin-top: clamp(20px, 3vw, 32px); display: flex; flex-direction: column; gap: clamp(8px, 1vw, 14px); }
 .gallery img { width: 100%; height: auto; background: rgba(255,255,255,0.03); border-radius: 2px; }
-/* Former cover thumbnails sit smaller and centered inside the gallery
-   so they play as a section opener, not the dominant hero image. */
 .gallery img.cover-thumb {
   max-width: min(58%, 520px);
   align-self: center;
@@ -697,25 +628,13 @@ details > .project-body { animation: project-open .35s ease both; }
 }
 .gallery .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(8px, 1vw, 14px); align-items: stretch; }
 .gallery .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: clamp(8px, 1vw, 14px); align-items: stretch; }
-/* In side-by-side rows, force both/three images to share the row's height
-   and crop with object-fit so there are no awkward blank gaps when their
-   aspect ratios differ. Default ratio is landscape (4:3); add `.tall` to
-   the row when the images are portrait so they aren't cropped. */
 .gallery .row-2 img, .gallery .row-3 img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3; }
 .gallery .row-2.tall img, .gallery .row-3.tall img { aspect-ratio: 2 / 3; }
 .gallery .row-2.wide img, .gallery .row-3.wide img { aspect-ratio: 16 / 9; }
-/* `.natural` keeps each image at its own aspect ratio (no cropping). Use
-   when a row mixes portrait + landscape, or when the source ratios are
-   unusual and can't share a forced container ratio. */
 .gallery .row-2.natural, .gallery .row-3.natural { align-items: start; }
 .gallery .row-2.natural img, .gallery .row-3.natural img {
   height: auto; aspect-ratio: auto; object-fit: contain;
 }
-/* `.row-fit`: pair (or trio) of images that share the same row height
-   while staying fully visible (no cropping). Each img sets its own
-   aspect ratio via `style="--ar: <w>/<h>"`; flex-grow uses that ratio,
-   so column widths are proportional to each image's aspect ratio,
-   which makes the resulting heights match exactly. */
 .gallery .row-fit {
   display: flex;
   gap: clamp(8px, 1vw, 14px);
@@ -726,7 +645,7 @@ details > .project-body { animation: project-open .35s ease both; }
   min-width: 0;
   width: 100%; height: auto; display: block;
   aspect-ratio: var(--ar, 1);
-  object-fit: cover; /* with proportional widths, heights match exactly so nothing is actually cropped */
+  object-fit: cover;
   border-radius: 2px;
   background: rgba(255,255,255,0.03);
 }
@@ -737,16 +656,11 @@ details > .project-body { animation: project-open .35s ease both; }
   display: grid; grid-template-columns: minmax(140px, 200px) 1fr;
   column-gap: clamp(20px, 3vw, 40px); row-gap: 12px; font-size: 13px; max-width: 760px;
 }
-/* Credits with a tall image to the right. The image sits at the top
-   with the same small spacing the gallery uses between images, and the
-   credits column on the left aligns its last line to the image's
-   bottom edge. On mobile, the image stacks above the credits. */
 .credits-with-side {
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(220px, 28%, 340px);
   gap: clamp(20px, 3vw, 40px);
   align-items: end;
-  /* Same small top gap as gallery images to each other */
   margin-top: clamp(8px, 1vw, 14px);
 }
 .credits-with-side .credits {
@@ -755,11 +669,11 @@ details > .project-body { animation: project-open .35s ease both; }
 .credits-with-side .side-tall {
   width: 100%; height: auto; display: block; border-radius: 2px;
   background: rgba(255,255,255,0.03);
-  align-self: start; /* image hugs the top of the row */
+  align-self: start;
 }
 @media (max-width: 720px) {
   .credits-with-side { grid-template-columns: 1fr; align-items: start; gap: clamp(20px, 4vw, 32px); }
-  .credits-with-side .side-tall { order: -1; } /* image above credits on mobile */
+  .credits-with-side .side-tall { order: -1; }
 }
 .credits dt { color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; font-weight: 500; padding-top: 2px; }
 .credits dd { color: var(--fg); line-height: 1.6; }
@@ -1102,7 +1016,7 @@ body.lb-open { overflow: hidden; }
     bottom: 0;
     width: 100vw;
     height: 100vh;
-    height: 100dvh; /* Dynamic viewport height for mobile */
+    height: 100dvh;
     border-radius: 0;
     border: none;
     overflow: hidden;
@@ -1117,14 +1031,12 @@ body.lb-open { overflow: hidden; }
     flex: 1;
     padding: 16px;
     overflow-y: auto;
-    /* Reserve space for input when keyboard is open */
     padding-bottom: calc(16px + env(keyboard-inset-height, 0px));
     margin-bottom: env(keyboard-inset-height, 0px);
   }
 
   .chat-panel .chat-input {
     flex-shrink: 0;
-    /* Stay above keyboard */
     position: relative;
     bottom: env(keyboard-inset-height, 0px);
   }
@@ -1133,23 +1045,12 @@ body.lb-open { overflow: hidden; }
 /* Responsive */
 @media (max-width: 860px) {
   .info { grid-template-columns: 1fr; gap: 24px; }
-  /* Header stays as flex row (logo+caption on left, year on right);
-     no mobile-specific overrides needed for the new layout. */
-  /* Mobile: stack text above the collage; the sticky shell still
-     pins so the mosaic animation can play. The figs box keeps a
-     square aspect ratio so the % collage positions still work. */
   .intro-sticky {
-    /* `minmax(0, 1fr)` (not bare `1fr`) so the column can shrink below
-       its intrinsic min-content size — otherwise an unbreakable phrase
-       like "Scholz & Friends" forces the column wider than the viewport
-       and pushes the bio + award badges out the right edge. */
     grid-template-columns: minmax(0, 1fr);
     height: auto;
     min-height: 0;
     overflow: visible;
     align-content: start;
-    /* More breathing room between the award badges (bottom of intro-text)
-       and the mosaic images that sit below them on mobile. */
     gap: clamp(40px, 10vw, 72px);
     padding-top: clamp(24px, 5vw, 48px);
     padding-bottom: clamp(40px, 8vw, 80px);
@@ -1159,12 +1060,7 @@ body.lb-open { overflow: hidden; }
     aspect-ratio: 1 / 1;
     flex: 1 1 auto;
   }
-  /* Mobile: intro-text is stacked above the figs, so we don't tie its
-     visibility to scroll position — keep it always fully readable.
-     !important overrides the inline opacity that the mosaic JS sets. */
   .intro-text { opacity: 1 !important; }
-  /* Also collapse the intro overshoot height so the text doesn't sit
-     above a long empty scroll zone before the next section. */
   .intro { min-height: 0; }
   .gallery .row-3 { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 }
@@ -1201,7 +1097,7 @@ body.lb-open { overflow: hidden; }
 </head>
 <body>
 
-<body>
+
 
 <!-- Cookie Consent Banner -->
 <div id="cookie-overlay"></div>
@@ -1280,33 +1176,25 @@ document.getElementById('cookie-no').onclick = function() {
 </script>
 
 <!-- ============================================================
-     MOSAIC OVERLAY — 10 fixed images, positioned by JS.
-     Order matters: index 0..9 must match the 10 .fig entries
-     inside .intro-figs below.
+     MOSAIC OVERLAY
 ============================================================ -->
 <div id="mosaic-overlay" aria-hidden="true">
-  <!-- 1. Cannes — important (large at end) -->
   <figure class="mosaic-img" data-key="cannes">
     <img loading="eager" fetchpriority="high" decoding="async" src="assets/07_home/06_MarcoUndTeamInCannesTheBrief.webp" alt="" width="1133" height="1683">
     <figcaption>Cannes — THE BRIEF #4</figcaption>
   </figure>
-  <!-- 2. ICAD — important -->
   <figure class="mosaic-img" data-key="icad">
     <img loading="eager" fetchpriority="high" decoding="async" src="assets/07_home/11_MarcoBeiICADAwards.webp" alt="" width="880" height="1544">
     <figcaption>ICAD Awards, Dublin</figcaption>
   </figure>
-  <!-- 3. ADC — important -->
   <figure class="mosaic-img" data-key="adc">
     <img loading="eager" fetchpriority="high" decoding="async" src="assets/07_home/05_MarcoBeimADCGermany.webp" alt="" width="1600" height="1065">
     <figcaption>ADC Talent Award, Germany</figcaption>
   </figure>
-  <!-- 4. Scholz & Friends Stuttgart -->
   <figure class="mosaic-img" data-key="scholz">
     <img loading="eager" fetchpriority="high" decoding="async" src="assets/07_home/15_ScholzAndFriensStuttgartGrafik.webp" alt="" width="796" height="770">
     <figcaption>Scholz &amp; Friends, Stuttgart</figcaption>
   </figure>
-  <!-- 5..10 Photography -->
-  <!-- p1 / p6 swapped: top-left now uses DSCF0762, bottom-right uses DSCF4329 -->
   <figure class="mosaic-img" data-key="p1"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF0762.webp" alt="" width="1600" height="1067"></figure>
   <figure class="mosaic-img" data-key="p2"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF3824.webp" alt="" width="1600" height="2400"></figure>
   <figure class="mosaic-img" data-key="p3"><img loading="eager" fetchpriority="high" decoding="async" src="assets/08_Photography/DSCF3537.webp" alt="" width="1600" height="2400"></figure>
@@ -1319,7 +1207,7 @@ document.getElementById('cookie-no').onclick = function() {
 <div id="scroll-hint" aria-hidden="true">
   <span>Scroll</span>
   <svg width="16" height="10" viewBox="0 0 16 10" fill="none">
-    <path d="M1 1L8 9L15 1" stroke="rgba(244,244,242,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M1 1L8 9L15 1" stroke="rgba(244,244,242,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
   </svg>
 </div>
 
@@ -1337,7 +1225,7 @@ document.getElementById('cookie-no').onclick = function() {
 
 <main id="top">
 
-  <!-- INTRO — sticky shell creates the scroll room for the mosaic animation -->
+  <!-- INTRO -->
   <section class="intro">
     <div class="intro-sticky">
       <div class="intro-text">
@@ -1354,37 +1242,23 @@ document.getElementById('cookie-no').onclick = function() {
           <li><a href="#awards-list" aria-label="COMM Awards"><img loading="eager" decoding="async" src="assets/awards/comm.svg" alt="" width="94" height="94"></a></li>
         </ul>
       </div>
-      <!--
-        End-position collage. Each .fig has data-pos="L T W H" as %
-        of the .intro-figs box (left, top, width, height).
-        Layout was hand-tuned so important images (Cannes, ICAD, ADC,
-        Scholz) anchor the composition while the documentary photos
-        scatter around them without overlap.
-      -->
       <div class="intro-figs" aria-hidden="true">
-        <!-- 1. Cannes — top-left, large -->
         <figure class="fig fig-cannes" data-pos="4 14 50 34" style="left:4%;top:14%;width:50%;height:34%">
           <img decoding="async" src="assets/07_home/06_MarcoUndTeamInCannesTheBrief.webp" alt="" loading="eager" width="1133" height="1683">
           <figcaption>Cannes — THE BRIEF #4</figcaption>
         </figure>
-        <!-- 2. ICAD — top-right, large -->
         <figure class="fig fig-icad" data-pos="58 0 42 30" style="left:58%;top:0%;width:42%;height:30%">
           <img decoding="async" src="assets/07_home/11_MarcoBeiICADAwards.webp" alt="" loading="eager" width="880" height="1544">
           <figcaption>ICAD Awards, Dublin</figcaption>
         </figure>
-        <!-- 3. ADC — bottom-left, large -->
         <figure class="fig fig-adc" data-pos="0 54 50 36" style="left:0%;top:54%;width:50%;height:36%">
           <img decoding="async" src="assets/07_home/05_MarcoBeimADCGermany.webp" alt="" loading="eager" width="1600" height="1065">
           <figcaption>ADC Talent Award</figcaption>
         </figure>
-        <!-- 4. Scholz & Friends — bottom-right, square -->
         <figure class="fig fig-scholz" data-pos="62 56 30 30" style="left:62%;top:56%;width:30%;height:30%">
           <img decoding="async" src="assets/07_home/15_ScholzAndFriensStuttgartGrafik.webp" alt="" loading="lazy" width="796" height="770">
           <figcaption>Scholz &amp; Friends, Stuttgart</figcaption>
         </figure>
-        <!-- 5..10 Photography — small accents.
-             Note: top-left p1 and bottom-right p6 were swapped per
-             art direction — DSCF0762 now anchors top-left, DSCF4329 bottom. -->
         <figure class="fig" data-pos="0 0 12 11" style="left:0%;top:0%;width:12%;height:11%"><img decoding="async" src="assets/08_Photography/DSCF0762.webp" alt="" loading="lazy" width="1600" height="1067"></figure>
         <figure class="fig" data-pos="32 0 22 11" style="left:32%;top:0%;width:22%;height:11%"><img decoding="async" src="assets/08_Photography/DSCF3824.webp" alt="" loading="lazy" width="1600" height="2400"></figure>
         <figure class="fig" data-pos="58 32 18 22" style="left:58%;top:32%;width:18%;height:22%"><img decoding="async" src="assets/08_Photography/DSCF3537.webp" alt="" loading="lazy" width="1600" height="2400"></figure>
@@ -1421,7 +1295,7 @@ document.getElementById('cookie-no').onclick = function() {
           <span class="title-line">
             <span class="num">— 01</span>
             <h3 class="title-small">500l/s</h3>
-            <span class="client">Stuttgart Baths</span>
+            <span class="client">Stuttgarter Bäder</span>
             <span class="tags">Parametric Design System, Brand Identity, Integrated Campaign</span>
           </span>
         </div>
@@ -1429,7 +1303,14 @@ document.getElementById('cookie-no').onclick = function() {
       </summary>
         <div class="project-body">
 <div class="info">
-        <p class="copy">After Budapest, Stuttgart is home to Europe's second-largest mineral water deposit. 19 springs pump 44 million liters (500 liters per second) to the surface every single day. However, this urban treasure is practically invisible to the city's young population, with 75% being completely unaware of its existence. The water is physically and culturally repositioned within the city: a physical "mineral water trail" makes the springs visible in the urban space, while local bars take on "spring sponsorships," transforming traditional health spa water into signature drinks at the bar. The core of this new brand identity is a generative design system that turns chemical facts into visual communication. A custom script translates measurement data from 13 distinct springs into individual waveforms, resulting in the custom typeface "500l/s" with 13 unique styles.</p>
+        <div class="copy">
+          <strong>Problem</strong><br>
+          Stuttgart sits on Europe's second-largest mineral water deposit – yet 75% of young residents don't know it exists. The springs hide in backyards, the baths look like ordinary public pools, and no visual language communicates the richness beneath the city.<br><br>
+          <strong>Idea</strong><br>
+          Bring the mineral water to where the target group already is: bars and cafés. Through "spring patronages," each venue adopts one of 13 springs and serves drinks made with its water. From cold drink to cold plunge.<br><br>
+          <strong>Solution</strong><br>
+          A generative design system translates the chemical data of each spring into individual waveforms, colors, and a parametric display typeface with 13 cuts. It runs across all touchpoints – from out-of-home to drink menus to a stamp card that rewards a free bath entry once you've tasted all 13 springs.
+        </div>
         <ul class="awards">
           <li><img loading="lazy" decoding="async" src="assets/awards/tdc.webp" alt="" width="601" height="599"><span><strong>TDC Young Ones 2026</strong>Finalist</span></li>
           <li><img loading="lazy" decoding="async" src="assets/awards/adc-ny.webp" alt="" width="528" height="530"><span><strong>ADC Young Ones 2026</strong>Finalist</span></li>
@@ -1459,7 +1340,7 @@ document.getElementById('cookie-no').onclick = function() {
       </div>
       <dl class="credits">
         <dt>Year</dt><dd>2026</dd>
-        <dt>Client</dt><dd>Stuttgart Baths</dd>
+        <dt>Client</dt><dd>Stuttgarter Bäder</dd>
         <dt>Role</dt><dd>Art Direction</dd>
         <dt>Supervision</dt><dd>Prof. Ursula Drees, Lucie Ilg</dd>
         <dt>Awards</dt><dd>TDC Young Ones 2026 — Finalist<br>ADC Young Ones 2026 — Finalist<br>ADC Talent Award 2026 — 1× Shortlist</dd>
@@ -1485,7 +1366,14 @@ document.getElementById('cookie-no').onclick = function() {
       </summary>
         <div class="project-body">
 <div class="info">
-        <p class="copy">Mallorca is home to over 3,300 windmills—many now decaying. EnBW transforms these relics into UNESCO World Heritage candidates, restoring them on the outside while upgrading them with modern wind technology inside.</p>
+        <div class="copy">
+          <strong>Problem</strong><br>
+          EnBW is one of Germany's largest energy companies – but virtually unknown outside Baden-Württemberg. At the same time, wind power faces constant public resistance, despite being one of the oldest forms of energy humans have ever used.<br><br>
+          <strong>Idea</strong><br>
+          Mallorca – Germany's favorite holiday island – has over 3,300 historic windmills, many of them decaying. EnBW turns them into a UNESCO World Heritage petition: because wind power has history. And a future.<br><br>
+          <strong>Solution</strong><br>
+          The windmills are restored on the outside and fitted with modern wind technology on the inside. The generated energy feeds directly into EV charging stations in front of each mill – so electric cars charge exactly where wind power was harnessed centuries ago. A petition, microsite, and social campaign invite the public to support "Windkulturerbe" and turn wind energy into a cultural conversation.
+        </div>
         <ul class="awards">
           <li><img loading="lazy" decoding="async" src="assets/awards/comm.svg" alt="" width="94" height="94"><span><strong>COMM Awards 25</strong>1× Bronze</span></li>
           <li><img loading="lazy" decoding="async" src="assets/awards/adc-germany.svg" alt="" width="85" height="85"><span><strong>ADC Talent Award 2026</strong>2× Shortlist</span></li>
@@ -1531,7 +1419,14 @@ document.getElementById('cookie-no').onclick = function() {
       </summary>
         <div class="project-body">
 <div class="info">
-        <p class="copy">U-Turn is an interactive experiential space that sharpens Stuttgart's mobility question. The symbolic duel between car and train is less about technology than attitude.</p>
+        <div class="copy">
+          <strong>Problem</strong><br>
+          Car vs. public transport is one of the most polarizing debates in urban mobility – yet most arguments stay abstract. People know the statistics but rarely feel the trade-offs of either choice in a visceral way.<br><br>
+          <strong>Idea</strong><br>
+          Turn the debate into a game. Two teams compete head-to-head in a spatial installation – one drives, one rides public transport. Both face real obstacles. The winner is decided by play, not opinion.<br><br>
+          <strong>Solution</strong><br>
+          A room-sized immersive board game splits visitors into two sides. The car team deals with traffic jams and parking costs; the public transport team navigates route planning and delays. Microcontrollers, reactive sound and lighting, and "event cards" played by opponents make every trade-off physically felt – not just discussed.
+        </div>
         <ul class="awards">
           <li><img loading="lazy" decoding="async" src="assets/awards/adc-germany.svg" alt="" width="85" height="85"><span><strong>ADC Talent Award 2026</strong>1× Shortlist</span></li>
         </ul>
@@ -1587,7 +1482,14 @@ document.getElementById('cookie-no').onclick = function() {
       </summary>
         <div class="project-body">
 <div class="info">
-        <p class="copy">"Hope in Action" is UNICEF's platform that makes hope tangible as real, measurable impact—right where Gen-Z and Millennials consume content. In series, films, livestreams, and games, five-second non-intrusive inserts appear, contextually tied to the scene in real time.</p>
+        <div class="copy">
+          <strong>Problem</strong><br>
+          UNICEF is losing connection with Gen Z. 75% find the future frightening, 55.7% believe humanity is doomed. In this climate, hope feels naive – and UNICEF's mission becomes invisible to the generation that could carry it forward.<br><br>
+          <strong>Idea</strong><br>
+          Reframe hope as something active, not passive. "Hope in Action" hijacks the pop culture moments Gen Z already loves – streaming, gaming, music – and places UNICEF's real-time results right next to fictional heroes saving the world.<br><br>
+          <strong>Solution</strong><br>
+          An AI links streaming platforms' databases with UNICEF's annual report to generate contextual 5-second messages in real time: "While Beth mastered chess, UNICEF helped 18.6 million children access education." The platform spans OTT, Twitch, Spotify, TikTok (#HopeCore), and OOH – all driving to a landing page for donations or volunteer sign-ups.
+        </div>
         <ul class="awards">
           <li><img loading="lazy" decoding="async" src="assets/awards/cannes.svg" alt="" width="85" height="85"><span><strong>Cannes Lions THE BRIEF #4</strong>Global Winner</span></li>
         </ul>
@@ -1636,7 +1538,14 @@ document.getElementById('cookie-no').onclick = function() {
       </summary>
         <div class="project-body">
 <div class="info">
-        <p class="copy">The Royal Irish Academy of Music in Dublin is promoting the Italian opera La vera costanza with a creative campaign to engage both Gen-Z and veteran opera fans. This humorous cultural contrast bridges Italian grandeur with Dublin's charm, sparking curiosity.</p>
+        <div class="copy">
+          <strong>Problem</strong><br>
+          The Royal Irish Academy of Music in Dublin is staging an Italian opera – but opera feels foreign, elitist, and irrelevant to both Gen Z and casual audiences. How do you sell something Italian in a city known for rain, not romance?<br><br>
+          <strong>Idea</strong><br>
+          Embrace the contradiction. Opera isn't Italian in Dublin – it's "Mediterainy." The campaign reimagines iconic Dublin landmarks as if they were Italian, with Ireland's rainy twist. Irish self-deprecating humor becomes the bridge to high culture.<br><br>
+          <strong>Solution</strong><br>
+          Dublin landmarks are guerrilla-renamed with Italian translations, witty OOH posters play on the cultural contrast, and targeted social ads lean into the joke. Mementos and branded materials extend the tone – making opera feel fresh, fun, and locally relevant to a modern audience.
+        </div>
         <ul class="awards">
           <li><img loading="lazy" decoding="async" src="assets/awards/adc-germany.svg" alt="" width="85" height="85"><span><strong>ADC Talent Award 25</strong>1× Silver · 4× Merit</span></li>
           <li><img loading="lazy" decoding="async" src="assets/awards/comm.svg" alt="" width="94" height="94"><span><strong>COMM Awards 25</strong>1× Bronze · 2× Shortlist</span></li>
@@ -1680,7 +1589,7 @@ document.getElementById('cookie-no').onclick = function() {
       <h2 class="section-title">Snapshots</h2>
       <p class="section-sub">A few moments from along the way.</p>
     </header>
-    <div class="photo-track" data-photo-track></div>
+    <div class="photo-track" data-photo-track=""></div>
   </section>
 
   <!-- ABOUT -->
@@ -1755,7 +1664,7 @@ document.getElementById('cookie-no').onclick = function() {
         <a href="mailto:hello@marco.ad" style="color: inherit; text-decoration: none;">hello@marco.ad</a> · <a href="tel:+4915908323432" style="color: inherit; text-decoration: none;">+49 1590 8323432</a>
       </div>
       <form class="chat-form" id="chatForm">
-        <input type="text" class="chat-textbox" id="chatInput" placeholder="Ask anything..." required>
+        <input type="text" class="chat-textbox" id="chatInput" placeholder="Ask anything..." required="">
         <button type="submit" class="chat-send"></button>
       </form>
     </div>
@@ -1779,7 +1688,7 @@ document.getElementById('cookie-no').onclick = function() {
   </div>
 </footer>
 
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden="">
   <button class="lb-close" type="button" aria-label="Close">×</button>
   <img loading="lazy" decoding="async" alt="">
 </div>
@@ -1787,19 +1696,10 @@ document.getElementById('cookie-no').onclick = function() {
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ============================================================
    MOSAIC HERO ANIMATION
-   ─────────────────────────────────────────────────────────
-   Concept:
-   · At scroll = 0: 3 fixed-position images fill the screen
-     as a full-bleed mosaic (portrait left, two stacked right).
-   · As the user scrolls, the images smoothly fly to their
-     natural positions inside the .intro-figs grid.
-   · At animation end: fixed overlays vanish, real figs appear.
-   · The .intro section has extra height so the sticky wrapper
-     stays pinned while the animation plays out.
 ============================================================ */
 (function () {
   var HEADER_H = 56;
-  var GAP = 3; // px gap between mosaic panels
+  var GAP = 3;
   var ANIM_SCROLL = 0;
 
   var overlay      = document.getElementById('mosaic-overlay');
@@ -1810,51 +1710,41 @@ document.getElementById('cookie-no').onclick = function() {
   var introText    = document.querySelector('.intro-text');
   var introSection = document.querySelector('section.intro');
 
-  // Mosaic layout uses col/row spans so cells aren't on a strict 2-row line.
-  // Some images stretch across 2 rows (taller), others across 2 cols (wider),
-  // so the top/bottom edges step up and down across the screen and a bottom
-  // tile can be wider than the one "above" it. Tracks have varied fractions
-  // for additional aspect-ratio variety. Sum across cells still tiles fully —
-  // no gaps, no overlap.
-  // Landscape: 5 cols × 3 rows. Portrait: 3 cols × 5 rows.
-  var COLS_LANDSCAPE = [1.10, 0.92, 1.05, 0.95, 0.98]; // sum = 5
-  var ROWS_LANDSCAPE = [0.95, 1.10, 0.95];             // sum = 3
-  var COLS_PORTRAIT  = [1.05, 0.92, 1.03];             // sum = 3
-  var ROWS_PORTRAIT  = [1.10, 0.95, 1.05, 0.92, 0.98]; // sum = 5
+  var COLS_LANDSCAPE = [1.10, 0.92, 1.05, 0.95, 0.98];
+  var ROWS_LANDSCAPE = [0.95, 1.10, 0.95];
+  var COLS_PORTRAIT  = [1.05, 0.92, 1.03];
+  var ROWS_PORTRAIT  = [1.10, 0.95, 1.05, 0.92, 0.98];
 
-  // {c, r, cs, rs} per image. cs/rs = column / row span.
-  // Anchors (Cannes/ICAD/ADC/Scholz) get the bigger 2-cell tiles.
   var SPANS_LANDSCAPE = [
-    /* 0 Cannes */ { c: 1, r: 0, cs: 1, rs: 2 }, // tall left-of-center
-    /* 1 ICAD   */ { c: 4, r: 0, cs: 1, rs: 2 }, // tall right edge
-    /* 2 ADC    */ { c: 2, r: 0, cs: 2, rs: 1 }, // wide top center
-    /* 3 Scholz */ { c: 1, r: 2, cs: 2, rs: 1 }, // wide bottom center
-    /* 4 p1     */ { c: 0, r: 0, cs: 1, rs: 1 },
-    /* 5 p2     */ { c: 2, r: 1, cs: 1, rs: 1 },
-    /* 6 p3     */ { c: 3, r: 1, cs: 1, rs: 1 },
-    /* 7 p4     */ { c: 0, r: 1, cs: 1, rs: 2 }, // tall bottom-left
-    /* 8 p5     */ { c: 3, r: 2, cs: 1, rs: 1 },
-    /* 9 p6     */ { c: 4, r: 2, cs: 1, rs: 1 }
+    { c: 1, r: 0, cs: 1, rs: 2 },
+    { c: 4, r: 0, cs: 1, rs: 2 },
+    { c: 2, r: 0, cs: 2, rs: 1 },
+    { c: 1, r: 2, cs: 2, rs: 1 },
+    { c: 0, r: 0, cs: 1, rs: 1 },
+    { c: 2, r: 1, cs: 1, rs: 1 },
+    { c: 3, r: 1, cs: 1, rs: 1 },
+    { c: 0, r: 1, cs: 1, rs: 2 },
+    { c: 3, r: 2, cs: 1, rs: 1 },
+    { c: 4, r: 2, cs: 1, rs: 1 }
   ];
   var SPANS_PORTRAIT = [
-    /* 0 Cannes */ { c: 1, r: 0, cs: 2, rs: 1 }, // wide top
-    /* 1 ICAD   */ { c: 0, r: 1, cs: 1, rs: 2 }, // tall left
-    /* 2 ADC    */ { c: 1, r: 2, cs: 1, rs: 2 }, // tall center
-    /* 3 Scholz */ { c: 1, r: 4, cs: 2, rs: 1 }, // wide bottom
-    /* 4 p1     */ { c: 0, r: 0, cs: 1, rs: 1 },
-    /* 5 p2     */ { c: 1, r: 1, cs: 1, rs: 1 },
-    /* 6 p3     */ { c: 2, r: 1, cs: 1, rs: 2 }, // tall right
-    /* 7 p4     */ { c: 0, r: 3, cs: 1, rs: 1 },
-    /* 8 p5     */ { c: 2, r: 3, cs: 1, rs: 1 },
-    /* 9 p6     */ { c: 0, r: 4, cs: 1, rs: 1 }
+    { c: 1, r: 0, cs: 2, rs: 1 },
+    { c: 0, r: 1, cs: 1, rs: 2 },
+    { c: 1, r: 2, cs: 1, rs: 2 },
+    { c: 1, r: 4, cs: 2, rs: 1 },
+    { c: 0, r: 0, cs: 1, rs: 1 },
+    { c: 1, r: 1, cs: 1, rs: 1 },
+    { c: 2, r: 1, cs: 1, rs: 2 },
+    { c: 0, r: 3, cs: 1, rs: 1 },
+    { c: 2, r: 3, cs: 1, rs: 1 },
+    { c: 0, r: 4, cs: 1, rs: 1 }
   ];
 
   var targets = null;
-  var startsCache = null; // mosaic start rects, recomputed on resize only
+  var startsCache = null;
   var rafId = null;
   var initialized = false;
 
-  /* ── helpers ───────────────────────────────────────────── */
   function lerp(a, b, t) { return a + (b - a) * t; }
   function ease(t) {
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -1870,7 +1760,6 @@ document.getElementById('cookie-no').onclick = function() {
     el.style.height = h    + 'px';
   }
 
-  /* ── mosaic start positions: span-based tiled grid, varied tracks ── */
   function getMosaicRects() {
     var vw = window.innerWidth;
     var vh = window.innerHeight;
@@ -1902,7 +1791,6 @@ document.getElementById('cookie-no').onclick = function() {
     });
   }
 
-  /* ── target rects: read data-pos="L T W H" (% of figs box) ─────── */
   function getTargetRects() {
     var box = figsBox.getBoundingClientRect();
     return figs.map(function (fig) {
@@ -1916,10 +1804,6 @@ document.getElementById('cookie-no').onclick = function() {
     });
   }
 
-  /* ── main tick ─────────────────────────────────────────── */
-  // The actual frame work — runs inside requestAnimationFrame so the
-  // browser only paints once per frame even when scroll fires hundreds
-  // of times per second.
   function frame() {
     rafId = null;
     if (!initialized || !targets || !startsCache) return;
@@ -1937,10 +1821,6 @@ document.getElementById('cookie-no').onclick = function() {
     overlay.classList.remove('is-done');
     if (scrollHint) scrollHint.style.opacity = Math.max(0, 1 - raw * 6).toString();
     introText.style.opacity = easeText(raw).toString();
-    // Keep static figs hidden during the animation. Without this they
-    // would stay at opacity:1 once the user scrolled past the end and
-    // remain visible behind the animated overlay if the user scrolled
-    // back up — the "ghost duplicate" the user reported.
     for (var k = 0; k < figs.length; k++) figs[k].style.opacity = '0';
 
     var capOpacity = Math.max(0, 1 - raw * 2.5).toString();
@@ -1958,12 +1838,10 @@ document.getElementById('cookie-no').onclick = function() {
       if (cap) cap.style.opacity = capOpacity;
     }
   }
-  // Scroll handler: throttle to one frame per rAF.
   function tick() {
     if (rafId == null) rafId = requestAnimationFrame(frame);
   }
 
-  /* ── helper: apply data-pos %ages to the static figs ─── */
   function applyFigPositions() {
     figs.forEach(function (f) {
       var pos = (f.getAttribute('data-pos') || '0 0 100 100').split(/\s+/).map(parseFloat);
@@ -1974,37 +1852,25 @@ document.getElementById('cookie-no').onclick = function() {
     });
   }
 
-  /* ── init ──────────────────────────────────────────────── */
   function init() {
     ANIM_SCROLL = window.innerHeight * 0.95;
 
-    // Shuffle galleries each time init runs
     shuffleGalleries();
 
     if (window.scrollY > ANIM_SCROLL * 0.9) {
       overlay.style.display    = 'none';
       if (scrollHint) scrollHint.style.display = 'none';
-      // Make sure static figs are positioned and visible
-      // when we skip the animation entirely.
       applyFigPositions();
       figs.forEach(function (f) { f.style.opacity = '1'; });
       introText.style.opacity = '1';
-      // Drop the splash class so revealed content can fade in.
       document.documentElement.classList.remove('js-pending');
       return;
     }
 
-    // Extra room on the intro section so the sticky wrapper stays pinned
-    // for the full animation + a "dwell" beat at the end so the user
-    // can take in the final composition before the section scrolls away.
     var DWELL = window.innerHeight * 0.35;
     introSection.style.minHeight =
       'calc(' + (window.innerHeight - HEADER_H) + 'px + ' + ANIM_SCROLL + 'px + ' + DWELL + 'px)';
 
-    // Position static .fig elements from their data-pos="L T W H" %ages.
-    // Without this they default to 0/0/auto/auto and render at the
-    // image's natural pixel size, all stacked at the top-left of the
-    // figs box — visible behind the overlay as "oversized duplicates".
     applyFigPositions();
 
     targets     = getTargetRects();
@@ -2013,7 +1879,6 @@ document.getElementById('cookie-no').onclick = function() {
       setPos(moImgs[i], startsCache[i].left, startsCache[i].top, startsCache[i].w, startsCache[i].h);
     }
 
-    // Hide real figs + text until animation hands them over
     figs.forEach(function (f) {
       f.style.opacity = '0';
       f.style.transition = 'opacity 0.3s ease';
@@ -2023,25 +1888,17 @@ document.getElementById('cookie-no').onclick = function() {
 
     initialized = true;
     frame();
-    // Reveal the overlay only after positions are set — prevents the
-    // brief "oversized images" flash on initial load. We can also drop
-    // the splash class now: inline styles already hold intro-text/figs
-    // at opacity 0, so removing the class won't cause a flash.
     overlay.classList.add('is-ready');
     document.documentElement.classList.remove('js-pending');
     window.addEventListener('scroll', tick, { passive: true });
   }
 
-  // Run as soon as the DOM is parsed — we don't need to wait for the
-  // 30 MB of intro images to fully decode before laying out the
-  // animation. The mosaic-imgs themselves render progressively.
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
 
-  // Shuffle gallery images on each load (Fisher–Yates)
   function shuffleGalleries() {
     function shuffle(nodes) {
       var arr = Array.prototype.slice.call(nodes);
@@ -2054,21 +1911,18 @@ document.getElementById('cookie-no').onclick = function() {
     var galleries = document.querySelectorAll('.gallery');
     for (var g = 0; g < galleries.length; g++) {
       var gal = galleries[g];
-      // Shuffle imgs within each row first
       var rows = gal.querySelectorAll('.row-2, .row-3, .row-fit');
       for (var r = 0; r < rows.length; r++) {
         var imgs = rows[r].querySelectorAll(':scope > img');
         var shuffledImgs = shuffle(imgs);
         for (var k = 0; k < shuffledImgs.length; k++) rows[r].appendChild(shuffledImgs[k]);
       }
-      // Shuffle direct children of gallery (keeps row-layouts intact)
       var kids = gal.querySelectorAll(':scope > *');
       var shuffled = shuffle(kids);
       for (var m = 0; m < shuffled.length; m++) gal.appendChild(shuffled[m]);
     }
   }
 
-  // Re-init on resize (debounced)
   var resizeTimer;
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
@@ -2087,10 +1941,9 @@ document.getElementById('cookie-no').onclick = function() {
 })();
 
 /* ============================================================
-   ORIGINAL SITE JS (nav, work sub-nav, photos, lightbox)
+   ORIGINAL SITE JS
 ============================================================ */
 (function () {
-  // Top nav active section
   var topLinks   = Array.from(document.querySelectorAll('.top nav a'));
   var topTargets = topLinks
     .map(function (a) {
@@ -2115,7 +1968,6 @@ document.getElementById('cookie-no').onclick = function() {
     topTargets.forEach(function (t) { io.observe(t); });
   }
 
-  // Work sub-nav
   var workNav      = document.querySelector('.work-nav');
   var workLinks    = Array.from(document.querySelectorAll('.work-nav a'));
   var projectTargets = workLinks
@@ -2125,12 +1977,6 @@ document.getElementById('cookie-no').onclick = function() {
     })
     .filter(Boolean);
 
-  // Auto-open the targeted project when arriving via #anchor (work-nav clicks
-  // and direct deep-links). Without this, the page would scroll to the
-  // collapsed header and the body would stay hidden.
-  // YouTube facade: load the actual iframe only when the user clicks
-  // the poster. Saves the YT player payload up-front and replaces
-  // the giant red play button with our own minimal one.
   document.querySelectorAll('.lite-yt').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var id = btn.getAttribute('data-id');
@@ -2147,49 +1993,30 @@ document.getElementById('cookie-no').onclick = function() {
     });
   });
 
-  // Accordion: when one project opens, close all other open ones so
-  // the long page stays compact while the user browses through projects.
   var allDetails = document.querySelectorAll('details.project-details');
   allDetails.forEach(function (det) {
     var summary = det.querySelector('summary');
     if (!summary) return;
-    // Intercept the click on the summary so we can close any other open
-    // project AND open this one in a single synchronous step, then
-    // adjust scrollY in the same frame. The user only sees one paint
-    // with the new layout already at the correct position — no jitter.
     summary.addEventListener('click', function (e) {
-      // Letting the user CLOSE the same project happens normally — no
-      // need to compensate, nothing collapses above the click target.
       if (det.open) return;
-      // Are any others actually open? If not, default behaviour is fine.
       var hasOpenOther = false;
       for (var i = 0; i < allDetails.length; i++) {
         if (allDetails[i] !== det && allDetails[i].open) { hasOpenOther = true; break; }
       }
       if (!hasOpenOther) return;
 
-      e.preventDefault(); // stop the browser's default toggle
-      // Anchor: how far is the clicked summary from the viewport top
-      // right now? After the swap we'll restore that exact offset.
+      e.preventDefault();
       var anchorBefore = summary.getBoundingClientRect().top;
-      // Close all other open projects + open this one — synchronously
       for (var j = 0; j < allDetails.length; j++) {
         if (allDetails[j] !== det && allDetails[j].open) allDetails[j].open = false;
       }
       det.open = true;
-      // Compensate the scroll so the summary is back at its original y.
-      // This runs before the next paint, so the user never sees the jump.
       var anchorAfter = summary.getBoundingClientRect().top;
       var diff = anchorAfter - anchorBefore;
       if (diff !== 0) {
-        // Instant (not smooth) so the user never sees an animated jump.
-        // Bypassing scroll-behavior: smooth keeps the swap visually
-        // atomic — the new project is already at the right y in the
-        // first paint after the click.
         try {
           window.scrollBy({ top: diff, left: 0, behavior: 'instant' });
         } catch (_) {
-          // Older browsers: temporarily disable smooth-scroll, then restore.
           var html = document.documentElement;
           var prev = html.style.scrollBehavior;
           html.style.scrollBehavior = 'auto';
@@ -2206,22 +2033,15 @@ document.getElementById('cookie-no').onclick = function() {
     var el;
     try { el = document.querySelector(hash); } catch (_) { return; }
     if (!el) return;
-    // Only auto-open when the hash points DIRECTLY at a project article.
-    // Without this guard, navigating to #work would query for the first
-    // nested .project-details inside the section and unintentionally
-    // open project 01.
     if (!el.classList || !el.classList.contains('project')) return;
     var det = el.querySelector(':scope > details.project-details');
     if (det && !det.open) det.open = true;
   }
   window.addEventListener('hashchange', openTargetProject);
-  // Also handle initial load (in case user lands on a deep link).
   if (document.readyState === 'complete') openTargetProject();
   else window.addEventListener('load', openTargetProject);
-  // Work-nav click: even when the hash doesn't change, ensure the project opens.
   workLinks.forEach(function (a) {
     a.addEventListener('click', function () {
-      // Defer so the browser updates the hash first.
       setTimeout(openTargetProject, 0);
     });
   });
@@ -2266,7 +2086,6 @@ document.getElementById('cookie-no').onclick = function() {
     projectTargets.forEach(function (t) { pio.observe(t); });
   }
 
-  // Photography strip
   (async function loadPhotos() {
     var track = document.querySelector('[data-photo-track]');
     if (!track) return;
@@ -2274,9 +2093,6 @@ document.getElementById('cookie-no').onclick = function() {
     var exts   = /\.(jpe?g|png|webp|avif|gif)$/i;
     var files  = [];
 
-    // 1. Preferred: read a static manifest (`index.json`) so this works
-    //    on any host, not just python -m http.server. Regenerate by
-    //    running the one-liner in CLAUDE.md when files change.
     try {
       var mres = await fetch(folder + 'index.json', { cache: 'no-cache' });
       if (mres.ok) {
@@ -2285,7 +2101,6 @@ document.getElementById('cookie-no').onclick = function() {
       }
     } catch (_) {}
 
-    // 2. Fallback: parse the python http.server directory listing.
     if (!files.length) {
       try {
         var res = await fetch(folder, { headers: { Accept: 'text/html' } });
@@ -2299,8 +2114,7 @@ document.getElementById('cookie-no').onclick = function() {
       } catch (_) {}
     }
 
-    if (!files.length) return; // nothing to show
-    // Fisher–Yates shuffle so order is random on each load
+    if (!files.length) return;
     for (var i = files.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
       var tmp = files[i]; files[i] = files[j]; files[j] = tmp;
@@ -2315,8 +2129,6 @@ document.getElementById('cookie-no').onclick = function() {
     track.appendChild(frag);
   })();
 
-
-  // Lightbox
   (function lightbox() {
     var lb     = document.getElementById('lightbox');
     if (!lb) return;
@@ -2355,7 +2167,6 @@ document.getElementById('cookie-no').onclick = function() {
     });
   })();
 
-  // Chat Widget
   (function initChatWidget() {
     var bubble = document.getElementById('chatBubble');
     var panel = document.getElementById('chatPanel');
@@ -2430,14 +2241,11 @@ document.getElementById('cookie-no').onclick = function() {
       addMessage(userMessage, true);
       input.value = '';
 
-      // Send to email (hidden from user)
       sendToEmail(userMessage);
 
-      // Bot response after delay
       setTimeout(function() {
         addMessage(getRandomResponse(), false);
 
-        // Show contact info after first question (delayed after bot response)
         if (!hasAskedQuestion) {
           hasAskedQuestion = true;
           setTimeout(function() {
@@ -2447,7 +2255,6 @@ document.getElementById('cookie-no').onclick = function() {
       }, 500);
     });
 
-    // Close on outside click
     document.addEventListener('click', function(e) {
       if (!panel.contains(e.target) && !bubble.contains(e.target)) {
         panel.classList.remove('open');
@@ -2463,7 +2270,6 @@ function ga(name, params) {
   if (typeof window.gtag === 'function') window.gtag('event', name, params || {});
 }
 
-/* ── 1. Project Opens ── */
 var details = document.querySelectorAll('.project-details');
 for (var i = 0; i < details.length; i++) {
   details[i].addEventListener('toggle', (function(el) {
@@ -2476,7 +2282,6 @@ for (var i = 0; i < details.length; i++) {
   })(details[i]));
 }
 
-/* ── 2. Video Plays ── */
 var vids = document.querySelectorAll('.lite-yt');
 for (var v = 0; v < vids.length; v++) {
   vids[v].addEventListener('click', (function(btn) {
@@ -2489,7 +2294,6 @@ for (var v = 0; v < vids.length; v++) {
   })(vids[v]));
 }
 
-/* ── 3. Chat Widget ── */
 var bubble = document.getElementById('chatBubble');
 if (bubble) bubble.addEventListener('click', function() { ga('chat_open'); });
 
@@ -2501,7 +2305,6 @@ if (form) {
   });
 }
 
-/* ── 4. Lightbox Image Views ── */
 document.addEventListener('click', function(e) {
   if (e.target.tagName === 'IMG' &&
      (e.target.closest('.gallery') || e.target.closest('.photo-track') || e.target.closest('.cover'))) {
@@ -2509,7 +2312,6 @@ document.addEventListener('click', function(e) {
   }
 });
 
-/* ── 5. Scroll Depth (25 / 50 / 75 / 100%) ── */
 var scrollFired = {};
 window.addEventListener('scroll', function() {
   var depth = Math.round(((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight) * 100);
@@ -2521,12 +2323,10 @@ window.addEventListener('scroll', function() {
   });
 });
 
-/* ── 6. Time on Page (30s, 1min, 2min, 5min) ── */
 [30, 60, 120, 300].forEach(function(s) {
   setTimeout(function() { ga('time_on_page', { seconds: s }); }, s * 1000);
 });
 
-/* ── 7. Contact / Footer Links ── */
 var footLinks = document.querySelectorAll('.foot-contact a');
 for (var f = 0; f < footLinks.length; f++) {
   footLinks[f].addEventListener('click', (function(link) {
@@ -2542,13 +2342,11 @@ for (var f = 0; f < footLinks.length; f++) {
   })(footLinks[f]));
 }
 
-/* ── 8. Award Strip Clicks ── */
 var awards = document.querySelectorAll('.award-strip a');
 for (var a = 0; a < awards.length; a++) {
   awards[a].addEventListener('click', function() { ga('award_click'); });
 }
 
-/* ── 9. Photo Strip Engagement ── */
 var track = document.querySelector('.photo-track');
 if (track) {
   var photoFired = false;
@@ -2560,7 +2358,6 @@ if (track) {
   });
 }
 
-/* ── 10. Work Nav Clicks ── */
 var navLinks = document.querySelectorAll('.work-nav a');
 for (var n = 0; n < navLinks.length; n++) {
   navLinks[n].addEventListener('click', (function(link) {
@@ -2571,5 +2368,5 @@ for (var n = 0; n < navLinks.length; n++) {
 }
 })();
 </script>
-</body>
-</html>
+
+</body></html>
