@@ -3,8 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- Cookie Consent Banner -->
+<!-- Cookie Consent Banner — blocks interaction until choice -->
 <style>
+#cookie-overlay {
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.6);
+backdrop-filter: blur(3px);
+-webkit-backdrop-filter: blur(3px);
+z-index: 99998;
+display: none;
+}
+#cookie-overlay.active { display: block; }
+
 #cookie-banner {
 font-family: 'Inter', system-ui, sans-serif;
 position: fixed;
@@ -14,23 +25,35 @@ transform: translateX(-50%);
 background: #fff;
 color: #1a1a1a;
 border-radius: 12px;
-box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-padding: 14px 24px;
+box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+padding: 16px 24px;
 display: none;
 align-items: center;
 gap: 14px;
-z-index: 9999;
+z-index: 99999;
 font-size: 13px;
 line-height: 1.4;
-max-width: 420px;
+max-width: 440px;
 border: 1px solid rgba(0,0,0,0.06);
+}
+#cookie-banner.active { display: flex; }
+#cookie-banner.wiggle {
+animation: wiggle 0.4s ease;
+}
+@keyframes wiggle {
+0% { transform: translateX(-50%) rotate(0deg); }
+20% { transform: translateX(-50%) rotate(-1.5deg); }
+40% { transform: translateX(-50%) rotate(1.5deg); }
+60% { transform: translateX(-50%) rotate(-1deg); }
+80% { transform: translateX(-50%) rotate(1deg); }
+100% { transform: translateX(-50%) rotate(0deg); }
 }
 #cookie-banner button {
 background: #1a1a1a;
 color: #fff;
 border: none;
 border-radius: 6px;
-padding: 7px 14px;
+padding: 8px 16px;
 font-family: inherit;
 font-size: 13px;
 font-weight: 500;
@@ -57,9 +80,21 @@ white-space: nowrap;
   flex-wrap: wrap;
   gap: 10px;
 }
+#cookie-banner.wiggle {
+  animation: wiggle-mobile 0.4s ease;
+}
+@keyframes wiggle-mobile {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(-1.5deg); }
+  40% { transform: rotate(1.5deg); }
+  60% { transform: rotate(-1deg); }
+  80% { transform: rotate(1deg); }
+  100% { transform: rotate(0deg); }
+}
 }
 </style>
 
+<div id="cookie-overlay"></div>
 <div id="cookie-banner">
 This site uses cookies for analytics.
 <button id="cookie-ok">OK</button>
@@ -67,6 +102,86 @@ This site uses cookies for analytics.
 </div>
 
 <script>
+(function() {
+var KEY = 'marco_consent';
+var overlay = document.getElementById('cookie-overlay');
+var banner = document.getElementById('cookie-banner');
+var consent = localStorage.getItem(KEY);
+
+function loadGA() {
+  if (window._gaLoaded) return;
+  window._gaLoaded = true;
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-9G9TJLTWJ8';
+  document.head.appendChild(s);
+  s.onload = function() {
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-9G9TJLTWJ8');
+  };
+}
+
+function hide() {
+  banner.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function wiggle() {
+  banner.classList.remove('wiggle');
+  void banner.offsetWidth; // reflow to restart animation
+  banner.classList.add('wiggle');
+}
+
+// Already chose → load or skip, no banner
+if (consent === 'yes') { loadGA(); return; }
+if (consent === 'no') return;
+
+// Show banner + overlay
+setTimeout(function() {
+  banner.classList.add('active');
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}, 300);
+
+// Wiggle on scroll attempt
+window.addEventListener('wheel', function(e) {
+  if (overlay.classList.contains('active')) {
+    e.preventDefault();
+    wiggle();
+  }
+}, { passive: false });
+
+// Wiggle on touch move (mobile scroll)
+window.addEventListener('touchmove', function(e) {
+  if (overlay.classList.contains('active')) {
+    e.preventDefault();
+    wiggle();
+  }
+}, { passive: false });
+
+// Wiggle on overlay click
+overlay.addEventListener('click', function() {
+  wiggle();
+});
+
+// Accept
+document.getElementById('cookie-ok').onclick = function() {
+  localStorage.setItem(KEY, 'yes');
+  hide();
+  loadGA();
+};
+
+// Decline
+document.getElementById('cookie-no').onclick = function() {
+  localStorage.setItem(KEY, 'no');
+  hide();
+};
+})();
+</script>
 (function() {
 var KEY = 'marco_consent';
 
