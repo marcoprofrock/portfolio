@@ -202,9 +202,9 @@ footer a:hover { color: var(--fg); }
   padding: 3px 0;
 }
 .mac-msg.bot { align-self: flex-start; }
-.mac-msg.bot::before { content: '▶ '; opacity: 0.4; }
+.mac-msg.bot::before { content: '\25B6 '; opacity: 0.4; }
 .mac-msg.user { align-self: flex-end; color: #555; text-align: right; }
-.mac-msg.user::before { content: '› '; opacity: 0.4; }
+.mac-msg.user::before { content: '\203A '; opacity: 0.4; }
 .mac-msg.contact {
   border-top: 1px dashed #999;
   padding-top: 6px;
@@ -602,24 +602,45 @@ footer a:hover { color: var(--fg); }
   init();
 })();
 </script>
+<!-- GA4 Custom Event Tracking -->
 <script>
 (function() {
 function ga(name, params) {
   if (typeof window.gtag === 'function') window.gtag('event', name, params || {});
 }
+
+// Track predefined question clicks
+document.getElementById('chatMessages').addEventListener('click', function(e) {
+  if (e.target.classList.contains('mac-q-btn')) {
+    ga('mac_question_click', {
+      question: e.target.textContent
+    });
+  }
+});
+
+// Track free-text submissions
 var form = document.getElementById('chatForm');
 if (form) {
   form.addEventListener('submit', function() {
     var inp = document.getElementById('chatInput');
-    ga('chat_message_sent', { message_length: inp ? inp.value.length : 0 });
+    if (inp && inp.value.trim()) {
+      ga('chat_message_sent', {
+        message_length: inp.value.length,
+        message_text: inp.value.trim().substring(0, 100)
+      });
+    }
   });
 }
+
+// Track portfolio link click
 var portfolio = document.querySelector('.portfolio');
 if (portfolio) {
   portfolio.addEventListener('click', function() {
     ga('io_portfolio_click');
   });
 }
+
+// Track footer contact links
 var footLinks = document.querySelectorAll('footer a');
 for (var f = 0; f < footLinks.length; f++) {
   footLinks[f].addEventListener('click', (function(link) {
@@ -631,9 +652,24 @@ for (var f = 0; f < footLinks.length; f++) {
     };
   })(footLinks[f]));
 }
+
+// Track contact overlay clicks inside Mac
+document.getElementById('chatContact').addEventListener('click', function(e) {
+  if (e.target.tagName === 'A') {
+    var type = 'other';
+    if (/mailto:/i.test(e.target.href)) type = 'email';
+    if (/tel:/i.test(e.target.href)) type = 'phone';
+    if (/marco\.ad/i.test(e.target.href) && !/mailto/i.test(e.target.href)) type = 'portfolio';
+    ga('mac_contact_click', { link_type: type });
+  }
+});
+
+// Time on page
 [30, 60, 120, 300].forEach(function(s) {
   setTimeout(function() { ga('time_on_page', { seconds: s }); }, s * 1000);
 });
+
+// Scroll depth
 var scrollFired = {};
 window.addEventListener('scroll', function() {
   var depth = Math.round(((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight) * 100);
