@@ -1,0 +1,393 @@
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mac Timeline — Prototype v2</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #0a0a0a;
+  color: #f4f4f2;
+  overflow-x: hidden;
+}
+
+.cookie-overlay {
+  position: fixed;
+  inset: 0;
+  background: #0a0a0a;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+}
+.cookie-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.cookie-box {
+  background: #fff;
+  color: #1a1a1a;
+  border-radius: 12px;
+  padding: 20px 28px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+.cookie-box button {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.cookie-box button:hover { opacity: 0.8; }
+
+.timeline-scroll {
+  position: relative;
+  height: 500vh;
+}
+
+#mac-char {
+  position: fixed;
+  z-index: 100;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+#mac-char svg {
+  display: block;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.5));
+  image-rendering: pixelated;
+}
+
+#mac-speech {
+  position: fixed;
+  z-index: 101;
+  font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+  font-size: clamp(13px, 1.8vw, 18px);
+  color: #f4f4f2;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+#scroll-hint {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 102;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  background: rgba(0,0,0,0.7);
+  padding: 14px 28px 16px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+#scroll-hint span {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(244,244,242,0.8);
+}
+#scroll-hint svg {
+  animation: bob 1.6s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+.station {
+  position: fixed;
+  left: 8vw;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: min(420px, 45vw);
+  z-index: 90;
+}
+.station img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  display: block;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.station .text {
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(244,244,242,0.8);
+}
+.station .year {
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.15em;
+  color: rgba(244,244,242,0.4);
+  text-transform: uppercase;
+}
+
+.portfolio-placeholder {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid rgba(244,244,242,0.1);
+}
+.portfolio-placeholder p {
+  font-size: 14px;
+  opacity: 0.3;
+  text-align: center;
+}
+
+#mac-char.settled {
+  position: fixed !important;
+  left: auto !important;
+  right: 24px !important;
+  bottom: 24px !important;
+  top: auto !important;
+  transform: none !important;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.3s ease;
+}
+#mac-char.settled svg {
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+  width: 98px;
+  height: 119px;
+}
+#mac-char.settled:hover {
+  transform: scale(1.08) !important;
+}
+</style>
+</head>
+<body>
+
+<div class="cookie-overlay" id="cookieOverlay">
+  <div class="cookie-box">
+    This site uses cookies.
+    <button id="cookieOk">OK</button>
+  </div>
+</div>
+
+<div id="scroll-hint">
+  <span>Scroll</span>
+  <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M1 1L8 9L15 1" stroke="rgba(244,244,242,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</div>
+
+<div id="mac-char">
+  <svg width="392" height="476" viewBox="0 0 14 17" fill="none" shape-rendering="crispEdges" style="image-rendering:pixelated;">
+    <rect x="1" y="0" width="12" height="13" fill="#d4c8a0"></rect>
+    <rect x="2" y="1" width="10" height="7" fill="#ff9e2c"></rect>
+    <rect x="4" y="3" width="1" height="1" fill="#5a2800"></rect>
+    <rect x="9" y="3" width="1" height="1" fill="#5a2800"></rect>
+    <rect x="5" y="5" width="1" height="1" fill="#5a2800"></rect>
+    <rect x="8" y="5" width="1" height="1" fill="#5a2800"></rect>
+    <rect x="6" y="6" width="2" height="1" fill="#5a2800"></rect>
+    <rect x="5" y="10" width="4" height="1" fill="#b8a878"></rect>
+    <rect x="4" y="14" width="6" height="1" fill="#d4c8a0"></rect>
+    <rect x="3" y="15" width="8" height="1" fill="#d4c8a0"></rect>
+  </svg>
+</div>
+
+<div id="mac-speech"></div>
+
+<div class="station" id="st1">
+  <div class="year">2021</div>
+  <img src="assets/07_home/19_lifesaver.gif" alt="">
+  <div class="text">He studied product design. Made chairs. Nice chairs. Solved problems that — if we're being honest — had already been solved.</div>
+</div>
+<div class="station" id="st2">
+  <div class="year">2023</div>
+  <img src="assets/07_home/20_sf.gif" alt="">
+  <div class="text">Then the crisis. The real problems aren't in objects — they're in people's heads. So he switched to advertising. His parents were thrilled. (They were not thrilled.)</div>
+</div>
+<div class="station" id="st3">
+  <div class="year">2024</div>
+  <img src="assets/07_home/21-awards.gif" alt="">
+  <div class="text">A year later he was in Cannes. Says he didn't plan it. I believe him. He's terrible at planning. Good at showing up, though.</div>
+</div>
+
+<div class="timeline-scroll" id="timelineScroll"></div>
+
+<div class="portfolio-placeholder">
+  <p>↓ Portfolio content starts here ↓</p>
+</div>
+
+<script>
+(function() {
+  var cookie = document.getElementById('cookieOverlay');
+  var mac = document.getElementById('mac-char');
+  var speech = document.getElementById('mac-speech');
+  var hint = document.getElementById('scroll-hint');
+  var st1 = document.getElementById('st1');
+  var st2 = document.getElementById('st2');
+  var st3 = document.getElementById('st3');
+  var started = false;
+  var settled = false;
+
+  document.getElementById('cookieOk').addEventListener('click', function() {
+    cookie.classList.add('hidden');
+    setTimeout(startIntro, 600);
+  });
+
+  function startIntro() {
+    started = true;
+    mac.style.transition = 'transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    mac.style.transform = 'translate(-50%, -50%) scale(1.1)';
+
+    setTimeout(function() {
+      speech.style.left = '50%';
+      speech.style.top = '16%';
+      speech.style.transform = 'translateX(-50%)';
+      speech.innerHTML = "Hi! Welcome to Marco\u2019s Portfolio.";
+      speech.style.transition = 'opacity 0.6s ease';
+      speech.style.opacity = '1';
+    }, 800);
+
+    setTimeout(function() {
+      hint.style.transition = 'opacity 0.5s ease';
+      hint.style.opacity = '1';
+    }, 1800);
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  function onScroll() {
+    if (!started) return;
+
+    var scrollY = window.scrollY;
+    var vh = window.innerHeight;
+    var totalScroll = vh * 4;
+    var progress = Math.min(1, scrollY / totalScroll);
+
+    hint.style.opacity = Math.max(0, 1 - progress * 12).toString();
+
+    // Intro speech
+    if (progress < 0.06) {
+      speech.style.opacity = '1';
+      speech.innerHTML = "Hi! Welcome to Marco\u2019s Portfolio.";
+      speech.style.left = '50%';
+      speech.style.top = '16%';
+      speech.style.transform = 'translateX(-50%)';
+    } else if (progress < 0.12) {
+      speech.style.opacity = Math.max(0, 1 - (progress - 0.06) / 0.04).toString();
+    }
+
+    // Mac movement
+    var macScale, macLeft, macTop;
+
+    if (progress < 0.1) {
+      macScale = 1.1;
+      macLeft = 50;
+      macTop = 50;
+    } else if (progress < 0.18) {
+      var t = (progress - 0.1) / 0.08;
+      var ease = t * t * (3 - 2 * t);
+      macScale = 1.1 - ease * 0.23;
+      macLeft = 50 + ease * 24;
+      macTop = 50;
+    } else if (progress < 0.75) {
+      var t2 = (progress - 0.18) / 0.57;
+      macScale = 0.87 - t2 * 0.12;
+      macLeft = 74;
+      macTop = 50;
+    } else if (progress < 0.92) {
+      var t3 = (progress - 0.75) / 0.17;
+      var ease3 = t3 * t3;
+      macScale = 0.75 - ease3 * 0.5;
+      macLeft = 74 + ease3 * 18;
+      macTop = 50 + ease3 * 38;
+    } else {
+      macScale = 0.25;
+      macLeft = 92;
+      macTop = 88;
+    }
+
+    if (!settled) {
+      mac.style.transition = 'none';
+      mac.style.left = macLeft + '%';
+      mac.style.top = macTop + '%';
+      mac.style.transform = 'translate(-50%, -50%) scale(' + macScale + ')';
+    }
+
+    // Stations
+    showStation(st1, progress, 0.14, 0.36);
+    showStation(st2, progress, 0.36, 0.56);
+    showStation(st3, progress, 0.56, 0.75);
+
+    // Goodbye speech
+    if (progress > 0.78 && progress < 0.92) {
+      var fadeT = Math.min(1, (progress - 0.78) / 0.04);
+      speech.innerHTML = "Questions? I\u2019ll be down here!";
+      speech.style.left = '50%';
+      speech.style.top = '38%';
+      speech.style.transform = 'translateX(-50%)';
+      speech.style.opacity = fadeT.toString();
+    } else if (progress >= 0.92) {
+      speech.style.opacity = Math.max(0, 1 - (progress - 0.92) / 0.04).toString();
+    }
+
+    // Settle
+    if (progress >= 0.97 && !settled) {
+      settled = true;
+      mac.classList.add('settled');
+      mac.style.left = '';
+      mac.style.top = '';
+      mac.style.transform = '';
+      speech.style.opacity = '0';
+    }
+    if (progress < 0.93 && settled) {
+      settled = false;
+      mac.classList.remove('settled');
+    }
+  }
+
+  function showStation(el, progress, start, end) {
+    var fadeInEnd = start + (end - start) * 0.2;
+    var fadeOutStart = end - (end - start) * 0.18;
+
+    if (progress < start || progress > end) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(-50%)';
+    } else if (progress < fadeInEnd) {
+      var t = (progress - start) / (fadeInEnd - start);
+      el.style.opacity = t.toString();
+      el.style.transform = 'translateY(' + (-50 + (1 - t) * 8) + '%)';
+    } else if (progress < fadeOutStart) {
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(-50%)';
+    } else {
+      var t2 = (progress - fadeOutStart) / (end - fadeOutStart);
+      el.style.opacity = (1 - t2).toString();
+      el.style.transform = 'translateY(' + (-50 - t2 * 8) + '%)';
+    }
+  }
+
+})();
+</script>
+
+</body></html>
