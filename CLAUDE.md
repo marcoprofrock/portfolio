@@ -60,3 +60,5 @@ Hosted on GitHub Pages: https://github.com/marcoprofrock/portfolio.git
 ## Session Log
 - **2026-05-05**: Integrated Mini Mac walk animation system from `minimac-animatio-emotion.html` into portfolio. Mac now walks between left/right sides when idle, shows speech bubbles, changes expressions. Clickable on both sides to open chat. Created CLAUDE.md.
 - **2026-05-05**: Extended timeline scroll from 500vh→900vh for longer dwell on stations. Spread station ranges wider (10–35%, 35–58%, 58–80%). Made year labels much larger (28–48px) and positioned them between Mac and GIF on desktop.
+- **2026-05-05**: Fixed broken intro — smart/curly quotes (U+2018/2019/201C/201D) had leaked into JS causing silent parse error. Replaced all with straight quotes in script blocks.
+- **2026-05-06**: Style adaptation — increased spacing across all sections (projects, about, CV, awards table, photo strip) to match airy intro aesthetic. Station fly-in/fly-out: now slides from top (in) and down (out) with scale 88%→100%→88% for scroll feedback. Extended station dwell time.
