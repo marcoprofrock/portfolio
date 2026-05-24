@@ -290,14 +290,13 @@ body.lb-open { overflow: hidden; }
 .mac-bubble.bubble-right.visible { transform: translateY(-50%) translateX(0); }
 .mac-bubble.bubble-right::after { content: ''; position: absolute; top: 50%; left: -5px; transform: translateY(-50%); border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-right: 5px solid #fff; }
 #mac-speech { position: fixed; z-index: 91; font-family: 'Monaco','Menlo','Consolas',monospace; font-size: clamp(13px, 1.8vw, 18px); color: var(--fg); text-align: center; opacity: 0; pointer-events: none; line-height: 1.5; letter-spacing: 0.01em; white-space: nowrap; max-width: 86vw; }
-.station { position: fixed; left: 8vw; top: 50%; transform: translateY(-50%); opacity: 0; pointer-events: none; display: flex; flex-direction: column; gap: 12px; max-width: min(420px, 45vw); z-index: 50; overflow: visible; background: rgba(15,15,15,0.78); border: 1px solid rgba(244,244,242,0.14); border-radius: 18px; padding: 18px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 8px 32px rgba(0,0,0,0.35); }
-.station::before { content: ''; position: absolute; right: -17px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-top: 13px solid transparent; border-bottom: 13px solid transparent; border-left: 17px solid rgba(244,244,242,0.14); }
-.station::after { content: ''; position: absolute; right: -15px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 16px solid rgba(15,15,15,0.78); }
-.station img { width: 100%; height: auto; max-height: 50vh; object-fit: cover; border-radius: 6px; display: block; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-.station .text { font-family: 'Monaco','Menlo',monospace; font-size: 12px; line-height: 1.5; color: rgba(244,244,242,0.92); position: relative; padding: 0; background: transparent; border-radius: 0; }
+.station { position: fixed; left: 8vw; top: 50%; transform: translateY(-50%); opacity: 0; pointer-events: none; display: flex; flex-direction: column; gap: 12px; max-width: min(420px, 45vw); z-index: 50; overflow: visible; background: #fff; border-radius: 18px; padding: 18px; box-shadow: 0 8px 32px rgba(0,0,0,0.35); }
+.station::after { content: ''; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 14px solid #fff; }
+.station img { width: 100%; height: auto; max-height: 50vh; object-fit: cover; border-radius: 6px; display: block; }
+.station .text { font-family: 'Monaco','Menlo',monospace; font-size: 12px; line-height: 1.5; color: #000; font-weight: bold; position: relative; padding: 0; background: transparent; border-radius: 0; }
 #timeline-hairline { position: fixed; top: 0; bottom: 0; left: 23vw; width: 1px; background: rgba(244,244,242,0.4); pointer-events: none; z-index: 30; opacity: 0; transition: opacity 0.4s ease; }
 @media (max-width: 768px) { #timeline-hairline { left: 30vw; } }
-.station .year { font-family: 'Monaco','Menlo',monospace; font-size: clamp(28px, 4vw, 48px); font-weight: bold; letter-spacing: 0.08em; color: rgba(244,244,242,0.45); text-transform: uppercase; padding-bottom: 4px; }
+.station .year { font-family: 'Monaco','Menlo',monospace; font-size: clamp(28px, 4vw, 48px); font-weight: bold; letter-spacing: 0.08em; color: rgba(0,0,0,0.5); text-transform: uppercase; padding-bottom: 4px; }
 .timeline-end { position: relative; padding: clamp(40px, 8vw, 96px) var(--pad-x); max-width: calc(var(--content-max) + var(--pad-x) * 2); margin: 0 auto; }
 .timeline-end .award-strip { margin-top: 0; justify-content: center; }
 @media (max-width: 768px) {
@@ -305,7 +304,7 @@ body.lb-open { overflow: hidden; }
   .station::before, .station::after { display: none; }
   .station img { max-height: 36vh; }
   .station .text { font-size: 13px; }
-  .station .year { position: static; transform: none; right: auto; font-size: 22px; color: rgba(244,244,242,0.3); }
+  .station .year { position: static; transform: none; right: auto; font-size: 22px; color: rgba(0,0,0,0.45); }
   #mac-speech { font-size: 14px; white-space: normal; padding: 0 16px; }
 }
 @keyframes jump-bounce { 0%, 80%, 100% { transform: translateY(0); } 8% { transform: translateY(-16px); } 16% { transform: translateY(0); } 20% { transform: translateY(-8px); } 24% { transform: translateY(0); } }
