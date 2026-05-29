@@ -101,6 +101,21 @@ html.light #memberships .cv-rows .logo img,
 html.light .awards-table th img { filter: brightness(0); }
 /* project mono logos (white svg, no filter by default) -> black; colour version on hover unaffected */
 html.light .head .logo-mono { filter: brightness(0); }
+/* light mode: no drop shadows */
+html.light .intro-figs .fig,
+html.light #scroll-hint,
+html.light .station,
+html.light .mac-bubble,
+html.light .lightbox img { box-shadow: none; }
+html.light .chat-trigger,
+html.light .chat-trigger:hover,
+html.light #chatTrigger svg,
+html.light #chatTrigger.settled,
+html.light #chatTrigger.settled:hover,
+html.light #chatTrigger.walking { filter: none; }
+/* keep white bubbles legible on white without a shadow */
+html.light .station { border: 0.5px solid rgba(14,14,14,0.14); }
+html.light .mac-bubble { border: 0.5px solid rgba(14,14,14,0.16); }
 /* subtle header theme toggle */
 .theme-toggle { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 44px; height: 22px; padding: 0; border-radius: 999px; border: 0.5px solid var(--rule-strong); background: var(--rule); cursor: pointer; -webkit-appearance: none; appearance: none; transition: background .25s ease, border-color .25s ease; }
 .theme-toggle::after { content: ""; position: absolute; top: 50%; left: 3px; transform: translateY(-50%); width: 15px; height: 15px; border-radius: 50%; background: var(--fg); opacity: 0.78; transition: left .25s ease; }
