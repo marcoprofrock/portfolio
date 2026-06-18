@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /light/
 Disallow: /oslo/
 
 Sitemap: https://www.marco.ad/sitemap.xml
