@@ -16,6 +16,8 @@ Hosted on GitHub Pages: https://github.com/marcoprofrock/portfolio.git
 - `io/index.html` — Hidden SP.IO application page with permanent side-by-side chat
 - `intro.html` — Reference prototype for timeline animation (not linked)
 - `privacy.html` — GDPR privacy policy
+- `500ls/index.html` — Interactive 500l/s typeface tester (clone of index.html, root-relative `/assets`, noindex). Not linked from live index.html yet.
+- `assets/fonts/500ls/500ls-01…13.otf` — The 13 final 500l/s display cuts (one per Stuttgart spring), `@font-face`'d as families `ls01…ls13`
 - `assets/08_Photography/index.json` — Photo gallery manifest (regenerated from disk)
 - `assets/11_MiniMac/03_isolated_html/minimac-animatio-emotion.html` — Mini Mac animation reference
 
@@ -43,6 +45,16 @@ Hosted on GitHub Pages: https://github.com/marcoprofrock/portfolio.git
 - Loaded from `index.json` manifest
 - Fisher-Yates shuffle on load
 - Horizontal scroll track with lightbox
+
+### 500l/s Typeface Tester (`/500ls/`)
+- Lives in `500ls/index.html` — a full clone of `index.html` with root-relative `/assets` paths + `noindex,nofollow` (robots.txt Disallow `/500ls/`). Embedded as a `.tt` panel inside the `#p-500ls` project block, which is `open` by default on this page. Module CSS injected before `</head>`, JS before `</body>`.
+- Source of truth for the behaviour is `33_BA_500ls/12_BA_ABGABE_klein/07_Anhang_G_Headline_Extended_Script_randomizer.jsx` (the Illustrator randomizer), NOT just the thesis. Keep them in sync if cuts/colors change.
+- 13 cuts = 13 Stuttgart springs, each with a fixed colour. Cut→HEX (from the script): 01 #EDEC3F · 02 #9DE89F · 03 #62C2B1 · 04 #FFC03F · 05 #FFAE3B · 06 #FFE552 · 07 #FCCF61 · 08 #D4E458 · 09 #0076AD · 10 #00ABC2 · 11 #3F526F · 12 #235BA8 · 13 #008DB1. Fonts are `@font-face` families `ls01…ls13` → `assets/fonts/500ls/500ls-NN.otf`.
+- **Dachmarke (mix):** each glyph gets a random cut **+ that cut's colour as a pair**, never the same cut twice in a row. **Einzelschnitt:** one cut+colour for all glyphs (caption shows spring + HEX).
+- **Baseline wave:** per-glyph `translateY(±wf · pct em)`, slider 0–100 % (= Illustrator `fontSize · pct`). Default OFF (straight baseline).
+- Controls: text field, Schnitt select (Dachmarke + 13 springs), Schreibweise (Original/GROSS/klein/zufällig — case is stable per glyph), Baseline-Welle slider, "Neu würfeln". Per-position randomness is stored in a `rolls[]` array so typing/sliding doesn't reshuffle existing glyphs; "Neu würfeln" regenerates it.
+- Default load = mix + colour + straight baseline. Tester window background = brandbook **Cloud Dancer** `#F0EEE9` (genuine PANTONE 11-4201 TCX off-white; brandbook prints it as #FFFFFF but pure white would vanish on the light theme) on BOTH dark/light themes.
+- Build was done with a throwaway Python script (path-rewrite + injections); the generated `500ls/index.html` is the committed artefact. To regenerate after an `index.html` change, re-run the same transform.
 
 ## Conventions
 - Auto-push after each prompt (unless told otherwise)
