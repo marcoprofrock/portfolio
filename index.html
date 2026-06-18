@@ -446,8 +446,10 @@ html.light #chatTrigger svg,
 html.light #chatTrigger.settled,
 html.light #chatTrigger.settled:hover,
 html.light #chatTrigger.walking { filter: none; }
-/* keep white bubbles legible on white without a shadow */
-html.light .station { border: 0.5px solid rgba(14,14,14,0.14); }
+/* light mode: Mini Mac body (beige) -> black for contrast on white */
+html.light #chatTrigger [fill="#d4c8a0"] { fill: #0e0e0e; }
+/* GIF station windows + speech bubble: border matches the vertical timeline hairline */
+html.light .station { border: 1px solid rgba(14,14,14,0.4); }
 html.light .mac-bubble { border: 0.5px solid rgba(14,14,14,0.16); }
 /* subtle header theme toggle */
 .theme-toggle { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 44px; height: 22px; padding: 0; border-radius: 999px; border: 0.5px solid var(--rule-strong); background: var(--rule); cursor: pointer; -webkit-appearance: none; appearance: none; transition: background .25s ease, border-color .25s ease; }
