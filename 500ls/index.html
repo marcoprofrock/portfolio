@@ -4,7 +4,6 @@
 <meta name="robots" content="noindex,nofollow">
 <title>500l/s — Parametric Mineral-Water Typeface &amp; Identity · Marco Pröfrock</title>
 <link rel="icon" type="image/png" href="/assets/10_favicon/favicon.png">
-<script>document.documentElement.classList.add('js-pending');try{if(localStorage.getItem('theme')==='light')document.documentElement.classList.add('light');}catch(e){}</script>
 <meta name="description" content="500l/s turns the chemistry of Stuttgart's 13 mineral springs into a parametric display typeface and a city-wide identity. Case study with an interactive type tester. Art direction by Marco Pröfrock.">
 <link rel="canonical" href="https://www.marco.ad/500ls/">
 <meta name="author" content="Marco Pröfrock">
@@ -36,6 +35,7 @@
   "sourceOrganization": { "@type": "Organization", "name": "Stuttgarter Bäder" },
   "award": [
     "TDC Young Ones 2026 — Certificate of Typographic Excellence",
+    "The World's Best Typography — selected for the TDC Annual 2026",
     "ADC Young Ones 2026 — Merit",
     "ADC Talent Award 2026 — Bronze"
   ]
@@ -60,18 +60,17 @@ img, svg, iframe { display: block; max-width: 100%; }
 img { height: auto; }
 a { color: inherit; text-decoration: none; }
 ul, ol { list-style: none; }
-:root { --bg: #0a0a0a; --fg: #f4f4f2; --muted: rgba(244,244,242,0.55); --rule: rgba(244,244,242,0.10); --rule-strong: rgba(244,244,242,0.20); --pad-x: clamp(20px, 4vw, 64px); --top-h: 56px; --content-max: 1180px; }
+:root { --bg: #F0EEE9; --fg: #16160f; --muted: rgba(22,22,15,0.56); --rule: rgba(22,22,15,0.12); --rule-strong: rgba(22,22,15,0.22); --pad-x: clamp(20px, 4vw, 64px); --top-h: 56px; --content-max: 1180px; }
 ::selection { background: var(--fg); color: var(--bg); }
 html, body { overflow-x: clip; max-width: 100%; }
 body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; font-weight: 400; font-size: 16px; line-height: 1.55; background: var(--bg); color: var(--fg); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-wrap: anywhere; word-break: break-word; }
-html.js-pending body { opacity: 0; }
-body { transition: opacity .3s ease; }
 [id] { scroll-margin-top: calc(var(--top-h) + 16px); }
 .wrap { max-width: calc(var(--content-max) + var(--pad-x) * 2); margin: 0 auto; padding: 0 var(--pad-x); }
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 /* ===== Top bar ===== */
-.top { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 16px var(--pad-x); min-height: var(--top-h); background: rgba(10,10,10,0.78); backdrop-filter: saturate(140%) blur(14px); -webkit-backdrop-filter: saturate(140%) blur(14px); border-bottom: 0.5px solid var(--rule); }
+.top { position: sticky; top: 0; z-index: 100; background: rgba(240,238,233,0.82); backdrop-filter: saturate(140%) blur(14px); -webkit-backdrop-filter: saturate(140%) blur(14px); border-bottom: 0.5px solid var(--rule); }
+.top-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: var(--top-h); padding: 12px var(--pad-x); max-width: calc(var(--content-max) + var(--pad-x) * 2); margin: 0 auto; }
 .top .brand { font-size: 13px; font-weight: 500; letter-spacing: 0.01em; color: var(--muted); transition: color .2s ease; }
 .top .brand:hover { color: var(--fg); }
 .top .top-link { font-size: 13px; color: var(--muted); transition: color .2s ease; white-space: nowrap; }
@@ -79,7 +78,7 @@ body { transition: opacity .3s ease; }
 
 /* ===== Hero ===== */
 .kicker { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
-.cs-hero { padding: clamp(56px, 10vw, 132px) 0 clamp(28px, 5vw, 56px); display: grid; gap: clamp(20px, 3vw, 30px); }
+.cs-hero { padding-top: clamp(56px, 10vw, 132px); padding-bottom: clamp(28px, 5vw, 56px); display: grid; gap: clamp(20px, 3vw, 30px); }
 .cs-logo { height: clamp(58px, 9vw, 116px); width: auto; max-width: min(82vw, 560px); }
 .cs-tagline { font-size: clamp(26px, 4.4vw, 56px); font-weight: 500; line-height: 1.08; letter-spacing: -0.02em; max-width: 21ch; color: var(--fg); }
 .cs-facts { display: flex; flex-wrap: wrap; gap: clamp(22px, 4vw, 56px); margin-top: 6px; }
@@ -88,23 +87,23 @@ body { transition: opacity .3s ease; }
 .cs-facts dd { font-size: 15px; color: var(--fg); }
 .cs-badges { display: flex; align-items: center; gap: clamp(18px, 3.5vw, 36px); margin-top: 10px; flex-wrap: wrap; }
 .cs-badges li { display: flex; align-items: center; gap: 10px; }
-.cs-badges img { height: 30px; width: auto; max-width: 46px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.72; }
+.cs-badges img { height: 30px; width: auto; max-width: 46px; object-fit: contain; filter: brightness(0); opacity: 0.72; }
 .cs-badges span { font-size: 12px; color: var(--muted); letter-spacing: 0.01em; }
 
 /* ===== Sections ===== */
 .sec { padding-top: clamp(64px, 9vw, 124px); }
 .sec-head { margin-bottom: clamp(28px, 4vw, 48px); display: grid; gap: 10px; }
 .sec-head h2 { font-size: clamp(28px, 4.4vw, 52px); font-weight: 500; line-height: 1.04; letter-spacing: -0.025em; color: var(--fg); }
-.sec-lead { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: rgba(244,244,242,0.80); max-width: 64ch; }
+.sec-lead { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: rgba(22,22,15,0.80); max-width: 64ch; }
 
 /* Problem / Idea / Solution */
 .pis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 4vw, 56px); }
 .pis-item h3 { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg); margin-bottom: 12px; }
-.pis-item p { font-size: clamp(14px, 1.05vw, 16px); line-height: 1.7; color: rgba(244,244,242,0.86); }
+.pis-item p { font-size: clamp(14px, 1.05vw, 16px); line-height: 1.7; color: rgba(22,22,15,0.84); }
 @media (max-width: 760px) { .pis { grid-template-columns: 1fr; gap: 28px; } }
 
 /* ===== Case film ===== */
-.cc-hint { display: block; width: max-content; max-width: 100%; margin: 0 0 14px auto; padding: 5px 12px; border-radius: 999px; border: 0.5px solid var(--rule); background: rgba(255,255,255,0.03); font-size: 11px; letter-spacing: 0.04em; color: var(--muted); text-align: right; }
+.cc-hint { display: block; width: max-content; max-width: 100%; margin: 0 0 14px auto; padding: 5px 12px; border-radius: 999px; border: 0.5px solid var(--rule); background: rgba(22,22,15,0.04); font-size: 11px; letter-spacing: 0.04em; color: var(--muted); text-align: right; }
 .cc-hint::after { content: " ↓"; display: inline-block; margin-left: 4px; opacity: 0.8; }
 .video-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; overflow: hidden; border-radius: 4px; }
 .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
@@ -117,7 +116,7 @@ body { transition: opacity .3s ease; }
 
 /* ===== Gallery ===== */
 .gallery { display: flex; flex-direction: column; gap: clamp(8px, 1vw, 14px); }
-.gallery img { width: 100%; height: auto; background: rgba(255,255,255,0.03); border-radius: 2px; cursor: zoom-in; transition: opacity .2s ease; }
+.gallery img { width: 100%; height: auto; background: rgba(22,22,15,0.05); border-radius: 2px; cursor: zoom-in; transition: opacity .2s ease; }
 .gallery img:hover { opacity: 0.92; }
 .gallery .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(8px, 1vw, 14px); align-items: stretch; }
 .gallery .row-2 img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3; }
@@ -155,8 +154,8 @@ body { transition: opacity .3s ease; }
 .credits dd { color: var(--fg); line-height: 1.6; }
 @media (max-width: 480px) { .credits { grid-template-columns: 1fr; row-gap: 4px; } .credits dt { padding-top: 14px; } .credits dt:first-child { padding-top: 0; } }
 .awards { display: flex; flex-direction: column; gap: 12px; }
-.awards li { display: grid; grid-template-columns: 36px 1fr; align-items: center; gap: 14px; padding: 12px 14px; border: 0.5px solid var(--rule-strong); border-radius: 4px; background: rgba(255,255,255,0.02); }
-.awards img { width: 36px; height: 36px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.92; }
+.awards li { display: grid; grid-template-columns: 36px 1fr; align-items: center; gap: 14px; padding: 12px 14px; border: 0.5px solid var(--rule-strong); border-radius: 4px; background: rgba(255,255,255,0.5); }
+.awards img { width: 36px; height: 36px; object-fit: contain; filter: brightness(0); opacity: 0.92; }
 .awards span { display: flex; flex-direction: column; gap: 2px; font-size: 13px; color: var(--muted); }
 .awards strong { font-size: 13px; font-weight: 500; color: var(--fg); letter-spacing: 0.01em; }
 
@@ -181,27 +180,7 @@ body { transition: opacity .3s ease; }
 .lightbox .lb-close:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
 body.lb-open { overflow: hidden; }
 
-/* ===== Header theme toggle ===== */
-.theme-toggle { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 44px; height: 22px; padding: 0; border-radius: 999px; border: 0.5px solid var(--rule-strong); background: var(--rule); cursor: pointer; -webkit-appearance: none; appearance: none; transition: background .25s ease, border-color .25s ease; }
-.theme-toggle::after { content: ""; position: absolute; top: 50%; left: 3px; transform: translateY(-50%); width: 15px; height: 15px; border-radius: 50%; background: var(--fg); opacity: 0.78; transition: left .25s ease; }
-html.light .theme-toggle::after { left: 26px; }
-.theme-toggle:hover::after { opacity: 1; }
-@media (max-width: 460px) { .theme-toggle { display: none; } }
-
-/* ===== Light mode ===== */
-html.light { --bg: #ffffff; --fg: #0e0e0e; --muted: rgba(14,14,14,0.55); --rule: rgba(14,14,14,0.12); --rule-strong: rgba(14,14,14,0.22); }
-html.light body { background: var(--bg); color: var(--fg); }
-html.light .top { background: rgba(255,255,255,0.80); }
-html.light .sec-lead { color: rgba(14,14,14,0.80); }
-html.light .pis-item p { color: rgba(14,14,14,0.84); }
-/* surfaces (were faint-white on dark) -> faint-black on light */
-html.light .cc-hint,
-html.light .gallery img { background: rgba(14,14,14,0.04); }
-/* white award/badge logos -> black */
-html.light .cs-badges img,
-html.light .awards img { filter: brightness(0); }
-/* no drop shadows in light mode */
-html.light .lightbox img { box-shadow: none; }
+/* light-only page — no theme toggle, no dark mode */
 </style>
 <style id="tt-style">
 @font-face{font-family:'ls01';src:url('/assets/fonts/500ls/500ls-01.otf') format('opentype');font-display:swap}
@@ -242,7 +221,7 @@ html.light .lightbox img { box-shadow: none; }
 </style>
 </head>
 <body>
-<header class="top"><a href="/" class="brand">← Marco Pröfrock</a><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle light / dark mode" title="Light / Dark"></button><a href="#tester" class="top-link">Try the typeface ↓</a></header>
+<header class="top"><div class="top-inner"><a href="/" class="brand">← Marco Pröfrock</a><a href="#tester" class="top-link">Try the typeface ↓</a></div></header>
 <main id="top">
 
 <section class="cs-hero wrap">
@@ -252,7 +231,7 @@ html.light .lightbox img { box-shadow: none; }
 <dl class="cs-facts">
 <div><dt>Client</dt><dd>Stuttgarter Bäder</dd></div>
 <div><dt>Year</dt><dd>2026</dd></div>
-<div><dt>Role</dt><dd>Art Direction</dd></div>
+<div><dt>Project</dt><dd>Bachelor thesis · solo</dd></div>
 </dl>
 <ul class="cs-badges" aria-label="Awards">
 <li><img loading="lazy" decoding="async" src="/assets/awards/tdc.webp" alt="" aria-hidden="true" width="601" height="599"><span>TDC Young Ones 2026</span></li>
@@ -273,7 +252,7 @@ html.light .lightbox img { box-shadow: none; }
 <section class="sec wrap" id="film" aria-label="Case film">
 <div class="sec-head"><span class="kicker">Case film</span><h2>The system in motion.</h2></div>
 <p class="cc-hint">Subtitles available — press CC</p>
-<div class="video-wrap"><button type="button" class="lite-yt" data-id="JCJF8uDo0tQ" data-title="500l/s — Case film" aria-label="Play video: 500l/s — Case film"><img src="https://i.ytimg.com/vi/JCJF8uDo0tQ/hqdefault.jpg" srcset="https://i.ytimg.com/vi/JCJF8uDo0tQ/maxresdefault.jpg 1280w, https://i.ytimg.com/vi/JCJF8uDo0tQ/hqdefault.jpg 480w" sizes="(max-width: 720px) 100vw, 920px" alt="" loading="lazy" decoding="async" width="1280" height="720"><span class="lite-yt-play" aria-hidden="true"></span></button></div>
+<div class="video-wrap"><button type="button" class="lite-yt" data-id="JCJF8uDo0tQ" data-title="500l/s — Case film" aria-label="Play video: 500l/s — Case film"><img src="https://i.ytimg.com/vi/JCJF8uDo0tQ/sddefault.jpg" srcset="https://i.ytimg.com/vi/JCJF8uDo0tQ/sddefault.jpg 640w, https://i.ytimg.com/vi/JCJF8uDo0tQ/hqdefault.jpg 480w" sizes="(max-width: 720px) 100vw, 920px" alt="" loading="lazy" decoding="async" width="640" height="480"><span class="lite-yt-play" aria-hidden="true"></span></button></div>
 </section>
 
 <section class="sec wrap" id="visuals" aria-label="Key visuals">
@@ -304,12 +283,13 @@ html.light .lightbox img { box-shadow: none; }
 <dl class="credits">
 <dt>Year</dt><dd>2026</dd>
 <dt>Client</dt><dd>Stuttgarter Bäder</dd>
-<dt>Role</dt><dd>Art Direction</dd>
+<dt>Scope</dt><dd>Bachelor thesis — concept, brand identity, type design &amp; campaign, created entirely solo</dd>
 <dt>Supervision</dt><dd>Prof. Ursula Drees, Lucie Ilg</dd>
 <dt>Type / Identity</dt><dd>13-cut parametric display typeface, generative colour &amp; waveform system, integrated campaign</dd>
 </dl>
 <ul class="awards">
 <li><img loading="lazy" decoding="async" src="/assets/awards/tdc.webp" alt="" aria-hidden="true" width="601" height="599"><span><strong>TDC Young Ones 2026</strong>Certificate of Typographic Excellence</span></li>
+<li><img loading="lazy" decoding="async" src="/assets/awards/tdc.webp" alt="" aria-hidden="true" width="601" height="599"><span><strong>The World's Best Typography</strong>Selected for the TDC Annual 2026</span></li>
 <li><img loading="lazy" decoding="async" src="/assets/awards/adc-ny.webp" alt="" aria-hidden="true" width="528" height="530"><span><strong>ADC Young Ones 2026</strong>Merit</span></li>
 <li><img loading="lazy" decoding="async" src="/assets/awards/adc-germany.svg" alt="" aria-hidden="true" width="85" height="85"><span><strong>ADC Talent Award 2026</strong>1× Bronze</span></li>
 </ul>
@@ -340,10 +320,6 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
 <script>
 /* lightbox for gallery key visuals */
 (function(){var lb=document.getElementById('lightbox');if(!lb)return;var lbImg=lb.querySelector('img');var lbClose=lb.querySelector('.lb-close');var isZoomable=function(el){return el.tagName==='IMG'&&el.closest('.gallery')};var open=function(src,alt){lbImg.src=src;lbImg.alt=alt||'';lb.removeAttribute('hidden');void lb.offsetHeight;lb.classList.add('is-open');document.body.classList.add('lb-open')};var close=function(){lb.classList.remove('is-open');document.body.classList.remove('lb-open');setTimeout(function(){lb.setAttribute('hidden','');lbImg.src=''},240)};document.addEventListener('click',function(e){if(e.target instanceof Element&&isZoomable(e.target)){e.preventDefault();open(e.target.currentSrc||e.target.src,e.target.alt)}});lbClose.addEventListener('click',close);lb.addEventListener('click',function(e){if(e.target===lb)close()});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('is-open'))close()})})();
-</script>
-<script>
-/* theme toggle (dark default, persisted) + reveal */
-(function(){var root=document.documentElement;root.classList.remove('js-pending');var btn=document.getElementById('theme-toggle');function sync(){var light=root.classList.contains('light');if(btn)btn.setAttribute('aria-pressed',light?'true':'false');}sync();if(btn){btn.addEventListener('click',function(){var light=root.classList.toggle('light');try{localStorage.setItem('theme',light?'light':'dark');}catch(e){}sync();});}})();
 </script>
 <script>
 /* type-specimen video: autoplay + loop everywhere (gif-style, no controls);
