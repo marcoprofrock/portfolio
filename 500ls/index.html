@@ -136,6 +136,17 @@ body { transition: opacity .3s ease; }
 .spring .hx { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10.5px; color: #6f6f66; display: flex; align-items: center; gap: 6px; }
 .spring .hx i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; border: 1px solid rgba(20,20,15,0.18); flex: none; }
 
+/* ===== Type specimen video (full character set) ===== */
+.specimen { margin: clamp(24px, 3.5vw, 40px) auto clamp(6px, 1.2vw, 12px); max-width: min(400px, 78vw); display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.specimen-frame { position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; overflow: hidden; background: #000; }
+.specimen-frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.specimen.scrubbable .specimen-frame { cursor: ns-resize; }
+.specimen-scrub { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: rgba(255,255,255,0.9); box-shadow: 0 0 6px rgba(0,0,0,0.45); opacity: 0; transition: opacity .18s ease; pointer-events: none; }
+.specimen.scrubbable .specimen-frame:hover .specimen-scrub { opacity: 1; }
+.specimen-cap { font-size: 12px; color: var(--muted); text-align: center; letter-spacing: .02em; }
+.specimen-cap .hint { display: none; }
+.specimen.scrubbable .specimen-cap .hint { display: inline; }
+
 /* ===== Credits & awards ===== */
 .ca { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.9fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
 @media (max-width: 860px) { .ca { grid-template-columns: 1fr; gap: 32px; } }
@@ -278,7 +289,9 @@ html.light .lightbox img { box-shadow: none; }
 </section>
 
 <section class="sec wrap" id="tester" aria-label="The parametric system">
-<div class="sec-head"><span class="kicker">The parametric system</span><h2>One spring → one cut → one colour.</h2><p class="sec-lead">Each of Stuttgart's 13 mineral springs drives one cut of the display typeface and one fixed colour, derived from the spring's chemistry. The brand mark (Dachmarke) mixes all 13 cuts; a single spring locks one cut. Try it below.</p></div>
+<div class="sec-head"><span class="kicker">The parametric system</span><h2>One spring → one cut → one colour.</h2><p class="sec-lead">Each of Stuttgart's 13 mineral springs drives one cut of the display typeface and one fixed colour, derived from the spring's chemistry. The brand mark (Dachmarke) mixes all 13 cuts; a single spring locks one cut. Watch the full character set run through below — then type with it yourself.</p></div>
+
+<figure class="specimen"><div class="specimen-frame"><video id="specimenVid" src="/assets/05_500ls/500l_s_Showcase_1080x1920_60s_1.mp4" autoplay muted loop playsinline preload="auto" aria-label="500l/s typeface — the full character set in motion"></video><span class="specimen-scrub" id="specimenScrub" aria-hidden="true"></span></div><figcaption class="specimen-cap">The full 500l/s character set, glyph by glyph<span class="hint"> · hover to scrub</span></figcaption></figure>
 
 <section class="tt" aria-label="500l/s typeface tester"><span class="tt-kicker">Interactive · Try it</span><h3 class="tt-title">Type with 500l/s</h3><div class="tt-stage"><div class="tt-preview" id="ttPreview"></div><div class="tt-caption" id="ttCaption"></div></div><div class="tt-controls"><label class="tt-field tt-field--text"><span>Text</span><input id="ttText" type="text" maxlength="48" value="Calcium" autocomplete="off" spellcheck="false"></label><label class="tt-field"><span>Cut</span><select id="ttMode"><option value="mix" selected>Mixed — all 13 cuts</option><optgroup label="Single cut (spring)"><option value="0">01 · Hofrat-Seyffer-Quelle</option><option value="1">02 · Gottlieb-Daimler-Quelle</option><option value="2">03 · Wilhelmsbrunnen 1</option><option value="3">04 · Inselquelle (LEUZE)</option><option value="4">05 · Berger Urquell</option><option value="5">06 · Südquelle (M–B Berg)</option><option value="6">07 · Leuzequelle (LEUZE)</option><option value="7">08 · Veielquelle</option><option value="8">09 · Maurischer Garten</option><option value="9">10 · Schiffmannbrunnen</option><option value="10">11 · Mombachquelle</option><option value="11">12 · Auquelle</option><option value="12">13 · Kellerbrunnen alt</option></optgroup></select></label><label class="tt-field"><span>Weight</span><select id="ttCase"><option value="none">As typed</option><option value="upper">Light</option><option value="lower">Heavy</option><option value="random" selected>Mixed</option></select></label><label class="tt-field tt-field--range"><span>Baseline wave <b id="ttWaveVal">15%</b></span><input id="ttWave" type="range" min="0" max="100" value="15"></label><button type="button" id="ttRoll" class="tt-roll">↻ Shuffle</button></div></section>
 
@@ -331,6 +344,33 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
 <script>
 /* theme toggle (dark default, persisted) + reveal */
 (function(){var root=document.documentElement;root.classList.remove('js-pending');var btn=document.getElementById('theme-toggle');function sync(){var light=root.classList.contains('light');if(btn)btn.setAttribute('aria-pressed',light?'true':'false');}sync();if(btn){btn.addEventListener('click',function(){var light=root.classList.toggle('light');try{localStorage.setItem('theme',light?'light':'dark');}catch(e){}sync();});}})();
+</script>
+<script>
+/* type-specimen video: autoplay + loop everywhere (gif-style, no controls);
+   on fine-pointer (mouse) devices, hovering scrubs by cursor Y (top=start, bottom=end);
+   touch/mobile just loops. Pauses when scrolled out of view. */
+(function(){
+  var v=document.getElementById('specimenVid'); if(!v) return;
+  var frame=v.closest('.specimen-frame'), fig=v.closest('.specimen'), bar=document.getElementById('specimenScrub');
+  var scrubbing=false, inView=true;
+  function play(){ if(scrubbing||!inView) return; var p=v.play(); if(p&&p.catch) p.catch(function(){}); }
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){es.forEach(function(e){inView=e.isIntersecting; if(!inView) v.pause(); else play();});},{threshold:0.15}).observe(v);
+  }
+  var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if(!fine) return; /* touch/mobile: leave it looping */
+  fig.classList.add('scrubbable');
+  function seek(e){
+    var d=v.duration; if(!d||!isFinite(d)) return;
+    var r=frame.getBoundingClientRect();
+    var ratio=Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));
+    try{ v.currentTime=ratio*d; }catch(_){}
+    if(bar) bar.style.top=(ratio*100)+'%';
+  }
+  frame.addEventListener('mouseenter',function(){ scrubbing=true; v.pause(); });
+  frame.addEventListener('mousemove',seek);
+  frame.addEventListener('mouseleave',function(){ scrubbing=false; play(); });
+})();
 </script>
 <script id="tt-script">
 (function(){
