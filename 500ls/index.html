@@ -34,10 +34,8 @@
   "creator": { "@type": "Person", "name": "Marco Pröfrock", "url": "https://www.marco.ad/" },
   "sourceOrganization": { "@type": "Organization", "name": "Stuttgarter Bäder" },
   "award": [
-    "TDC Young Ones 2026 — Certificate of Typographic Excellence",
     "The World's Best Typography — selected for the TDC Annual 2026",
-    "ADC Young Ones 2026 — Merit",
-    "ADC Talent Award 2026 — Bronze"
+    "Recognised at TDC New York, ADC New York and ADC Germany"
   ]
 }
 </script>
@@ -85,10 +83,18 @@ body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Helvetica, Aria
 .cs-facts > div { display: grid; gap: 5px; }
 .cs-facts dt { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 .cs-facts dd { font-size: 15px; color: var(--fg); }
-.cs-badges { display: flex; align-items: center; gap: clamp(18px, 3.5vw, 36px); margin-top: 10px; flex-wrap: wrap; }
-.cs-badges li { display: flex; align-items: center; gap: 10px; }
-.cs-badges img { height: 30px; width: auto; max-width: 46px; object-fit: contain; filter: brightness(0); opacity: 0.72; }
+.cs-badges { display: flex; align-items: center; gap: clamp(16px, 3vw, 28px); flex-wrap: wrap; }
+.cs-badges li { display: flex; align-items: center; gap: 8px; }
+.cs-badges img { height: 26px; width: auto; max-width: 42px; object-fit: contain; filter: brightness(0); opacity: 0.7; }
 .cs-badges span { font-size: 12px; color: var(--muted); letter-spacing: 0.01em; }
+/* TDC Annual honour (the highest — shown prominently, top + bottom) */
+.cs-honor { display: inline-flex; align-items: center; gap: 14px; margin-top: 4px; padding: 12px 18px 12px 14px; border: 1px solid var(--rule-strong); border-radius: 12px; background: rgba(255,255,255,0.55); width: max-content; max-width: 100%; }
+.cs-honor > img { height: 36px; width: auto; max-width: 42px; object-fit: contain; filter: brightness(0); opacity: 0.9; flex: none; }
+.cs-honor .t { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.cs-honor .t strong { font-size: clamp(14px, 1.2vw, 16px); font-weight: 600; letter-spacing: -0.01em; color: var(--fg); }
+.cs-honor .t span { font-size: 12.5px; color: var(--muted); }
+.cs-reco { display: flex; align-items: center; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+.cs-reco-lbl { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
 
 /* ===== Sections ===== */
 .sec { padding-top: clamp(64px, 9vw, 124px); }
@@ -136,12 +142,12 @@ body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Helvetica, Aria
 .spring .hx i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; border: 1px solid rgba(20,20,15,0.18); flex: none; }
 
 /* ===== Type specimen video (full character set) ===== */
-.specimen { margin: clamp(24px, 3.5vw, 40px) auto clamp(6px, 1.2vw, 12px); max-width: min(400px, 78vw); display: flex; flex-direction: column; gap: 12px; align-items: center; }
-.specimen-frame { position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; overflow: hidden; background: #000; }
+.specimen { margin: clamp(24px, 3.5vw, 40px) auto clamp(6px, 1.2vw, 12px); max-width: min(460px, 84vw); display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.specimen-frame { position: relative; width: 100%; aspect-ratio: 4 / 5; border-radius: 16px; overflow: hidden; background: #000; }
 .specimen-frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .specimen.scrubbable .specimen-frame { cursor: ns-resize; }
-.specimen-scrub { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: rgba(255,255,255,0.9); box-shadow: 0 0 6px rgba(0,0,0,0.45); opacity: 0; transition: opacity .18s ease; pointer-events: none; }
-.specimen.scrubbable .specimen-frame:hover .specimen-scrub { opacity: 1; }
+.specimen-scrub { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: rgba(255,255,255,0.45); opacity: 0; transition: opacity .18s ease; pointer-events: none; }
+.specimen.is-scrubbing .specimen-scrub { opacity: 1; }
 .specimen-cap { font-size: 12px; color: var(--muted); text-align: center; letter-spacing: .02em; }
 .specimen-cap .hint { display: none; }
 .specimen.scrubbable .specimen-cap .hint { display: inline; }
@@ -153,11 +159,7 @@ body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Helvetica, Aria
 .credits dt { color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; font-weight: 500; padding-top: 2px; }
 .credits dd { color: var(--fg); line-height: 1.6; }
 @media (max-width: 480px) { .credits { grid-template-columns: 1fr; row-gap: 4px; } .credits dt { padding-top: 14px; } .credits dt:first-child { padding-top: 0; } }
-.awards { display: flex; flex-direction: column; gap: 12px; }
-.awards li { display: grid; grid-template-columns: 36px 1fr; align-items: center; gap: 14px; padding: 12px 14px; border: 0.5px solid var(--rule-strong); border-radius: 4px; background: rgba(255,255,255,0.5); }
-.awards img { width: 36px; height: 36px; object-fit: contain; filter: brightness(0); opacity: 0.92; }
-.awards span { display: flex; flex-direction: column; gap: 2px; font-size: 13px; color: var(--muted); }
-.awards strong { font-size: 13px; font-weight: 500; color: var(--fg); letter-spacing: 0.01em; }
+.recognition { display: grid; gap: 18px; align-content: start; }
 
 /* ===== Footer ===== */
 .foot { margin-top: clamp(80px, 12vw, 160px); padding: clamp(48px, 7vw, 96px) 0 clamp(28px, 4vw, 48px); border-top: 1px solid var(--rule-strong); }
@@ -233,11 +235,8 @@ body.lb-open { overflow: hidden; }
 <div><dt>Year</dt><dd>2026</dd></div>
 <div><dt>Project</dt><dd>Bachelor thesis · solo</dd></div>
 </dl>
-<ul class="cs-badges" aria-label="Awards">
-<li><img loading="lazy" decoding="async" src="/assets/awards/tdc.webp" alt="" aria-hidden="true" width="601" height="599"><span>TDC Young Ones 2026</span></li>
-<li><img loading="lazy" decoding="async" src="/assets/awards/adc-ny.webp" alt="" aria-hidden="true" width="528" height="530"><span>ADC Young Ones 2026</span></li>
-<li><img loading="lazy" decoding="async" src="/assets/awards/adc-germany.svg" alt="" aria-hidden="true" width="85" height="85"><span>ADC Talent Award 2026</span></li>
-</ul>
+<div class="cs-honor"><img loading="lazy" decoding="async" src="/assets/awards/tdc.webp" alt="" aria-hidden="true" width="601" height="599"><span class="t"><strong>The World's Best Typography</strong><span>Selected for the TDC Annual 2026</span></span></div>
+<div class="cs-reco"><span class="cs-reco-lbl">Recognised at</span><ul class="cs-badges" aria-label="Recognised at"><li><img loading="lazy" decoding="async" src="/assets/awards/adc-ny.webp" alt="ADC New York" width="528" height="530"></li><li><img loading="lazy" decoding="async" src="/assets/awards/tdc.webp" alt="TDC" width="601" height="599"></li><li><img loading="lazy" decoding="async" src="/assets/awards/adc-germany.svg" alt="ADC Germany" width="85" height="85"></li></ul></div>
 </section>
 
 <section class="sec wrap" id="idea" aria-label="The idea">
@@ -270,7 +269,7 @@ body.lb-open { overflow: hidden; }
 <section class="sec wrap" id="tester" aria-label="The parametric system">
 <div class="sec-head"><span class="kicker">The parametric system</span><h2>One spring → one cut → one colour.</h2><p class="sec-lead">Each of Stuttgart's 13 mineral springs drives one cut of the display typeface and one fixed colour, derived from the spring's chemistry. The brand mark (Dachmarke) mixes all 13 cuts; a single spring locks one cut. Watch the full character set run through below — then type with it yourself.</p></div>
 
-<figure class="specimen"><div class="specimen-frame"><video id="specimenVid" src="/assets/05_500ls/500l_s_Showcase_1080x1920_60s_1.mp4" autoplay muted loop playsinline preload="auto" aria-label="500l/s typeface — the full character set in motion"></video><span class="specimen-scrub" id="specimenScrub" aria-hidden="true"></span></div><figcaption class="specimen-cap">The full 500l/s character set, glyph by glyph<span class="hint"> · hover to scrub</span></figcaption></figure>
+<figure class="specimen"><div class="specimen-frame"><video id="specimenVid" src="/assets/05_500ls/500l_s_Showcase_1080x1920_60s_1.mp4" autoplay muted loop playsinline preload="auto" aria-label="500l/s typeface — the full character set in motion"></video><span class="specimen-scrub" id="specimenScrub" aria-hidden="true"></span></div><figcaption class="specimen-cap">The full 500l/s character set, glyph by glyph<span class="hint"> · move up / down to scrub</span></figcaption></figure>
 
 <section class="tt" aria-label="500l/s typeface tester"><span class="tt-kicker">Interactive · Try it</span><h3 class="tt-title">Type with 500l/s</h3><div class="tt-stage"><div class="tt-preview" id="ttPreview"></div><div class="tt-caption" id="ttCaption"></div></div><div class="tt-controls"><label class="tt-field tt-field--text"><span>Text</span><input id="ttText" type="text" maxlength="48" value="Calcium" autocomplete="off" spellcheck="false"></label><label class="tt-field"><span>Cut</span><select id="ttMode"><option value="mix" selected>Mixed — all 13 cuts</option><optgroup label="Single cut (spring)"><option value="0">01 · Hofrat-Seyffer-Quelle</option><option value="1">02 · Gottlieb-Daimler-Quelle</option><option value="2">03 · Wilhelmsbrunnen 1</option><option value="3">04 · Inselquelle (LEUZE)</option><option value="4">05 · Berger Urquell</option><option value="5">06 · Südquelle (M–B Berg)</option><option value="6">07 · Leuzequelle (LEUZE)</option><option value="7">08 · Veielquelle</option><option value="8">09 · Maurischer Garten</option><option value="9">10 · Schiffmannbrunnen</option><option value="10">11 · Mombachquelle</option><option value="11">12 · Auquelle</option><option value="12">13 · Kellerbrunnen alt</option></optgroup></select></label><label class="tt-field"><span>Weight</span><select id="ttCase"><option value="none">As typed</option><option value="upper">Light</option><option value="lower">Heavy</option><option value="random" selected>Mixed</option></select></label><label class="tt-field tt-field--range"><span>Baseline wave <b id="ttWaveVal">15%</b></span><input id="ttWave" type="range" min="0" max="100" value="15"></label><button type="button" id="ttRoll" class="tt-roll">↻ Shuffle</button></div></section>
 
@@ -287,12 +286,10 @@ body.lb-open { overflow: hidden; }
 <dt>Supervision</dt><dd>Prof. Ursula Drees, Lucie Ilg</dd>
 <dt>Type / Identity</dt><dd>13-cut parametric display typeface, generative colour &amp; waveform system, integrated campaign</dd>
 </dl>
-<ul class="awards">
-<li><img loading="lazy" decoding="async" src="/assets/awards/tdc.webp" alt="" aria-hidden="true" width="601" height="599"><span><strong>TDC Young Ones 2026</strong>Certificate of Typographic Excellence</span></li>
-<li><img loading="lazy" decoding="async" src="/assets/awards/tdc.webp" alt="" aria-hidden="true" width="601" height="599"><span><strong>The World's Best Typography</strong>Selected for the TDC Annual 2026</span></li>
-<li><img loading="lazy" decoding="async" src="/assets/awards/adc-ny.webp" alt="" aria-hidden="true" width="528" height="530"><span><strong>ADC Young Ones 2026</strong>Merit</span></li>
-<li><img loading="lazy" decoding="async" src="/assets/awards/adc-germany.svg" alt="" aria-hidden="true" width="85" height="85"><span><strong>ADC Talent Award 2026</strong>1× Bronze</span></li>
-</ul>
+<div class="recognition">
+<div class="cs-honor"><img loading="lazy" decoding="async" src="/assets/awards/tdc.webp" alt="" aria-hidden="true" width="601" height="599"><span class="t"><strong>The World's Best Typography</strong><span>Selected for the TDC Annual 2026</span></span></div>
+<div class="cs-reco"><span class="cs-reco-lbl">Recognised at</span><ul class="cs-badges"><li><img loading="lazy" decoding="async" src="/assets/awards/adc-ny.webp" alt="" aria-hidden="true" width="528" height="530"><span>ADC New York</span></li><li><img loading="lazy" decoding="async" src="/assets/awards/tdc.webp" alt="" aria-hidden="true" width="601" height="599"><span>TDC</span></li><li><img loading="lazy" decoding="async" src="/assets/awards/adc-germany.svg" alt="" aria-hidden="true" width="85" height="85"><span>ADC Germany</span></li></ul></div>
+</div>
 </div>
 </section>
 
@@ -322,30 +319,37 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
 (function(){var lb=document.getElementById('lightbox');if(!lb)return;var lbImg=lb.querySelector('img');var lbClose=lb.querySelector('.lb-close');var isZoomable=function(el){return el.tagName==='IMG'&&el.closest('.gallery')};var open=function(src,alt){lbImg.src=src;lbImg.alt=alt||'';lb.removeAttribute('hidden');void lb.offsetHeight;lb.classList.add('is-open');document.body.classList.add('lb-open')};var close=function(){lb.classList.remove('is-open');document.body.classList.remove('lb-open');setTimeout(function(){lb.setAttribute('hidden','');lbImg.src=''},240)};document.addEventListener('click',function(e){if(e.target instanceof Element&&isZoomable(e.target)){e.preventDefault();open(e.target.currentSrc||e.target.src,e.target.alt)}});lbClose.addEventListener('click',close);lb.addEventListener('click',function(e){if(e.target===lb)close()});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('is-open'))close()})})();
 </script>
 <script>
-/* type-specimen video: autoplay + loop everywhere (gif-style, no controls);
-   on fine-pointer (mouse) devices, hovering scrubs by cursor Y (top=start, bottom=end);
-   touch/mobile just loops. Pauses when scrolled out of view. */
+/* type-specimen video: autoplay + loop everywhere (gif-style, no controls).
+   On fine-pointer (mouse) devices it scrubs across the FULL screen width: whenever the
+   cursor's Y is within the video's vertical band (at any X, even beside the video), Y maps
+   to currentTime (top=start, bottom=end); moving above/below the band resumes the loop.
+   Touch/mobile just loops. Pauses when scrolled out of view. */
 (function(){
   var v=document.getElementById('specimenVid'); if(!v) return;
   var frame=v.closest('.specimen-frame'), fig=v.closest('.specimen'), bar=document.getElementById('specimenScrub');
   var scrubbing=false, inView=true;
   function play(){ if(scrubbing||!inView) return; var p=v.play(); if(p&&p.catch) p.catch(function(){}); }
+  function setScrub(on){ if(on===scrubbing) return; scrubbing=on; fig.classList.toggle('is-scrubbing', on); if(on){ v.pause(); } else { play(); } }
   if('IntersectionObserver' in window){
-    new IntersectionObserver(function(es){es.forEach(function(e){inView=e.isIntersecting; if(!inView) v.pause(); else play();});},{threshold:0.15}).observe(v);
+    new IntersectionObserver(function(es){es.forEach(function(e){inView=e.isIntersecting; if(!inView){ setScrub(false); v.pause(); } else play();});},{threshold:0.1}).observe(v);
   }
   var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if(!fine) return; /* touch/mobile: leave it looping */
   fig.classList.add('scrubbable');
-  function seek(e){
-    var d=v.duration; if(!d||!isFinite(d)) return;
+  window.addEventListener('mousemove', function(e){
+    if(!inView) return;
     var r=frame.getBoundingClientRect();
-    var ratio=Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));
-    try{ v.currentTime=ratio*d; }catch(_){}
-    if(bar) bar.style.top=(ratio*100)+'%';
-  }
-  frame.addEventListener('mouseenter',function(){ scrubbing=true; v.pause(); });
-  frame.addEventListener('mousemove',seek);
-  frame.addEventListener('mouseleave',function(){ scrubbing=false; play(); });
+    if(e.clientY>=r.top && e.clientY<=r.bottom){
+      setScrub(true);
+      var d=v.duration; if(d&&isFinite(d)){
+        var ratio=Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));
+        try{ v.currentTime=ratio*d; }catch(_){}
+        if(bar) bar.style.top=(ratio*100)+'%';
+      }
+    } else {
+      setScrub(false);
+    }
+  }, {passive:true});
 })();
 </script>
 <script id="tt-script">
