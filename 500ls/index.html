@@ -262,7 +262,7 @@ body.lb-open { overflow: hidden; }
 <div class="row-2"><img decoding="async" src="/assets/05_500ls/02_223d3fef.webp" alt="500l/s — out-of-home poster" loading="lazy" width="1600" height="1066"><img decoding="async" src="/assets/05_500ls/01_03c19a53.webp" alt="500l/s — Stuttgart mineral water bottle" loading="lazy" width="1600" height="1066"></div>
 </div>
 
-<figure class="specimen"><div class="specimen-frame"><video id="specimenVid" src="/assets/05_500ls/500l_s_Showcase_1080x1920_60s_1.mp4" autoplay muted loop playsinline preload="auto" aria-label="500l/s typeface — the full character set in motion"></video><span class="specimen-scrub" id="specimenScrub" aria-hidden="true"></span></div><figcaption class="specimen-cap">The full 500l/s character set, glyph by glyph<span class="hint"> · move up / down to scrub</span></figcaption></figure>
+<figure class="specimen"><div class="specimen-frame"><video id="specimenVid" src="/assets/05_500ls/500l_s_Showcase_1080x1920_60s_1.mp4" muted playsinline preload="auto" aria-label="500l/s typeface — the full character set in motion"></video><span class="specimen-scrub" id="specimenScrub" aria-hidden="true"></span></div><figcaption class="specimen-cap">The full 500l/s character set, glyph by glyph<span class="hint"> · move up / down to scrub</span></figcaption></figure>
 
 <div class="gallery">
 <img decoding="async" src="/assets/05_500ls/06_9495e648.webp" alt="500l/s — brand identity" loading="lazy" width="1600" height="1066">
@@ -322,35 +322,42 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
 (function(){var lb=document.getElementById('lightbox');if(!lb)return;var lbImg=lb.querySelector('img');var lbClose=lb.querySelector('.lb-close');var isZoomable=function(el){return el.tagName==='IMG'&&el.closest('.gallery')};var open=function(src,alt){lbImg.src=src;lbImg.alt=alt||'';lb.removeAttribute('hidden');void lb.offsetHeight;lb.classList.add('is-open');document.body.classList.add('lb-open')};var close=function(){lb.classList.remove('is-open');document.body.classList.remove('lb-open');setTimeout(function(){lb.setAttribute('hidden','');lbImg.src=''},240)};document.addEventListener('click',function(e){if(e.target instanceof Element&&isZoomable(e.target)){e.preventDefault();open(e.target.currentSrc||e.target.src,e.target.alt)}});lbClose.addEventListener('click',close);lb.addEventListener('click',function(e){if(e.target===lb)close()});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('is-open'))close()})})();
 </script>
 <script>
-/* type-specimen video: autoplay + loop everywhere (gif-style, no controls).
-   On fine-pointer (mouse) devices it scrubs across the FULL screen width: whenever the
-   cursor's Y is within the video's vertical band (at any X, even beside the video), Y maps
-   to currentTime (top=start, bottom=end); moving above/below the band resumes the loop.
-   Touch/mobile just loops. Pauses when scrolled out of view. */
+/* type-specimen video (no controls).
+   Fine-pointer (mouse): the video does NOT play on its own — it sits still on a frame
+   and only advances WHILE the cursor slides over its vertical band (full screen width);
+   Y maps to currentTime (top=start, bottom=end). Leaving the band freezes it on the
+   current frame. Touch/coarse-pointer (no hover): plain gif-style loop, paused off-screen. */
 (function(){
   var v=document.getElementById('specimenVid'); if(!v) return;
   var frame=v.closest('.specimen-frame'), fig=v.closest('.specimen'), bar=document.getElementById('specimenScrub');
-  var scrubbing=false, inView=true;
-  function play(){ if(scrubbing||!inView) return; var p=v.play(); if(p&&p.catch) p.catch(function(){}); }
-  function setScrub(on){ if(on===scrubbing) return; scrubbing=on; fig.classList.toggle('is-scrubbing', on); if(on){ v.pause(); } else { play(); } }
-  if('IntersectionObserver' in window){
-    new IntersectionObserver(function(es){es.forEach(function(e){inView=e.isIntersecting; if(!inView){ setScrub(false); v.pause(); } else play();});},{threshold:0.1}).observe(v);
-  }
   var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if(!fine) return; /* touch/mobile: leave it looping */
+
+  if(!fine){
+    /* touch / no hover: loop it, pause when scrolled out of view */
+    v.loop = true;
+    var start=function(){ var p=v.play(); if(p&&p.catch) p.catch(function(){}); };
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){es.forEach(function(e){ if(e.isIntersecting) start(); else v.pause(); });},{threshold:0.1}).observe(v);
+    } else { start(); }
+    return;
+  }
+
+  /* mouse: stay paused on a frame; scrub only while sliding over the band */
   fig.classList.add('scrubbable');
+  v.loop = false;
+  function freezeFirstFrame(){ try{ v.pause(); if(!v.currentTime) v.currentTime = 0.04; }catch(_){}}
+  if(v.readyState>=2) freezeFirstFrame(); else v.addEventListener('loadeddata', freezeFirstFrame, {once:true});
   window.addEventListener('mousemove', function(e){
-    if(!inView) return;
     var r=frame.getBoundingClientRect();
     if(e.clientY>=r.top && e.clientY<=r.bottom){
-      setScrub(true);
+      fig.classList.add('is-scrubbing');
       var d=v.duration; if(d&&isFinite(d)){
         var ratio=Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));
-        try{ v.currentTime=ratio*d; }catch(_){}
+        try{ if(!v.paused) v.pause(); v.currentTime=ratio*d; }catch(_){}
         if(bar) bar.style.top=(ratio*100)+'%';
       }
     } else {
-      setScrub(false);
+      fig.classList.remove('is-scrubbing'); /* leave it frozen where it is */
     }
   }, {passive:true});
 })();
