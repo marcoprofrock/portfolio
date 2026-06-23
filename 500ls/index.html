@@ -269,7 +269,7 @@ body.lb-open { overflow: hidden; }
 <div class="row-2"><img decoding="async" src="/assets/05_500ls/05_6953b6c6.webp" alt="500l/s — application detail" loading="lazy" width="1600" height="1066"><img decoding="async" src="/assets/05_500ls/07_95625748.webp" alt="500l/s — application detail" loading="lazy" width="1600" height="1066"></div>
 </div>
 
-<section class="tt" id="tester" aria-label="500l/s typeface tester"><span class="tt-kicker">Interactive · Try it</span><h3 class="tt-title">Type with 500l/s</h3><div class="tt-stage"><div class="tt-preview" id="ttPreview"></div><div class="tt-caption" id="ttCaption"></div></div><div class="tt-controls"><label class="tt-field tt-field--text"><span>Text</span><input id="ttText" type="text" maxlength="48" value="Calcium" autocomplete="off" spellcheck="false"></label><label class="tt-field"><span>Cut</span><select id="ttMode"><option value="mix" selected>Mixed — all 13 cuts</option><optgroup label="Single cut (spring)"><option value="0">01 · Hofrat-Seyffer-Quelle</option><option value="1">02 · Gottlieb-Daimler-Quelle</option><option value="2">03 · Wilhelmsbrunnen 1</option><option value="3">04 · Inselquelle (LEUZE)</option><option value="4">05 · Berger Urquell</option><option value="5">06 · Südquelle (M–B Berg)</option><option value="6">07 · Leuzequelle (LEUZE)</option><option value="7">08 · Veielquelle</option><option value="8">09 · Maurischer Garten</option><option value="9">10 · Schiffmannbrunnen</option><option value="10">11 · Mombachquelle</option><option value="11">12 · Auquelle</option><option value="12">13 · Kellerbrunnen alt</option></optgroup></select></label><label class="tt-field"><span>Weight</span><select id="ttCase"><option value="none">As typed</option><option value="upper">Light</option><option value="lower">Heavy</option><option value="random" selected>Mixed</option></select></label><label class="tt-field tt-field--range"><span>Baseline wave <b id="ttWaveVal">15%</b></span><input id="ttWave" type="range" min="0" max="100" value="15"></label><button type="button" id="ttRoll" class="tt-roll">↻ Shuffle</button></div></section>
+<section class="tt" id="tester" aria-label="500l/s typeface tester"><span class="tt-kicker">Interactive · Try it</span><h3 class="tt-title">Type with 500l/s</h3><div class="tt-stage"><div class="tt-preview" id="ttPreview"></div><div class="tt-caption" id="ttCaption"></div></div><div class="tt-controls"><label class="tt-field tt-field--text"><span>Text</span><input id="ttText" type="text" maxlength="48" value="Calcium" autocomplete="off" spellcheck="false"></label><label class="tt-field"><span>Cut</span><select id="ttMode"><option value="mix" selected>Mixed — all 13 cuts</option><optgroup label="Single cut (spring)"><option value="0">01 · Hofrat-Seyffer-Quelle</option><option value="1">02 · Gottlieb-Daimler-Quelle</option><option value="2">03 · Wilhelmsbrunnen 1</option><option value="3">04 · Inselquelle (LEUZE)</option><option value="4">05 · Berger Urquell</option><option value="5">06 · Südquelle (M–B Berg)</option><option value="6">07 · Leuzequelle (LEUZE)</option><option value="7">08 · Veielquelle</option><option value="8">09 · Maurischer Garten</option><option value="9">10 · Schiffmannbrunnen</option><option value="10">11 · Mombachquelle</option><option value="11">12 · Auquelle</option><option value="12">13 · Kellerbrunnen alt</option></optgroup></select></label><label class="tt-field"><span>Weight</span><select id="ttCase"><option value="none">As typed</option><option value="upper">Light</option><option value="lower">Heavy</option><option value="random" selected>Mixed</option></select></label><label class="tt-field tt-field--range"><span>Baseline wave <b id="ttWaveVal">30%</b></span><input id="ttWave" type="range" min="0" max="100" value="30"></label><button type="button" id="ttRoll" class="tt-roll">↻ Shuffle</button></div></section>
 
 <div class="gallery">
 <img decoding="async" src="/assets/05_500ls/08_9dde72a4.webp" alt="500l/s — parametric typography system" loading="lazy" width="1600" height="1073">
@@ -400,7 +400,7 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
  }
  function render(){
    var text=input.value; ensure(text.length);
-   var mode=modeSel.value, cm=caseSel.value, amp=(+wave.value)/100;
+   var mode=modeSel.value, cm=caseSel.value, amp=(+wave.value)/200; /* 100% slider = old 50% amplitude (taming the chaotic top end) */
    preview.textContent="";
    for(var i=0;i<text.length;i++){
      var ch=text[i];
@@ -434,7 +434,7 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
  var POOL=["Calcium","Magnesium","Sodium","Potassium","Chloride","Sulfate","Bicarbonate","Carbonate","Fluoride","Lithium","Strontium"];
  input.value=POOL[Math.floor(Math.random()*POOL.length)];
  /* pin the documented default state on load (guards against browser form-state restoration) */
- modeSel.value="mix"; caseSel.value="random"; wave.value="15"; waveVal.textContent="15%";
+ modeSel.value="mix"; caseSel.value="random"; wave.value="30"; waveVal.textContent="30%";
  updateCaption(); render();
  /* build the 13-springs legend from the same source of truth */
  var grid=document.getElementById("springsGrid");
