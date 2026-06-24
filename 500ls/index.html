@@ -202,8 +202,8 @@ body.lb-open { overflow: hidden; }
 .tt *{box-sizing:border-box}
 .tt-kicker{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--tt-muted)}
 .tt-title{font-size:clamp(20px,2.4vw,28px);font-weight:600;margin:6px 0 8px;letter-spacing:-.01em;color:var(--tt-ink)}
-.tt-stage{margin:24px 0 8px;min-height:clamp(180px,30vw,340px);display:flex;flex-direction:column;justify-content:center;gap:12px}
-.tt-preview{font-size:clamp(68px,14.5vw,177px);line-height:1.2;word-break:break-word;overflow-wrap:anywhere;min-height:1.2em}
+.tt-stage{margin:24px 0 8px;height:clamp(220px,30vw,360px);display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px}
+.tt-preview{align-self:center;font-size:clamp(68px,14.5vw,177px);line-height:1.2;word-break:break-word;overflow-wrap:anywhere;overflow:visible}
 .tt-preview span{display:inline-block;transition:transform .12s ease}
 .tt-caption{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--tt-muted);display:flex;align-items:center;gap:8px;min-height:18px}
 .tt-sw{width:13px;height:13px;border-radius:3px;border:1px solid var(--tt-line);display:inline-block;flex:none}
@@ -276,7 +276,7 @@ body.lb-open { overflow: hidden; }
 <div class="row-2"><img decoding="async" src="/assets/05_500ls/09_a4214e3f.webp" alt="500l/s — application detail" loading="lazy" width="1600" height="1066"><img decoding="async" src="/assets/05_500ls/10_a8472395.webp" alt="500l/s — application detail" loading="lazy" width="1600" height="1066"></div>
 </div>
 
-<div class="springs"><span class="springs-kicker">The 13 springs</span><h3 class="springs-title">13 springs · 13 cuts · 13 colours</h3><p class="springs-lead">The chemical signature of each spring is mapped to a fixed colour and one cut of the typeface. The card below shows the spring's initial set in its own cut.</p><div class="springs-grid" id="springsGrid"></div></div>
+<div class="springs"><span class="springs-kicker">The 13 springs</span><h3 class="springs-title">13 springs · 13 cuts · 13 colours · 1,300 glyphs</h3><p class="springs-lead">The chemical signature of each spring is mapped to a fixed colour and one cut of the typeface. The card below shows the spring's initial set in its own cut.</p><div class="springs-grid" id="springsGrid"></div></div>
 </section>
 
 <section class="sec wrap" id="credits" aria-label="Credits and awards">
