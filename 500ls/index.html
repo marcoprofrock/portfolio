@@ -565,18 +565,21 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
     var n=Math.ceil((VH-startTop)/pitch)+2;
     var svg=el('svg',{viewBox:'0 0 '+VW+' '+VH, class:'wl-svg', preserveAspectRatio:'xMidYMid meet'}, boxEl);
     var field=el('g',{}, svg);
-    for(var i=0;i<n;i++){ el('polygon',{points:o.ptsStr, fill:cur.hex, opacity:(letterOn?0.26:0.5), transform:'translate(0 '+(startTop+i*pitch - o.polyTop)+')'}, field); }
+    for(var i=0;i<n;i++){ el('polygon',{points:o.ptsStr, fill:cur.hex, opacity:(letterOn?0.16:0.5), transform:'translate(0 '+(startTop+i*pitch - o.polyTop)+')'}, field); }
     var gl=el('g',{class:'wl-ann'}, svg);
     o.peaks.concat(o.troughs).forEach(function(p){ el('line',{x1:p[0],y1:0,x2:p[0],y2:VH,'stroke-width':0.75,opacity:.6}, gl); });
     for(var i=0;startTop+i*pitch<VH;i+=3){ var hy=startTop+i*pitch; if(hy>2&&hy<VH-2) el('line',{x1:0,y1:hy,x2:VW,y2:hy,'stroke-width':0.75,opacity:.6}, gl); }
     if(letterOn){
       var rowH=3*pitch;                                   // a "row" = 3 stacked waves (one horizontal band)
       var g=el('g',{}, svg);
-      var t=el('text',{x:0,y:0,'text-anchor':'middle','font-family':"'"+cur.font+"'",'font-size':1000,fill:'#16160f'}, g);
+      var t=el('text',{x:0,y:0,'text-anchor':'start','font-family':"'"+cur.font+"'",'font-size':1000,fill:cur.hex}, g);
       t.textContent='R';
       var bb=t.getBBox(); var sc=bb.height? (6*rowH)/bb.height : 1;  // scale so the glyph is exactly 6 rows tall
-      var cx=VW/2, cy=startTop+Math.round((VH/2-startTop)/rowH)*rowH; // snap centre to a horizontal grid line
-      g.setAttribute('transform','translate('+(cx-(bb.x+bb.width/2)*sc)+' '+(cy-(bb.y+bb.height/2)*sc)+') scale('+sc+')');
+      var lw=bb.width*sc, lh=6*rowH;
+      var vlines=o.peaks.concat(o.troughs).map(function(p){return p[0];}).sort(function(a,b){return a-b;});
+      var tgt=VW/2-lw/2, leftX=vlines.reduce(function(b,x){return Math.abs(x-tgt)<Math.abs(b-tgt)?x:b;}, vlines[0]||tgt); // left edge snaps to a vertical line
+      var topY=startTop+Math.max(0,Math.round((VH/2-lh/2-startTop)/rowH))*rowH;                                          // top edge snaps to a horizontal line
+      g.setAttribute('transform','translate('+(leftX-bb.x*sc)+' '+(topY-bb.y*sc)+') scale('+sc+')');
     }
     setCap(letterOn ? 'The cut’s real letter dropped onto the grid — 3 columns wide, 6 rows tall (W/M are 5, i/! are 1).' : 'The wave tiled onto a DIN-A sheet — verticals at every peak & trough, a horizontal under every 3rd wave: the grid the letters are built on.');
   }
