@@ -141,6 +141,40 @@ body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Helvetica, Aria
 .spring .hx { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10.5px; color: #6f6f66; display: flex; align-items: center; gap: 6px; }
 .spring .hx i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; border: 1px solid rgba(20,20,15,0.18); flex: none; }
 
+/* ===== Wave lab (data -> wave -> grid -> letter) ===== */
+.wavelab { --cd: #F0EEE9; background: var(--cd); color: #16160f; border-radius: 16px; margin-top: clamp(28px, 4vw, 48px); padding: clamp(20px, 3vw, 40px); font-family: 'Inter', system-ui, sans-serif; }
+.wl-kicker { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #6f6f66; }
+.wl-title { font-size: clamp(20px, 2.4vw, 28px); font-weight: 600; margin: 6px 0 8px; letter-spacing: -0.01em; color: #16160f; }
+.wl-lead { font-size: 14px; line-height: 1.55; color: #6f6f66; max-width: 72ch; }
+.wl-springs { display: flex; flex-wrap: wrap; gap: 7px; margin: 22px 0 4px; }
+.wl-chip { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border: 1px solid rgba(20,20,15,0.14); border-radius: 999px; background: #fff; cursor: pointer; font-size: 12px; color: #16160f; transition: border-color .15s ease, box-shadow .15s ease; font-family: inherit; }
+.wl-chip:hover { border-color: rgba(20,20,15,0.34); }
+.wl-chip.active { border-color: #16160f; box-shadow: inset 0 0 0 1px #16160f; }
+.wl-chip i { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+.wl-chip b { font-family: ui-monospace, Menlo, monospace; font-weight: 600; font-size: 11px; }
+.wl-chip span { color: #6f6f66; }
+.wl-chip.active span { color: #16160f; }
+.wl-main { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(220px, 1fr); gap: clamp(18px, 3vw, 36px); margin-top: 18px; align-items: start; }
+@media (max-width: 760px) { .wl-main { grid-template-columns: 1fr; } }
+.wl-stage { background: #fff; border: 1px solid rgba(20,20,15,0.1); border-radius: 12px; padding: 14px 16px; overflow: hidden; }
+.wl-svgbox { width: 100%; }
+.wl-svg { width: 100%; height: auto; display: block; overflow: visible; }
+.wl-cap { font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #6f6f66; margin-top: 12px; min-height: 16px; line-height: 1.5; }
+.wl-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.wl-btn { font-family: inherit; font-size: 13px; font-weight: 500; color: #16160f; background: #fff; border: 1px solid rgba(20,20,15,0.18); border-radius: 8px; padding: 8px 14px; cursor: pointer; transition: background .15s ease, border-color .15s ease; }
+.wl-btn:hover { border-color: rgba(20,20,15,0.4); }
+.wl-btn.on { background: #16160f; color: #fff; border-color: #16160f; }
+.wl-btn[hidden] { display: none; }
+.wl-data { display: flex; flex-direction: column; gap: 2px; }
+.wl-row { display: grid; grid-template-columns: 1fr auto; gap: 10px 12px; align-items: baseline; padding: 9px 10px; border-radius: 8px; transition: background .12s ease; cursor: default; }
+.wl-row:hover, .wl-row.lit { background: rgba(20,20,15,0.055); }
+.wl-row .ion { font-size: 12.5px; color: #16160f; }
+.wl-row .par { font-family: ui-monospace, Menlo, monospace; font-size: 10px; letter-spacing: 0.04em; color: #8a8a80; display: block; margin-top: 1px; }
+.wl-row .val { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #16160f; font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* in-SVG annotation + grid styling via attributes; helper classes */
+.wl-ann line, .wl-ann path { stroke: #16160f; vector-effect: non-scaling-stroke; }
+.wl-ann text { fill: #16160f; font-family: ui-monospace, Menlo, monospace; }
+
 /* ===== Type specimen video (full character set) ===== */
 .specimen { margin: clamp(24px, 3.5vw, 40px) auto clamp(6px, 1.2vw, 12px); max-width: min(460px, 84vw); display: flex; flex-direction: column; gap: 12px; align-items: center; }
 .specimen-frame { position: relative; width: 100%; aspect-ratio: 4 / 5; border-radius: 16px; overflow: hidden; background: #F0EEE9; }
@@ -259,6 +293,27 @@ body.lb-open { overflow: hidden; }
 
 <div class="gallery">
 <img decoding="async" src="/assets/05_500ls/04_5d0052ef.webp" alt="500l/s — campaign overview board" loading="lazy" width="1600" height="1147">
+</div>
+
+<section class="wavelab" id="wavelab" aria-label="From data to grid">
+<span class="wl-kicker">How it works · interactive</span>
+<h3 class="wl-title">From data to grid</h3>
+<p class="wl-lead">Each spring's chemistry becomes one wave. Pick a spring to see its real, data-derived waveform — hover a value to see what it shapes — then stack the wave into the grid the letters are built on.</p>
+<div class="wl-springs" aria-label="Choose a spring"></div>
+<div class="wl-main">
+<div class="wl-left">
+<div class="wl-stage"><div class="wl-svgbox"></div></div>
+<div class="wl-cap" id="wlCap"></div>
+<div class="wl-controls">
+<button type="button" class="wl-btn" data-act="grid">Stack into grid ↓</button>
+<button type="button" class="wl-btn" data-act="letter" hidden>Drop a letter</button>
+</div>
+</div>
+<div class="wl-data" aria-label="Spring data"></div>
+</div>
+</section>
+
+<div class="gallery">
 <div class="row-2"><img decoding="async" src="/assets/05_500ls/02_223d3fef.webp" alt="500l/s — out-of-home poster" loading="lazy" width="1600" height="1066"><img decoding="async" src="/assets/05_500ls/01_03c19a53.webp" alt="500l/s — Stuttgart mineral water bottle" loading="lazy" width="1600" height="1066"></div>
 </div>
 
@@ -360,6 +415,159 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
       fig.classList.remove('is-scrubbing'); /* leave it frozen where it is */
     }
   }, {passive:true});
+})();
+</script>
+<script id="wavelab-script">
+(function(){
+  var root=document.getElementById('wavelab'); if(!root) return;
+  var NS='http://www.w3.org/2000/svg';
+  // 13 springs: real chemistry (mg/l) + temp (°C) + hand-proofed colour + cut font
+  var SP=[
+    {n:1, name:'Hofrat-Seyffer-Quelle', hex:'#EDEC3F', font:'ls01', Na:9010, Cl:12900, Ca:590, Mg:110, CO2:385, SO4:1910, t:18.7},
+    {n:2, name:'Gottlieb-Daimler-Quelle', hex:'#9DE89F', font:'ls02', Na:2010, Cl:4400, Ca:1350, Mg:189, CO2:469, SO4:1590, t:17.7},
+    {n:3, name:'Wilhelmsbrunnen 1', hex:'#62C2B1', font:'ls03', Na:911, Cl:1340, Ca:716, Mg:116, CO2:1680, SO4:1280, t:17.6},
+    {n:4, name:'Inselquelle (LEUZE)', hex:'#FFC03F', font:'ls04', Na:1010, Cl:1450, Ca:725, Mg:104, CO2:2070, SO4:1190, t:20.0},
+    {n:5, name:'Berger Urquell', hex:'#FFAE3B', font:'ls05', Na:667, Cl:939, Ca:639, Mg:97.4, CO2:1450, SO4:1060, t:20.3},
+    {n:6, name:'Südquelle (M–B Berg)', hex:'#FFE552', font:'ls06', Na:476, Cl:685, Ca:561, Mg:93.6, CO2:1060, SO4:928, t:19.1},
+    {n:7, name:'Leuzequelle (LEUZE)', hex:'#FCCF61', font:'ls07', Na:667, Cl:966, Ca:551, Mg:93.2, CO2:1420, SO4:956, t:19.3},
+    {n:8, name:'Veielquelle', hex:'#D4E458', font:'ls08', Na:537, Cl:835, Ca:553, Mg:89.4, CO2:1040, SO4:851, t:17.8},
+    {n:9, name:'Maurischer Garten', hex:'#0076AD', font:'ls09', Na:49.9, Cl:96.4, Ca:299, Mg:76.1, CO2:162, SO4:616, t:16.0},
+    {n:10, name:'Schiffmannbrunnen', hex:'#00ABC2', font:'ls10', Na:38.3, Cl:76.3, Ca:213, Mg:62.1, CO2:109, SO4:385, t:17.4},
+    {n:11, name:'Mombachquelle', hex:'#3F526F', font:'ls11', Na:17.1, Cl:72.1, Ca:215, Mg:57.8, CO2:61, SO4:357, t:14.7},
+    {n:12, name:'Auquelle', hex:'#235BA8', font:'ls12', Na:17.1, Cl:60.7, Ca:209, Mg:59.0, CO2:70, SO4:342, t:15.6},
+    {n:13, name:'Kellerbrunnen alt', hex:'#008DB1', font:'ls13', Na:24.3, Cl:59.9, Ca:201, Mg:59.7, CO2:49, SO4:332, t:16.0}
+  ];
+  // data -> wave-parameter mapping (from the board)
+  var MAP=[
+    {k:'Na',  ion:'Sodium (Na⁺)',        par:'Period',            feat:'period', u:'mg/l'},
+    {k:'Cl',  ion:'Chloride (Cl⁻)',      par:'Amplitude',         feat:'amp',    u:'mg/l'},
+    {k:'Ca',  ion:'Calcium (Ca²⁺)',      par:'Distortion · top',  feat:'top',    u:'mg/l'},
+    {k:'Mg',  ion:'Magnesium (Mg²⁺)',    par:'Distortion · bottom',feat:'bottom',u:'mg/l'},
+    {k:'CO2', ion:'Carbon dioxide (CO₂)',par:'Stroke weight',     feat:'stroke', u:'mg/l'},
+    {k:'SO4', ion:'Sulfate (SO₄²⁻)',     par:'Phase shift',       feat:'phase',  u:'mg/l'},
+    {k:'t',   ion:'Temperature',         par:'Colour',            feat:'colour', u:'°C'}
+  ];
+  var springsEl=root.querySelector('.wl-springs'),
+      boxEl=root.querySelector('.wl-svgbox'),
+      dataEl=root.querySelector('.wl-data'),
+      capEl=root.querySelector('#wlCap'),
+      btnGrid=root.querySelector('[data-act="grid"]'),
+      btnLetter=root.querySelector('[data-act="letter"]');
+  var cache={}, cur=null, gridOn=false, letterOn=false, hoverFeat=null;
+
+  function el(tag,attrs,parent){ var e=document.createElementNS(NS,tag); if(attrs) for(var k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+  function fmt(v){ return (v>=1000)? Math.round(v).toLocaleString('en-US') : v; }
+
+  // chips
+  SP.forEach(function(s){
+    var b=document.createElement('button'); b.type='button'; b.className='wl-chip';
+    b.innerHTML='<i style="background:'+s.hex+'"></i><b>'+('0'+s.n).slice(-2)+'</b><span>'+s.name.replace(/ \(.*\)/,'')+'</span>';
+    b.addEventListener('click',function(){ select(s); }); s._chip=b; springsEl.appendChild(b);
+  });
+
+  function load(s,cb){
+    if(cache[s.n]) return cb(cache[s.n]);
+    fetch('/assets/05_500ls/waves/'+('0'+s.n).slice(-2)+'.svg').then(function(r){return r.text();}).then(function(txt){
+      var m=txt.match(/points="([^"]+)"/); var nums=m[1].trim().split(/\s+/).map(Number);
+      var pts=[]; for(var i=0;i+1<nums.length;i+=2) pts.push([nums[i],nums[i+1]]);
+      var turn=pts.length; for(var i=1;i<pts.length;i++){ if(pts[i][0]<pts[i-1][0]){ turn=i; break; } }
+      var top=pts.slice(0,turn), bot=pts.slice(turn);
+      var ys=top.map(function(p){return p[1];}); var minY=Math.min.apply(null,ys), maxY=Math.max.apply(null,ys);
+      // robust extrema (threshold peakdet): peak = local min y (visual top), trough = local max y (bottom)
+      var peaks=[], troughs=[]; var th=Math.max(1,(maxY-minY)*0.3);
+      (function(){ var mn=Infinity,mx=-Infinity,mnP=top[0],mxP=top[0],findMax=true;
+        for(var i=0;i<top.length;i++){ var y=top[i][1];
+          if(y>mx){mx=y;mxP=top[i];} if(y<mn){mn=y;mnP=top[i];}
+          if(findMax){ if(y<mx-th){ troughs.push(mxP); mn=y; mnP=top[i]; findMax=false; } }
+          else { if(y>mn+th){ peaks.push(mnP); mx=y; mxP=top[i]; findMax=true; } }
+        }
+      })();
+      function botYat(x){ var best=bot[0], bd=1e9; for(var i=0;i<bot.length;i++){ var d=Math.abs(bot[i][0]-x); if(d<bd){bd=d;best=bot[i];} } return best[1]; }
+      var o={pts:pts, top:top, bot:bot, peaks:peaks, troughs:troughs, minY:minY, maxY:maxY, botYat:botYat,
+             topD:top.map(function(p){return p.join(',');}).join(' '), botD:bot.map(function(p){return p.join(',');}).join(' ')};
+      cache[s.n]=o; cb(o);
+    });
+  }
+
+  function select(s){
+    cur=s; gridOn=false; letterOn=false; hoverFeat=null;
+    SP.forEach(function(x){ x._chip.classList.toggle('active', x===s); });
+    btnGrid.classList.remove('on'); btnGrid.textContent='Stack into grid ↓';
+    btnLetter.hidden=true; btnLetter.classList.remove('on');
+    renderData();
+    load(s,function(o){ if(cur!==s) return; draw(); });
+  }
+
+  function renderData(){
+    dataEl.innerHTML='';
+    MAP.forEach(function(m){
+      var r=document.createElement('div'); r.className='wl-row'; m._row=r;
+      r.innerHTML='<span><span class="ion">'+m.ion+'</span><span class="par">→ '+m.par+'</span></span><span class="val">'+fmt(cur[m.k])+' '+m.u+'</span>';
+      r.addEventListener('mouseenter',function(){ if(gridOn) return; hoverFeat=m.feat; lit(m); draw(); });
+      r.addEventListener('mouseleave',function(){ if(gridOn) return; hoverFeat=null; lit(null); draw(); });
+      dataEl.appendChild(r);
+    });
+  }
+  function lit(m){ MAP.forEach(function(x){ x._row.classList.toggle('lit', x===m); }); }
+
+  function setCap(t){ capEl.textContent=t; }
+
+  // ---- render the single wave + annotations ----
+  function draw(){
+    var o=cache[cur.n]; if(!o) return;
+    boxEl.innerHTML='';
+    if(gridOn){ drawGrid(o); return; }
+    var svg=el('svg',{viewBox:'0 0 3000 500', class:'wl-svg', preserveAspectRatio:'xMidYMid meet'}, boxEl);
+    el('polygon',{points:o.pts.map(function(p){return p.join(',');}).join(' '), fill:cur.hex}, svg);
+    var ann=el('g',{class:'wl-ann'}, svg); ann.setAttribute('pointer-events','none');
+    var f=hoverFeat;
+    if(f==='period' && o.peaks.length>=3){ var a=o.peaks[1], b=o.peaks[2]; var y=o.minY-46;
+      el('line',{x1:a[0],y1:y,x2:b[0],y2:y,'stroke-width':4}, ann);
+      [a,b].forEach(function(p){ el('line',{x1:p[0],y1:o.minY-58,x2:p[0],y2:p[1],'stroke-width':3,'stroke-dasharray':'6 8',opacity:.5}, ann); });
+      tlabel(ann,(a[0]+b[0])/2, y-14, 'Period');
+    } else if(f==='amp' && o.peaks.length){ var px=o.peaks[1]?o.peaks[1][0]:o.peaks[0][0]; var x=px+60;
+      el('line',{x1:x,y1:o.minY,x2:x,y2:o.maxY,'stroke-width':4}, ann);
+      el('line',{x1:px-40,y1:o.minY,x2:x+40,y2:o.minY,'stroke-width':3,opacity:.5}, ann);
+      el('line',{x1:px-40,y1:o.maxY,x2:x+40,y2:o.maxY,'stroke-width':3,opacity:.5}, ann);
+      tlabel(ann, x+20, (o.minY+o.maxY)/2, 'Amplitude','start');
+    } else if(f==='top'){ el('polyline',{points:o.topD, fill:'none','stroke-width':9,'stroke-linecap':'round','stroke-linejoin':'round'}, ann); tlabel(ann,120,o.minY-26,'Top edge','start'); }
+    else if(f==='bottom'){ el('polyline',{points:o.botD, fill:'none','stroke-width':9,'stroke-linecap':'round','stroke-linejoin':'round'}, ann); tlabel(ann,120,o.maxY+50,'Bottom edge','start'); }
+    else if(f==='stroke' && o.troughs.length){ var tx=o.troughs[1]?o.troughs[1][0]:o.troughs[0][0]; var ty=o.troughs[1]?o.troughs[1][1]:o.troughs[0][1]; var by=o.botYat(tx);
+      el('line',{x1:tx,y1:ty,x2:tx,y2:by,'stroke-width':6}, ann);
+      el('line',{x1:tx-26,y1:ty,x2:tx+26,y2:ty,'stroke-width':4}, ann);
+      el('line',{x1:tx-26,y1:by,x2:tx+26,y2:by,'stroke-width':4}, ann);
+      tlabel(ann, tx+34, (ty+by)/2, 'Stroke','start');
+    } else if(f==='phase'){ el('line',{x1:60,y1:250,x2:360,y2:250,'stroke-width':4}, ann);
+      el('path',{d:'M360 250 l-22 -12 v24 z', fill:'#16160f','stroke-width':0}, ann); tlabel(ann,210,228,'Phase →'); }
+    else if(f==='colour'){ /* swatch */ el('rect',{x:60,y:60,width:120,height:120,rx:14,fill:cur.hex,stroke:'#16160f','stroke-width':3}, ann); }
+    if(f==='colour') setCap('Temperature '+cur.t+' °C → colour '+cur.hex);
+    else if(f) setCap(({period:'Sodium → period (spacing of the peaks)',amp:'Chloride → amplitude (peak-to-trough height)',top:'Calcium → distortion of the top edge',bottom:'Magnesium → distortion of the bottom edge',stroke:'Carbon dioxide → stroke weight (band thickness)',phase:'Sulfate → phase (horizontal shift of the wave)'})[f]);
+    else setCap('Spring '+('0'+cur.n).slice(-2)+' · '+cur.name+' — hover a value to see what it shapes.');
+  }
+  function tlabel(g,x,y,txt,anchor){ var t=el('text',{x:x,y:y,'font-size':64,'font-weight':600,'text-anchor':anchor||'middle'}, g); t.textContent=txt; }
+
+  // ---- render the stacked grid + optional letter ----
+  function drawGrid(o){
+    var rows=9, pitch=Math.max(46,(o.maxY-o.minY)*0.62), H=Math.round((rows-1)*pitch+ (o.maxY-o.minY) + 120), top=60;
+    var svg=el('svg',{viewBox:'0 0 3000 '+H, class:'wl-svg', preserveAspectRatio:'xMidYMid meet'}, boxEl);
+    var field=el('g',{}, svg);
+    for(var r=0;r<rows;r++){
+      var gy=el('g',{transform:'translate(0 '+(top+r*pitch)+')'}, field);
+      el('polygon',{points:o.pts.map(function(p){return p.join(',');}).join(' '), fill:cur.hex, opacity: letterOn?0.32:0.6}, gy);
+    }
+    // vertical grid lines at peaks + troughs
+    var gl=el('g',{class:'wl-ann'}, svg);
+    o.peaks.concat(o.troughs).forEach(function(p){ el('line',{x1:p[0],y1:0,x2:p[0],y2:H,'stroke-width':2,opacity:.5}, gl); });
+    // horizontal lines under every 3rd wave
+    for(var r=0;r<rows;r+=3){ var hy=top+r*pitch+(o.maxY-o.minY)/2 + o.minY; el('line',{x1:0,y1:hy,x2:3000,y2:hy,'stroke-width':2,opacity:.5}, gl); }
+    if(letterOn){ var t=el('text',{x:1500,y:H/2,'text-anchor':'middle','dominant-baseline':'middle','font-family':"'"+cur.font+"'",'font-size':Math.min(H*0.9,760),fill:'#16160f'}, svg); t.textContent='A'; }
+    setCap(letterOn ? 'The letter sits in the grid built from this spring’s wave.' : 'Verticals at every peak & trough, a horizontal under every 3rd wave — the grid the letters are built on.');
+  }
+
+  btnGrid.addEventListener('click',function(){ gridOn=!gridOn; btnGrid.classList.toggle('on',gridOn); btnGrid.textContent=gridOn?'Show the wave ↑':'Stack into grid ↓'; btnLetter.hidden=!gridOn; if(!gridOn){letterOn=false;btnLetter.classList.remove('on');} lit(null); draw(); });
+  btnLetter.addEventListener('click',function(){ letterOn=!letterOn; btnLetter.classList.toggle('on',letterOn); btnLetter.textContent=letterOn?'Hide letter':'Drop a letter'; draw(); });
+
+  select(SP[0]);
 })();
 </script>
 <script id="tt-script">
