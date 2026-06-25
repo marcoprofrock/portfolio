@@ -172,8 +172,8 @@ body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Helvetica, Aria
 .wl-row .par { font-family: ui-monospace, Menlo, monospace; font-size: 10px; letter-spacing: 0.04em; color: #8a8a80; display: block; margin-top: 1px; }
 .wl-row .val { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #16160f; font-variant-numeric: tabular-nums; white-space: nowrap; }
 /* in-SVG annotation + grid styling via attributes; helper classes */
-.wl-ann line, .wl-ann path { stroke: #16160f; vector-effect: non-scaling-stroke; }
-.wl-ann text { fill: #16160f; font-family: ui-monospace, Menlo, monospace; }
+.wl-ann line, .wl-ann path { stroke: #2b2b2a; vector-effect: non-scaling-stroke; }
+.wl-ann text { fill: #2b2b2a; font-family: ui-monospace, Menlo, monospace; font-weight: 400; }
 
 /* ===== Type specimen video (full character set) ===== */
 .specimen { margin: clamp(24px, 3.5vw, 40px) auto clamp(6px, 1.2vw, 12px); max-width: min(460px, 84vw); display: flex; flex-direction: column; gap: 12px; align-items: center; }
@@ -437,16 +437,18 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
     {n:12, name:'Auquelle', hex:'#235BA8', font:'ls12', Na:17.1, Cl:60.7, Ca:209, Mg:59.0, CO2:70, SO4:342, t:15.6},
     {n:13, name:'Kellerbrunnen alt', hex:'#008DB1', font:'ls13', Na:24.3, Cl:59.9, Ca:201, Mg:59.7, CO2:49, SO4:332, t:16.0}
   ];
-  // data -> wave-parameter mapping (from the board)
+  // data -> wave-parameter mapping (canonical brandbook wording)
   var MAP=[
-    {k:'Na',  ion:'Sodium (Na⁺)',        par:'Period',            feat:'period', u:'mg/l'},
-    {k:'Cl',  ion:'Chloride (Cl⁻)',      par:'Amplitude',         feat:'amp',    u:'mg/l'},
-    {k:'Ca',  ion:'Calcium (Ca²⁺)',      par:'Distortion · top',  feat:'top',    u:'mg/l'},
-    {k:'Mg',  ion:'Magnesium (Mg²⁺)',    par:'Distortion · bottom',feat:'bottom',u:'mg/l'},
-    {k:'CO2', ion:'Carbon dioxide (CO₂)',par:'Stroke weight',     feat:'stroke', u:'mg/l'},
-    {k:'SO4', ion:'Sulfate (SO₄²⁻)',     par:'Phase shift',       feat:'phase',  u:'mg/l'},
-    {k:'t',   ion:'Temperature',         par:'Colour',            feat:'colour', u:'°C'}
+    {k:'Na',  ion:'Sodium (Na⁺)',         par:'Frequency',      feat:'freq',    u:'mg/l', d:'Sodium → the number of wave periods (frequency).'},
+    {k:'Cl',  ion:'Chloride (Cl⁻)',       par:'Amplitude',      feat:'amp',     u:'mg/l', d:'Chloride → amplitude (maximum deflection up & down).'},
+    {k:'Ca',  ion:'Calcium (Ca²⁺)',       par:'Crest shape',    feat:'top',     u:'mg/l', d:'Calcium → exponent of the positive half-waves (expOut) — the shape of the crests.'},
+    {k:'Mg',  ion:'Magnesium (Mg²⁺)',     par:'Trough shape',   feat:'bottom',  u:'mg/l', d:'Magnesium → exponent of the negative half-waves (expIn) — the shape of the troughs.'},
+    {k:'CO2', ion:'Carbon dioxide (CO₂)', par:'Band thickness', feat:'stroke',  u:'mg/l', d:'CO₂ → band thickness (the visual weight of the wave body).'},
+    {k:'SO4', ion:'Sulfate (SO₄²⁻)',      par:'Wave spacing',   feat:'spacing', u:'mg/l', d:'Sulfate → the vertical spacing between the upper, middle & lower wave.'},
+    {k:'t',   ion:'Temperature',          par:'Colour',         feat:'colour',  u:'°C',  d:'Temperature → the spring’s colour.'}
   ];
+  var SO4lo=Math.min.apply(null,SP.map(function(s){return s.SO4;})), SO4hi=Math.max.apply(null,SP.map(function(s){return s.SO4;}));
+  function gapFactor(s){ return 0.3+0.95*((s.SO4-SO4lo)/((SO4hi-SO4lo)||1)); }
   var springsEl=root.querySelector('.wl-springs'),
       boxEl=root.querySelector('.wl-svgbox'),
       dataEl=root.querySelector('.wl-data'),
@@ -483,7 +485,10 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
         }
       })();
       function botYat(x){ var best=bot[0], bd=1e9; for(var i=0;i<bot.length;i++){ var d=Math.abs(bot[i][0]-x); if(d<bd){bd=d;best=bot[i];} } return best[1]; }
-      var o={pts:pts, top:top, bot:bot, peaks:peaks, troughs:troughs, minY:minY, maxY:maxY, botYat:botYat,
+      var allY=pts.map(function(p){return p[1];}); var polyTop=Math.min.apply(null,allY), polyBot=Math.max.apply(null,allY);
+      var period=600; if(peaks.length>1){ var s2=0; for(var i=1;i<peaks.length;i++) s2+=peaks[i][0]-peaks[i-1][0]; period=s2/(peaks.length-1); }
+      var o={pts:pts, ptsStr:pts.map(function(p){return p.join(',');}).join(' '), top:top, bot:bot, peaks:peaks, troughs:troughs,
+             minY:minY, maxY:maxY, polyTop:polyTop, polyBot:polyBot, bandH:(polyBot-polyTop), period:period, botYat:botYat,
              topD:top.map(function(p){return p.join(',');}).join(' '), botD:bot.map(function(p){return p.join(',');}).join(' ')};
       cache[s.n]=o; cb(o);
     });
@@ -512,56 +517,67 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
 
   function setCap(t){ capEl.textContent=t; }
 
-  // ---- render the single wave + annotations ----
+  // ---- render the 3 stacked waves (upper / middle / lower) + filigree annotations ----
   function draw(){
     var o=cache[cur.n]; if(!o) return;
     boxEl.innerHTML='';
     if(gridOn){ drawGrid(o); return; }
-    var svg=el('svg',{viewBox:'0 0 3000 500', class:'wl-svg', preserveAspectRatio:'xMidYMid meet'}, boxEl);
-    el('polygon',{points:o.pts.map(function(p){return p.join(',');}).join(' '), fill:cur.hex}, svg);
-    var ann=el('g',{class:'wl-ann'}, svg); ann.setAttribute('pointer-events','none');
     var f=hoverFeat;
-    if(f==='period' && o.peaks.length>=3){ var a=o.peaks[1], b=o.peaks[2]; var y=o.minY-46;
-      el('line',{x1:a[0],y1:y,x2:b[0],y2:y,'stroke-width':4}, ann);
-      [a,b].forEach(function(p){ el('line',{x1:p[0],y1:o.minY-58,x2:p[0],y2:p[1],'stroke-width':3,'stroke-dasharray':'6 8',opacity:.5}, ann); });
-      tlabel(ann,(a[0]+b[0])/2, y-14, 'Period');
-    } else if(f==='amp' && o.peaks.length){ var px=o.peaks[1]?o.peaks[1][0]:o.peaks[0][0]; var x=px+60;
-      el('line',{x1:x,y1:o.minY,x2:x,y2:o.maxY,'stroke-width':4}, ann);
-      el('line',{x1:px-40,y1:o.minY,x2:x+40,y2:o.minY,'stroke-width':3,opacity:.5}, ann);
-      el('line',{x1:px-40,y1:o.maxY,x2:x+40,y2:o.maxY,'stroke-width':3,opacity:.5}, ann);
-      tlabel(ann, x+20, (o.minY+o.maxY)/2, 'Amplitude','start');
-    } else if(f==='top'){ el('polyline',{points:o.topD, fill:'none','stroke-width':9,'stroke-linecap':'round','stroke-linejoin':'round'}, ann); tlabel(ann,120,o.minY-26,'Top edge','start'); }
-    else if(f==='bottom'){ el('polyline',{points:o.botD, fill:'none','stroke-width':9,'stroke-linecap':'round','stroke-linejoin':'round'}, ann); tlabel(ann,120,o.maxY+50,'Bottom edge','start'); }
-    else if(f==='stroke' && o.troughs.length){ var tx=o.troughs[1]?o.troughs[1][0]:o.troughs[0][0]; var ty=o.troughs[1]?o.troughs[1][1]:o.troughs[0][1]; var by=o.botYat(tx);
-      el('line',{x1:tx,y1:ty,x2:tx,y2:by,'stroke-width':6}, ann);
-      el('line',{x1:tx-26,y1:ty,x2:tx+26,y2:ty,'stroke-width':4}, ann);
-      el('line',{x1:tx-26,y1:by,x2:tx+26,y2:by,'stroke-width':4}, ann);
-      tlabel(ann, tx+34, (ty+by)/2, 'Stroke','start');
-    } else if(f==='phase'){ el('line',{x1:60,y1:250,x2:360,y2:250,'stroke-width':4}, ann);
-      el('path',{d:'M360 250 l-22 -12 v24 z', fill:'#16160f','stroke-width':0}, ann); tlabel(ann,210,228,'Phase →'); }
-    else if(f==='colour'){ /* swatch */ el('rect',{x:60,y:60,width:120,height:120,rx:14,fill:cur.hex,stroke:'#16160f','stroke-width':3}, ann); }
-    if(f==='colour') setCap('Temperature '+cur.t+' °C → colour '+cur.hex);
-    else if(f) setCap(({period:'Sodium → period (spacing of the peaks)',amp:'Chloride → amplitude (peak-to-trough height)',top:'Calcium → distortion of the top edge',bottom:'Magnesium → distortion of the bottom edge',stroke:'Carbon dioxide → stroke weight (band thickness)',phase:'Sulfate → phase (horizontal shift of the wave)'})[f]);
-    else setCap('Spring '+('0'+cur.n).slice(-2)+' · '+cur.name+' — hover a value to see what it shapes.');
-  }
-  function tlabel(g,x,y,txt,anchor){ var t=el('text',{x:x,y:y,'font-size':64,'font-weight':600,'text-anchor':anchor||'middle'}, g); t.textContent=txt; }
-
-  // ---- render the stacked grid + optional letter ----
-  function drawGrid(o){
-    var rows=9, pitch=Math.max(46,(o.maxY-o.minY)*0.62), H=Math.round((rows-1)*pitch+ (o.maxY-o.minY) + 120), top=60;
+    var bandH=o.bandH, gap=gapFactor(cur)*bandH, pitch=bandH+gap, pad=Math.max(24, bandH*0.16);
+    var H=Math.round(3*bandH+2*gap+2*pad);
     var svg=el('svg',{viewBox:'0 0 3000 '+H, class:'wl-svg', preserveAspectRatio:'xMidYMid meet'}, boxEl);
-    var field=el('g',{}, svg);
-    for(var r=0;r<rows;r++){
-      var gy=el('g',{transform:'translate(0 '+(top+r*pitch)+')'}, field);
-      el('polygon',{points:o.pts.map(function(p){return p.join(',');}).join(' '), fill:cur.hex, opacity: letterOn?0.32:0.6}, gy);
+    function off(i){ return pad + i*pitch - o.polyTop; }
+    for(var i=0;i<3;i++){ el('polygon',{points:o.ptsStr, fill:cur.hex, transform:'translate(0 '+off(i)+')'}, svg); }
+    var ann=el('g',{class:'wl-ann'}, svg); ann.setAttribute('pointer-events','none');
+    var o0=off(0);
+    if(f==='freq' && o.peaks.length){ var yT=o.minY+o0-34;
+      o.peaks.forEach(function(p){ el('line',{x1:p[0],y1:yT+8,x2:p[0],y2:p[1]+o0,'stroke-width':0.75,opacity:.45}, ann); });
+      if(o.peaks.length>=3){ var a=o.peaks[1],b=o.peaks[2]; el('line',{x1:a[0],y1:yT,x2:b[0],y2:yT,'stroke-width':1}, ann); tlabel(ann,(a[0]+b[0])/2,yT-10,'1 of '+o.peaks.length+' periods'); }
     }
-    // vertical grid lines at peaks + troughs
+    else if(f==='amp' && o.peaks.length){ var x=(o.peaks[1]||o.peaks[0])[0];
+      el('line',{x1:x,y1:o.minY+o0,x2:x,y2:o.maxY+o0,'stroke-width':1}, ann);
+      el('line',{x1:x-55,y1:o.minY+o0,x2:x+55,y2:o.minY+o0,'stroke-width':1}, ann);
+      el('line',{x1:x-55,y1:o.maxY+o0,x2:x+55,y2:o.maxY+o0,'stroke-width':1}, ann);
+      tlabel(ann,x+66,(o.minY+o.maxY)/2+o0,'Amplitude','start'); }
+    else if(f==='top'){ el('polyline',{points:o.topD, fill:'none','stroke-width':2, transform:'translate(0 '+o0+')','stroke-linejoin':'round'}, ann); tlabel(ann,70,o.minY+o0-16,'Crests','start'); }
+    else if(f==='bottom'){ el('polyline',{points:o.botD, fill:'none','stroke-width':2, transform:'translate(0 '+o0+')','stroke-linejoin':'round'}, ann); tlabel(ann,70,o.maxY+o0+40,'Troughs','start'); }
+    else if(f==='stroke' && o.troughs.length){ var tx=(o.troughs[1]||o.troughs[0])[0], ty=(o.troughs[1]||o.troughs[0])[1], by=o.botYat(tx);
+      el('line',{x1:tx,y1:ty+o0,x2:tx,y2:by+o0,'stroke-width':1}, ann);
+      el('line',{x1:tx-44,y1:ty+o0,x2:tx+44,y2:ty+o0,'stroke-width':1}, ann);
+      el('line',{x1:tx-44,y1:by+o0,x2:tx+44,y2:by+o0,'stroke-width':1}, ann);
+      tlabel(ann,tx+54,(ty+by)/2+o0,'Thickness','start'); }
+    else if(f==='spacing'){ var sx=260, y1=o.polyBot+off(0), y2=o.polyTop+off(1);
+      el('line',{x1:sx,y1:y1,x2:sx,y2:y2,'stroke-width':1}, ann);
+      el('line',{x1:sx-55,y1:y1,x2:sx+55,y2:y1,'stroke-width':1}, ann);
+      el('line',{x1:sx-55,y1:y2,x2:sx+55,y2:y2,'stroke-width':1}, ann);
+      tlabel(ann,sx+66,(y1+y2)/2,'Spacing','start'); }
+    else if(f==='colour'){ el('rect',{x:60,y:o.minY+o0,width:130,height:130,rx:10,fill:cur.hex,stroke:'#2b2b2a','stroke-width':1}, ann); }
+    if(f==='colour') setCap('Temperature '+cur.t+' °C → '+cur.hex);
+    else if(f){ var mm=MAP.filter(function(m){return m.feat===f;})[0]; setCap(mm?mm.d:''); }
+    else setCap('Spring '+('0'+cur.n).slice(-2)+' · '+cur.name+' — three waves, spaced by sulfate. Hover a value to see what it shapes.');
+  }
+  function tlabel(g,x,y,txt,anchor){ var t=el('text',{x:x,y:y,'font-size':42,'text-anchor':anchor||'middle'}, g); t.textContent=txt; }
+
+  // ---- render the DIN-A grid (wave tiled to a portrait √2 sheet) + optional 3x6 letter ----
+  function drawGrid(o){
+    var VW=3000, VH=Math.round(VW*Math.SQRT2);            // DIN-A portrait (1 : √2)
+    var n=42, pitch=VH/n, base=pitch*0.5;                 // tight vertical tiling -> dense field, ~14 horizontals
+    var svg=el('svg',{viewBox:'0 0 '+VW+' '+VH, class:'wl-svg', preserveAspectRatio:'xMidYMid meet'}, boxEl);
+    var field=el('g',{}, svg);
+    for(var i=0;i<n;i++){ el('polygon',{points:o.ptsStr, fill:cur.hex, opacity:(letterOn?0.26:0.5), transform:'translate(0 '+(base+i*pitch - (o.polyTop+o.polyBot)/2)+')'}, field); }
     var gl=el('g',{class:'wl-ann'}, svg);
-    o.peaks.concat(o.troughs).forEach(function(p){ el('line',{x1:p[0],y1:0,x2:p[0],y2:H,'stroke-width':2,opacity:.5}, gl); });
-    // horizontal lines under every 3rd wave
-    for(var r=0;r<rows;r+=3){ var hy=top+r*pitch+(o.maxY-o.minY)/2 + o.minY; el('line',{x1:0,y1:hy,x2:3000,y2:hy,'stroke-width':2,opacity:.5}, gl); }
-    if(letterOn){ var t=el('text',{x:1500,y:H/2,'text-anchor':'middle','dominant-baseline':'middle','font-family':"'"+cur.font+"'",'font-size':Math.min(H*0.9,760),fill:'#16160f'}, svg); t.textContent='A'; }
-    setCap(letterOn ? 'The letter sits in the grid built from this spring’s wave.' : 'Verticals at every peak & trough, a horizontal under every 3rd wave — the grid the letters are built on.');
+    o.peaks.concat(o.troughs).forEach(function(p){ el('line',{x1:p[0],y1:0,x2:p[0],y2:VH,'stroke-width':0.75,opacity:.6}, gl); });
+    for(var i=0;i<n;i+=3){ var hy=base+i*pitch; if(hy>2&&hy<VH-2) el('line',{x1:0,y1:hy,x2:VW,y2:hy,'stroke-width':0.75,opacity:.6}, gl); }
+    if(letterOn){
+      var rowH=3*pitch;                                   // a "row" = 3 stacked waves (one horizontal band)
+      var g=el('g',{}, svg);
+      var t=el('text',{x:0,y:0,'text-anchor':'middle','font-family':"'"+cur.font+"'",'font-size':1000,fill:'#16160f'}, g);
+      t.textContent='R';
+      var bb=t.getBBox(); var sc=bb.height? (6*rowH)/bb.height : 1;  // scale so the glyph is exactly 6 rows tall
+      var cx=VW/2, cy=Math.round((VH/2)/rowH)*rowH;        // snap centre to the grid
+      g.setAttribute('transform','translate('+(cx-(bb.x+bb.width/2)*sc)+' '+(cy-(bb.y+bb.height/2)*sc)+') scale('+sc+')');
+    }
+    setCap(letterOn ? 'The cut’s real letter dropped onto the grid — 3 columns wide, 6 rows tall (W/M are 5, i/! are 1).' : 'The wave tiled onto a DIN-A sheet — verticals at every peak & trough, a horizontal under every 3rd wave: the grid the letters are built on.');
   }
 
   btnGrid.addEventListener('click',function(){ gridOn=!gridOn; btnGrid.classList.toggle('on',gridOn); btnGrid.textContent=gridOn?'Show the wave ↑':'Stack into grid ↓'; btnLetter.hidden=!gridOn; if(!gridOn){letterOn=false;btnLetter.classList.remove('on');} lit(null); draw(); });
