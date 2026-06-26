@@ -569,34 +569,36 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
     var field=el('g',{}, svg);
     for(var i=0;i<n;i++){ el('polygon',{points:o.ptsStr, fill:cur.hex, opacity:(letterOn?0.16:0.5), transform:'translate(0 '+(startTop+i*pitch - o.polyTop)+')'}, field); }
     var gl=el('g',{class:'wl-ann'}, svg);
-    o.peaks.concat(o.troughs).forEach(function(p){ el('line',{x1:p[0],y1:0,x2:p[0],y2:VH,'stroke-width':0.75,opacity:.6}, gl); });
-    for(var i=0;startTop+i*pitch<VH;i+=3){ var hy=startTop+i*pitch; if(hy>2&&hy<VH-2) el('line',{x1:0,y1:hy,x2:VW,y2:hy,'stroke-width':0.75,opacity:.6}, gl); }
+    // Columns = EVEN quarter-period steps: a vertical on every crest, every trough AND every zero-crossing in
+    // between (where the wave flips sign). The cuts are drawn on this regular grid; uneven real peak/trough x's
+    // would throw the letter off. Phase-anchor to the first real peak so a line sits on it.
+    var colW=o.period/4;
+    var phase=(((o.peaks&&o.peaks.length?o.peaks[0][0]:0)%colW)+colW)%colW;
+    var vlines=[]; for(var x=phase; x<VW-1; x+=colW){ if(x>1){ vlines.push(x); el('line',{x1:x,y1:0,x2:x,y2:VH,'stroke-width':0.75,opacity:.6}, gl); } }
+    var hlines=[]; for(var i=0;startTop+i*pitch<VH;i+=3){ var hy=startTop+i*pitch; if(hy>2&&hy<VH-2){ hlines.push(hy); el('line',{x1:0,y1:hy,x2:VW,y2:hy,'stroke-width':0.75,opacity:.6}, gl); } }
     if(letterOn){
       // The cut glyph must be measured (getBBox) with its REAL font, never the fallback — otherwise the
       // scale & position are computed from the wrong metrics and the letter ends up mis-sized/off the grid.
       var spec="1000px '"+cur.font+"'", sp=cur;
       if(!document.fonts.check(spec)){ document.fonts.load(spec).then(function(){ if(cur===sp && gridOn && letterOn) draw(); }); }
       else {
-        var COLS=3, ROWS=6;                                 // R is 3 columns x 6 rows (W/M would be 5, i/! 1)
-        // The lines the grid actually draws: verticals at every peak & trough, horizontals every 3rd wave (uniform).
-        var vlines=o.peaks.concat(o.troughs).map(function(p){return p[0];}).sort(function(a,b){return a-b;});
-        var hlines=[]; for(var i=0;startTop+i*pitch<VH;i+=3){ var hy=startTop+i*pitch; if(hy>2&&hy<VH-2) hlines.push(hy); }
-        // Pick the most-centred run of ROWS real horizontal lines -> the cap-height band (top & bottom flush on lines).
-        var hi=0, bestd=1e9, targetT=VH/2-(ROWS*3*pitch)/2;
-        for(var k=0;k+ROWS<hlines.length;k++){ var d=Math.abs(hlines[k]-targetT); if(d<bestd){bestd=d;hi=k;} }
+        var ROWS=6;                                          // R is 6 rows (cap-height) tall and ~6 quarter-period columns wide
+        // Pick the run of ROWS real horizontal lines whose block is most centred -> the cap-height band.
+        var hi=0, bestd=1e9;
+        for(var k=0;k+ROWS<hlines.length;k++){ var mid=(hlines[k]+hlines[k+ROWS])/2, d=Math.abs(mid-VH/2); if(d<bestd){bestd=d;hi=k;} }
         var topY=hlines[hi], botY=hlines[Math.min(hi+ROWS,hlines.length-1)], cellH=botY-topY;
         var g=el('g',{}, svg);
         var t=el('text',{x:0,y:0,'text-anchor':'start','font-family':"'"+cur.font+"'",'font-size':1000,fill:cur.hex}, g);
         t.textContent='R';
-        // UNIFORM scale (never distort the real cut): lock the cap-height to exactly 6 rows...
-        var bb=t.getBBox(); var s=cellH/bb.height;
-        // ...and snap the LEFT ink edge onto a real vertical grid line (like the reference, where every letter starts on a column line).
-        var targetL=VW/2-(COLS*o.period/2)/2;       // NB: seed reduce with vlines[0] explicitly — a line at x=0 is falsy, so `vlines[0]||targetL` would wrongly seed targetL and never snap.
+        // UNIFORM scale (no stretch): the cuts are drawn ON this grid, so locking the cap-height to exactly 6 rows
+        // makes the glyph's own width come out ≈3 columns. Snap the bottom to the baseline line & left ink edge to a column line.
+        var bb=t.getBBox(), s=cellH/bb.height, glyphW=bb.width*s;
+        var targetL=VW/2-glyphW/2;
         var colL=vlines.length?vlines.reduce(function(b,x){return Math.abs(x-targetL)<Math.abs(b-targetL)?x:b;}, vlines[0]):targetL;
         g.setAttribute('transform','translate('+(colL-bb.x*s)+' '+(topY-bb.y*s)+') scale('+s+')');
       }
     }
-    setCap(letterOn ? 'The cut’s real letter dropped onto the grid — 6 rows tall, in its true proportions (≈3 columns; condensed cuts read narrower, wide cuts wider).' : 'The wave tiled onto a DIN-A sheet — verticals at every peak & trough, a horizontal under every 3rd wave: the grid the letters are built on.');
+    setCap(letterOn ? 'The cut’s real letter dropped onto the grid — 6 columns × 6 rows, sitting on the grid lines at its true scale (no stretching: the cut is drawn on this very grid).' : 'The wave tiled onto a DIN-A sheet — a vertical on every crest, trough & zero-crossing (¼-period), a horizontal under every 3rd wave: the regular grid the letters are built on.');
   }
 
   btnGrid.addEventListener('click',function(){ gridOn=!gridOn; btnGrid.classList.toggle('on',gridOn); btnGrid.textContent=gridOn?'Show the wave ↑':'Stack into grid ↓'; btnLetter.hidden=!gridOn; if(!gridOn){letterOn=false;btnLetter.classList.remove('on');} lit(null); draw(); });
