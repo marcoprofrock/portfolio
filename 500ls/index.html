@@ -523,10 +523,12 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
     boxEl.innerHTML='';
     if(gridOn){ drawGrid(o); return; }
     var f=hoverFeat;
-    var bandH=o.bandH, pitch=cur.p, pad=Math.max(24, bandH*0.16);   // pitch = the spring's REAL spacing from the SVG
-    var H=Math.round(bandH+2*pitch+2*pad);
-    var svg=el('svg',{viewBox:'0 0 3000 '+H, class:'wl-svg', preserveAspectRatio:'xMidYMid meet'}, boxEl);
-    function off(i){ return pad + i*pitch - o.polyTop; }
+    var bandH=o.bandH, pitch=cur.p;                                  // pitch = the spring's REAL spacing from the SVG
+    var spanH=bandH+2*pitch;                                          // this spring's 3-wave composition height
+    var FH=520;                                                       // FIXED frame height (oriented to the tallest spring) so the white box never resizes
+    var topPad=(FH-spanH)/2;                                          // centre the 3 waves in the constant frame
+    var svg=el('svg',{viewBox:'0 0 3000 '+FH, class:'wl-svg', preserveAspectRatio:'xMidYMid meet'}, boxEl);
+    function off(i){ return topPad + i*pitch - o.polyTop; }
     for(var i=0;i<3;i++){ el('polygon',{points:o.ptsStr, fill:cur.hex, transform:'translate(0 '+off(i)+')'}, svg); }
     var ann=el('g',{class:'wl-ann'}, svg); ann.setAttribute('pointer-events','none');
     var o0=off(0);
