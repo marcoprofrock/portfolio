@@ -460,6 +460,8 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
   function el(tag,attrs,parent){ var e=document.createElementNS(NS,tag); if(attrs) for(var k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
   function fmt(v){ return (v>=1000)? Math.round(v).toLocaleString('en-US') : v; }
 
+  // preload all 13 cut fonts up front so the grid letter never falls back to a (shorter) system font
+  if(document.fonts && document.fonts.load){ SP.forEach(function(s){ document.fonts.load("1000px '"+s.font+"'"); }); }
   // chips
   SP.forEach(function(s){
     var b=document.createElement('button'); b.type='button'; b.className='wl-chip';
@@ -569,36 +571,43 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
     var field=el('g',{}, svg);
     for(var i=0;i<n;i++){ el('polygon',{points:o.ptsStr, fill:cur.hex, opacity:(letterOn?0.16:0.5), transform:'translate(0 '+(startTop+i*pitch - o.polyTop)+')'}, field); }
     var gl=el('g',{class:'wl-ann'}, svg);
-    // Columns = EVEN quarter-period steps: a vertical on every crest, every trough AND every zero-crossing in
-    // between (where the wave flips sign). The cuts are drawn on this regular grid; uneven real peak/trough x's
-    // would throw the letter off. Phase-anchor to the first real peak so a line sits on it.
-    var colW=o.period/4;
-    var phase=(((o.peaks&&o.peaks.length?o.peaks[0][0]:0)%colW)+colW)%colW;
-    var vlines=[]; for(var x=phase; x<VW-1; x+=colW){ if(x>1){ vlines.push(x); el('line',{x1:x,y1:0,x2:x,y2:VH,'stroke-width':0.75,opacity:.6}, gl); } }
+    // Vertical lines on the wave's REAL features: every crest, every trough, and the zero-crossing between them
+    // (where the top edge flips across the mid-line). These are the actual quarter-period landmarks — drawing them
+    // here (rather than at an averaged spacing) makes the lines pass exactly through the crests/troughs.
+    var midY=(o.minY+o.maxY)/2, zc=[];
+    for(var i=1;i<o.top.length;i++){ var a=o.top[i-1], b=o.top[i]; if((a[1]-midY)*(b[1]-midY)<0){ var tt=(midY-a[1])/(b[1]-a[1]); zc.push(a[0]+tt*(b[0]-a[0])); } }
+    var feats=o.peaks.map(function(p){return p[0];}).concat(o.troughs.map(function(p){return p[0];})).concat(zc)
+              .filter(function(x){return x>1 && x<VW-1;}).sort(function(a,b){return a-b;});
+    var vlines=[]; feats.forEach(function(x){ if(!vlines.length || x-vlines[vlines.length-1]>4){ vlines.push(x); el('line',{x1:x,y1:0,x2:x,y2:VH,'stroke-width':0.75,opacity:.6}, gl); } });
     var hlines=[]; for(var i=0;startTop+i*pitch<VH;i+=3){ var hy=startTop+i*pitch; if(hy>2&&hy<VH-2){ hlines.push(hy); el('line',{x1:0,y1:hy,x2:VW,y2:hy,'stroke-width':0.75,opacity:.6}, gl); } }
     if(letterOn){
-      // The cut glyph must be measured (getBBox) with its REAL font, never the fallback — otherwise the
-      // scale & position are computed from the wrong metrics and the letter ends up mis-sized/off the grid.
-      var spec="1000px '"+cur.font+"'", sp=cur;
+      var sp=cur, spec="1000px '"+cur.font+"'";
+      // Only draw the letter once its cut font is loaded — otherwise the browser paints the FALLBACK glyph into the
+      // box (it's shorter, so it reads as ~4 rows). Geometry below is hard-coded so it never depends on getBBox.
       if(!document.fonts.check(spec)){ document.fonts.load(spec).then(function(){ if(cur===sp && gridOn && letterOn) draw(); }); }
       else {
-        var ROWS=6;                                          // R is 6 rows (cap-height) tall and ~6 quarter-period columns wide
-        // Pick the run of ROWS real horizontal lines whose block is most centred -> the cap-height band.
-        var hi=0, bestd=1e9;
-        for(var k=0;k+ROWS<hlines.length;k++){ var mid=(hlines[k]+hlines[k+ROWS])/2, d=Math.abs(mid-VH/2); if(d<bestd){bestd=d;hi=k;} }
+        // HARD-CODED R ink box per cut [x, y, width, height] as the BROWSER renders it (getBBox at font-size 1000,
+        // measured with the cut loaded). Fixed numbers — not a live getBBox — so the scale is always right.
+        var BB={1:[0,-935.2,149,1053.6],2:[0,-877.5,166,989.9],3:[0,-798.6,197,898.8],4:[0,-774.3,199,871.5],
+                5:[0,-731.8,196,822.9],6:[0,-707.5,217,886.6],7:[0,-695.3,198,783.4],8:[0,-652.8,211,734.8],
+                9:[0,-537.4,395,640.7],10:[0,-370.4,495,416],11:[0,-340.1,658,382.6],12:[0,-324.9,659,367.4],13:[0,-315.8,659,355.3]};
+        var b=BB[cur.n], bx=b[0], by=b[1], bh=b[3], ROWS=6;
+        // Vertical band = 6 rows tall, placed near the top (NOT centred). Snap the band to real grid lines.
+        var hi=Math.max(0, Math.min(1, hlines.length-1-ROWS));
         var topY=hlines[hi], botY=hlines[Math.min(hi+ROWS,hlines.length-1)], cellH=botY-topY;
+        var s=cellH/bh;                                      // UNIFORM scale (no stretch): the cut's own height -> exactly 6 rows
+        // Left edge on a real feature line a little in from the left (positioned to the grid, not centred).
+        var crests=o.peaks.map(function(p){return p[0];}).filter(function(x){return x>1;}).sort(function(a,b){return a-b;});
+        var tgt=VW*0.18, pool=crests.length?crests:vlines;
+        var leftX=pool.length?pool.reduce(function(c,x){return Math.abs(x-tgt)<Math.abs(c-tgt)?x:c;}, pool[0]):tgt;
         var g=el('g',{}, svg);
         var t=el('text',{x:0,y:0,'text-anchor':'start','font-family':"'"+cur.font+"'",'font-size':1000,fill:cur.hex}, g);
         t.textContent='R';
-        // UNIFORM scale (no stretch): the cuts are drawn ON this grid, so locking the cap-height to exactly 6 rows
-        // makes the glyph's own width come out ≈3 columns. Snap the bottom to the baseline line & left ink edge to a column line.
-        var bb=t.getBBox(), s=cellH/bb.height, glyphW=bb.width*s;
-        var targetL=VW/2-glyphW/2;
-        var colL=vlines.length?vlines.reduce(function(b,x){return Math.abs(x-targetL)<Math.abs(b-targetL)?x:b;}, vlines[0]):targetL;
-        g.setAttribute('transform','translate('+(colL-bb.x*s)+' '+(topY-bb.y*s)+') scale('+s+')');
+        // map the ink box onto the cell: box-top(by)->topY, box-left(bx)->leftX, height bh->cellH (=6 rows).
+        g.setAttribute('transform','translate('+(leftX-bx*s)+' '+(topY-by*s)+') scale('+s+')');
       }
     }
-    setCap(letterOn ? 'The cut’s real letter dropped onto the grid — 6 columns × 6 rows, sitting on the grid lines at its true scale (no stretching: the cut is drawn on this very grid).' : 'The wave tiled onto a DIN-A sheet — a vertical on every crest, trough & zero-crossing (¼-period), a horizontal under every 3rd wave: the regular grid the letters are built on.');
+    setCap(letterOn ? 'The cut’s real letter dropped onto the grid — scaled to exactly 6 rows tall (≈6 columns) at its true proportions and snapped onto the grid lines.' : 'The wave tiled onto a DIN-A sheet — a vertical on every crest, trough & zero-crossing, a horizontal under every 3rd wave: the grid the letters are built on.');
   }
 
   btnGrid.addEventListener('click',function(){ gridOn=!gridOn; btnGrid.classList.toggle('on',gridOn); btnGrid.textContent=gridOn?'Show the wave ↑':'Stack into grid ↓'; btnLetter.hidden=!gridOn; if(!gridOn){letterOn=false;btnLetter.classList.remove('on');} lit(null); draw(); });
