@@ -572,15 +572,22 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
     o.peaks.concat(o.troughs).forEach(function(p){ el('line',{x1:p[0],y1:0,x2:p[0],y2:VH,'stroke-width':0.75,opacity:.6}, gl); });
     for(var i=0;startTop+i*pitch<VH;i+=3){ var hy=startTop+i*pitch; if(hy>2&&hy<VH-2) el('line',{x1:0,y1:hy,x2:VW,y2:hy,'stroke-width':0.75,opacity:.6}, gl); }
     if(letterOn){
-      var rowH=3*pitch, colW=o.period/2;                  // grid cell: 1 col = peak->trough, 1 row = 3 waves
-      var cellW=3*colW, cellH=6*rowH;                     // a letter occupies exactly 3 cols x 6 rows
+      var COLS=3, ROWS=6;                                  // R spans 3 columns x 6 rows (W/M would be 5, i/! 1)
+      // The actual lines the grid draws: verticals at every real peak & trough (irregular), horizontals every 3rd wave (uniform).
+      var vlines=o.peaks.concat(o.troughs).map(function(p){return p[0];}).sort(function(a,b){return a-b;});
+      var hlines=[]; for(var i=0;startTop+i*pitch<VH;i+=3){ var hy=startTop+i*pitch; if(hy>2&&hy<VH-2) hlines.push(hy); }
+      // Pick the run of COLS real vertical lines whose block is most centred horizontally.
+      var li=0, bestd=1e9, targetL=VW/2-(COLS*o.period/2)/2;
+      for(var k=0;k+COLS<vlines.length;k++){ var d=Math.abs(vlines[k]-targetL); if(d<bestd){bestd=d;li=k;} }
+      var leftX=vlines[li], rightX=vlines[Math.min(li+COLS,vlines.length-1)], cellW=rightX-leftX;
+      // Pick the run of ROWS real horizontal lines whose block is most centred vertically.
+      var hi=0; bestd=1e9; var targetT=VH/2-(ROWS*3*pitch)/2;
+      for(var k=0;k+ROWS<hlines.length;k++){ var d=Math.abs(hlines[k]-targetT); if(d<bestd){bestd=d;hi=k;} }
+      var topY=hlines[hi], botY=hlines[Math.min(hi+ROWS,hlines.length-1)], cellH=botY-topY;
       var g=el('g',{}, svg);
       var t=el('text',{x:0,y:0,'text-anchor':'start','font-family':"'"+cur.font+"'",'font-size':1000,fill:cur.hex}, g);
       t.textContent='R';
-      var bb=t.getBBox(); var scx=cellW/bb.width, scy=cellH/bb.height;   // fit the glyph to the 3x6 cell
-      var vlines=o.peaks.concat(o.troughs).map(function(p){return p[0];}).sort(function(a,b){return a-b;});
-      var tL=VW/2-cellW/2, leftX=vlines.reduce(function(b,x){return Math.abs(x-tL)<Math.abs(b-tL)?x:b;}, vlines[0]||tL); // left edge on a vertical line
-      var topY=startTop+Math.max(0,Math.round((VH/2-cellH/2-startTop)/rowH))*rowH;                              // top edge on a horizontal line
+      var bb=t.getBBox(); var scx=cellW/bb.width, scy=cellH/bb.height;   // fill exactly the 3-col x 6-row block, edges flush on real grid lines
       g.setAttribute('transform','translate('+(leftX-bb.x*scx)+' '+(topY-bb.y*scy)+') scale('+scx+' '+scy+')');
     }
     setCap(letterOn ? 'The cut’s real letter dropped onto the grid — 3 columns wide, 6 rows tall (W/M are 5, i/! are 1).' : 'The wave tiled onto a DIN-A sheet — verticals at every peak & trough, a horizontal under every 3rd wave: the grid the letters are built on.');
