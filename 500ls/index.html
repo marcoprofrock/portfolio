@@ -500,7 +500,7 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
     cur=s; gridOn=false; letterOn=false; hoverFeat=null;
     SP.forEach(function(x){ x._chip.classList.toggle('active', x===s); });
     btnGrid.classList.remove('on'); btnGrid.textContent='Stack into grid ↓';
-    btnLetter.hidden=true; btnLetter.classList.remove('on');
+    btnLetter.hidden=true; btnLetter.classList.remove('on'); btnLetter.textContent='Drop a letter';
     renderData();
     load(s,function(o){ if(cur!==s) return; draw(); });
   }
@@ -565,52 +565,53 @@ document.querySelectorAll('.lite-yt').forEach(function(btn){btn.addEventListener
   // ---- render the DIN-A grid (wave tiled to a portrait √2 sheet) + optional 3x6 letter ----
   function drawGrid(o){
     var VW=3000, VH=Math.round(VW*Math.SQRT2);            // DIN-A portrait (1 : √2)
-    var pitch=cur.p, startTop=24;                          // REAL per-spring spacing, carried straight from the 3-wave view
-    var n=Math.ceil((VH-startTop)/pitch)+2;
+    var pitch=cur.p, bandH=o.bandH;                        // REAL per-spring spacing + the wave-band height
+    // Tile only as many waves as fit with an even top & bottom margin, then CENTRE the band on the sheet so the
+    // bottom row no longer runs into the DIN-A edge (removes ~1-3 waves per spring vs. the old overflow tiling).
+    var n=Math.max(1, Math.floor((VH - 2*24 - bandH)/pitch) + 1);
+    var startTop=(VH - ((n-1)*pitch + bandH))/2;
+    var bandBot=startTop + (n-1)*pitch + bandH;            // bottom edge of the wave band (= VH-startTop)
     var svg=el('svg',{viewBox:'0 0 '+VW+' '+VH, class:'wl-svg', preserveAspectRatio:'xMidYMid meet'}, boxEl);
     var field=el('g',{}, svg);
     for(var i=0;i<n;i++){ el('polygon',{points:o.ptsStr, fill:cur.hex, opacity:(letterOn?0.16:0.5), transform:'translate(0 '+(startTop+i*pitch - o.polyTop)+')'}, field); }
     var gl=el('g',{class:'wl-ann'}, svg);
-    // Vertical lines on the wave's REAL features: every crest, every trough, and the zero-crossing between them
-    // (where the top edge flips across the mid-line). These are the actual quarter-period landmarks — drawing them
-    // here (rather than at an averaged spacing) makes the lines pass exactly through the crests/troughs.
-    var midY=(o.minY+o.maxY)/2, zc=[];
-    for(var i=1;i<o.top.length;i++){ var a=o.top[i-1], b=o.top[i]; if((a[1]-midY)*(b[1]-midY)<0){ var tt=(midY-a[1])/(b[1]-a[1]); zc.push(a[0]+tt*(b[0]-a[0])); } }
-    var feats=o.peaks.map(function(p){return p[0];}).concat(o.troughs.map(function(p){return p[0];})).concat(zc)
-              .filter(function(x){return x>1 && x<VW-1;}).sort(function(a,b){return a-b;});
-    var vlines=[]; feats.forEach(function(x){ if(!vlines.length || x-vlines[vlines.length-1]>4){ vlines.push(x); el('line',{x1:x,y1:0,x2:x,y2:VH,'stroke-width':0.75,opacity:.6}, gl); } });
-    var hlines=[]; for(var i=0;startTop+i*pitch<VH;i+=3){ var hy=startTop+i*pitch; if(hy>2&&hy<VH-2){ hlines.push(hy); el('line',{x1:0,y1:hy,x2:VW,y2:hy,'stroke-width':0.75,opacity:.6}, gl); } }
+    // Vertical lines = EVEN quarter-period steps (crest · zero-crossing · trough · zero-crossing · …), so the
+    // zero-crossing line sits exactly midway between a crest and a trough. Phase-anchored to the first real crest
+    // so a line lands on a peak; the rest follow at a perfectly regular colW=period/4 spacing.
+    var colW=o.period/4;
+    var phase=(((o.peaks&&o.peaks.length?o.peaks[0][0]:0)%colW)+colW)%colW;
+    var vlines=[]; for(var x=phase; x<VW-1; x+=colW){ if(x>1){ vlines.push(x); el('line',{x1:x,y1:startTop,x2:x,y2:bandBot,'stroke-width':0.75,opacity:.6}, gl); } }
+    var hlines=[]; for(var i=0;i<n;i+=3){ var hy=startTop+i*pitch; hlines.push(hy); el('line',{x1:0,y1:hy,x2:VW,y2:hy,'stroke-width':0.75,opacity:.6}, gl); }
     if(letterOn){
       var sp=cur, spec="1000px '"+cur.font+"'";
       // Only draw the letter once its cut font is loaded — otherwise the browser paints the FALLBACK glyph into the
       // box (it's shorter, so it reads as ~4 rows). Geometry below is hard-coded so it never depends on getBBox.
       if(!document.fonts.check(spec)){ document.fonts.load(spec).then(function(){ if(cur===sp && gridOn && letterOn) draw(); }); }
       else {
-        // HARD-CODED R ink box per cut [x, y, width, height] as the BROWSER renders it (getBBox at font-size 1000,
-        // measured with the cut loaded). Fixed numbers — not a live getBBox — so the scale is always right.
-        var BB={1:[0,-935.2,149,1053.6],2:[0,-877.5,166,989.9],3:[0,-798.6,197,898.8],4:[0,-774.3,199,871.5],
-                5:[0,-731.8,196,822.9],6:[0,-707.5,217,886.6],7:[0,-695.3,198,783.4],8:[0,-652.8,211,734.8],
-                9:[0,-537.4,395,640.7],10:[0,-370.4,495,416],11:[0,-340.1,658,382.6],12:[0,-324.9,659,367.4],13:[0,-315.8,659,355.3]};
-        var b=BB[cur.n], bx=b[0], by=b[1], bh=b[3], ROWS=6;
+        // TRUE INK box of the R per cut, from the OTF outline (fontTools): [inkLeft(xMin), inkRight(xMax), capTop(yMax)],
+        // em=1000, baseline y=0. We must use the real INK extent — getBBox/getBoundingClientRect on these fonts return
+        // the taller LAYOUT box (ascent/leading ≈1.5× the ink), which made the visible glyph render at only ~4 rows.
+        var RM={1:[25,124,700],2:[21,145,659],3:[25,172,599],4:[25,174,581],5:[24,172,550],6:[27,190,527],
+                7:[25,173,522],8:[23,188,490],9:[50,345,402],10:[62,433,276],11:[82,576,255],12:[82,577,244],13:[82,577,236]};
+        var m=RM[cur.n], xMin=m[0], cap=m[2], ROWS=6;
         // Vertical band = 6 rows tall, placed near the top (NOT centred). Snap the band to real grid lines.
         var hi=Math.max(0, Math.min(1, hlines.length-1-ROWS));
         var topY=hlines[hi], botY=hlines[Math.min(hi+ROWS,hlines.length-1)], cellH=botY-topY;
-        var s=cellH/bh;                                      // UNIFORM scale (no stretch): the cut's own height -> exactly 6 rows
-        // Left edge on a real feature line a little in from the left (positioned to the grid, not centred).
-        var crests=o.peaks.map(function(p){return p[0];}).filter(function(x){return x>1;}).sort(function(a,b){return a-b;});
-        var tgt=VW*0.18, pool=crests.length?crests:vlines;
-        var leftX=pool.length?pool.reduce(function(c,x){return Math.abs(x-tgt)<Math.abs(c-tgt)?x:c;}, pool[0]):tgt;
+        var s=cellH/cap;                                     // UNIFORM scale: the cut's true cap-height -> exactly 6 rows of VISIBLE ink
+        // Left edge on an even column line a little in from the left (positioned to the grid, not centred).
+        var tgt=VW*0.18;
+        var leftX=vlines.length?vlines.reduce(function(c,x){return Math.abs(x-tgt)<Math.abs(c-tgt)?x:c;}, vlines[0]):tgt;
         var g=el('g',{}, svg);
         var t=el('text',{x:0,y:0,'text-anchor':'start','font-family':"'"+cur.font+"'",'font-size':1000,fill:cur.hex}, g);
         t.textContent='R';
-        // map the ink box onto the cell: box-top(by)->topY, box-left(bx)->leftX, height bh->cellH (=6 rows).
-        g.setAttribute('transform','translate('+(leftX-bx*s)+' '+(topY-by*s)+') scale('+s+')');
+        // baseline (local y=0) -> botY ; cap-top (local y=-cap) -> topY ; ink-left (xMin) -> leftX
+        g.setAttribute('transform','translate('+(leftX-xMin*s)+' '+botY+') scale('+s+')');
       }
     }
-    setCap(letterOn ? 'The cut’s real letter dropped onto the grid — scaled to exactly 6 rows tall (≈6 columns) at its true proportions and snapped onto the grid lines.' : 'The wave tiled onto a DIN-A sheet — a vertical on every crest, trough & zero-crossing, a horizontal under every 3rd wave: the grid the letters are built on.');
+    setCap(letterOn ? 'The cut’s real letter dropped onto the grid — scaled to exactly 6 rows tall (≈6 columns) at its true proportions and snapped onto the grid lines.' : 'The wave tiled onto a DIN-A sheet — an evenly-spaced vertical on every crest, zero-crossing & trough, a horizontal under every 3rd wave: the grid the letters are built on.');
   }
 
-  btnGrid.addEventListener('click',function(){ gridOn=!gridOn; btnGrid.classList.toggle('on',gridOn); btnGrid.textContent=gridOn?'Show the wave ↑':'Stack into grid ↓'; btnLetter.hidden=!gridOn; if(!gridOn){letterOn=false;btnLetter.classList.remove('on');} lit(null); draw(); });
+  btnGrid.addEventListener('click',function(){ gridOn=!gridOn; btnGrid.classList.toggle('on',gridOn); btnGrid.textContent=gridOn?'Show the wave ↑':'Stack into grid ↓'; btnLetter.hidden=!gridOn; if(!gridOn){letterOn=false;btnLetter.classList.remove('on');btnLetter.textContent='Drop a letter';} lit(null); draw(); });
   btnLetter.addEventListener('click',function(){ letterOn=!letterOn; btnLetter.classList.toggle('on',letterOn); btnLetter.textContent=letterOn?'Hide letter':'Drop a letter'; draw(); });
 
   select(SP[0]);
