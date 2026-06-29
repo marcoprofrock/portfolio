@@ -1,0 +1,155 @@
+<html lang="de"><head>
+<meta charset="UTF-8">
+<title>Stromzähler – Aus Liebe zu Stuttgart</title>
+<style>
+  :root{
+    --rot:#e2001a;            /* Liebe-/Akzent-Rot */
+    --gehaeuse:#d9d6cf;
+    --gehaeuse-dark:#b9b5ab;
+    --display-bg:#1a1d1f;
+    --cell-bg:linear-gradient(#2a2e31,#0e1012);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:radial-gradient(circle at 50% 30%,#f3f1ec,#d7d3ca);
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px;
+  }
+
+  /* Social-Stage im 1:1-Format */
+  .stage{
+    width:680px;aspect-ratio:1/1;
+    background:linear-gradient(160deg,#fff,#efece5);
+    border-radius:28px;box-shadow:0 30px 60px rgba(0,0,0,.25);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;
+  }
+  .stage::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 85% 15%,rgba(226,0,26,.08),transparent 40%);
+  }
+
+  .meter{
+    width:580px;
+    background:linear-gradient(180deg,var(--gehaeuse),var(--gehaeuse-dark));
+    border-radius:18px;padding:26px 28px 30px;position:relative;
+    box-shadow:inset 0 1px 0 #fff,inset 0 -4px 10px rgba(0,0,0,.25),0 12px 25px rgba(0,0,0,.2);
+  }
+
+  .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+  .brand{font-weight:800;letter-spacing:.5px;color:#222;font-size:15px;}
+  .brand small{display:block;font-weight:500;color:#666;font-size:11px;letter-spacing:1px;}
+  .type{font-size:10px;color:#555;text-align:right;line-height:1.4;}
+
+  /* Zähl-Display */
+  .display{
+    background:var(--display-bg);border-radius:8px;padding:14px;
+    display:flex;align-items:center;gap:8px;border:2px solid #0a0b0c;
+    box-shadow:inset 0 3px 8px rgba(0,0,0,.7);
+  }
+  .reels{display:flex;gap:2px;flex:1;justify-content:center;}
+  .cell{
+    width:14px;height:26px;background:var(--cell-bg);border-radius:3px;
+    display:flex;align-items:center;justify-content:center;
+    color:#f4f4f4;font-family:"Courier New",monospace;font-weight:700;font-size:13px;
+    position:relative;overflow:hidden;
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.12),inset 0 -2px 3px rgba(0,0,0,.6);
+  }
+  .cell::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.45);}
+  .cell.space{background:#111;box-shadow:inset 0 2px 4px rgba(0,0,0,.7);}
+  .cell.spin{animation:shake .08s linear infinite;filter:blur(.4px);}
+  .cell.lock{animation:pop .18s ease;}
+  @keyframes shake{0%{transform:translateY(-1px)}50%{transform:translateY(1px)}100%{transform:translateY(-1px)}}
+  @keyframes pop{0%{transform:scale(1.18)}100%{transform:scale(1)}}
+
+  .reddigit{
+    width:18px;height:26px;border-radius:3px;overflow:hidden;
+    background:linear-gradient(var(--rot),#a30013);color:#fff;
+    font-family:"Courier New",monospace;font-weight:800;font-size:14px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:inset 0 -2px 3px rgba(0,0,0,.5);
+  }
+  .reddigit span{display:block;animation:roll .6s linear infinite;}
+  @keyframes roll{from{transform:translateY(0)}to{transform:translateY(-100%)}}
+  .unit{color:#bdbdbd;font-size:11px;font-weight:700;letter-spacing:1px;padding-left:2px;}
+
+  /* Ferraris-Scheibe */
+  .lower{display:flex;align-items:center;gap:18px;margin-top:20px;}
+  .discwrap{
+    width:80px;height:34px;background:#111;border-radius:6px;overflow:hidden;position:relative;
+    border:2px solid #0a0b0c;box-shadow:inset 0 2px 6px rgba(0,0,0,.7);
+  }
+  .disc{
+    position:absolute;width:120px;height:120px;left:-20px;top:-43px;border-radius:50%;
+    background:conic-gradient(#3a3a3a 0 92%,var(--rot) 92% 100%);
+    animation:spin 1.6s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .meta{font-size:10px;color:#444;line-height:1.5;}
+  .meta b{color:#222;}
+
+  /* Kampagnen-Claim */
+  .campaign{margin-top:22px;text-align:center;font-size:16px;font-weight:800;color:#222;letter-spacing:.5px;}
+  .campaign .heart{color:var(--rot);}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="meter">
+      <div class="head">
+        <div class="brand">Stadtwerke Stuttgart<small>ENERGIEZÄHLER · eHZ</small></div>
+        <div class="type">Typ AL · 230V<br>50Hz · Kl. 2<br>1000 imp/kWh</div>
+      </div>
+
+      <div class="display">
+        <div class="reels" id="reels"></div>
+        <div class="reddigit"><span>0123456789012345</span></div>
+        <div class="unit">kWh</div>
+      </div>
+
+      <div class="lower">
+        <div class="discwrap"><div class="disc"></div></div>
+        <div class="meta"><b>Aus Liebe</b> verbraucht.<br>Energie für die Region.</div>
+      </div>
+
+      <div class="campaign">AUS LIEBE ZU STUTTGART <span class="heart">♥</span></div>
+    </div>
+  </div>
+
+<script>
+  const SLOTS = 26;
+  const phrases = ["SCHOLZ & FRIENDS STUTTGART","STADTWERKE STUTTGART","I ♥ STUTTGART"];
+  const glyphs  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ&♥".split("");
+  const reels   = document.getElementById('reels');
+  const cells   = [];
+  for(let i=0;i<SLOTS;i++){const c=document.createElement('div');c.className='cell';reels.appendChild(c);cells.push(c);}
+  const wait = ms => new Promise(r=>setTimeout(r,ms));
+
+  function rattle(cell,target,dur){
+    return new Promise(res=>{
+      if(target===' '||target===''){cell.textContent='';cell.classList.add('space');res();return;}
+      cell.classList.remove('space');cell.classList.add('spin');
+      const iv=setInterval(()=>{cell.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];},45);
+      setTimeout(()=>{clearInterval(iv);cell.textContent=target;
+        cell.classList.remove('spin');cell.classList.add('lock');
+        setTimeout(()=>cell.classList.remove('lock'),180);res();},dur);
+    });
+  }
+
+  function show(text){
+    const start = Math.floor((SLOTS-text.length)/2);
+    const tasks=[];
+    for(let i=0;i<SLOTS;i++){
+      const ch = (i>=start && i<start+text.length) ? text[i-start] : ' ';
+      tasks.push(rattle(cells[i],ch,700 + i*90)); // gestaffeltes Einrasten von links nach rechts
+    }
+    return Promise.all(tasks);
+  }
+
+  async function loop(){
+    let i=0;
+    while(true){ await show(phrases[i]); await wait(1900); i=(i+1)%phrases.length; }
+  }
+  loop();
+</script>
+
+</body></html>
