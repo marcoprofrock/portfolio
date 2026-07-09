@@ -83,6 +83,8 @@ function svgW(vw,vh,c){return '<svg viewBox="0 0 '+vw+' '+vh+'" fill="none" shap
 var ANGRY=[r(3,2,2,1),r(9,2,2,1),r(4,3,1,1),r(9,3,1,1),r(6,5,2,1),r(5,6,1,1),r(8,6,1,1)];
 var DEAD=[r(3,3,1,1),r(5,3,1,1),r(4,4,1,1),r(8,3,1,1),r(10,3,1,1),r(9,4,1,1),r(6,6,2,1)];
 function front(face){return [r(1,0,12,13,BODY),r(2,1,10,7,SCREEN)].concat(face).concat([r(5,10,4,1,SLOT)]);}
+function sitFrame(face){return svgW(14,17,front(face).concat([r(4,14,6,1,BODY),r(3,15,8,1,BODY)]).join(''));}
+function legsHalfFrame(face){return svgW(14,19,front(face).concat([r(5,14,2,4,BODY),r(7,14,2,4,BODY)]).join(''));}
 function standFrame(face){return svgW(14,22,front(face).concat([r(5,14,2,8,BODY),r(7,14,2,8,BODY)]).join(''));}
 function turnFrame(){return svgW(14,22,[r(2,0,10,13,BODY),r(3,1,7,7,SCREEN),r(8,3,1,1,D),r(7,6,1,1,D),r(5,10,3,1,SLOT),r(5,14,2,8,BODY),r(7,14,2,8,BODY)].join(''));}
 var SIDE_BODY=poly('4,0 12,0 12,13 2,13',BODY),SIDE_EDGE=poly('4,0 5,0 3,13 2,13',EDGE);
@@ -111,7 +113,7 @@ ground=document.getElementById('ground'),scEl=document.getElementById('sc'),
 bsEl=document.getElementById('bs'),over=document.getElementById('over'),
 overTxt=document.getElementById('overTxt'),again=document.getElementById('again'),
 hint=document.getElementById('hint');
-macBox.innerHTML=standFrame(ANGRY);
+macBox.innerHTML=sitFrame(ANGRY);
 var BEST=0;try{BEST=+localStorage.getItem('mac404best')||0;}catch(e){}
 bsEl.textContent=BEST;
 /* ── state ── */
@@ -121,7 +123,7 @@ var rx=0,y=0,vy=0,speed=0,dist=0,score=0,nextGap=0,last=0,introT=0,startX=0,targ
 var G=0.62,V0=13.2;
 function reset(){
 obs.forEach(function(o){o.el.remove();});obs=[];
-y=0;vy=0;speed=5;dist=0;score=0;nextGap=420;dead=false;
+y=0;vy=0;speed=3.6;dist=0;score=0;nextGap=460;dead=false;
 scEl.textContent='0';over.classList.remove('on');hint.style.display='';
 var sw=stage.clientWidth;
 startX=sw/2-W/2;targetX=Math.max(30,sw*0.16);rx=startX;introT=0;
@@ -144,7 +146,7 @@ if(introT<40){
 introT+=dt;var k=Math.min(introT/40,1);k=1-Math.pow(1-k,3);
 rx=startX+(targetX-startX)*k;
 }else{
-speed=Math.min(speed+0.0022*dt*speed,15);
+speed=Math.min(speed+0.0010*dt*speed,13);
 dist+=speed*dt;score+=speed*dt*0.08;
 scEl.textContent=Math.floor(score);
 /* spawn */
@@ -192,14 +194,16 @@ function start(){
 hero.classList.add('gone');
 game.classList.add('on');
 reset();
-/* turn sequence like the main page walk system */
-runner.innerHTML=standFrame(ANGRY);
-setTimeout(function(){runner.innerHTML=turnFrame();},220);
-setTimeout(function(){runner.innerHTML=sideFrame();},400);
-setTimeout(function(){ground.classList.add('in');},380);
+/* sit -> stand (legs come out) -> turn -> side, like the main page walk system */
+runner.innerHTML=sitFrame(ANGRY);
+setTimeout(function(){runner.innerHTML=legsHalfFrame(ANGRY);},260);
+setTimeout(function(){runner.innerHTML=standFrame(ANGRY);},460);
+setTimeout(function(){runner.innerHTML=turnFrame();},720);
+setTimeout(function(){runner.innerHTML=sideFrame();},960);
+setTimeout(function(){ground.classList.add('in');},820);
 setTimeout(function(){
 playing=true;last=0;raf=requestAnimationFrame(frame);
-},640);
+},1180);
 }
 function quit(){
 playing=false;dead=false;cancelAnimationFrame(raf);
