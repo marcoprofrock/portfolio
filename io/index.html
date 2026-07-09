@@ -347,6 +347,45 @@ footer a:hover { color: var(--fg); }
   .mac { max-width: 340px; margin: 0 auto; }
   .mac-screen { height: 280px; }
 }
+/* Mini Mac intro mascot (sits, hops + speaks, click to open the chat) */
+.mac.is-hidden { display: none; }
+.mac-intro {
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  cursor: pointer; user-select: none; text-align: center; padding: 24px 0;
+  background: none; border: none;
+}
+.mac-intro.gone { display: none; }
+.mac-sprite {
+  width: clamp(88px, 22vw, 108px); height: auto; image-rendering: pixelated;
+  transition: transform .18s ease;
+}
+.mac-intro:hover .mac-sprite { transform: translateY(-3px); }
+.mac-sprite.hop { animation: macHop .55s ease; }
+@keyframes macHop {
+  0% { transform: translateY(0); }
+  28% { transform: translateY(-18px); }
+  52% { transform: translateY(0); }
+  68% { transform: translateY(-7px); }
+  100% { transform: translateY(0); }
+}
+.mac-bubble {
+  position: relative; background: #fff; color: #141414;
+  font-size: 13px; line-height: 1.35; font-weight: 500;
+  padding: 9px 14px; border-radius: 13px; max-width: 230px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.28);
+  opacity: 0; transform: translateY(6px); pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+}
+.mac-bubble.show { opacity: 1; transform: translateY(0); }
+.mac-bubble::after {
+  content: ''; position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%);
+  border: 6px solid transparent; border-top-color: #fff; border-bottom: 0;
+}
+.mac-hint {
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted); transition: color .2s ease;
+}
+.mac-intro:hover .mac-hint { color: var(--fg); }
 </style>
 </head>
 <body>
@@ -374,7 +413,12 @@ footer a:hover { color: var(--fg); }
       </footer>
     </div>
     <div class="chat-col">
-      <div class="mac">
+      <div class="mac-intro" id="macIntro" role="button" tabindex="0" aria-label="Talk to the Mac">
+        <div class="mac-bubble" id="macBubble"></div>
+        <svg class="mac-sprite" id="macSprite" viewBox="0 0 14 17" fill="none" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1" y="0" width="12" height="13" fill="#d4c8a0"/><rect x="2" y="1" width="10" height="7" fill="#ff9e2c"/><rect x="4" y="3" width="1" height="1" fill="#5a2800"/><rect x="9" y="3" width="1" height="1" fill="#5a2800"/><rect x="5" y="5" width="1" height="1" fill="#5a2800"/><rect x="8" y="5" width="1" height="1" fill="#5a2800"/><rect x="6" y="6" width="2" height="1" fill="#5a2800"/><rect x="5" y="10" width="4" height="1" fill="#b8a878"/><rect x="4" y="14" width="6" height="1" fill="#d4c8a0"/><rect x="3" y="15" width="8" height="1" fill="#d4c8a0"/></svg>
+        <span class="mac-hint">Click me</span>
+      </div>
+      <div class="mac is-hidden">
         <div class="mac-body">
           <div class="mac-screen">
             <div class="mac-titlebar">
@@ -599,7 +643,50 @@ footer a:hover { color: var(--fg); }
     setTimeout(showQuestions, 600);
   }
 
-  init();
+  /* Intro mascot: the little Mac sits, hops + says something now and then,
+     and reveals the full chat (with the question options) when clicked. */
+  var intro = document.getElementById('macIntro');
+  var sprite = document.getElementById('macSprite');
+  var bubble = document.getElementById('macBubble');
+  var macEl = document.querySelector('.chat-col .mac');
+  var introLines = [
+    "Psst — ask me something.",
+    "Click me. I’m bored.",
+    "Wanna know about Marco?",
+    "I don’t bite. Mostly.",
+    "Tap me for the good stuff.",
+    "Still here. Still waiting.",
+    "Go on — click.",
+    "Got questions? I’ve got answers.",
+    "3 questions. Pick one."
+  ];
+  var introDone = false, hopTimer, lastLine = -1;
+  function hop() {
+    sprite.classList.remove('hop'); void sprite.offsetWidth; sprite.classList.add('hop');
+  }
+  function say() {
+    if (introDone) return;
+    var i; do { i = Math.floor(Math.random() * introLines.length); } while (i === lastLine && introLines.length > 1);
+    lastLine = i;
+    bubble.textContent = introLines[i];
+    bubble.classList.add('show');
+    hop();
+    setTimeout(function() { bubble.classList.remove('show'); }, 2600);
+    hopTimer = setTimeout(say, 4200 + Math.random() * 3200);
+  }
+  function openChat() {
+    if (introDone) return;
+    introDone = true;
+    clearTimeout(hopTimer);
+    intro.classList.add('gone');
+    macEl.classList.remove('is-hidden');
+    init();
+  }
+  intro.addEventListener('click', openChat);
+  intro.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); openChat(); }
+  });
+  hopTimer = setTimeout(say, 1300);
 })();
 </script>
 <!-- GA4 Custom Event Tracking -->
