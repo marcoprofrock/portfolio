@@ -35,7 +35,7 @@ p { font-size: 15px; line-height: 1.6; color: var(--muted); max-width: 34ch; }
 .ground { position: absolute; left: 0; right: 0; bottom: 40px; height: 1px; background: var(--fg); opacity: 0.55; transform: translateX(101%); transition: transform .6s cubic-bezier(.25,.7,.3,1); }
 #game404.on .ground.in { transform: translateX(0); }
 .runner { position: absolute; bottom: 41px; left: 0; will-change: transform; }
-.runner svg { width: 64px; height: auto; display: block; image-rendering: pixelated; }
+.runner svg { width: 64px; height: auto; display: block; image-rendering: pixelated; transform: scaleX(-1); }
 .ob { position: absolute; bottom: 41px; color: var(--fg); will-change: transform; }
 .ob svg { display: block; image-rendering: pixelated; }
 .score { position: absolute; top: calc(50% - 170px); right: clamp(20px, 6vw, 64px); font-size: 13px; letter-spacing: 0.12em; color: var(--muted); font-variant-numeric: tabular-nums; }
