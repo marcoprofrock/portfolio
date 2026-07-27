@@ -69,7 +69,14 @@ p.note {
   font-size: clamp(20px, 2.2vw, 26px);
   line-height: 1.45;
   letter-spacing: -0.005em;
+  /* avoids single-word last lines when the text reflows */
+  text-wrap: pretty;
+  hyphens: none;
 }
+/* separate <p>s (not <br><br>) so text-wrap:pretty de-orphans EACH paragraph */
+p.note + p.note { margin-top: 1.45em; }
+/* the wordmark must never be split from the words before it */
+.mark { white-space: nowrap; }
 footer {
   display: flex;
   flex-direction: column;
@@ -401,10 +408,10 @@ footer a:hover { color: var(--fg); }
             From: Marco Pröfrock<br>
             To: ⠎⠻⠧⠊⠉⠑⠏⠇⠁⠝⠲⠊⠕
           </span>
-          I studied product design. Then I switched to advertising — because the big design problems already have been solved, but the societal ones haven't.<br>A year later, I was standing in Cannes. Didn't plan that. <em>Blut geleckt.</em><br><br>
-          Now I want to be where both worlds actually merge: where the idea <em>is</em> the product. Not a campaign about innovation — innovation itself. That's ▞⬤™.<br><br>
-          What I'd bring: a product designer's instinct for systems, an art director's obsession with the unexpected, and the stubbornness to learn whatever the idea demands overnight, even if I've never touched it before
+          I studied product design. Then I switched to advertising, because the big design problems already have been solved, but the societal ones haven't.<br>A year later, I was standing in Cannes. Didn't plan that. <em>Blut geleckt.</em>
         </p>
+        <p class="note">Now I want to be where both worlds actually merge: where the idea <em>is</em> the product. Not a campaign about innovation – innovation itself. <span class="mark">That's ▞⬤™.</span></p>
+        <p class="note">What I'd bring: a product designer's instinct for systems, an art director's obsession with the unexpected, and the stubbornness to learn whatever the idea demands overnight, even if I've never touched it before.</p>
         <a class="portfolio" href="https://marco.ad">Portfolio → <img src="Rotating_globe.gif" alt="" style="display: inline-block; width: 16px; height: 16px; margin-left: 4px; vertical-align: middle; opacity: 0.7;"></a>
       </main>
       <footer>
