@@ -498,10 +498,10 @@ html.light .theme-toggle::after { left: 26px; }
 .tt *{box-sizing:border-box}
 .tt-kicker{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--tt-muted)}
 .tt-title{font-size:clamp(20px,2.4vw,28px);font-weight:600;margin:6px 0 8px;letter-spacing:-.01em;color:var(--tt-ink)}
-.tt-stage{margin:24px 0 8px;height:clamp(220px,30vw,360px);display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px}
-.tt-preview{align-self:center;font-size:clamp(68px,14.5vw,177px);line-height:1.2;word-break:break-word;overflow-wrap:anywhere;overflow:visible}
+.tt-stage{margin:24px 0 8px;height:clamp(280px,38vw,480px);display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px}
+.tt-preview{align-self:center;text-align:center;font-size:clamp(96px,20vw,280px);line-height:1.15;word-break:break-word;overflow-wrap:anywhere;overflow:visible}
 .tt-preview span{display:inline-block;transition:transform .12s ease}
-.tt-caption{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--tt-muted);display:flex;align-items:center;gap:8px;min-height:18px}
+.tt-caption{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--tt-muted);display:flex;align-items:center;justify-content:center;gap:8px;min-height:18px}
 .tt-sw{width:13px;height:13px;border-radius:3px;border:1px solid var(--tt-line);display:inline-block;flex:none}
 .tt-controls{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:flex-end;margin-top:20px;padding-top:20px;border-top:1px solid var(--tt-line)}
 .tt-field{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--tt-muted)}
@@ -530,7 +530,7 @@ html.light .theme-toggle::after { left: 26px; }
 .spring .hx { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10.5px; color: #6f6f66; display: flex; align-items: center; gap: 6px; }
 .spring .hx i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; border: 1px solid rgba(20,20,15,0.18); flex: none; }
 /* ===== Wave lab (data -> wave -> grid -> letter) ===== */
-.wavelab { --cd: #F0EEE9; background: var(--cd); color: #16160f; border-radius: 16px; margin-top: clamp(28px, 4vw, 48px); padding: clamp(20px, 3vw, 40px); font-family: 'Inter', system-ui, sans-serif; }
+.wavelab { --cd: #F0EEE9; --wl-pad: clamp(20px, 3vw, 40px); background: var(--cd); color: #16160f; border-radius: 16px; margin-top: clamp(28px, 4vw, 48px); padding: var(--wl-pad); font-family: 'Inter', system-ui, sans-serif; }
 .wl-kicker { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #6f6f66; }
 .wl-title { font-size: clamp(20px, 2.4vw, 28px); font-weight: 600; margin: 6px 0 8px; letter-spacing: -0.01em; color: #16160f; }
 .wl-lead { font-size: 14px; line-height: 1.55; color: #6f6f66; max-width: 72ch; }
@@ -542,18 +542,18 @@ html.light .theme-toggle::after { left: 26px; }
 .wl-chip b { font-family: ui-monospace, Menlo, monospace; font-weight: 600; font-size: 11px; }
 .wl-chip span { color: #6f6f66; }
 .wl-chip.active span { color: #16160f; }
-.wl-main { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(220px, 1fr); gap: clamp(18px, 3vw, 36px); margin-top: 18px; align-items: start; }
-@media (max-width: 760px) { .wl-main { grid-template-columns: 1fr; } }
-.wl-stage { background: #fff; border: 1px solid rgba(20,20,15,0.1); border-radius: 12px; padding: 14px 16px; overflow: hidden; }
+.wl-main { margin-top: 18px; }
+.wl-stage { background: #fff; border: 1px solid rgba(20,20,15,0.1); border-radius: 16px; padding: 14px 16px; overflow: hidden; margin: 0 calc(var(--wl-pad) * -1); }
+.wl-stage.is-grid { max-width: calc(82vh * 3000 / 4243 + 34px); margin-left: auto; margin-right: auto; }
 .wl-svgbox { width: 100%; }
-.wl-svg { width: 100%; height: auto; display: block; overflow: visible; }
+.wl-svg { width: 100%; height: auto; max-height: 82vh; display: block; overflow: visible; }
 .wl-cap { font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: #6f6f66; margin-top: 12px; min-height: 3.2em; line-height: 1.5; }
 .wl-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
 .wl-btn { font-family: inherit; font-size: 13px; font-weight: 500; color: #16160f; background: #fff; border: 1px solid rgba(20,20,15,0.18); border-radius: 8px; padding: 8px 14px; cursor: pointer; transition: background .15s ease, border-color .15s ease; }
 .wl-btn:hover { border-color: rgba(20,20,15,0.4); }
 .wl-btn.on { background: #16160f; color: #fff; border-color: #16160f; }
 .wl-btn[hidden] { display: none; }
-.wl-data { display: flex; flex-direction: column; gap: 2px; }
+.wl-data { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 2px 10px; margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(20,20,15,0.1); }
 .wl-row { display: grid; grid-template-columns: 1fr auto; gap: 10px 12px; align-items: baseline; padding: 9px 10px; border-radius: 8px; transition: background .12s ease; cursor: default; }
 .wl-row:hover, .wl-row.lit { background: rgba(20,20,15,0.055); }
 .wl-row .ion { font-size: 12.5px; color: #16160f; }
@@ -563,9 +563,10 @@ html.light .theme-toggle::after { left: 26px; }
 .wl-ann line, .wl-ann path { stroke: #2b2b2a; vector-effect: non-scaling-stroke; }
 .wl-ann text { fill: #2b2b2a; font-family: ui-monospace, Menlo, monospace; font-weight: 400; }
 /* --- ported: type-specimen video --- */
-.specimen { margin: clamp(24px, 3.5vw, 40px) auto clamp(6px, 1.2vw, 12px); max-width: min(460px, 84vw); display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.specimen { margin: clamp(24px, 3.5vw, 40px) auto clamp(6px, 1.2vw, 12px); max-width: min(100%, calc(86vh * 4 / 5)); display: flex; flex-direction: column; gap: 12px; align-items: center; }
 .specimen-frame { position: relative; width: 100%; aspect-ratio: 4 / 5; border-radius: 16px; overflow: hidden; background: #F0EEE9; }
-.specimen-frame video { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.04); }
+@media (min-width: 760px) { .specimen { max-width: min(100%, calc(88vh * 4 / 3)); } .specimen-frame { aspect-ratio: 4 / 3; } }
+.specimen-frame video { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.02); }
 .specimen.scrubbable .specimen-frame { cursor: ns-resize; }
 .specimen-scrub { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: rgba(255,255,255,0.45); opacity: 0; transition: opacity .18s ease; pointer-events: none; }
 .specimen.is-scrubbing .specimen-scrub { opacity: 1; }
@@ -1249,6 +1250,7 @@ var usedIndices=[];function getRandomQuestions(count){var available=[];for(var i
   function draw(){
     var o=cache[cur.n]; if(!o) return;
     boxEl.innerHTML='';
+    if(boxEl.parentNode&&boxEl.parentNode.classList) boxEl.parentNode.classList.toggle('is-grid',gridOn);
     if(gridOn){ drawGrid(o); return; }
     var f=hoverFeat;
     var bandH=o.bandH, pitch=cur.p;                                  // pitch = the spring's REAL spacing from the SVG
@@ -1395,6 +1397,22 @@ var usedIndices=[];function getRandomQuestions(count){var available=[];for(var i
      if(amp>0)span.style.transform="translateY("+(-r.wf*amp).toFixed(3)+"em)";
      preview.appendChild(span);
    }
+   fit(amp);
+ }
+ /* keep the preview as large as the stage allows, whatever cut/length is typed */
+ function fit(amp){
+   preview.style.fontSize="";
+   var stage=preview.parentNode,
+       rowH=stage.clientHeight-(caption?caption.offsetHeight:0)-12,
+       fs=parseFloat(getComputedStyle(preview).fontSize)||96;
+   if(rowH<=0)return; /* hidden (e.g. inside a collapsed <details>) — keep the CSS size */
+   /* shrink from the CSS maximum until the (possibly wrapped) line boxes + the
+      baseline wave's overshoot fit the stage row — biggest size that still fits */
+   for(var i=0;i<40&&fs>16;i++){
+     preview.style.fontSize=fs+"px";
+     if(preview.scrollHeight+2*amp*fs<=rowH)break;
+     fs*=0.94;
+   }
  }
  function updateCaption(){
    var mode=modeSel.value; caption.textContent="";
@@ -1417,6 +1435,10 @@ var usedIndices=[];function getRandomQuestions(count){var available=[];for(var i
  /* pin the documented default state on load (guards against browser form-state restoration) */
  modeSel.value="mix"; caseSel.value="random"; wave.value="30"; waveVal.textContent="30%";
  updateCaption(); render();
+ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(render);
+ var rz; window.addEventListener("resize",function(){clearTimeout(rz);rz=setTimeout(render,120);});
+ var det=preview.closest&&preview.closest("details");
+ if(det)det.addEventListener("toggle",function(){if(det.open)render();});
  /* build the 13-springs legend from the same source of truth */
  var grid=document.getElementById("springsGrid");
  if(grid){
