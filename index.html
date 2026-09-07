@@ -498,15 +498,19 @@ html.light .theme-toggle::after { left: 26px; }
 .tt *{box-sizing:border-box}
 .tt-kicker{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--tt-muted)}
 .tt-title{font-size:clamp(20px,2.4vw,28px);font-weight:600;margin:6px 0 8px;letter-spacing:-.01em;color:var(--tt-ink)}
-.tt-stage{margin:24px 0 8px;height:clamp(280px,38vw,480px);display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px}
-.tt-preview{align-self:center;text-align:center;font-size:clamp(96px,20vw,280px);line-height:1.15;word-break:break-word;overflow-wrap:anywhere;overflow:visible}
+.tt-stage{position:relative;margin:24px 0 8px;height:clamp(300px,42vw,540px);display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px}
+.tt input.tt-input{position:absolute;inset:0;opacity:0;width:100%;height:100%;border:0;border-radius:0;padding:0;margin:0;background:none;box-shadow:none;font-size:16px;color:transparent;caret-color:transparent;cursor:text;z-index:2;-webkit-appearance:none;appearance:none}
+.tt input.tt-input:focus{outline:none}
+.tt-stage:has(input.tt-input:focus-visible){outline:2px solid rgba(35,91,168,.5);outline-offset:8px;border-radius:12px}
+.tt-caret{display:inline-block;width:.05em;min-width:2px;height:.72em;vertical-align:-.06em;background:var(--tt-ink);margin:0 .03em;animation:ttblink 1.05s steps(1,end) infinite}
+@keyframes ttblink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+.tt-preview{position:relative;z-index:1;align-self:center;text-align:center;font-size:clamp(96px,20vw,280px);line-height:1.15;word-break:break-word;overflow-wrap:anywhere;overflow:visible;cursor:text}
 .tt-preview span{display:inline-block;transition:transform .12s ease}
 .tt-caption{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--tt-muted);display:flex;align-items:center;justify-content:center;gap:8px;min-height:18px}
 .tt-sw{width:13px;height:13px;border-radius:3px;border:1px solid var(--tt-line);display:inline-block;flex:none}
 .tt-controls{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:flex-end;margin-top:20px;padding-top:20px;border-top:1px solid var(--tt-line)}
 .tt-field{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--tt-muted)}
 .tt-field>span{font-weight:500}
-.tt-field--text{flex:1 1 240px;min-width:200px}
 .tt-field--range{flex:1 1 200px;min-width:180px}
 .tt input[type=text],.tt select{font-family:inherit;font-size:14px;color:var(--tt-ink);background:#fff;border:1px solid var(--tt-line);border-radius:9px;padding:9px 11px;width:100%}
 .tt input[type=text]:focus,.tt select:focus{outline:2px solid #235BA8;outline-offset:1px}
@@ -515,7 +519,7 @@ html.light .theme-toggle::after { left: 26px; }
 .tt-roll{font-family:inherit;font-size:14px;font-weight:500;color:#fff;background:#16160f;border:none;border-radius:9px;padding:10px 16px;cursor:pointer;transition:opacity .2s;white-space:nowrap}
 .tt-roll:hover{opacity:.82}
 .tt-roll:active{transform:translateY(1px)}
-@media(max-width:540px){.tt-controls{gap:14px}.tt-field--text,.tt-field--range{flex:1 1 100%}.tt-roll{width:100%}}
+@media(max-width:540px){.tt-controls{gap:14px}.tt-field--range{flex:1 1 100%}.tt-roll{width:100%}}
 /* --- ported from /500ls/: 13 springs legend + wave lab --- */
 /* ===== 13 springs legend ===== */
 .springs { --cd: #F0EEE9; background: var(--cd); color: #16160f; border-radius: 16px; padding: clamp(20px, 3vw, 40px); margin-top: clamp(20px, 3vw, 30px); font-family: 'Inter', system-ui, sans-serif; }
@@ -623,7 +627,7 @@ html.light .theme-toggle::after { left: 26px; }
 <div class="row-2"><img decoding="async" src="assets/05_500ls/05_6953b6c6.webp" alt="500l/s — application detail" loading="lazy" width="1600" height="1066"><img decoding="async" src="assets/05_500ls/07_95625748.webp" alt="500l/s — application detail" loading="lazy" width="1600" height="1066"></div>
 </div>
 
-<section class="tt" id="tester" aria-label="500l/s typeface tester"><span class="tt-kicker">Interactive · Try it</span><h3 class="tt-title">Type with 500l/s</h3><div class="tt-stage"><div class="tt-preview" id="ttPreview"></div><div class="tt-caption" id="ttCaption"></div></div><div class="tt-controls"><label class="tt-field tt-field--text"><span>Text</span><input id="ttText" type="text" maxlength="48" value="Calcium" autocomplete="off" spellcheck="false"></label><label class="tt-field"><span>Cut</span><select id="ttMode"><option value="mix" selected>Mixed — all 13 cuts</option><optgroup label="Single cut (spring)"><option value="0">01 · Hofrat-Seyffer-Quelle</option><option value="1">02 · Gottlieb-Daimler-Quelle</option><option value="2">03 · Wilhelmsbrunnen 1</option><option value="3">04 · Inselquelle (LEUZE)</option><option value="4">05 · Berger Urquell</option><option value="5">06 · Südquelle (M–B Berg)</option><option value="6">07 · Leuzequelle (LEUZE)</option><option value="7">08 · Veielquelle</option><option value="8">09 · Maurischer Garten</option><option value="9">10 · Schiffmannbrunnen</option><option value="10">11 · Mombachquelle</option><option value="11">12 · Auquelle</option><option value="12">13 · Kellerbrunnen alt</option></optgroup></select></label><label class="tt-field"><span>Weight</span><select id="ttCase"><option value="none">As typed</option><option value="upper">Light</option><option value="lower">Heavy</option><option value="random" selected>Mixed</option></select></label><label class="tt-field tt-field--range"><span>Baseline wave <b id="ttWaveVal">30%</b></span><input id="ttWave" type="range" min="0" max="100" value="30"></label><button type="button" id="ttRoll" class="tt-roll">↻ Shuffle</button></div></section>
+<section class="tt" id="tester" aria-label="500l/s typeface tester"><span class="tt-kicker">Interactive · Try it</span><h3 class="tt-title">Type with 500l/s</h3><div class="tt-stage"><input id="ttText" class="tt-input" type="text" maxlength="48" value="Calcium" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type your own text — the preview is the input"><div class="tt-preview" id="ttPreview"></div><div class="tt-caption" id="ttCaption"></div></div><div class="tt-controls"><label class="tt-field"><span>Cut</span><select id="ttMode"><option value="mix" selected>Mixed — all 13 cuts</option><optgroup label="Single cut (spring)"><option value="0">01 · Hofrat-Seyffer-Quelle</option><option value="1">02 · Gottlieb-Daimler-Quelle</option><option value="2">03 · Wilhelmsbrunnen 1</option><option value="3">04 · Inselquelle (LEUZE)</option><option value="4">05 · Berger Urquell</option><option value="5">06 · Südquelle (M–B Berg)</option><option value="6">07 · Leuzequelle (LEUZE)</option><option value="7">08 · Veielquelle</option><option value="8">09 · Maurischer Garten</option><option value="9">10 · Schiffmannbrunnen</option><option value="10">11 · Mombachquelle</option><option value="11">12 · Auquelle</option><option value="12">13 · Kellerbrunnen alt</option></optgroup></select></label><label class="tt-field"><span>Weight</span><select id="ttCase"><option value="none">As typed</option><option value="upper">Light</option><option value="lower">Heavy</option><option value="random" selected>Mixed</option></select></label><label class="tt-field tt-field--range"><span>Baseline wave <b id="ttWaveVal">30%</b></span><input id="ttWave" type="range" min="0" max="100" value="30"></label><button type="button" id="ttRoll" class="tt-roll">↻ Shuffle</button></div></section>
 
 <div class="gallery">
 <img decoding="async" src="assets/05_500ls/08_9dde72a4.webp" alt="500l/s — parametric typography system" loading="lazy" width="1600" height="1073">
@@ -1371,6 +1375,7 @@ var usedIndices=[];function getRandomQuestions(count){var available=[];for(var i
      waveVal=document.getElementById("ttWaveVal"),
      caption=document.getElementById("ttCaption"),
      roll=document.getElementById("ttRoll");
+ var AMPMAX=0.5; /* slider 100% = ±0.5em baseline shift — reserved always, so the size never changes with the wave */
  var rolls=[];
  function pick(prev){var i=Math.floor(Math.random()*CUTS.length);if(prev==null)return i;if(i!==prev)return i;return (i+1)%CUTS.length;}
  function ensure(n){while(rolls.length<n){var prev=rolls.length?rolls[rolls.length-1].cut:null;rolls.push({cut:pick(prev),wf:Math.random()*2-1,uc:Math.random()<0.5});}}
@@ -1384,34 +1389,53 @@ var usedIndices=[];function getRandomQuestions(count){var available=[];for(var i
  function render(){
    var text=input.value; ensure(text.length);
    var mode=modeSel.value, cm=caseSel.value, amp=(+wave.value)/200; /* 100% slider = old 50% amplitude (taming the chaotic top end) */
+   var sel=(document.activeElement===input&&input.selectionStart!=null)?input.selectionStart:text.length;
    preview.textContent="";
    for(var i=0;i<text.length;i++){
+     if(i===sel)preview.appendChild(caret());
      var ch=text[i];
      if(ch===" "||ch==="\t"){preview.appendChild(document.createTextNode(" "));continue;}
      var r=rolls[i];
      var cut=(mode==="mix")?CUTS[r.cut]:CUTS[+mode];
      var span=document.createElement("span");
      span.textContent=applyCase(ch,cm,r.uc);
+     span.setAttribute("data-i",i);
      span.style.fontFamily="'"+cut.f+"'";
      span.style.color=cut.hex;
      if(amp>0)span.style.transform="translateY("+(-r.wf*amp).toFixed(3)+"em)";
      preview.appendChild(span);
    }
-   fit(amp);
+   if(sel>=text.length)preview.appendChild(caret());
+   fit();
+ }
+ /* the preview IS the input: a blinking caret marks the insertion point */
+ function caret(){var c=document.createElement("i");c.className="tt-caret";c.setAttribute("aria-hidden","true");return c;}
+ function indexFromPoint(x,y){
+   var spans=preview.querySelectorAll("span[data-i]");
+   if(!spans.length)return input.value.length;
+   var best=input.value.length,bd=1/0;
+   for(var k=0;k<spans.length;k++){
+     var r=spans[k].getBoundingClientRect(), i=+spans[k].getAttribute("data-i"),
+         dy=y<r.top?r.top-y:(y>r.bottom?y-r.bottom:0);
+     var dl=dy*3+Math.abs(r.left-x); if(dl<bd){bd=dl;best=i;}
+     var dr=dy*3+Math.abs(r.right-x); if(dr<bd){bd=dr;best=i+1;}
+   }
+   return best;
  }
  /* keep the preview as large as the stage allows, whatever cut/length is typed */
- function fit(amp){
+ function fit(){
    preview.style.fontSize="";
    var stage=preview.parentNode,
        rowH=stage.clientHeight-(caption?caption.offsetHeight:0)-12,
        fs=parseFloat(getComputedStyle(preview).fontSize)||96;
    if(rowH<=0)return; /* hidden (e.g. inside a collapsed <details>) — keep the CSS size */
    /* shrink from the CSS maximum until the (possibly wrapped) line boxes + the
-      baseline wave's overshoot fit the stage row — biggest size that still fits */
-   for(var i=0;i<40&&fs>16;i++){
+      MAXIMUM baseline-wave overshoot fit the stage row — biggest size that still
+      fits, and independent of the slider so the type never resizes while waving */
+   for(var i=0;i<60&&fs>16;i++){
      preview.style.fontSize=fs+"px";
-     if(preview.scrollHeight+2*amp*fs<=rowH)break;
-     fs*=0.94;
+     if(preview.offsetHeight+2*AMPMAX*fs<=rowH)break;
+     fs*=0.97;
    }
  }
  function updateCaption(){
@@ -1426,6 +1450,15 @@ var usedIndices=[];function getRandomQuestions(count){var available=[];for(var i
    }
  }
  input.addEventListener("input",render);
+ ["keyup","focus","blur","select"].forEach(function(ev){input.addEventListener(ev,render);});
+ /* place the caret at the glyph you clicked (the real <input> below is invisible,
+    so its own hit-testing would land somewhere else entirely) */
+ function caretFromPoint(e){
+   var i=indexFromPoint(e.clientX,e.clientY);
+   setTimeout(function(){try{input.setSelectionRange(i,i);}catch(err){} render();},0);
+ }
+ input.addEventListener("pointerdown",caretFromPoint);
+ input.addEventListener("mousedown",caretFromPoint);
  modeSel.addEventListener("change",function(){updateCaption();render();});
  caseSel.addEventListener("change",render);
  wave.addEventListener("input",function(){waveVal.textContent=wave.value+"%";render();});
