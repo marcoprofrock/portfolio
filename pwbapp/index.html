@@ -3176,6 +3176,7 @@ function setHome(logged, animate) {
     done.removeAttribute('transform');
     return;
   }
+  const digit = $('home', 'digit-7-pop'), bb = digit.getBBox(), dc = [bb.x + bb.width / 2, bb.y + bb.height / 2];
   const t0 = performance.now(), ease = x => 1 - Math.pow(1 - x, 3);
   const back = x => 1 + 2.7 * Math.pow(x - 1, 3) + 1.7 * Math.pow(x - 1, 2);
   const step = now => {
@@ -3187,7 +3188,9 @@ function setHome(logged, animate) {
     done.setAttribute('opacity', ease(pop)); open.setAttribute('opacity', 1 - ease(pop));
     const s = .7 + .3 * back(pop);
     done.setAttribute('transform', `translate(999 1485.8) scale(${s}) translate(-999 -1485.8)`);
-    if (t < .7) requestAnimationFrame(step);
+    const d = c((t - .18) / .27), ds = t < .18 ? 1 : .8 + .2 * back(d);
+    digit.setAttribute('transform', `translate(${dc[0]} ${dc[1]}) scale(${ds}) translate(${-dc[0]} ${-dc[1]})`);
+    if (t < .75) requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
 }
@@ -3289,10 +3292,10 @@ async function share(title) {
 }
 function saveCheckin() {
   const wasLogged = S.logged;
-  S.logged = S.logged || G.plate.has(0);
+  S.logged = S.logged || !G.plate.has(1);   // gespeicherte Mahlzeit zählt – außer "Not today"
   setDuo(S.logged);
   show('home', 'pop'); S.stack = ['home'];
-  if (S.logged && !wasLogged) setTimeout(() => setHome(true, true), 420);
+  if (S.logged && !wasLogged) setTimeout(() => setHome(true, true), 450);   // nach dem Zurück-Slide
 }
 let laterOn = false;
 function recap() {
