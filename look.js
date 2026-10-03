@@ -43,6 +43,14 @@
    const t=a.querySelector('text');if(!t||t.getBBox().y>h)return;
    t.classList.add('look-white');pill(a,t,mobile,'none');
   });
+  // The page you are on (Marco, 03.10.): its button is not greyed but drops out of the bar — black, with the white
+  // outline, its middle on the bar's lower edge. Same place across, only lower.
+  const current=!mobile&&svg.querySelector('a[aria-current="page"]:not([href="#home"])');
+  if(current){
+   const r=current.querySelector('.look-pill');
+   if(r){r.setAttribute('fill','#000');current.classList.add('look-current');
+    current.setAttribute('transform',`translate(0 ${(h-(+r.getAttribute('y')+ +r.getAttribute('height')/2)).toFixed(2)})`)}
+  }
  };
  const dressFooter=()=>{
   const svg=document.querySelector('footer svg');if(!svg||svg.dataset.dressed)return;svg.dataset.dressed=1;
