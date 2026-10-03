@@ -1093,10 +1093,10 @@ function setupMobileDiary(){
  cleanupRoute=()=>{window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);cancelAnimationFrame(frame)};
  update();
 }
-// Mobile menu after archive-mobile-menu.svg; the arrow moves in the two steps of the animation exports.
+// Mobile menu after archive-mobile-menu.svg. Since 03.10. (Marco) without arrows, their animation and the rules
+// under the entries: each entry is a round outlined button, as in the head, and a tap goes straight to the page.
 const menuButton=`<g class="menu-button" role="button" tabindex="0" aria-label="Open menu"><rect x="418.25" y="25.19" width="55.53" height="43.52" fill="transparent"/>${[35.19,43.03,50.87,58.71].map(y=>`<line x1="428.25" y1="${y}" x2="463.78" y2="${y}" fill="none" stroke="black" stroke-width="1"/>`).join('')}</g>`;
 const menuItems=[['archive',276,311.88,270.19],['diary',366.96,402.85,358.99],['vita',458.5,494.39,446.71]];
-const arrowRest=[170.24,35.53],arrowStep=[225.56,35.53],arrowStretch=[225.56,235.45],arrowExit=[435.48,28.69];
 const wireMenuButton=()=>{
  const button=document.querySelector('.menu-button');if(!button)return;
  button.addEventListener('click',openMenu);
@@ -1105,10 +1105,6 @@ const wireMenuButton=()=>{
 const sizeMenu=()=>{
  if(!menu)return;
  menu.querySelector('svg').setAttribute('viewBox',`0 0 ${mobileWidth} ${(window.innerHeight/zoom()).toFixed(2)}`);
-};
-const setArrow=(item,[x,length])=>{
- item.querySelector('.shaft').style.transform=`translate(${x}px,${item.dataset.y}px) scale(${length},1)`;
- item.querySelector('.head').style.transform=`translate(${x+length}px,${item.dataset.y}px)`;
 };
 function openMenu(){
  if(menu)return;
@@ -1119,35 +1115,33 @@ function openMenu(){
  <line class="rule" x1="15.15" y1="93.67" x2="484.96" y2="93.67"/>
  ${menuItems.map(([label,baseline,rule,arrow])=>`<g class="menu-item" role="link" tabindex="0" data-route="${label}" data-y="${arrow}" aria-label="${label}">
   <rect x="0" y="${rule-91.25}" width="${mobileWidth}" height="91.25" fill="transparent"/>
+  <rect class="menu-pill"/>
   <text x="39.16" y="${baseline}">${label}</text>
-  <g class="menu-arrow"><g class="shaft"><line x1="0" y1="0" x2="1" y2="0"/></g><g class="head"><polyline points="-9.44,-8.77 0,0 -9.44,9.03"/></g></g>
-  <line class="rule" x1="15.15" y1="${rule}" x2="484.96" y2="${rule}"/>
  </g>`).join('')}
  </svg>`;
  document.body.append(menu);document.body.classList.add('menu-open');sizeMenu();
  for(const item of menu.querySelectorAll('.menu-item')){
-  setArrow(item,arrowRest);
   const choose=()=>chooseMenu(item);
   item.addEventListener('click',choose);
   item.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}});
  }
+ // Measured once look.js has set the text 1 px smaller (its observer runs after this function).
+ requestAnimationFrame(()=>menu?.querySelectorAll('.menu-item').forEach(outlineMenuItem));
  const close=menu.querySelector('.menu-close');
  close.addEventListener('click',closeMenu);
  close.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();closeMenu()}});
  close.focus({preventScroll:true});
 }
+// The outline is laid round the measured text with the padding and stroke of the head's buttons on a phone
+// (look.js: 14 across, 9 up and down, 1.5 wide, ends round) — black, as the menu is white.
+function outlineMenuItem(item){
+ const b=item.querySelector('text').getBBox(),h=b.height+18;
+ const pill=item.querySelector('.menu-pill');
+ for(const [k,v] of Object.entries({x:b.x-14,y:b.y-9,width:b.width+28,height:h,rx:h/2}))pill.setAttribute(k,v.toFixed?v.toFixed(2):v);
+}
 function chooseMenu(chosen){
- if(menu.dataset.busy)return;
- menu.dataset.busy='1';
- for(const item of menu.querySelectorAll('.menu-item'))setArrow(item,item===chosen?arrowStretch:arrowStep);
- setTimeout(()=>{
-  chosen.classList.add('leaving');setArrow(chosen,arrowExit);
-  setTimeout(()=>{
-   const route=chosen.dataset.route;closeMenu();
-   if(route===activeRoute)return;
-   location.hash=`#${route}`;
-  },300);
- },260);
+ const route=chosen.dataset.route;closeMenu();
+ if(route!==activeRoute)location.hash=`#${route}`;
 }
 function closeMenu(){
  if(!menu)return;
@@ -1165,9 +1159,9 @@ document.addEventListener('keydown',e=>{
  }
 });
 Promise.all([
- ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=launch18-20261003`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
+ ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=launch19-20261003`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
  document.fonts.load('400 20px Serie57Archive').catch(()=>{}),
- fetch('assets/rotis-metrics.json?v=launch18-20261003').then(r=>{if(!r.ok)throw Error('rotis-metrics could not be loaded');return r.json()}).then(metrics=>{rotis=metrics}),
+ fetch('assets/rotis-metrics.json?v=launch19-20261003').then(r=>{if(!r.ok)throw Error('rotis-metrics could not be loaded');return r.json()}).then(metrics=>{rotis=metrics}),
  // The sizes of the project pictures (scripts/prepare_image_sizes.py) shape the mobile project pages; without
  // them those pages still work, each picture then counts with its whole frame.
  fetch('assets/image-sizes.json?v=mobile24-20261003').then(r=>r.ok?r.json():{}).catch(()=>({})).then(sizes=>{imageSizes=sizes}),
@@ -1447,7 +1441,7 @@ async function setupOpera(route){
  const controller=new AbortController();let frame=0;
  cleanupRoute=()=>{controller.abort();cancelAnimationFrame(frame)};
  try{
-  const response=await fetch(`assets/project-layouts/${route}.svg?v=launch18-20261003`,{signal:controller.signal});
+  const response=await fetch(`assets/project-layouts/${route}.svg?v=launch19-20261003`,{signal:controller.signal});
   if(!response.ok)throw Error('Projektseite konnte nicht geladen werden.');
   const body=await response.text();if(controller.signal.aborted)return;
   if(typeof body==='string')main.innerHTML=body;else main.replaceChildren(buildProjectPage(body[route]));

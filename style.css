@@ -45,9 +45,7 @@ footer svg{display:block;width:100%;height:auto;font-family:Serie57Archive,sans-
 .menu svg{display:block;width:100%;height:auto;font-family:Serie57Archive,sans-serif;font-size:30px;font-weight:400}
 .menu line,.menu polyline{fill:none;stroke:#000;stroke-width:1}
 .menu line.rule{stroke-width:.5}
-.menu-arrow g,.menu-item text{transform-origin:0 0;transition:transform .24s ease,opacity .24s ease}
-.menu-item.leaving text{transform:translate(209.92px,0);opacity:.2}
-.menu-item.leaving .menu-arrow{opacity:.2;transition:opacity .24s ease}
+.menu .menu-pill{fill:none;stroke:#000;stroke-width:1.5}
 @media (hover:none){body,a,button,[role="button"],[role="link"],.project-row,.roll-frame{cursor:auto}}
 
 .diary-fixed-preview{position:fixed;left:0;top:0;width:100%;height:auto;pointer-events:none;z-index:2;overflow:visible}
