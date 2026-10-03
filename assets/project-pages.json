@@ -1402,7 +1402,7 @@
       }
     ],
     "images": [
-      "assets/projects/mission-octopus/01a_plakat.webp",
+      "assets/projects/mission-octopus/01a_plakat_mockup.webp",
       {
         "size": [
           2000,
@@ -1441,7 +1441,7 @@
           }
         ]
       },
-      "assets/projects/mission-octopus/02a_plakat.webp",
+      "assets/projects/mission-octopus/02a_plakat_mockup.webp",
       {
         "size": [
           2000,
@@ -1480,7 +1480,7 @@
           }
         ]
       },
-      "assets/projects/mission-octopus/03a_plakat.webp",
+      "assets/projects/mission-octopus/03a_plakat_mockup.webp",
       {
         "size": [
           2000,
@@ -1519,7 +1519,7 @@
           }
         ]
       },
-      "assets/projects/mission-octopus/04a_plakat.webp",
+      "assets/projects/mission-octopus/04a_plakat_mockup.webp",
       {
         "size": [
           2000,
@@ -1642,7 +1642,7 @@
       }
     ],
     "images": [
-      "assets/projects/kids-foundation/01a_plakat.webp",
+      "assets/projects/kids-foundation/01a_plakat_mockup.webp",
       {
         "size": [
           2000,
@@ -1681,7 +1681,7 @@
           }
         ]
       },
-      "assets/projects/kids-foundation/02a_plakat.webp",
+      "assets/projects/kids-foundation/02a_plakat_mockup.webp",
       {
         "size": [
           2000,
@@ -1720,7 +1720,7 @@
           }
         ]
       },
-      "assets/projects/kids-foundation/03a_plakat.webp",
+      "assets/projects/kids-foundation/03a_plakat_mockup.webp",
       {
         "size": [
           2000,
@@ -1810,7 +1810,7 @@
         "x": 1618.89,
         "y": 1123.11,
         "width": 274.73,
-        "text": "what a child needs is a lot. it isn't too much to ask."
+        "text": "what a child needs is much. it isn't too much to ask."
       },
       {
         "x": 1618.89,
