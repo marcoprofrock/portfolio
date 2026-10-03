@@ -1,0 +1,458 @@
+{
+ "awards": {
+  "x": 1219.14,
+  "y": 309.38,
+  "entries": [
+   {
+    "logo": "gdc",
+    "parts": [
+     "2027",
+     "german design award newcomer",
+     "nominee"
+    ]
+   },
+   {
+    "logo": "hsud",
+    "parts": [
+     "2026",
+     "hessian state prize for universal design",
+     "finalist"
+    ]
+   },
+   {
+    "logo": "adc-germany",
+    "parts": [
+     "2026",
+     "adc talent award, germany",
+     "bronze"
+    ]
+   },
+   {
+    "logo": "adc-germany",
+    "parts": [
+     "2026",
+     "adc talent award, germany",
+     "bronze"
+    ]
+   },
+   {
+    "logo": "adc-germany",
+    "parts": [
+     "2026",
+     "adc talent award, germany",
+     "bronze"
+    ]
+   },
+   {
+    "logo": "adc-germany",
+    "parts": [
+     "2026",
+     "adc talent award, germany",
+     "auszeichnung"
+    ]
+   },
+   {
+    "logo": "tdc",
+    "parts": [
+     "2026",
+     "tdc young ones, new york",
+     "cert. of typographic excellence"
+    ]
+   },
+   {
+    "logo": "adc-ny",
+    "parts": [
+     "2026",
+     "adc young ones, new york",
+     "merit"
+    ]
+   },
+   {
+    "logo": "cannes",
+    "parts": [
+     "2026",
+     "young lions germany",
+     "top 5 print"
+    ]
+   },
+   {
+    "logo": "cannes",
+    "parts": [
+     "2026",
+     "young lions germany",
+     "top 5 digital"
+    ]
+   },
+   {
+    "logo": "cannes",
+    "parts": [
+     "2026",
+     "young lions germany",
+     "top 5 pr"
+    ]
+   },
+   {
+    "logo": "adc-germany",
+    "parts": [
+     "2025",
+     "adc talent award, germany",
+     "silver"
+    ]
+   },
+   {
+    "logo": "adc-germany",
+    "parts": [
+     "2025",
+     "adc talent award, germany",
+     "merit"
+    ]
+   },
+   {
+    "logo": "adc-germany",
+    "parts": [
+     "2025",
+     "adc talent award, germany",
+     "merit"
+    ]
+   },
+   {
+    "logo": "adc-germany",
+    "parts": [
+     "2025",
+     "adc talent award, germany",
+     "merit"
+    ]
+   },
+   {
+    "logo": "adc-germany",
+    "parts": [
+     "2025",
+     "adc talent award, germany",
+     "merit"
+    ]
+   },
+   {
+    "logo": "icad",
+    "parts": [
+     "2025",
+     "icad awards, ireland",
+     "top 2 advertising student ireland"
+    ]
+   },
+   {
+    "logo": "icad",
+    "parts": [
+     "2025",
+     "icad awards, ireland",
+     "top 3 design student ireland"
+    ]
+   },
+   {
+    "logo": "comm",
+    "parts": [
+     "2025",
+     "comm awards, germany",
+     "bronze"
+    ]
+   },
+   {
+    "logo": "comm",
+    "parts": [
+     "2025",
+     "comm awards, germany",
+     "bronze"
+    ]
+   },
+   {
+    "logo": "comm",
+    "parts": [
+     "2025",
+     "comm awards, germany",
+     "finalist"
+    ]
+   },
+   {
+    "logo": "comm",
+    "parts": [
+     "2025",
+     "comm awards, germany",
+     "finalist"
+    ]
+   },
+   {
+    "logo": "cannes",
+    "parts": [
+     "2024",
+     "cannes lions — the brief #4",
+     "global winner"
+    ]
+   }
+  ]
+ },
+ "columns": {
+  "x": 233.85,
+  "y": 548.98,
+  "blocks": [
+   {
+    "label": "memberships",
+    "entries": [
+     {
+      "logo": "oneclub",
+      "parts": [
+       "the one club for creativity, new york"
+      ]
+     },
+     {
+      "logo": "icad",
+      "parts": [
+       "institute of creative advertising and design, ireland"
+      ]
+     }
+    ]
+   },
+   {
+    "label": "publications",
+    "entries": [
+     {
+      "logo": "tdc",
+      "parts": [
+       "11/2026",
+       "tdc annual 47 »the world's best typography«",
+       "500l/s"
+      ]
+     },
+     {
+      "logo": "page",
+      "parts": [
+       "10/2026",
+       "page magazine 40 years anniversary issue",
+       "commentary on typography in use"
+      ]
+     },
+     {
+      "logo": "horizont",
+      "parts": [
+       "09/2026",
+       "horizont",
+       "campaign launch stadtwerke"
+      ]
+     },
+     {
+      "logo": "campaign",
+      "parts": [
+       "09/2026",
+       "campaign germany",
+       "campaign launch stadtwerke"
+      ]
+     },
+     {
+      "logo": "new-business",
+      "parts": [
+       "09/2026",
+       "new business",
+       "campaign launch stadtwerke"
+      ]
+     },
+     {
+      "logo": "horizont",
+      "parts": [
+       "11/2024",
+       "horizont",
+       "pitch win radkultur"
+      ]
+     }
+    ]
+   },
+   {
+    "label": "talks",
+    "entries": [
+     {
+      "logo": "adc-germany",
+      "parts": [
+       "07/2026",
+       "pop up adc creative club areal süd, stuttgart",
+       "500l/s"
+      ]
+     },
+     {
+      "logo": "adc-germany",
+      "parts": [
+       "05/2026",
+       "adc creative club stuttgart club schräglage",
+       "500l/s"
+      ]
+     },
+     {
+      "logo": "adc-germany",
+      "parts": [
+       "05/2026",
+       "adc creative club stuttgart club schräglage",
+       "windkulturerbe"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "gap": 24,
+ "block": {
+  "x": 28.13,
+  "y": 148.66,
+  "rows": [
+   {
+    "y": 0,
+    "parts": [
+     {
+      "x": 0,
+      "t": "education"
+     }
+    ]
+   },
+   {
+    "y": 43.2,
+    "parts": [
+     {
+      "x": 0,
+      "t": "10/2021"
+     },
+     {
+      "x": 70.19,
+      "t": "—"
+     },
+     {
+      "x": 92.91,
+      "t": "03/2026"
+     },
+     {
+      "x": 190.02,
+      "t": "hochschule der medien (hdm),"
+     },
+     {
+      "x": 504,
+      "t": "stuttgart, ger"
+     },
+     {
+      "x": 648,
+      "t": "integrated product design"
+     },
+     {
+      "x": 864,
+      "t": "b.a."
+     }
+    ],
+    "logo": "hdm"
+   },
+   {
+    "y": 64.8,
+    "parts": [
+     {
+      "x": 0,
+      "t": "08/2024"
+     },
+     {
+      "x": 72,
+      "t": "— 12/2024"
+     },
+     {
+      "x": 190.02,
+      "t": "institute of art, design + technology,"
+     },
+     {
+      "x": 504,
+      "t": "dún laoghaire, ie"
+     },
+     {
+      "x": 648,
+      "t": "graphic design"
+     },
+     {
+      "x": 864,
+      "t": "erasmus semester"
+     }
+    ],
+    "logo": "iadt"
+   },
+   {
+    "y": 129.6,
+    "parts": [
+     {
+      "x": 0,
+      "t": "experience"
+     }
+    ]
+   },
+   {
+    "y": 172.8,
+    "parts": [
+     {
+      "x": 0,
+      "t": "10/2026 — today"
+     },
+     {
+      "x": 188.96,
+      "t": "neue welt agentur, stuttgart"
+     },
+     {
+      "x": 432,
+      "t": "creative / co-founder"
+     }
+    ],
+    "logo": "nwa"
+   },
+   {
+    "y": 194.4,
+    "parts": [
+     {
+      "x": 0,
+      "t": "03/2026 — 09/2026"
+     },
+     {
+      "x": 190.02,
+      "t": "scholz and friends, stuttgart"
+     },
+     {
+      "x": 432,
+      "t": "creative fellow"
+     }
+    ],
+    "logo": "scholz"
+   },
+   {
+    "y": 216,
+    "parts": [
+     {
+      "x": 0,
+      "t": "09/2024 — 03/2026"
+     },
+     {
+      "x": 190.02,
+      "t": "scholz and friends, stuttgart"
+     },
+     {
+      "x": 432,
+      "t": "art director / working student"
+     }
+    ],
+    "logo": "scholz"
+   },
+   {
+    "y": 237.6,
+    "parts": [
+     {
+      "x": 0,
+      "t": "03/2024 — 09/2024"
+     },
+     {
+      "x": 190.02,
+      "t": "scholz and friends, stuttgart"
+     },
+     {
+      "x": 432,
+      "t": "art director / intern"
+     }
+    ],
+    "logo": "scholz"
+   }
+  ]
+ }
+}
