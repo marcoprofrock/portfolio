@@ -1,0 +1,254 @@
+{
+  "icad": {
+    "file": "assets/awards/icad.svg",
+    "label": "icad",
+    "view": [
+      85.0,
+      85.0
+    ],
+    "ink": [
+      2.2,
+      2.3,
+      80.6,
+      80.5
+    ]
+  },
+  "cannes": {
+    "file": "assets/awards/cannes.svg",
+    "label": "cannes",
+    "view": [
+      85.0,
+      85.0
+    ],
+    "ink": [
+      3.28,
+      2.34,
+      74.62,
+      79.92
+    ]
+  },
+  "adc-germany": {
+    "file": "assets/awards/adc-germany.svg",
+    "label": "adc-germany",
+    "view": [
+      85.04,
+      85.04
+    ],
+    "ink": [
+      3.02,
+      4.68,
+      78.93,
+      73.41
+    ]
+  },
+  "comm": {
+    "file": "assets/awards/comm.svg",
+    "label": "comm",
+    "view": [
+      100.0,
+      100.0
+    ],
+    "ink": [
+      0,
+      0,
+      100.0,
+      100.0
+    ]
+  },
+  "gdc": {
+    "file": "assets/awards/gdc.svg",
+    "label": "gdc",
+    "view": [
+      304.3,
+      400.43
+    ],
+    "ink": [
+      0.0,
+      0.0,
+      304.3,
+      400.43
+    ]
+  },
+  "hsud": {
+    "file": "assets/awards/hsud.svg",
+    "label": "hsud",
+    "view": [
+      400.93,
+      400.0
+    ],
+    "ink": [
+      0.0,
+      0.0,
+      400.93,
+      400.0
+    ]
+  },
+  "oneclub": {
+    "file": "assets/awards/oneclub.svg",
+    "label": "oneclub",
+    "view": [
+      515.93,
+      369.56
+    ],
+    "ink": [
+      -0.01,
+      0.0,
+      515.94,
+      369.56
+    ]
+  },
+  "page": {
+    "file": "assets/awards/page.svg",
+    "label": "page",
+    "view": [
+      663.9,
+      520.0
+    ],
+    "ink": [
+      10.0,
+      35.7,
+      644.5,
+      412.7
+    ]
+  },
+  "YoungOnesLogo": {
+    "file": "assets/awards/YoungOnesLogo.svg",
+    "label": "YoungOnesLogo",
+    "view": [
+      5660.23,
+      5621.33
+    ],
+    "ink": [
+      384.67,
+      428.31,
+      4783.51,
+      4783.64
+    ]
+  },
+  "hdm": {
+    "file": "assets/awards/hdm.svg",
+    "label": "hdm",
+    "view": [
+      471.35,
+      421.89
+    ],
+    "ink": [
+      0.0,
+      0.0,
+      471.35,
+      421.89
+    ]
+  },
+  "iadt": {
+    "file": "assets/awards/iadt.svg",
+    "label": "iadt",
+    "view": [
+      471.35,
+      306.21
+    ],
+    "ink": [
+      0.0,
+      0.0,
+      471.34,
+      306.2
+    ]
+  },
+  "nwa": {
+    "file": "assets/awards/nwa.svg",
+    "label": "nwa",
+    "view": [
+      216.23,
+      216.23
+    ],
+    "ink": [
+      6.0,
+      6.0,
+      204.23,
+      204.23
+    ]
+  },
+  "scholz": {
+    "file": "assets/awards/scholz.svg",
+    "label": "scholz",
+    "view": [
+      471.35,
+      505.56
+    ],
+    "ink": [
+      0.02,
+      0.02,
+      471.33,
+      505.54
+    ]
+  },
+  "adc-ny": {
+    "file": "assets/awards/adc-ny.png",
+    "label": "adc-ny",
+    "view": [
+      528,
+      530
+    ],
+    "ink": [
+      0,
+      0,
+      528,
+      530
+    ]
+  },
+  "tdc": {
+    "file": "assets/awards/tdc.png",
+    "label": "tdc",
+    "view": [
+      601,
+      599
+    ],
+    "ink": [
+      0,
+      0,
+      601,
+      599
+    ]
+  },
+  "horizont": {
+    "file": "assets/awards/horizont.png",
+    "label": "horizont",
+    "view": [
+      180,
+      180
+    ],
+    "ink": [
+      0,
+      0,
+      180,
+      180
+    ]
+  },
+  "campaign": {
+    "file": "assets/awards/campaign.png",
+    "label": "campaign",
+    "view": [
+      134,
+      153
+    ],
+    "ink": [
+      0,
+      0,
+      134,
+      153
+    ]
+  },
+  "new-business": {
+    "file": "assets/awards/new-business.png",
+    "label": "new-business",
+    "view": [
+      82,
+      43
+    ],
+    "ink": [
+      0,
+      0,
+      82,
+      43
+    ]
+  }
+}

@@ -1,0 +1,139 @@
+[
+  {
+    "title": "plants with benefits",
+    "client": "re:wild",
+    "area": "integrated campaign",
+    "year": "2026",
+    "url": "#plants-with-benefits",
+    "preview": "assets/previews/plants-with-benefits.webp",
+    "awards": [],
+    "demo": {
+      "label": "try for yourself",
+      "url": "pwbapp/",
+      "placement": "inline"
+    }
+  },
+  {
+    "title": "azulejo six",
+    "client": "the one club for creativity",
+    "area": "type design",
+    "year": "2026",
+    "url": "#azulejo-six",
+    "preview": "assets/previews/azulejo-six.webp",
+    "awards": []
+  },
+  {
+    "title": "vote2cop",
+    "client": "gotv | nike",
+    "area": "brand activation",
+    "year": "2026",
+    "url": "#vote2cop",
+    "preview": "assets/previews/vote2cop.webp",
+    "awards": []
+  },
+  {
+    "title": "the right way to say thank you",
+    "client": "gotv",
+    "area": "ooh / print series",
+    "year": "2026",
+    "url": "#thank-you",
+    "preview": "assets/previews/thank-you.webp",
+    "awards": []
+  },
+  {
+    "title": "heritage identity",
+    "client": "duravit",
+    "area": "design system",
+    "year": "2026",
+    "url": "#heritage-identity",
+    "preview": "assets/previews/heritage-identity.webp",
+    "awards": []
+  },
+  {
+    "title": "500l/s",
+    "client": "academic work",
+    "area": "design system",
+    "year": "2026",
+    "url": "#500ls",
+    "preview": "assets/previews/500ls.webp",
+    "awards": [
+      "tdc",
+      "adc-ny",
+      "adc-germany"
+    ]
+  },
+  {
+    "title": "sentry",
+    "client": "academic work",
+    "area": "design system",
+    "year": "2023",
+    "url": "#sentry",
+    "preview": "assets/previews/sentry.webp",
+    "awards": []
+  },
+  {
+    "title": "hope in action",
+    "client": "unicef",
+    "area": "integrated campaign",
+    "year": "2024",
+    "url": "#hope-in-action",
+    "preview": "assets/previews/hope-in-action.webp",
+    "awards": [
+      "cannes"
+    ]
+  },
+  {
+    "title": "mediterainy opera",
+    "client": "royal irish academy for music",
+    "area": "integrated campaign",
+    "year": "2024",
+    "url": "#mediterainy-opera",
+    "preview": "assets/previews/mediterainy-opera.webp",
+    "awards": [
+      "adc-germany",
+      "comm",
+      "icad"
+    ]
+  },
+  {
+    "title": "windkulturerbe",
+    "client": "enbw",
+    "area": "brand activation",
+    "year": "2025",
+    "url": "#windkulturerbe",
+    "preview": "assets/previews/windkulturerbe.webp",
+    "awards": [
+      "adc-germany",
+      "comm"
+    ]
+  },
+  {
+    "title": "u-turn",
+    "client": "academic work",
+    "area": "design system",
+    "year": "2025",
+    "url": "#u-turn",
+    "preview": "assets/previews/u-turn.webp",
+    "awards": [
+      "adc-germany"
+    ]
+  },
+  {
+    "title": "mission octopus",
+    "client": "sea shepherd",
+    "area": "ooh / print series",
+    "year": "2026",
+    "url": "#mission-octopus",
+    "preview": "assets/previews/mission-octopus.webp",
+    "awards": []
+  },
+  {
+    "title": "chancen geben",
+    "client": "fakf",
+    "area": "ooh / print series",
+    "year": "2026",
+    "url": "#kids-foundation",
+    "preview": "assets/previews/kids-foundation.webp",
+    "awards": []
+  }
+]

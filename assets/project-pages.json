@@ -1,0 +1,2115 @@
+{
+  "500ls": {
+    "title": "500l/s",
+    "sections": [
+      {
+        "label": "problem",
+        "text": "stuttgart sits on europe's second-largest mineral water deposit – yet 75% of young residents don't know it exists. the springs hide in backyards, the baths look like ordinary public pools, and no visual language communicates the richness beneath the city."
+      },
+      {
+        "label": "idea",
+        "text": "bring the mineral water to where the target group already is: bars and cafés. through \"spring patronages,\" each venue adopts one of 13 springs and serves drinks made with its water. from cold drink to cold plunge."
+      },
+      {
+        "label": "solution",
+        "text": "a generative design system translates the chemical data of each spring into individual waveforms, colors, and a parametric display typeface with 13 cuts and 1,300 glyphs. it runs across all touchpoints – from out-of-home to drink menus to a stamp card that rewards a free bath entry once you've tasted all 13 springs."
+      }
+    ],
+    "images": [
+      "assets/projects/500ls/04_5d0052ef.webp",
+      "assets/projects/500ls/02_223d3fef.webp",
+      {
+        "widget": "wavelab"
+      },
+      "assets/projects/500ls/06_9495e648.webp",
+      "assets/projects/500ls/05_6953b6c6.webp",
+      "assets/projects/500ls/07_95625748.webp",
+      {
+        "widget": "tester"
+      },
+      "assets/projects/500ls/09_a4214e3f.webp",
+      "assets/projects/500ls/08_9dde72a4.webp",
+      {
+        "widget": "specimen",
+        "clip": "assets/projects/500ls/specimen.mp4",
+        "notes": [
+          "the full 500l/s character set, glyph by glyph",
+          "move up / down to scrub"
+        ],
+        "hint": [
+          1
+        ]
+      },
+      "assets/projects/500ls/10_a8472395.webp",
+      "assets/projects/500ls/01_03c19a53.webp"
+    ],
+    "videos": [
+      "JCJF8uDo0tQ"
+    ],
+    "source": "MarcoProefrock_GDAN_26_prtfolio.pdf, page 5; type tester, wave lab, wave files, specimen film and the 13 cuts from marco.ad/500ls (03_html/500ls/index.html, 03_html/assets/fonts/500ls, 03_html/assets/05_500ls)",
+    "credits": [
+      [
+        "role",
+        "art direction"
+      ],
+      [
+        "supervision",
+        "prof. ursula drees, lucie ilg"
+      ],
+      [
+        "awards",
+        "selected for the tdc annual 2026\nadc young ones 2026 · 1× merit\nadc talent award 2026 · 1× bronze"
+      ]
+    ],
+    "posters": [
+      "assets/projects/500ls/05_6953b6c6.webp"
+    ],
+    "image_layout": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      [
+        559.65,
+        2835.82,
+        778.73,
+        348.09
+      ],
+      [
+        855.77,
+        3212.15,
+        1037.85,
+        583.79
+      ],
+      [
+        494.12,
+        3518.08,
+        331.8,
+        488.24
+      ],
+      [
+        1214.38,
+        3950.54,
+        568.76,
+        382.55
+      ],
+      [
+        720.56,
+        4539.29,
+        551.64,
+        310.3
+      ]
+    ]
+  },
+  "sentry": {
+    "title": "sentry",
+    "sections": [
+      {
+        "label": "problem",
+        "text": "an avalanche transceiver is the only piece of gear you buy hoping never to use it – and the only one you will operate with a heart rate of 180, gloves on, wind in your face and fifteen minutes before odds collapse. yet the category still communicates like consumer electronics: crowded housings, menu logic, feature lists."
+      },
+      {
+        "label": "idea",
+        "text": "build the brand around one promise – your sentry in the mountains – and judge every decision by a single question: does it survive panic? identity, housing and interface become one system, so intuition is treated as a safety feature rather than a nice-to-have."
+      },
+      {
+        "label": "solution",
+        "text": "three colours do the explaining: orange is everything you touch, sand is the body you hold, anthracite is the mount that holds you. one sliding switch, search, send, off, replaces the menu, guarded by a release button so the mode can never change by accident. soft, over-tensioned volumes read as impact-resistant before you know what the object does, and the same geometry generates the icons, the display and the chevron that runs across the brand."
+      }
+    ],
+    "images": [
+      "assets/projects/sentry/01_markenboard.webp",
+      "assets/projects/sentry/02_showreel.mp4",
+      "assets/projects/sentry/03_geraet-halterung-hoch.webp",
+      "assets/projects/sentry/04_system-gurte.webp",
+      "assets/projects/sentry/05_geraet-halterung.webp",
+      "assets/projects/sentry/06_schnalle-schriftzug.webp",
+      "assets/projects/sentry/07_siebdruck.webp",
+      "assets/projects/sentry/08_teile.webp",
+      "assets/projects/sentry/04_typography.svg",
+      "assets/projects/sentry/16_rendering.webp",
+      "assets/projects/sentry/05_design-language.svg",
+      "assets/projects/sentry/13_skischule.webp",
+      "assets/projects/sentry/10_buch.webp",
+      "assets/projects/sentry/14_gurtsystem.webp",
+      "assets/projects/sentry/06_design-element.svg",
+      "assets/projects/sentry/07_colors.svg",
+      "assets/projects/sentry/03_mantra.svg",
+      "assets/projects/sentry/11_halterung.webp",
+      "assets/projects/sentry/01_logo.svg",
+      "assets/projects/sentry/15_skizzen-bogen.webp",
+      "assets/projects/sentry/12_schnalle.webp",
+      "assets/projects/sentry/09_druck-muster.webp",
+      "assets/projects/sentry/02_your-sentry-in-the-mountains.svg",
+      "assets/projects/sentry/01_arrow-down.svg",
+      "assets/projects/sentry/02_arrow-up.svg",
+      "assets/projects/sentry/03_arrow-down-right.svg",
+      "assets/projects/sentry/04_arrow-down-left.svg",
+      "assets/projects/sentry/05_battery.svg",
+      "assets/projects/sentry/06_person.svg",
+      "assets/projects/sentry/07_group.svg",
+      "assets/projects/sentry/08_flag.svg",
+      "assets/projects/sentry/09_mountains.svg",
+      "assets/projects/sentry/10_skis.svg",
+      "assets/projects/sentry/11_ski.svg",
+      "assets/projects/sentry/12_asterisk.svg"
+    ],
+    "videos": [],
+    "labels": [
+      "the brand",
+      "showreel",
+      null,
+      "the mount",
+      "studio pictures",
+      null,
+      "silk-screen printing",
+      "excessive and rapid prototyping",
+      "typography",
+      "renderings",
+      "design language",
+      "expert interview",
+      "documentation",
+      null,
+      "design element",
+      "colors",
+      "the mantra",
+      null,
+      "logo",
+      "sketches",
+      "the clip",
+      null,
+      "your sentry in the mountains",
+      "icons",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "image_shift": [
+      40,
+      120,
+      0,
+      0,
+      80,
+      0,
+      80,
+      0,
+      40,
+      120,
+      0,
+      0,
+      80,
+      0,
+      80,
+      0,
+      40,
+      0,
+      0,
+      0,
+      80,
+      0,
+      0
+    ],
+    "image_layout": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      [
+        494.12,
+        2835.82,
+        778.73,
+        348.09
+      ],
+      [
+        855.77,
+        3212.15,
+        1037.85,
+        583.79
+      ],
+      [
+        494.12,
+        3518.08,
+        331.8,
+        488.24
+      ],
+      [
+        202.85,
+        4039.03,
+        831.2,
+        467.55
+      ],
+      [
+        1214.38,
+        3950.54,
+        568.76,
+        382.55
+      ],
+      [
+        720.56,
+        4539.29,
+        551.64,
+        310.3
+      ],
+      [
+        1312.69,
+        4494.58,
+        580.93,
+        871.97
+      ],
+      [
+        26.38,
+        4882.3,
+        1037.85,
+        583.79
+      ],
+      [
+        559.65,
+        6139.31,
+        778.73,
+        348.09
+      ],
+      [
+        855.77,
+        6515.64,
+        1037.85,
+        583.79
+      ],
+      [
+        494.12,
+        6821.57,
+        331.8,
+        488.24
+      ],
+      [
+        202.85,
+        7342.52,
+        831.2,
+        467.55
+      ],
+      [
+        1214.38,
+        7254.03,
+        568.76,
+        382.55
+      ],
+      [
+        720.56,
+        7842.78,
+        551.64,
+        310.3
+      ],
+      [
+        1485.62,
+        8260.93,
+        408.0,
+        233.52
+      ],
+      [
+        297.0,
+        5669.37,
+        75.08,
+        82.5
+      ],
+      [
+        560.38,
+        5669.37,
+        75.08,
+        82.5
+      ],
+      [
+        828.91,
+        5678.26,
+        64.79,
+        64.72
+      ],
+      [
+        1092.32,
+        5678.23,
+        64.72,
+        64.79
+      ],
+      [
+        1332.92,
+        5695.46,
+        110.3,
+        30.31
+      ],
+      [
+        1633.54,
+        5677.26,
+        35.82,
+        66.71
+      ],
+      [
+        273.58,
+        5861.42,
+        121.93,
+        66.71
+      ],
+      [
+        575.86,
+        5853.53,
+        44.12,
+        82.5
+      ],
+      [
+        794.74,
+        5875.36,
+        133.12,
+        38.83
+      ],
+      [
+        1090.38,
+        5832.7,
+        68.61,
+        124.16
+      ],
+      [
+        1375.48,
+        5832.78,
+        25.18,
+        123.99
+      ],
+      [
+        1600.05,
+        5843.38,
+        102.79,
+        102.79
+      ]
+    ],
+    "source": "texts: MarcoProefrock_GDAN_26_prtfolio.pdf, page 7. images: 00_Uni/5. Semester/LIFESAVER (05_keyvisuals, 06_Fotos, 07_Render, 10_SKETCHES), selected by marco on 28.09.2026. brand elements, colour pages and icons as vectors from DOKU_LIFESAVER-PROEFROCK.pdf, pdf pages 82–97 (book pages 160–191); labels after the chapter headings of the book. credits from the previous portfolio page, colour values from the colour swatches of the book. film in frame 2: the design system showreel, 00_Uni/5. Semester/LIFESAVER/16_SHOWREEL/sentry-showreel.mp4 (x264 CRF 22 for the web).",
+    "credits": [
+      [
+        "role",
+        "concept, product design, brand identity, interface design"
+      ],
+      [
+        "university",
+        "stuttgart media university (hdm), integrated product design, 5th semester"
+      ],
+      [
+        "supervision",
+        "prof. burkhard fritz"
+      ],
+      [
+        "typeface",
+        "gotham narrow"
+      ],
+      [
+        "colours",
+        "orange c0 m75 y100 k0\nsand c0 m6 y11 k6\nanthracite k85"
+      ]
+    ]
+  },
+  "heritage-identity": {
+    "title": "heritage identity",
+    "sections": [
+      {
+        "label": "problem",
+        "text": "duravit has been making bathrooms in the black forest since 1817, and wanted that history to carry more of its communication. the groundwork existed: three heritage pillars, a colour for each, a first mood. but three colour worlds pull in three directions – and a heritage look of its own reads as a sub-brand, not the brand. the historic version of duravit's logo, the auerhahn, was proposed as heritage mark, but it was only available in the form of a physical woodcut."
+      },
+      {
+        "label": "idea",
+        "text": "instead of a fourth look on top of three colour worlds, one production constraint underneath all of them: risography. one ink, one stock, three pillars, held together by how it's made."
+      },
+      {
+        "label": "solution",
+        "text": "the historic woodcut is redrawn and set into a seal. the pillar colours stay, but are lightened into ink-and-ground pairs, so every combination clears contrast on light stock with one transparent ink. archive and current photography share one duotone, which levels the two – no then-and-now split. and the grain the mood called for stops being a filter: it becomes the physical raster."
+      }
+    ],
+    "images": [
+      "assets/projects/heritage-identity/01_siegel-knapp.webp",
+      "assets/projects/heritage-identity/02_showreel.mp4",
+      "assets/projects/heritage-identity/03_holzschnitt.webp",
+      {
+        "size": [
+          703.68,
+          130.08
+        ],
+        "stagger": 100,
+        "speed": 3,
+        "parts": [
+          {
+            "href": "assets/projects/heritage-identity/04_evolution-1.webp",
+            "box": [
+              0.0,
+              0.0,
+              135.12,
+              130.08
+            ]
+          },
+          {
+            "href": "assets/projects/heritage-identity/04_evolution-2.webp",
+            "box": [
+              128.64,
+              6.96,
+              123.36,
+              108.72
+            ]
+          },
+          {
+            "href": "assets/projects/heritage-identity/04_evolution-3.webp",
+            "box": [
+              251.76,
+              6.96,
+              114.0,
+              108.72
+            ]
+          },
+          {
+            "href": "assets/projects/heritage-identity/04_evolution-4.webp",
+            "box": [
+              374.64,
+              6.96,
+              99.12,
+              108.72
+            ]
+          },
+          {
+            "href": "assets/projects/heritage-identity/04_evolution-5.webp",
+            "box": [
+              482.4,
+              6.96,
+              114.24,
+              108.72
+            ]
+          },
+          {
+            "href": "assets/projects/heritage-identity/04_evolution-6.webp",
+            "box": [
+              596.4,
+              6.96,
+              107.28,
+              108.72
+            ]
+          }
+        ]
+      },
+      "assets/projects/heritage-identity/16_messe-saeulen.webp",
+      "assets/projects/heritage-identity/07_auerhahn-orange.webp",
+      "assets/projects/heritage-identity/05_editorial.webp",
+      "assets/projects/heritage-identity/08_social.mp4",
+      {
+        "size": [
+          960,
+          540
+        ],
+        "notes": [
+          {
+            "text": "low detail",
+            "x": 133.8,
+            "y": 351.84
+          },
+          {
+            "text": "medium detail",
+            "x": 357.6,
+            "y": 348.0
+          },
+          {
+            "text": "high detail",
+            "x": 587.88,
+            "y": 349.44
+          },
+          {
+            "text": "old",
+            "x": 803.52,
+            "y": 396.96
+          }
+        ],
+        "note_fill": "#8C6E5E",
+        "href": "assets/projects/heritage-identity/09_ansaetze-braun.webp"
+      },
+      {
+        "size": [
+          960,
+          540
+        ],
+        "stagger": 100,
+        "speed": 3,
+        "parts": [
+          {
+            "href": "assets/projects/heritage-identity/10_farbe-1.webp",
+            "box": [
+              0,
+              0,
+              319.1,
+              270
+            ]
+          },
+          {
+            "href": "assets/projects/heritage-identity/10_farbe-2.webp",
+            "box": [
+              319.1,
+              0,
+              321.6,
+              270
+            ]
+          },
+          {
+            "href": "assets/projects/heritage-identity/10_farbe-3.webp",
+            "box": [
+              640.7,
+              0,
+              319.3,
+              270
+            ]
+          },
+          {
+            "href": "assets/projects/heritage-identity/10_farbe-4.webp",
+            "box": [
+              0,
+              270,
+              319.1,
+              270
+            ]
+          },
+          {
+            "href": "assets/projects/heritage-identity/10_farbe-5.webp",
+            "box": [
+              319.1,
+              270,
+              321.6,
+              270
+            ]
+          },
+          {
+            "href": "assets/projects/heritage-identity/10_farbe-6.webp",
+            "box": [
+              640.7,
+              270,
+              319.3,
+              270
+            ]
+          }
+        ]
+      },
+      "assets/projects/heritage-identity/11_riso-ebenen.webp",
+      "assets/projects/heritage-identity/12_broschuere.webp",
+      "assets/projects/heritage-identity/06_ooh.webp",
+      "assets/projects/heritage-identity/14_giveaway.webp",
+      "assets/projects/heritage-identity/15_social-flach.webp",
+      "assets/projects/heritage-identity/13_messe-halle.webp"
+    ],
+    "videos": [],
+    "labels": [
+      "heritage logo with brandmark",
+      null,
+      "original wood cut",
+      "historic development of the image brand",
+      null,
+      "stylized brandmark",
+      "print ad / editorial",
+      "social",
+      "three approaches",
+      "proposed color scheme",
+      "process breakdown risography",
+      "brochure",
+      "ooh",
+      "giveaway",
+      null,
+      "trade fair"
+    ],
+    "image_shift": [
+      40,
+      80,
+      255.47,
+      120,
+      0,
+      0,
+      0,
+      120,
+      120,
+      -80,
+      120,
+      -80,
+      120,
+      -80,
+      0,
+      120
+    ],
+    "reveal_delay": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      150,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "image_layout": [
+      null,
+      null,
+      null,
+      null,
+      [
+        1214.38,
+        1324.2,
+        679.24,
+        382.02
+      ],
+      [
+        620.56,
+        1912.95,
+        551.64,
+        310.3
+      ],
+      [
+        1114.38,
+        2119.82,
+        679.24,
+        452.83
+      ],
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      [
+        1114.38,
+        4631.27,
+        664.96,
+        208.05
+      ],
+      [
+        202.85,
+        4785.82,
+        831.2,
+        467.55
+      ]
+    ],
+    "source": "260806_HeritageDuravitLook_Sendout.pdf (brandmark s. 8–24, route I s. 28–38), bilder direkt aus dem pdf gezogen; film: 03_Exporte/mockup_social2.mp4; texte aus MarcoProefrock_GDAN_26_prtfolio.pdf, page 8",
+    "credits": []
+  },
+  "hope-in-action": {
+    "title": "hope in action",
+    "sections": [
+      {
+        "label": "problem",
+        "text": "unicef is losing connection with gen z. 75% find the future frightening, 55.7% believe humanity is doomed. in this climate, hope feels naive – and unicef's mission becomes invisible to the generation that could carry it forward."
+      },
+      {
+        "label": "idea",
+        "text": "reframe hope as something active, not passive. \"hope in action\" hijacks the pop culture moments gen z already loves – streaming, gaming, music – and places unicef's real-time results right next to fictional heroes saving the world."
+      },
+      {
+        "label": "solution",
+        "text": "an ai links streaming platforms' databases with unicef's annual report to generate contextual 5-second messages in real time: \"while beth mastered chess, unicef helped 18.6 million children access education.\" the platform spans ott, twitch, spotify, tiktok (#hopecore), and ooh – all driving to a landing page for donations or volunteer sign-ups."
+      }
+    ],
+    "images": [
+      "assets/projects/hope-in-action/08_board.webp",
+      "assets/projects/hope-in-action/01_109b8a4e.webp",
+      "assets/projects/hope-in-action/06_b91aac7c.webp",
+      "assets/projects/hope-in-action/02_134e8cbc.webp",
+      "assets/projects/hope-in-action/03_734d2da4.webp",
+      "assets/projects/hope-in-action/05_9728e846.webp",
+      "assets/projects/hope-in-action/04_800fb060.webp",
+      "assets/projects/hope-in-action/07_c7249baf.webp"
+    ],
+    "videos": [],
+    "source": "MarcoProefrock_GDAN_26_prtfolio.pdf, page 11",
+    "credits": [
+      [
+        "role",
+        "art direction and concept"
+      ],
+      [
+        "team",
+        "kunal khade, mohamad al qarawi, marion mondoloni, melissa duarte de almeida, niamh aremband"
+      ],
+      [
+        "awards",
+        "global winner · cannes lions — the brief"
+      ]
+    ]
+  },
+  "windkulturerbe": {
+    "title": "windkulturerbe",
+    "sections": [
+      {
+        "label": "problem",
+        "text": "enbw is one of germany's largest energy companies – but virtually unknown outside baden-württemberg. at the same time, wind power faces constant public resistance, despite being one of the oldest forms of energy humans have ever used."
+      },
+      {
+        "label": "idea",
+        "text": "mallorca – germany's favorite holiday island – has over 3,300 historic windmills, many of them decaying. enbw turns them into a unesco world heritage petition: because wind power has history. and a future."
+      },
+      {
+        "label": "solution",
+        "text": "the windmills are restored on the outside and fitted with modern wind technology on the inside. the generated energy feeds directly into ev charging stations in front of each mill – so electric cars charge exactly where wind power was harnessed centuries ago. a petition, microsite, and social campaign invite the public to support \"windkulturerbe\" and turn wind energy into a cultural conversation."
+      }
+    ],
+    "images": [
+      "assets/projects/windkulturerbe/03_55774050.webp",
+      "assets/projects/windkulturerbe/05_b340ac3c.webp",
+      "assets/projects/windkulturerbe/04_8be2ddd4.webp",
+      "assets/projects/windkulturerbe/02_2ecbcc90.webp"
+    ],
+    "videos": [
+      "VYUYr6bSIUo"
+    ],
+    "source": "MarcoProefrock_GDAN_26_prtfolio.pdf, page 12",
+    "credits": [
+      [
+        "role",
+        "art direction and concept"
+      ],
+      [
+        "copywriting",
+        "hannah kormann"
+      ],
+      [
+        "awards",
+        "adc talent award 2026 · 2× bronze\ncomm awards 2025 · 1× bronze"
+      ]
+    ]
+  },
+  "u-turn": {
+    "title": "u-turn",
+    "sections": [
+      {
+        "label": "problem",
+        "text": "car vs. public transport is one of the most polarizing debates in urban mobility – yet most arguments stay abstract. people know the statistics but rarely feel the trade-offs of either choice in a visceral way."
+      },
+      {
+        "label": "idea",
+        "text": "turn the debate into a game. two teams compete head-to-head in a spatial installation – one drives, one rides public transport. both face real obstacles. the winner is decided by play, not opinion."
+      },
+      {
+        "label": "solution",
+        "text": "a room-sized immersive board game splits visitors into two sides. the car team deals with traffic jams and parking costs; the public transport team navigates route planning and delays. microcontrollers, reactive sound and lighting, and „event cards“ played by opponents make every trade-off physically felt – not just discussed."
+      }
+    ],
+    "images": [
+      "assets/projects/u-turn/image-0faa8148-b363-49f8-ae55-a0079e1c1c0c.jpg.webp",
+      "assets/projects/u-turn/02_showreel.mp4",
+      "assets/projects/u-turn/image-81b2d706-589a-41a8-8332-bf1caf73f76f.jpg.webp",
+      "assets/projects/u-turn/image-29a5ac25-0562-4f77-9308-6aa9bcac31e1.jpg.webp",
+      "assets/projects/u-turn/image-54d9fcc9-ec43-40ac-a225-a82a3b801ca0.jpg.webp",
+      "assets/projects/u-turn/image-1ec3bd8b-8ef5-4262-8791-daf6b3d4b91d.jpg.webp",
+      "assets/projects/u-turn/image-fedaaa18-2df4-4f95-8a0a-f73b58fb6934.jpg.webp",
+      "assets/projects/u-turn/image-575bce08-f279-4dd1-9832-f579e2d9a858.jpg.webp",
+      "assets/projects/u-turn/image-66ca3eb7-acbc-4394-9d88-bf387d81c077.jpg.webp",
+      "assets/projects/u-turn/image-6cd51cb1-e5b7-4f68-9f91-34fd37614e84.jpg.webp",
+      "assets/projects/u-turn/image-7178d4a5-6d6e-4a96-a479-4db9df6522d1.jpg.webp",
+      "assets/projects/u-turn/image-7b17f8e4-c765-495f-be83-81a02e9f36a9.jpg.webp",
+      "assets/projects/u-turn/image-9074bd7a-6908-4f19-b39c-37fb0a51cbbf.jpg.webp",
+      "assets/projects/u-turn/image-9cdba7f6-3faf-4532-8ad8-61047fcabd81.jpg.webp",
+      "assets/projects/u-turn/image-d32775c6-44f8-4ab0-bb83-73f22fa41e41.jpg.webp",
+      "assets/projects/u-turn/image-d7eee39a-a880-44d1-a647-817f87a88b94.jpg.webp",
+      "assets/projects/u-turn/image-fe9c2872-4016-4a0f-a3e7-5de9f5503f89.jpg.webp"
+    ],
+    "videos": [
+      "wq7H9TDo9vg"
+    ],
+    "video_direct": true,
+    "video_slot": 7,
+    "posters": [
+      "assets/projects/u-turn/film-wq7H9TDo9vg.jpg"
+    ],
+    "image_layout": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      [
+        559.65,
+        2835.82,
+        778.73,
+        348.09
+      ],
+      [
+        855.77,
+        3212.15,
+        1037.85,
+        583.79
+      ],
+      [
+        494.12,
+        3518.08,
+        331.8,
+        488.24
+      ],
+      [
+        202.85,
+        4039.03,
+        831.2,
+        467.55
+      ],
+      [
+        1214.38,
+        3950.54,
+        568.76,
+        382.55
+      ],
+      [
+        720.56,
+        4539.29,
+        551.64,
+        310.3
+      ],
+      [
+        1312.69,
+        4494.58,
+        580.93,
+        871.97
+      ],
+      [
+        26.38,
+        4882.3,
+        1037.85,
+        583.79
+      ],
+      [
+        559.65,
+        5582.16,
+        778.73,
+        348.09
+      ],
+      [
+        855.77,
+        5958.49,
+        1037.85,
+        583.79
+      ]
+    ],
+    "source": "texte: marco.ad, project u-turn — bitte wenden! · bilder: festplatte StuproUturn, 01_StuProEM_U-Turn/01_Footage/02_Bild/Bearbeitet (unverändert)",
+    "credits": [
+      [
+        "role",
+        "creative direction, graphic design, documentation"
+      ],
+      [
+        "production",
+        "jakob schmid"
+      ],
+      [
+        "creative direction",
+        "felin jokuszies, marco pröfrock"
+      ],
+      [
+        "graphic design",
+        "marco pröfrock"
+      ],
+      [
+        "medientechnik",
+        "jakob zill, leon marschollek, markus walter, jakob schmid"
+      ],
+      [
+        "sound",
+        "michael baumann, jakob zill"
+      ],
+      [
+        "light",
+        "lukas sabo"
+      ],
+      [
+        "social media",
+        "philine-marie heinrich, meg löffler"
+      ],
+      [
+        "editing",
+        "marie grob, marco pröfrock"
+      ],
+      [
+        "bühne",
+        "all"
+      ],
+      [
+        "supervision",
+        "prof. ursula drees, moritz stuhlfauth, nadja weber"
+      ],
+      [
+        "typeface",
+        "neue serie57"
+      ],
+      [
+        "awards",
+        "adc talent award 2026 · 1× auszeichnung"
+      ]
+    ]
+  },
+  "azulejo-six": {
+    "title": "azulejo six",
+    "sections": [
+      {
+        "label": "problem",
+        "text": "every number of the young ones countdown to the 2027 awards goes to a different hand. one asset, 1080 × 1350, and a digit that has to stay readable as a digit next to all the others in the feed. the usual answer is a number that morphs — interchangeable, and from nowhere in particular."
+      },
+      {
+        "label": "idea",
+        "text": "on a road trip across the iberian peninsula i filled almost 150 pages of a hand-bound grid sketchbook with sixes, drawn after azulejo tilework. so the animation does not show the number, it shows where it comes from: first the surface, then the joint grid, then the ornament lattice, then the sign — the order in which an azulejo panel is actually read."
+      },
+      {
+        "label": "solution",
+        "text": "a field of 28 × 34 tiles in blue 80 and white, with no soft transition anywhere: a tile is blue or white, there is no 40 % blue. the lines are laid tile by tile, the 6 peels out of the lattice counter-clockwise, and a surf runs left to right through its belly. the ornament frame is hand-drawn — one quarter of it, mirrored on both centre axes — and changes in time with the wave. four seconds, seamless loop, 1080 × 1350."
+      }
+    ],
+    "images": [
+      "assets/projects/azulejo-six/01_sechs.webp",
+      "assets/projects/azulejo-six/02_mosaik.gif",
+      "assets/projects/azulejo-six/03_skizzenbuch.webp",
+      "assets/projects/azulejo-six/04_barcelona.webp",
+      "assets/projects/azulejo-six/05_makro.webp",
+      "assets/projects/azulejo-six/06_welle.webp",
+      "assets/projects/azulejo-six/07_stretch.gif",
+      "assets/projects/azulejo-six/08_kachel.gif"
+    ],
+    "videos": [],
+    "source": "young ones countdown to yo 2027, submitted 9 september 2026. drawings from my own grid sketchbook, photographs from the iberian peninsula.",
+    "credits": [
+      [
+        "assignment",
+        "number 6 · young ones countdown to yo 2027"
+      ],
+      [
+        "role",
+        "concept, drawing, design, animation"
+      ]
+    ]
+  },
+  "vote2cop": {
+    "title": "vote2cop",
+    "sections": [
+      {
+        "label": "insight",
+        "text": "young adults camp from 3 a.m. for sneakers. they don't show up to vote."
+      },
+      {
+        "label": "idea",
+        "text": "we move the camp-out line to where it belongs: outside the polling stations."
+      },
+      {
+        "label": "execution",
+        "text": "nike times the release of its drop to the early-voting week. you can only get the limited shoe at pop-up stores next to polling stations. you show your sticker at the door. no sticker, no shoe."
+      }
+    ],
+    "images": [
+      "assets/projects/vote2cop/01_popup.webp",
+      "assets/projects/vote2cop/02_showreel.mp4",
+      "assets/projects/vote2cop/03_titel.webp",
+      "assets/projects/vote2cop/04_camp.webp",
+      "assets/projects/vote2cop/05_schuh.webp",
+      "assets/projects/vote2cop/06_strasse.webp",
+      "assets/projects/vote2cop/07_sticker.webp",
+      "assets/projects/vote2cop/08_schlange.webp"
+    ],
+    "videos": [],
+    "source": "eigenes projektarchiv 51_GOTV: case board, keyvisuals und bilder aus 01_offene_dateien/bilder_cop2vote. texte wörtlich vom board.",
+    "credits": [
+      [
+        "team",
+        "tabea reifenschweiler"
+      ]
+    ]
+  },
+  "thank-you": {
+    "title": "the right way to say thank you",
+    "sections": [
+      {
+        "label": "rationale",
+        "text": "the „i voted\" sticker is the most ordinary symbol of election day: familiar, expected and often forgotten within hours. „the right way to say thank you\" gives this everyday piece of voting culture a new meaning. the print series shows two emblematic landmarks in the broader history of voting rights — susan b. anthony's grave and the selma to montgomery national historic trail — covered with stickers from voters today. these sites represent defining struggles led by women and black americans while standing for the many people and movements that expanded access to the ballot. by placing a routine contemporary symbol at sites of historic significance, the campaign connects today's visual culture of participation with the sacrifices behind it. it turns a disposable badge into a lasting tribute: the most meaningful way to thank those who fought for your right to vote is to use it."
+      }
+    ],
+    "images": [
+      "assets/projects/thank-you/01_citylight.webp",
+      "assets/projects/thank-you/02_anthony.webp",
+      "assets/projects/thank-you/03_selma.webp",
+      "assets/projects/thank-you/04_billboard.webp"
+    ],
+    "videos": [],
+    "source": "get out the vote briefing der young ones, 2026. rationale und motive aus 51_GOTV/02_export/ThankYou.",
+    "credits": [
+      [
+        "team",
+        "tabea reifenschweiler"
+      ]
+    ]
+  },
+  "plants-with-benefits": {
+    "title": "plants with benefits",
+    "logo_height": 100,
+    "logo_width": 178.01,
+    "sections": [
+      {
+        "label": "insight",
+        "text": "people care more about their wild life than wildlife.\nflexitarians are open to eating more plants. but distant benefits for the planet struggle to compete with personal desires: feeling healthier, more confident and more fulfilled. research suggests plant rich diets may support sexual wellbeing. an unexpected benefit that gives people a compelling reason to reconsider what’s on their plate."
+      },
+      {
+        "label": "idea",
+        "text": "make a personal desire a reason to give nature more room.\nplants with benefits is a movement inviting people to explore what eating more plants could do for their sex life, and for nature. instead of asking people to give something up for the planet, we give them something worth choosing for themselves. swapping meat for plant based protein can reduce demand for agricultural land, easing pressure on wildlife habitats."
+      },
+      {
+        "label": "execution",
+        "text": "arnold schwarzenegger challenges the myth that strength comes from meat, inviting people to discover what plants could do in the bedroom and beyond.\n\ncreators across food, fitness and sexual wellness take the idea into their own worlds, while social, outdoor, dating apps and unexpected media placements turn plants with benefits into a cultural conversation.\n\nthen the app turns curiosity into a habit. every plant protein choice builds a streak with nature, with reminders, recipes, challenges and food delivery integrations making the next one easier.\n\na live impact tracker connects individual choices to a collective picture: meals swapped, habits built and land potentially freed for nature.\n\none personal benefit.\none daily choice.\na whole lot more room for the wild."
+      }
+    ],
+    "images": [
+      "assets/projects/plants-with-benefits/showreel.mp4",
+      "assets/projects/plants-with-benefits/influencer-arnold.svg",
+      "assets/projects/plants-with-benefits/influencer-jameela.webp",
+      "assets/projects/plants-with-benefits/influencer-gaz.webp",
+      "assets/projects/plants-with-benefits/influencer-emily.webp",
+      "assets/projects/plants-with-benefits/influencer-nimai.webp",
+      "assets/projects/plants-with-benefits/corn-billboard.webp",
+      "assets/projects/plants-with-benefits/bean-posters.webp",
+      "assets/projects/plants-with-benefits/corn-shelter.webp",
+      "assets/projects/plants-with-benefits/pumpkin.webp",
+      "assets/projects/plants-with-benefits/social-09.svg",
+      "assets/projects/plants-with-benefits/social-08.svg",
+      "assets/projects/plants-with-benefits/social-10.svg",
+      "assets/projects/plants-with-benefits/context-chatgpt.svg",
+      "assets/projects/plants-with-benefits/context-podcast.svg",
+      "assets/projects/plants-with-benefits/context-adameve.svg",
+      "assets/projects/plants-with-benefits/context-bellesa.svg",
+      "assets/projects/plants-with-benefits/context-reddit.svg",
+      "assets/projects/plants-with-benefits/context-pharmacy.svg",
+      "assets/projects/plants-with-benefits/iphone-frame.svg",
+      "assets/projects/plants-with-benefits/app-demo-3x.mp4",
+      "assets/projects/plants-with-benefits/app-video-poster.svg",
+      "assets/projects/plants-with-benefits/stats-laptop.svg",
+      "assets/projects/plants-with-benefits/stats-phone.svg",
+      "assets/projects/plants-with-benefits/recap-1-framed.svg",
+      "assets/projects/plants-with-benefits/recap-2.webp",
+      "assets/projects/plants-with-benefits/recap-3.webp",
+      "assets/projects/plants-with-benefits/recap-4.webp"
+    ],
+    "videos": [],
+    "campaign_layout": {
+      "height": 8070,
+      "scene": {
+        "x": 494.12,
+        "y": 6730,
+        "width": 1340,
+        "height": 1250
+      },
+      "items": [
+        {
+          "id": "showreel",
+          "kind": "clip",
+          "file": "showreel.webp",
+          "video": "showreel.mp4",
+          "x": 855.77,
+          "y": 89.48,
+          "width": 1037.85,
+          "height": 583.79
+        },
+        {
+          "kind": "label",
+          "text": "influencers",
+          "x": 559.65,
+          "y": 748
+        },
+        {
+          "id": "arnold",
+          "kind": "image",
+          "file": "influencer-arnold.svg",
+          "x": 650,
+          "y": 785,
+          "width": 778,
+          "height": 398.474212034384
+        },
+        {
+          "id": "jameela",
+          "kind": "image",
+          "file": "influencer-jameela.webp",
+          "x": 550,
+          "y": 1225,
+          "width": 190,
+          "height": 284.2910447761194
+        },
+        {
+          "id": "gaz",
+          "kind": "image",
+          "file": "influencer-gaz.webp",
+          "x": 830,
+          "y": 1285,
+          "width": 190,
+          "height": 218.5
+        },
+        {
+          "id": "emily",
+          "kind": "image",
+          "file": "influencer-emily.webp",
+          "x": 1110,
+          "y": 1200,
+          "width": 235,
+          "height": 132.12143928035982
+        },
+        {
+          "id": "nimai",
+          "kind": "image",
+          "file": "influencer-nimai.webp",
+          "x": 1460,
+          "y": 1315,
+          "width": 215,
+          "height": 170.65625
+        },
+        {
+          "kind": "label",
+          "text": "out of home",
+          "x": 855.77,
+          "y": 1760
+        },
+        {
+          "id": "corn-billboard",
+          "kind": "image",
+          "file": "corn-billboard.webp",
+          "x": 855.77,
+          "y": 1810,
+          "width": 778.73,
+          "height": 510
+        },
+        {
+          "id": "bean-posters",
+          "kind": "image",
+          "file": "bean-posters.webp",
+          "x": 494.12,
+          "y": 2410,
+          "width": 620,
+          "height": 471.2
+        },
+        {
+          "id": "corn-shelter",
+          "kind": "image",
+          "file": "corn-shelter.webp",
+          "x": 1440,
+          "y": 2370,
+          "width": 350,
+          "height": 434.5
+        },
+        {
+          "id": "pumpkin",
+          "kind": "image",
+          "file": "pumpkin.webp",
+          "x": 930,
+          "y": 2960,
+          "width": 720,
+          "height": 402
+        },
+        {
+          "kind": "label",
+          "text": "social",
+          "x": 494.12,
+          "y": 3420
+        },
+        {
+          "id": "social-09",
+          "kind": "image",
+          "file": "social-09.svg",
+          "x": 555,
+          "y": 3480,
+          "width": 230,
+          "height": 452.84141102043804
+        },
+        {
+          "id": "social-08",
+          "kind": "image",
+          "file": "social-08.svg",
+          "x": 950,
+          "y": 3600,
+          "width": 230,
+          "height": 452.84141102043804
+        },
+        {
+          "id": "social-10",
+          "kind": "image",
+          "file": "social-10.svg",
+          "x": 1345,
+          "y": 3520,
+          "width": 230,
+          "height": 452.84141102043804
+        },
+        {
+          "kind": "label",
+          "text": "contextual ads",
+          "x": 494.12,
+          "y": 4220
+        },
+        {
+          "id": "context-chatgpt",
+          "kind": "image",
+          "file": "context-chatgpt.svg",
+          "x": 530,
+          "y": 4280,
+          "width": 230,
+          "height": 452.84141102043804
+        },
+        {
+          "id": "context-podcast",
+          "kind": "image",
+          "file": "context-podcast.svg",
+          "x": 955,
+          "y": 4370,
+          "width": 230,
+          "height": 452.84141102043804
+        },
+        {
+          "id": "context-adameve",
+          "kind": "image",
+          "file": "context-adameve.svg",
+          "x": 1375,
+          "y": 4315,
+          "width": 230,
+          "height": 452.84141102043804
+        },
+        {
+          "id": "context-bellesa",
+          "kind": "image",
+          "file": "context-bellesa.svg",
+          "x": 530,
+          "y": 4900,
+          "width": 230,
+          "height": 452.84141102043804
+        },
+        {
+          "id": "context-reddit",
+          "kind": "image",
+          "file": "context-reddit.svg",
+          "x": 955,
+          "y": 4990,
+          "width": 230,
+          "height": 452.84141102043804
+        },
+        {
+          "id": "context-pharmacy",
+          "kind": "image",
+          "file": "context-pharmacy.svg",
+          "x": 1375,
+          "y": 4935,
+          "width": 230,
+          "height": 452.84141102043804
+        },
+        {
+          "kind": "label",
+          "text": "the app",
+          "x": 855.77,
+          "y": 5680
+        },
+        {
+          "id": "app-demo",
+          "kind": "video",
+          "file": "app-video-poster.svg",
+          "x": 945,
+          "y": 5750,
+          "width": 350,
+          "height": 689.1064950311014,
+          "video": "app-demo-3x.mp4",
+          "frame": "iphone-frame.svg",
+          "screen": [
+            0.06713067510170143,
+            0.030778458039933995,
+            0.8682324743402655,
+            0.9378563543598106
+          ],
+          "radius": 0.08967659359383025
+        },
+        {
+          "kind": "link",
+          "text": "try for yourself",
+          "url": "pwbapp/",
+          "x": 1320,
+          "y": 6420
+        },
+        {
+          "id": "impact-background",
+          "kind": "background",
+          "x": 494.12,
+          "y": 6730,
+          "width": 1340,
+          "height": 1250,
+          "fill": "#242424",
+          "reveal_start": 6730,
+          "reveal_distance": 320
+        },
+        {
+          "kind": "label",
+          "text": "some sexy stats",
+          "x": 560,
+          "y": 6790,
+          "fill": "#fff",
+          "scene": true,
+          "fly": true,
+          "reveal_start": 6950,
+          "reveal_distance": 240
+        },
+        {
+          "id": "stats-laptop",
+          "kind": "image",
+          "file": "stats-laptop.svg",
+          "x": 560,
+          "y": 6890,
+          "width": 870,
+          "height": 525.8372276187977,
+          "scene": true,
+          "reveal_start": 7110,
+          "reveal_distance": 400
+        },
+        {
+          "id": "stats-phone",
+          "kind": "image",
+          "file": "stats-phone.svg",
+          "x": 1495,
+          "y": 7100,
+          "width": 225,
+          "height": 442.9970325199937,
+          "scene": true,
+          "reveal_start": 7210,
+          "reveal_distance": 400
+        },
+        {
+          "id": "recap-1",
+          "kind": "image",
+          "file": "recap-1-framed.svg",
+          "x": 560,
+          "y": 7535.1745,
+          "width": 265,
+          "height": 371.9247208107486,
+          "scene": true,
+          "reveal_start": 7310,
+          "reveal_distance": 320
+        },
+        {
+          "id": "recap-2",
+          "kind": "image",
+          "file": "recap-2.webp",
+          "x": 825,
+          "y": 7590,
+          "width": 265,
+          "height": 265,
+          "scene": true,
+          "reveal_start": 7420,
+          "reveal_distance": 320
+        },
+        {
+          "id": "recap-3",
+          "kind": "image",
+          "file": "recap-3.webp",
+          "x": 1090,
+          "y": 7590,
+          "width": 265,
+          "height": 265,
+          "scene": true,
+          "reveal_start": 7530,
+          "reveal_distance": 320
+        },
+        {
+          "id": "recap-4",
+          "kind": "image",
+          "file": "recap-4.webp",
+          "x": 1355,
+          "y": 7590,
+          "width": 265,
+          "height": 265,
+          "scene": true,
+          "reveal_start": 7640,
+          "reveal_distance": 320
+        },
+        {
+          "kind": "label",
+          "text": "*mock data",
+          "x": 1730,
+          "y": 7945,
+          "fill": "#f5f2e8",
+          "size": 14,
+          "scene": true
+        },
+        {
+          "kind": "label",
+          "text": "jameela jamil",
+          "x": 550,
+          "y": 1539.291,
+          "size": 18,
+          "for": "jameela"
+        },
+        {
+          "kind": "label",
+          "text": "gaz oakley",
+          "x": 830,
+          "y": 1533.5,
+          "size": 18,
+          "for": "gaz"
+        },
+        {
+          "kind": "label",
+          "text": "sex with emily",
+          "x": 1110,
+          "y": 1362.1214,
+          "size": 18,
+          "for": "emily"
+        },
+        {
+          "kind": "label",
+          "text": "nimai delgado",
+          "x": 1460,
+          "y": 1515.6562,
+          "size": 18,
+          "for": "nimai"
+        },
+        {
+          "kind": "label",
+          "text": "personal wellbeing",
+          "x": 550,
+          "y": 1561.291,
+          "size": 18,
+          "for": "jameela"
+        },
+        {
+          "kind": "label",
+          "text": "plant based chef",
+          "x": 830,
+          "y": 1555.5,
+          "size": 18,
+          "for": "gaz"
+        },
+        {
+          "kind": "label",
+          "text": "sexual wellbeing",
+          "x": 1110,
+          "y": 1384.1214,
+          "size": 18,
+          "for": "emily"
+        },
+        {
+          "kind": "label",
+          "text": "plant based fitness",
+          "x": 1460,
+          "y": 1537.6562,
+          "size": 18,
+          "for": "nimai"
+        },
+        {
+          "kind": "label",
+          "text": "discussing dating",
+          "x": 645.0,
+          "y": 4762.8414,
+          "size": 18,
+          "anchor": "middle",
+          "fly": true,
+          "reveal_distance": 150
+        },
+        {
+          "kind": "label",
+          "text": "advice with ai?",
+          "x": 645.0,
+          "y": 4784.8414,
+          "size": 18,
+          "anchor": "middle",
+          "fly": true,
+          "reveal_distance": 150
+        },
+        {
+          "kind": "label",
+          "text": "learning how to talk",
+          "x": 1070.0,
+          "y": 4852.8414,
+          "size": 18,
+          "anchor": "middle",
+          "fly": true,
+          "reveal_distance": 150
+        },
+        {
+          "kind": "label",
+          "text": "about your fantasies?",
+          "x": 1070.0,
+          "y": 4874.8414,
+          "size": 18,
+          "anchor": "middle",
+          "fly": true,
+          "reveal_distance": 150
+        },
+        {
+          "kind": "label",
+          "text": "in need of a little",
+          "x": 1490.0,
+          "y": 4797.8414,
+          "size": 18,
+          "anchor": "middle",
+          "fly": true,
+          "reveal_distance": 150
+        },
+        {
+          "kind": "label",
+          "text": "pleasure boost?",
+          "x": 1490.0,
+          "y": 4819.8414,
+          "size": 18,
+          "anchor": "middle",
+          "fly": true,
+          "reveal_distance": 150
+        },
+        {
+          "kind": "label",
+          "text": "looking for a little",
+          "x": 645.0,
+          "y": 5382.8414,
+          "size": 18,
+          "anchor": "middle",
+          "fly": true,
+          "reveal_distance": 150
+        },
+        {
+          "kind": "label",
+          "text": "inspiration?",
+          "x": 645.0,
+          "y": 5404.8414,
+          "size": 18,
+          "anchor": "middle",
+          "fly": true,
+          "reveal_distance": 150
+        },
+        {
+          "kind": "label",
+          "text": "sharing experience",
+          "x": 1070.0,
+          "y": 5472.8414,
+          "size": 18,
+          "anchor": "middle",
+          "fly": true,
+          "reveal_distance": 150
+        },
+        {
+          "kind": "label",
+          "text": "is the best!",
+          "x": 1070.0,
+          "y": 5494.8414,
+          "size": 18,
+          "anchor": "middle",
+          "fly": true,
+          "reveal_distance": 150
+        },
+        {
+          "kind": "label",
+          "text": "looking for a",
+          "x": 1490.0,
+          "y": 5417.8414,
+          "size": 18,
+          "anchor": "middle",
+          "fly": true,
+          "reveal_distance": 150
+        },
+        {
+          "kind": "label",
+          "text": "performance boost?",
+          "x": 1490.0,
+          "y": 5439.8414,
+          "size": 18,
+          "anchor": "middle",
+          "fly": true,
+          "reveal_distance": 150
+        },
+        {
+          "kind": "label",
+          "text": "on the desktop",
+          "x": 560,
+          "y": 6840,
+          "fill": "#fff",
+          "for": "stats-laptop"
+        },
+        {
+          "kind": "label",
+          "text": "on mobile",
+          "x": 1495,
+          "y": 7050,
+          "fill": "#fff",
+          "for": "stats-phone"
+        },
+        {
+          "kind": "label",
+          "text": "and on social",
+          "x": 560,
+          "y": 7485.1745,
+          "fill": "#fff",
+          "for": "recap-1"
+        },
+        {
+          "kind": "label",
+          "text": "arnold schwarzenegger",
+          "x": 1458,
+          "y": 1161.4742,
+          "size": 18,
+          "for": "arnold"
+        },
+        {
+          "kind": "label",
+          "text": "bodybuilding legend and plant based advocate",
+          "x": 1458,
+          "y": 1183.4742,
+          "size": 18,
+          "for": "arnold"
+        }
+      ]
+    },
+    "source": "The Brief #6 · Team Yes We Cannes. Final board texts; all creative campaign assets from the final deck and original exports in 53_TheBrief-26/01_creation/02_export. Device frames extracted from the deck. No lentil renders.",
+    "credits": [
+      [
+        "role",
+        "art direction"
+      ],
+      [
+        "team",
+        "kunal khade\nmarco pröfrock\nmarion mondoloni\nmelissa duarte de alameida\nmohamad al qarawi\nnorman wursthorn"
+      ]
+    ]
+  },
+  "mission-octopus": {
+    "title": "mission octopus",
+    "sections": [
+      {
+        "label": "brief",
+        "text": "flyeralarm design award 2026, category animals. sea shepherd's brief „mission oktopus\": finger weg von den tentakeln! illegal traps threaten octopuses in the mediterranean — an estimated 500,000 in the thracian sea alone. four motifs, each as a4 poster and social post."
+      }
+    ],
+    "images": [
+      "assets/projects/mission-octopus/01a_plakat.webp",
+      {
+        "size": [
+          2000,
+          3220
+        ],
+        "stagger": 0,
+        "outline": true,
+        "outline_radius": 160,
+        "parts": [
+          {
+            "href": "assets/projects/mission-octopus/ig-header.webp",
+            "box": [
+              0,
+              0,
+              2000,
+              360
+            ]
+          },
+          {
+            "href": "assets/projects/mission-octopus/01b_social.webp",
+            "box": [
+              0,
+              360,
+              2000,
+              2500
+            ]
+          },
+          {
+            "href": "assets/projects/mission-octopus/ig-caption.webp",
+            "box": [
+              0,
+              2860,
+              2000,
+              360
+            ]
+          }
+        ]
+      },
+      "assets/projects/mission-octopus/02a_plakat.webp",
+      {
+        "size": [
+          2000,
+          3220
+        ],
+        "stagger": 0,
+        "outline": true,
+        "outline_radius": 160,
+        "parts": [
+          {
+            "href": "assets/projects/mission-octopus/ig-header.webp",
+            "box": [
+              0,
+              0,
+              2000,
+              360
+            ]
+          },
+          {
+            "href": "assets/projects/mission-octopus/02b_social.webp",
+            "box": [
+              0,
+              360,
+              2000,
+              2500
+            ]
+          },
+          {
+            "href": "assets/projects/mission-octopus/ig-caption.webp",
+            "box": [
+              0,
+              2860,
+              2000,
+              360
+            ]
+          }
+        ]
+      },
+      "assets/projects/mission-octopus/03a_plakat.webp",
+      {
+        "size": [
+          2000,
+          3220
+        ],
+        "stagger": 0,
+        "outline": true,
+        "outline_radius": 160,
+        "parts": [
+          {
+            "href": "assets/projects/mission-octopus/ig-header.webp",
+            "box": [
+              0,
+              0,
+              2000,
+              360
+            ]
+          },
+          {
+            "href": "assets/projects/mission-octopus/03b_social.webp",
+            "box": [
+              0,
+              360,
+              2000,
+              2500
+            ]
+          },
+          {
+            "href": "assets/projects/mission-octopus/ig-caption.webp",
+            "box": [
+              0,
+              2860,
+              2000,
+              360
+            ]
+          }
+        ]
+      },
+      "assets/projects/mission-octopus/04a_plakat.webp",
+      {
+        "size": [
+          2000,
+          3220
+        ],
+        "stagger": 0,
+        "outline": true,
+        "outline_radius": 160,
+        "parts": [
+          {
+            "href": "assets/projects/mission-octopus/ig-header.webp",
+            "box": [
+              0,
+              0,
+              2000,
+              360
+            ]
+          },
+          {
+            "href": "assets/projects/mission-octopus/04b_social.webp",
+            "box": [
+              0,
+              360,
+              2000,
+              2500
+            ]
+          },
+          {
+            "href": "assets/projects/mission-octopus/ig-caption.webp",
+            "box": [
+              0,
+              2860,
+              2000,
+              360
+            ]
+          }
+        ]
+      }
+    ],
+    "videos": [],
+    "image_layout": [
+      [
+        549.61,
+        89.48,
+        616.58,
+        871.97
+      ],
+      [
+        1196.04,
+        209.1,
+        393.0,
+        632.73
+      ],
+      [
+        549.61,
+        989.69,
+        616.58,
+        871.97
+      ],
+      [
+        1196.04,
+        1109.31,
+        393.0,
+        632.73
+      ],
+      [
+        549.61,
+        1889.9,
+        616.58,
+        871.97
+      ],
+      [
+        1196.04,
+        2009.52,
+        393.0,
+        632.73
+      ],
+      [
+        549.61,
+        2790.11,
+        616.58,
+        871.97
+      ],
+      [
+        1196.04,
+        2909.73,
+        393.0,
+        632.73
+      ]
+    ],
+    "texts": [
+      {
+        "x": 1618.89,
+        "y": 222.9,
+        "width": 274.73,
+        "text": "knock one back with all eight arms, instead of knocking back an eight-armed one!\nastra. any objections?\n\nillegal fishing methods threaten octopuses in the mediterranean. sea shepherd removes the traps and frees the animals. in summer 2025 alone, that meant 1,584 octopuses.\n\n20 ct of every bottle sold go to sea shepherd."
+      },
+      {
+        "x": 1618.89,
+        "y": 1123.11,
+        "width": 274.73,
+        "text": "use yours to protect three.\n\nillegal fishing methods threaten octopuses in the mediterranean. in summer 2025 alone, sea shepherd rescued 1,584 octopuses and removed 34,546 illegal traps. support our fight against it with your donation."
+      },
+      {
+        "x": 1618.89,
+        "y": 2023.32,
+        "width": 274.73,
+        "text": "show some backbone for invertebrates.\n\nillegal fishing methods threaten octopuses in the mediterranean. sea shepherd removes the traps and frees the animals. in summer 2025 alone, that meant 1,584 octopuses. support this mission with your donation."
+      }
+    ],
+    "source": "flyeralarm design award 2026, briefing sea shepherd. motifs from 55_Flyeralarm/02_export/finale_abgabe/_rgb_ansicht, poster and social post shown as pairs.",
+    "credits": []
+  },
+  "kids-foundation": {
+    "title": "chancen geben",
+    "sections": [
+      {
+        "label": "brief",
+        "text": "flyeralarm design award 2026, category children. the flyeralarm kids foundation asked: what does a child need to grow up well? three motifs about giving chances where they are missing, each as a4 poster and social post."
+      }
+    ],
+    "images": [
+      "assets/projects/kids-foundation/01a_plakat.webp",
+      {
+        "size": [
+          2000,
+          3220
+        ],
+        "stagger": 0,
+        "outline": true,
+        "outline_radius": 160,
+        "parts": [
+          {
+            "href": "assets/projects/kids-foundation/ig-header.webp",
+            "box": [
+              0,
+              0,
+              2000,
+              360
+            ]
+          },
+          {
+            "href": "assets/projects/kids-foundation/01b_social.webp",
+            "box": [
+              0,
+              360,
+              2000,
+              2500
+            ]
+          },
+          {
+            "href": "assets/projects/kids-foundation/ig-caption.webp",
+            "box": [
+              0,
+              2860,
+              2000,
+              360
+            ]
+          }
+        ]
+      },
+      "assets/projects/kids-foundation/02a_plakat.webp",
+      {
+        "size": [
+          2000,
+          3220
+        ],
+        "stagger": 0,
+        "outline": true,
+        "outline_radius": 160,
+        "parts": [
+          {
+            "href": "assets/projects/kids-foundation/ig-header.webp",
+            "box": [
+              0,
+              0,
+              2000,
+              360
+            ]
+          },
+          {
+            "href": "assets/projects/kids-foundation/02b_social.webp",
+            "box": [
+              0,
+              360,
+              2000,
+              2500
+            ]
+          },
+          {
+            "href": "assets/projects/kids-foundation/ig-caption.webp",
+            "box": [
+              0,
+              2860,
+              2000,
+              360
+            ]
+          }
+        ]
+      },
+      "assets/projects/kids-foundation/03a_plakat.webp",
+      {
+        "size": [
+          2000,
+          3220
+        ],
+        "stagger": 0,
+        "outline": true,
+        "outline_radius": 160,
+        "parts": [
+          {
+            "href": "assets/projects/kids-foundation/ig-header.webp",
+            "box": [
+              0,
+              0,
+              2000,
+              360
+            ]
+          },
+          {
+            "href": "assets/projects/kids-foundation/03b_social.webp",
+            "box": [
+              0,
+              360,
+              2000,
+              2500
+            ]
+          },
+          {
+            "href": "assets/projects/kids-foundation/ig-caption.webp",
+            "box": [
+              0,
+              2860,
+              2000,
+              360
+            ]
+          }
+        ]
+      }
+    ],
+    "videos": [],
+    "image_layout": [
+      [
+        549.61,
+        89.48,
+        616.58,
+        871.97
+      ],
+      [
+        1196.04,
+        209.1,
+        393.0,
+        632.73
+      ],
+      [
+        549.61,
+        989.69,
+        616.58,
+        871.97
+      ],
+      [
+        1196.04,
+        1109.31,
+        393.0,
+        632.73
+      ],
+      [
+        549.61,
+        1889.9,
+        616.58,
+        871.97
+      ],
+      [
+        1196.04,
+        2009.52,
+        393.0,
+        632.73
+      ]
+    ],
+    "texts": [
+      {
+        "x": 1618.89,
+        "y": 222.9,
+        "width": 274.73,
+        "text": "children aren't plants!\n\nsun and water aren't enough. children need protection, support and opportunities. that's what the flyeralarm kids foundation stands for."
+      },
+      {
+        "x": 1618.89,
+        "y": 1123.11,
+        "width": 274.73,
+        "text": "what a child needs is a lot. it isn't too much to ask."
+      },
+      {
+        "x": 1618.89,
+        "y": 2023.32,
+        "width": 274.73,
+        "text": "we can already see you're headed for great heights.\n\nevery child deserves people who believe in them, and opportunities to grow with. that's what the flyeralarm kids foundation stands for."
+      }
+    ],
+    "source": "flyeralarm design award 2026, briefing fakf. motifs from 55_Flyeralarm/02_export/finale_abgabe/_rgb_ansicht, poster and social post shown as pairs.",
+    "credits": []
+  }
+}

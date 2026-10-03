@@ -1,8 +1,8 @@
 User-agent: *
 Allow: /
-Disallow: /oslo/
 Disallow: /500ls/
 Disallow: /kniffel/
 Disallow: /pwbapp/
+Disallow: /io/
 
 Sitemap: https://www.marco.ad/sitemap.xml

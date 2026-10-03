@@ -1,0 +1,202 @@
+@font-face{font-family:Serie57Archive;src:url('assets/fonts/Serie57Archive-Light.woff2') format('woff2'),url('assets/fonts/Serie57Archive-Light.otf') format('opentype');font-weight:400;font-style:normal;font-display:block}
+:root{--scale:1;--list-top:517.22px;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:#000;font-family:Serie57Archive,sans-serif}
+body{cursor:url('assets/screens/Cursor.svg') 7 7,auto}
+a,button,[role="button"],[role="link"]{cursor:url('assets/screens/Cursor_Auswahl.svg') 7 7,pointer}
+a{color:inherit;text-decoration:none}
+a:hover,a:focus-visible{opacity:.2}
+header a[aria-current="page"]:not([href="#home"]){opacity:.2}
+:focus-visible{outline:1px solid #000;outline-offset:4px}
+header{position:fixed;inset:0 0 auto;z-index:10;background:white}
+header svg{display:block;width:100%;height:auto;font-family:Serie57Archive,sans-serif;font-size:20px;font-weight:400}
+main{position:relative;width:1920px;zoom:var(--scale);min-height:calc(100vh / var(--scale));padding-bottom:58.08px}
+main>svg{width:1920px;height:auto;display:block}
+main[data-route="home"],main[data-route="vita"],main[data-route="contact"],main[data-route="imprint"]{padding-bottom:0}
+svg [tabindex]:focus{outline:none}
+svg [tabindex]:focus-visible{outline:1px solid #000;outline-offset:4px}
+footer{position:fixed;inset:auto 0 0;background:#fff;z-index:10}
+footer svg{display:block;width:100%;height:auto;font-family:Serie57Archive,sans-serif;font-size:20px;font-weight:400}
+.project-row{cursor:url('assets/screens/Cursor_Auswahl.svg') 7 7,pointer}
+.project-row:hover text,.project-row:focus text{opacity:.2}
+.project-preview,.entry-preview{pointer-events:none}
+.film{pointer-events:none}
+.roll-slider{will-change:transform}
+.roll-frame{pointer-events:auto;cursor:url('assets/screens/Cursor_Auswahl.svg') 7 7,pointer}
+.view-open{overflow:hidden}
+.view-open main>svg{height:calc(100vh / var(--scale))}
+.mobile main,.mobile main>svg{width:498.17px}
+.mobile header svg,.mobile main>svg{font-family:Serie57Archive,sans-serif;font-size:30px;font-weight:400}
+.mobile-archive main{padding-bottom:max(58.08px,calc(100vh / var(--scale) - 608.42px))}
+.mobile-diary main{padding-bottom:max(58.08px,calc(100vh / var(--scale) - var(--list-top) - 91.25px))}
+.mobile-vita main{padding-bottom:58.08px}
+.mobile-project-row.selected text{opacity:.2}
+.mobile-entry-row.selected text,.mobile-entry-row.selected .entry-mark{opacity:.2}
+.mobile-entry-row.expanded text,.mobile-entry-row.expanded .entry-mark{opacity:1}
+.entry-story{visibility:hidden}
+.mobile-entry-row.expanded .entry-story{visibility:visible}
+.mobile-entry-row.expanded .entry-mark line:first-of-type{visibility:hidden}
+.menu-open{overflow:hidden}
+.menu{position:fixed;inset:0;z-index:20;background:#fff;overflow:hidden}
+.menu svg{display:block;width:100%;height:auto;font-family:Serie57Archive,sans-serif;font-size:30px;font-weight:400}
+.menu line,.menu polyline{fill:none;stroke:#000;stroke-width:1}
+.menu line.rule{stroke-width:.5}
+.menu-arrow g,.menu-item text{transform-origin:0 0;transition:transform .24s ease,opacity .24s ease}
+.menu-item.leaving text{transform:translate(209.92px,0);opacity:.2}
+.menu-item.leaving .menu-arrow{opacity:.2;transition:opacity .24s ease}
+@media (hover:none){body,a,button,[role="button"],[role="link"],.project-row,.roll-frame{cursor:auto}}
+
+.diary-fixed-preview{position:fixed;left:0;top:0;width:100%;height:auto;pointer-events:none;z-index:2;overflow:visible}
+
+/* All live page text uses neue Serie 57 Light, including Illustrator SVGs. Rotis is not loaded; app.js measures
+   line breaks from its metrics (assets/rotis-metrics.json), so every text keeps the breaks it had in the Rotis layouts. */
+body,button,input,textarea,select,svg text,svg tspan{font-family:Serie57Archive,sans-serif!important;font-weight:400!important;font-synthesis:none}
+main.project-page{position:relative}
+.project-film{position:absolute;overflow:hidden;background:#000}
+/* Der Rahmen liegt im gezoomten main, die Bühne mit Standbild und Player daneben am body: WebKit gibt
+   den zoom an ein iframe weiter, der YouTube-Player kam dadurch kleiner heraus als sein eigener Rahmen.
+   Ausserhalb von main gilt wieder die reine Seitenpixel-Groesse, die app.js am Rahmen abmisst. */
+.project-stage{position:absolute;z-index:1;overflow:hidden;background:#000}
+.project-stage>*{position:absolute;inset:0;display:block;width:100%;height:100%;border:0}
+.project-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.project-still{padding:0;border:0;background:none;cursor:url('assets/screens/Cursor_Auswahl.svg') 7 7,pointer}
+.project-still svg{position:absolute;inset:50% auto auto 50%;width:52px;height:52px;transform:translate(-50%,-50%)}
+.project-still:hover svg circle,.project-still:focus-visible svg circle{fill:#fff;fill-opacity:.2}
+.demo-link rect{fill:#fff;stroke:#000;stroke-width:.75;transition:fill .2s}
+.demo-link text{transition:fill .2s}
+.demo-link:hover,.demo-link:focus-visible{opacity:1}
+.demo-link:hover rect,.demo-link:focus-visible rect{fill:#000}
+.demo-link:hover text,.demo-link:focus-visible text{fill:#fff}
+
+/* The phone and its native video share one measured, animated rectangle. */
+.project-local-demo{position:absolute;z-index:2;outline-offset:5px;background:transparent;cursor:pointer}
+.project-local-demo video{position:absolute;display:block;object-fit:fill;background:#000}
+.project-local-demo>img{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.project-clip{position:absolute;z-index:1;display:block;object-fit:contain;background:transparent;pointer-events:none}
+/* Bewegtes Vorschaubild im Archive: app.js legt es über den gezeichneten Rahmen und schneidet es zu wie die
+   Standbilder (cover = slice). Ohne Größe, bis es gebraucht wird, damit es die Seite nicht verlängert. */
+.preview-clip{position:absolute;left:0;top:0;width:0;height:0;z-index:1;display:block;object-fit:cover;pointer-events:none;visibility:hidden}
+.preview-clip.ready{visibility:visible}
+
+/* 500l/s: the 13 cuts of the typeface for the type tester — web copies with their own names (prepare_500ls.py). */
+@font-face{font-family:Archive500ls01;src:url('assets/fonts/500ls/Archive500ls01.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls01.otf') format('opentype');font-display:block}
+@font-face{font-family:Archive500ls02;src:url('assets/fonts/500ls/Archive500ls02.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls02.otf') format('opentype');font-display:block}
+@font-face{font-family:Archive500ls03;src:url('assets/fonts/500ls/Archive500ls03.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls03.otf') format('opentype');font-display:block}
+@font-face{font-family:Archive500ls04;src:url('assets/fonts/500ls/Archive500ls04.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls04.otf') format('opentype');font-display:block}
+@font-face{font-family:Archive500ls05;src:url('assets/fonts/500ls/Archive500ls05.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls05.otf') format('opentype');font-display:block}
+@font-face{font-family:Archive500ls06;src:url('assets/fonts/500ls/Archive500ls06.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls06.otf') format('opentype');font-display:block}
+@font-face{font-family:Archive500ls07;src:url('assets/fonts/500ls/Archive500ls07.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls07.otf') format('opentype');font-display:block}
+@font-face{font-family:Archive500ls08;src:url('assets/fonts/500ls/Archive500ls08.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls08.otf') format('opentype');font-display:block}
+@font-face{font-family:Archive500ls09;src:url('assets/fonts/500ls/Archive500ls09.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls09.otf') format('opentype');font-display:block}
+@font-face{font-family:Archive500ls10;src:url('assets/fonts/500ls/Archive500ls10.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls10.otf') format('opentype');font-display:block}
+@font-face{font-family:Archive500ls11;src:url('assets/fonts/500ls/Archive500ls11.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls11.otf') format('opentype');font-display:block}
+@font-face{font-family:Archive500ls12;src:url('assets/fonts/500ls/Archive500ls12.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls12.otf') format('opentype');font-display:block}
+@font-face{font-family:Archive500ls13;src:url('assets/fonts/500ls/Archive500ls13.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls13.otf') format('opentype');font-display:block}
+/* The type tester of the 500l/s page lies over its frame, on the Cloud Dancer surface the layout draws there; the
+   real text field is invisible over the whole surface. The caption stands 30 above the lower edge of the frame and
+   the controls 30 below it, both to the baseline, like the notes under the motifs (18 px). In an 18 px line of
+   height 18 px, Rotis sets its baseline 12.42 below the top (hhea ascent 1413 of 2048). */
+.tester{position:absolute;z-index:1}
+.tester-stage{position:absolute;inset:0;display:grid;padding:30px 30px 78px}
+.tester-input{position:absolute;inset:0;z-index:2;width:100%;height:100%;margin:0;padding:0;border:0;border-radius:0;background:none;opacity:0;color:transparent;caret-color:transparent;font-size:16px;-webkit-appearance:none;appearance:none;cursor:url('assets/screens/Cursor_Auswahl.svg') 7 7,text}
+.tester-input:focus{outline:none}
+.tester:has(.tester-input:focus-visible) .tester-stage{outline:1px solid #000;outline-offset:4px}
+.tester-preview{align-self:center;min-width:0;text-align:center;font-size:280px;line-height:1.15;overflow-wrap:anywhere;word-break:break-word}
+.tester-preview span{display:inline-block;transition:transform .12s ease}
+.tester-caret{display:inline-block;width:.05em;min-width:2px;height:.72em;margin:0 .03em;vertical-align:-.06em;background:#000;animation:tester-blink 1.05s steps(1,end) infinite}
+@keyframes tester-blink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+.tester-probes{position:absolute;left:0;top:0;visibility:hidden;pointer-events:none;font-size:20px;white-space:nowrap}
+.tester-caption{position:absolute;left:0;right:0;top:calc(100% - 42.42px);font-size:18px;line-height:18px;text-align:center;pointer-events:none}
+.tester-caption i{display:inline-block;width:13px;height:13px;margin-right:8px;vertical-align:-1px}
+.tester-controls{position:absolute;left:0;top:calc(100% + 17.58px);display:flex;align-items:baseline;gap:36px;font-size:18px;line-height:18px;white-space:nowrap}
+.tester-controls label{display:inline-flex;align-items:baseline;gap:8px}
+.tester-controls select,.tester-controls button{-webkit-appearance:none;appearance:none;margin:0;padding:0;border:0;border-radius:0;background:none;color:#000;font-size:18px;line-height:18px;cursor:url('assets/screens/Cursor_Auswahl.svg') 7 7,pointer}
+.tester-controls select{border-bottom:.5px solid #000}
+.tester-controls select:hover,.tester-controls button:hover{opacity:.2}
+.tester-controls input[type=range]{-webkit-appearance:none;appearance:none;width:160px;height:13px;margin:0;background:none;cursor:url('assets/screens/Cursor_Auswahl.svg') 7 7,pointer}
+.tester-controls input[type=range]::-webkit-slider-runnable-track{height:1px;background:#000}
+.tester-controls input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;margin-top:-6px;border:0;border-radius:50%;background:#000}
+.tester-controls input[type=range]::-moz-range-track{height:1px;background:#000}
+.tester-controls input[type=range]::-moz-range-thumb{width:13px;height:13px;border:0;border-radius:50%;background:#000}
+/* The specimen film of the 500l/s page lies over its frame on the body like the clips, cut to the frame like its
+   still. While the pointer scrubs, a thin line marks the spot, as on marco.ad. */
+.project-scrub{position:absolute;z-index:1;overflow:hidden;cursor:url('assets/screens/Cursor_Auswahl.svg') 7 7,ns-resize}
+.project-scrub video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
+.project-scrub i{position:absolute;left:0;right:0;top:0;height:1px;background:rgba(255,255,255,.45);opacity:0;transition:opacity .18s ease;pointer-events:none}
+.project-scrub.scrubbing i{opacity:1}
+@media (hover:none){.scrub-hint{display:none}}
+/* The wave lab of the 500l/s page, on the same Cloud Dancer surface as the tester: the row of springs on top, the three waves with the values below them on the left, the din-a sheet with grid
+   and letter on the right, and a line 30 above the lower edge that says what is shown, with the name of the spring on its right. 18 px throughout, like the
+   notes; waves and sheet on white, as on marco.ad. */
+.wavelab{position:absolute;z-index:1;font-size:18px;line-height:24px}
+.wavelab-springs{position:absolute;left:30px;top:30px;display:flex;gap:16px;line-height:18px}
+.wavelab-springs button{-webkit-appearance:none;appearance:none;display:inline-flex;align-items:baseline;gap:6px;margin:0;padding:0;border:0;border-radius:0;background:none;color:#000;font-size:18px;line-height:18px}
+.wavelab-springs button i{display:inline-block;width:13px;height:13px;align-self:center}
+.wavelab-springs button[aria-pressed="true"] span{border-bottom:.5px solid #000}
+.wavelab-springs button:hover{opacity:.2}
+.wavelab-name{position:absolute;right:30px;top:calc(100% - 42.42px);line-height:18px}
+.wavelab-waves,.wavelab-sheet{position:absolute;display:block;background:#fff;overflow:visible}
+.wavelab-marks line,.wavelab-marks polyline,.wavelab-grid line{fill:none;stroke:#000;vector-effect:non-scaling-stroke}
+.wavelab-marks line{stroke-width:1}
+.wavelab-marks polyline{stroke-width:1.5}
+.wavelab-grid line{stroke-width:1;opacity:.35}
+.wavelab-sheet text.wavelab-letter{font-family:var(--cut)!important}
+.wavelab-data{position:absolute}
+.wavelab-row{display:grid;column-gap:24px;cursor:url('assets/screens/Cursor_Auswahl.svg') 7 7,pointer}
+.wavelab-row span:last-child{text-align:right}
+.wavelab-bar{position:relative;align-self:center;height:9px;border-bottom:1px solid #000}
+.wavelab-bar i{position:absolute;bottom:-1px;width:2px;height:9px;background:#000;transform:translateX(-1px)}
+.wavelab-row:hover,.wavelab-row.lit{opacity:.2}
+.wavelab-row:focus{outline:none}
+.wavelab-row:focus-visible{outline:1px solid #000;outline-offset:4px}
+.wavelab-caption{position:absolute;left:30px;top:calc(100% - 42.42px);line-height:18px}
+
+/* The black head (look.js): header bar black with white text, links in white rounded outlines; the footer has no
+   bar of its own, only its links as black buttons. Behind the page it is black too, so Safari shows no white when
+   it swings past the top or the bottom. */
+html{background:#000}
+body{background:#fff;min-height:100vh}
+header.look-dark{background:#000}
+header text.look-white{fill:#fff}
+header .menu-button line{stroke:#fff}
+footer{background:transparent;pointer-events:none}
+footer a{pointer-events:auto}
+footer svg text{fill:#fff}
+footer .demo-link rect{fill:#000;stroke:#fff}
+footer .demo-link:hover rect,footer .demo-link:focus-visible rect{fill:#fff}
+footer .demo-link:hover text,footer .demo-link:focus-visible text{fill:#000}
+/* The rules between the rows of the archive at half strength. */
+main[data-route="archive"] line{stroke-opacity:.5}
+
+/* Mobile on every page (≤ 768 px): the foot mirrors the 93.67 deep head, so the page leaves that much room below
+   its last line; text in the foot at 30 px like the head. The archive and the diary keep their own room for the list. */
+.mobile footer svg{font-size:30px}
+body.mobile main{padding-bottom:93.67px}
+body.mobile-archive main{padding-bottom:max(93.67px,calc(100vh / var(--scale) - 608.42px))}
+body.mobile-diary main{padding-bottom:max(58.08px,calc(100vh / var(--scale) - var(--list-top) - 91.25px))}
+.mobile main>svg{font-size:24px}
+/* The heads of the lists (project name / year, date / city) stand in the header but belong to the list. */
+.mobile header svg text.list-head{font-size:24px}
+/* Films, tester and wave lab on a phone: the frames are a quarter of their desktop size, the controls wrap. */
+.mobile .tester-controls{flex-wrap:wrap;row-gap:12px;white-space:normal;width:100%}
+/* Wave lab on a phone: one column — the springs in two rows of seven, waves, the values without the shape column
+   (its name shows in the line below when a value is touched), that line, then the sheet and the name of the spring. */
+.wavelab-mobile .wavelab-springs{display:grid;grid-template-columns:repeat(7,auto);justify-content:space-between;row-gap:12px}
+.wavelab-mobile .wavelab-row span:nth-child(2){display:none}
+.wavelab-mobile .wavelab-caption,.wavelab-mobile .wavelab-name{line-height:24px}
+.wavelab-mobile .wavelab-row span:last-child{white-space:nowrap}
+/* Consent (app.js): the whole screen darkened, two round buttons as in the footer — black, white outline, 19 of 1920,
+   10 apart; on a phone 29 of 498.17 with the mobile padding. */
+.consent{position:fixed;inset:0;z-index:100;display:flex;flex-wrap:wrap;align-content:center;align-items:center;justify-content:center;gap:calc(10vw/19.2);background:rgba(0,0,0,.6)}
+/* 1.233 is the text box height look.js measures around Serie 57. */
+.consent button{margin:0;padding:calc(6vw/19.2) calc(10vw/19.2);border:0;border-radius:999px;background:#000;color:#fff;font-size:calc(19vw/19.2);line-height:1.233}
+/* No outline (Marco, 03.10.); on hover the button turns over like the demo pill in the footer: white with black text. */
+.consent button:hover,.consent button:focus-visible{background:#fff;color:#000}
+.consent button:focus-visible{outline:1px solid #fff;outline-offset:4px}
+.consent-open body{overflow:hidden}
+.mobile .consent{gap:calc(10vw/4.9817)}
+.mobile .consent button{padding:calc(9vw/4.9817) calc(14vw/4.9817);font-size:calc(29vw/4.9817)}
+/* A page that does not scroll (app.js: the vita on the desktop); whatever a short window cannot show is cut at its foot. */
+html.still-page,html.still-page body{overflow:hidden;overscroll-behavior:none}
+/* No rubber band at the ends of the page (app.js: home, archive, vita): the head stays where it is. */
+html.no-swing,html.no-swing body{overscroll-behavior:none}
