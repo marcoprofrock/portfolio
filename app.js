@@ -1165,9 +1165,9 @@ document.addEventListener('keydown',e=>{
  }
 });
 Promise.all([
- ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=launch17-20261003`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
+ ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=launch18-20261003`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
  document.fonts.load('400 20px Serie57Archive').catch(()=>{}),
- fetch('assets/rotis-metrics.json?v=launch17-20261003').then(r=>{if(!r.ok)throw Error('rotis-metrics could not be loaded');return r.json()}).then(metrics=>{rotis=metrics}),
+ fetch('assets/rotis-metrics.json?v=launch18-20261003').then(r=>{if(!r.ok)throw Error('rotis-metrics could not be loaded');return r.json()}).then(metrics=>{rotis=metrics}),
  // The sizes of the project pictures (scripts/prepare_image_sizes.py) shape the mobile project pages; without
  // them those pages still work, each picture then counts with its whole frame.
  fetch('assets/image-sizes.json?v=mobile24-20261003').then(r=>r.ok?r.json():{}).catch(()=>({})).then(sizes=>{imageSizes=sizes}),
@@ -1447,7 +1447,7 @@ async function setupOpera(route){
  const controller=new AbortController();let frame=0;
  cleanupRoute=()=>{controller.abort();cancelAnimationFrame(frame)};
  try{
-  const response=await fetch(`assets/project-layouts/${route}.svg?v=launch17-20261003`,{signal:controller.signal});
+  const response=await fetch(`assets/project-layouts/${route}.svg?v=launch18-20261003`,{signal:controller.signal});
   if(!response.ok)throw Error('Projektseite konnte nicht geladen werden.');
   const body=await response.text();if(controller.signal.aborted)return;
   if(typeof body==='string')main.innerHTML=body;else main.replaceChildren(buildProjectPage(body[route]));

@@ -44,12 +44,17 @@
    t.classList.add('look-white');pill(a,t,mobile,'none');
   });
   // The page you are on (Marco, 03.10.): its button is not greyed but drops out of the bar — black, with the white
-  // outline, its middle on the bar's lower edge. Same place across, only lower.
+  // outline, its middle on the bar's lower edge. Same place across, only lower. Safari clips the head's drawing at
+  // its edge whatever overflow says, so the dropped button lives in a drawing of its own, twice as deep, laid over
+  // the head; the original stays in its place, hidden, so the buttons beside it keep their spacing.
   const current=!mobile&&svg.querySelector('a[aria-current="page"]:not([href="#home"])');
-  if(current){
-   const r=current.querySelector('.look-pill');
-   if(r){r.setAttribute('fill','#000');current.classList.add('look-current');
-    current.setAttribute('transform',`translate(0 ${(h-(+r.getAttribute('y')+ +r.getAttribute('height')/2)).toFixed(2)})`)}
+  const r=current&&current.querySelector('.look-pill');
+  if(r){
+   const drop=set(document.createElementNS(NS,'svg'),{viewBox:`0 0 ${view.width} ${2*h}`,'class':'look-drop'});
+   const copy=current.cloneNode(true);copy.classList.add('look-current');
+   copy.querySelector('.look-pill').setAttribute('fill','#000');
+   copy.setAttribute('transform',`translate(0 ${(h-(+r.getAttribute('y')+ +r.getAttribute('height')/2)).toFixed(2)})`);
+   current.style.visibility='hidden';drop.append(copy);svg.parentNode.append(drop);
   }
  };
  const dressFooter=()=>{
@@ -89,6 +94,8 @@
   for(const [n,own,mine] of plan){n.dataset.shrunk=1;if(mine&&own>1)n.style.fontSize=(own-1)+'px'}
  };
  const redress=()=>{
+  document.querySelectorAll('.look-drop').forEach(n=>n.remove());
+  document.querySelectorAll('header a[style*="visibility"]').forEach(a=>a.style.visibility='');
   for(const svg of document.querySelectorAll('header svg,footer svg')){delete svg.dataset.dressed;svg.querySelectorAll('.look-bar,.look-pill').forEach(n=>n.remove())}
   dressHeader();dressFooter();
  };
