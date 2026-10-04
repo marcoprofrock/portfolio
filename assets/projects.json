@@ -14,6 +14,24 @@
     }
   },
   {
+    "title": "chancen geben",
+    "client": "fakf",
+    "area": "ooh / print series",
+    "year": "2026",
+    "url": "#kids-foundation",
+    "preview": "assets/previews/kids-foundation.webp",
+    "awards": []
+  },
+  {
+    "title": "mission octopus",
+    "client": "sea shepherd",
+    "area": "ooh / print series",
+    "year": "2026",
+    "url": "#mission-octopus",
+    "preview": "assets/previews/mission-octopus.webp",
+    "awards": []
+  },
+  {
     "title": "azulejo six",
     "client": "the one club for creativity",
     "area": "type design",
@@ -117,23 +135,5 @@
     "awards": [
       "adc-germany"
     ]
-  },
-  {
-    "title": "mission octopus",
-    "client": "sea shepherd",
-    "area": "ooh / print series",
-    "year": "2026",
-    "url": "#mission-octopus",
-    "preview": "assets/previews/mission-octopus.webp",
-    "awards": []
-  },
-  {
-    "title": "chancen geben",
-    "client": "fakf",
-    "area": "ooh / print series",
-    "year": "2026",
-    "url": "#kids-foundation",
-    "preview": "assets/previews/kids-foundation.webp",
-    "awards": []
   }
 ]

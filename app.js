@@ -414,6 +414,8 @@ function setupInfo(route){
 // organisation in the left gutter.
 // Rows scaled with the type (×0.8): baseline 44.06 under the rule, 28.94 from the last line to the next rule.
 const vitaMobile={margin:39.16,gutter:28.8,top:44.06,step:mobileType.step,tail:28.94,mark:19.2,head:93.67};
+// The heading whose list is open: one at a time, none at first, kept while the page is redrawn.
+let vitaOpen=null;
 function setupMobileVita(){
  const width=mobileWidth;
  document.querySelector('header').innerHTML=`<nav><svg xmlns="${namespace}" viewBox="0 0 ${width} ${vitaMobile.head}">
@@ -423,8 +425,28 @@ function setupMobileVita(){
  wireMenuButton();
  mobileFooter('vita');
  const left=vitaMobile.margin+vitaMobile.gutter,text=width-15.15-left;
+ // The headings are the outline of the page; a heading's list opens only when it is tapped, and opening one
+ // closes the other (Marco, 04.10.).
+ const sections=[];let current=null;
+ const section=title=>sections.push(current={title,entries:[]});
+ const add=(lines,logo)=>{if(!current)section(null);current.entries.push([lines,logo])};
+ // education and experience: the drawn row read as time, place, matter
+ for(const line of vita.block.rows){
+  const dates=line.parts.filter(part=>part.x<180).map(part=>part.t).join(' ');
+  const fields=line.parts.filter(part=>part.x>=180).map(part=>part.t);
+  if(!fields.length){section(dates);continue}
+  add([dates,fields[0].replace(/,$/,''),fields.slice(1).join(', ')].filter(Boolean),null);
+ }
+ section('awards');
+ for(const item of vita.awards.entries)add([item.parts[0]+' '+item.parts[1],item.parts.slice(2).join(', ')].filter(Boolean),item.logo);
+ for(const group of vita.columns.blocks){
+  section(group.label);
+  for(const item of group.entries)
+   add(item.parts.length>1?[item.parts[0]+' '+item.parts[1],item.parts.slice(2).join(', ')].filter(Boolean):[item.parts[0]],item.logo);
+ }
  const svg=svgNode('svg',{'aria-label':'Vita'});
- const label=(x,y,words)=>svg.append(svgNode('text',{x,y,'font-family':roman,'font-weight':400,'font-size':mobileType.size},words));
+ let parent=svg;
+ const label=(x,y,words)=>parent.append(svgNode('text',{x,y,'font-family':roman,'font-weight':400,'font-size':mobileType.size},words));
  let top=vitaMobile.head;
  const rule=y=>svg.append(svgNode('line',{x1:15.15,x2:484.96,y1:y,y2:y,stroke:'black','stroke-width':.5}));
  const entry=(lines,logo)=>{
@@ -441,24 +463,29 @@ function setupMobileVita(){
   top+=vitaMobile.top+(wrapped.length-1)*vitaMobile.step+vitaMobile.tail;
   rule(top);
  };
- const heading=words=>{label(vitaMobile.margin,top+vitaMobile.top,words);svg.lastChild.classList.add('vita-heading');top+=vitaMobile.top+vitaMobile.tail;rule(top)};
- // education and experience: the drawn row read as time, place, matter
- let block=null;
- for(const line of vita.block.rows){
-  const dates=line.parts.filter(part=>part.x<180).map(part=>part.t).join(' ');
-  const fields=line.parts.filter(part=>part.x>=180).map(part=>part.t);
-  if(!fields.length){block=dates;heading(block);continue}
-  entry([dates,fields[0].replace(/,$/,''),fields.slice(1).join(', ')].filter(Boolean),null);
- }
- heading('awards');
- for(const item of vita.awards.entries)entry([item.parts[0]+' '+item.parts[1],item.parts.slice(2).join(', ')].filter(Boolean),item.logo);
- for(const group of vita.columns.blocks){
-  heading(group.label);
-  for(const item of group.entries)
-   entry(item.parts.length>1?[item.parts[0]+' '+item.parts[1],item.parts.slice(2).join(', ')].filter(Boolean):[item.parts[0]],item.logo);
- }
- svg.setAttribute('viewBox',`0 0 ${width} ${(top+58.08).toFixed(2)}`);
- main.replaceChildren(svg);
+ // The whole row under a heading takes the tap, not only the letters.
+ const heading=s=>{
+  const open=vitaOpen===s.title;
+  parent=svg.appendChild(svgNode('g',{role:'button',tabindex:0,'aria-expanded':open,style:'cursor:pointer'}));
+  parent.append(svgNode('rect',{x:0,y:top,width,height:vitaMobile.top+vitaMobile.tail,fill:'transparent'}));
+  // The open heading steps in to the column of its entries (Marco, 04.10.).
+  label(open?left:vitaMobile.margin,top+vitaMobile.top,s.title);parent.lastChild.classList.add('vita-heading');
+  // The page is drawn anew; the heading just used keeps the focus.
+  const toggle=()=>{vitaOpen=open?null:s.title;layout();
+   svg.querySelectorAll('[role="button"]')[sections.filter(x=>x.title!==null).indexOf(s)]?.focus({preventScroll:true})};
+  parent.addEventListener('click',toggle);
+  parent.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}});
+  parent=svg;top+=vitaMobile.top+vitaMobile.tail;rule(top);
+ };
+ const layout=()=>{
+  svg.replaceChildren();top=vitaMobile.head;
+  for(const s of sections){
+   if(s.title!==null)heading(s);
+   if(s.title===null||vitaOpen===s.title)for(const [lines,logo] of s.entries)entry(lines,logo);
+  }
+  svg.setAttribute('viewBox',`0 0 ${width} ${(top+58.08).toFixed(2)}`);
+  requestAnimationFrame(outline);
+ };
  // The headings in a round outline (Marco, 03.10.), drawn like the buttons of the mobile head: 14 beside and 9 above
  // and below the text, ends round, 1.5 strong — in black on the white page. Measured once the size is final:
  // look.js sets the text 1 px smaller, and the face may still be arriving.
@@ -468,7 +495,7 @@ function setupMobileVita(){
    const b=t.getBBox(),h=b.height+18;
    t.before(svgNode('rect',{'class':'vita-outline',x:b.x-14,y:b.y-9,width:b.width+28,height:h,rx:h/2,fill:'none',stroke:'black','stroke-width':1.5}));
   }};
- requestAnimationFrame(outline);document.fonts.ready.then(outline);
+ main.replaceChildren(svg);layout();document.fonts.ready.then(outline);
 }
 function setupArchive(){
  const svg=main.querySelector('svg'),content=svg.querySelector('[id="inhalt"]');
