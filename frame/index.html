@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ededed">
+  <meta name="description" content="Deine Fotos. Weiß gerahmt. Im Format 4:5. Direkt auf deinem Gerät.">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="frame">
+  <title>frame — Fotos in 4:5</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon-180.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" type="module"></script>
+</head>
+<body>
+  <header class="topbar"><a href="/" class="signature">marco.ad</a><span>PHOTO TOOL / 01</span></header>
+  <main>
+    <div class="title-row"><h1>frame<span>.</span></h1><span class="ratio">4:5</span></div>
+    <p class="intro">Dein ganzes Foto. Ein weißer Rahmen.</p>
+    <input id="file-input" class="visually-hidden" type="file" accept="image/*,.heic,.heif" multiple aria-label="Fotos auswählen">
+    <div class="workspace">
+      <section class="preview-section" aria-label="Fotovorschau">
+        <div id="stage" class="stage">
+          <button id="empty" class="empty" type="button">
+            <span class="empty-frame" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+            <span class="empty-title">Fotos auswählen</span>
+            <span class="empty-note">Hochkant, quer oder quadratisch.</span>
+            <span class="empty-note">Auch mehrere auf einmal.</span>
+          </button>
+          <div id="photo-mat" class="photo-mat" hidden><img id="preview" alt="Foto mit weißem Rahmen im Format 4:5"></div>
+        </div>
+        <div class="preview-caption"><span id="photo-info">VORSCHAU</span><button id="remove" class="text-button" hidden>Foto entfernen</button></div>
+        <div id="thumbnails" class="thumbnails" aria-label="Ausgewählte Fotos" hidden></div>
+      </section>
+      <section class="controls" aria-label="Rahmen und Export">
+        <div class="control-block">
+          <div class="label-row"><label for="border">Weißer Rand</label><output id="border-value" for="border">4 %</output></div>
+          <input id="border" type="range" min="0" max="15" value="4" step="0.5">
+          <div class="range-labels"><span>Nur einpassen</span><span>Breiter Rand</span></div>
+          <p class="hint">Gilt für alle Fotos. Das ganze Motiv bleibt erhalten.</p>
+        </div>
+        <div class="control-block size-block"><label for="size">Ausgabe</label><select id="size"><option value="1080">1080 × 1350 px</option><option value="2160">2160 × 2700 px</option></select><p class="hint">JPEG · weißer Hintergrund · ohne Zuschnitt</p></div>
+        <div class="actions">
+          <button id="add" class="button secondary" type="button">Fotos auswählen</button>
+          <button id="prepare" class="button primary" type="button" disabled>Fotos vorbereiten</button>
+          <progress id="progress" max="1" value="0" hidden aria-label="Verarbeitung"></progress>
+          <p id="status" class="status" role="status" aria-live="polite"></p>
+        </div>
+        <div id="exports" class="exports" hidden>
+          <p id="ready-label" class="ready-label"></p>
+          <button id="share" class="button primary" type="button" hidden>In Fotos sichern / teilen</button>
+          <p id="share-hint" class="hint" hidden>Im Teilen-Menü „Bilder sichern“ wählen.</p>
+          <button id="download" class="button secondary" type="button">Herunterladen</button>
+          <details id="individual"><summary>Fotos einzeln speichern</summary><div id="export-list"></div></details>
+        </div>
+        <div class="footnote"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="10" width="12" height="10" rx="2"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/></svg><span>Deine Fotos bleiben auf deinem Gerät.</span></div>
+        <details class="help"><summary>Auf dem iPhone installieren</summary><p>Diese Seite in Safari öffnen, auf „Teilen“ tippen und „Zum Home-Bildschirm“ wählen. Nach dem ersten vollständigen Laden funktioniert frame auch offline.</p><p>Fotos sind nur für diese Sitzung geöffnet. Sichere die fertigen Bilder, bevor du die App schließt.</p><p>Fuji-JPEGs funktionieren direkt. Falls ein HEIC-Foto nicht geöffnet werden kann, exportiere es zuerst als JPEG.</p></details>
+      </section>
+    </div>
+  </main>
+  <footer><span>frame / marco.ad</span><span id="offline-status">Lokal verarbeitet.</span></footer>
+  <noscript>Bitte aktiviere JavaScript, damit deine Fotos auf deinem Gerät verarbeitet werden können.</noscript>
+</body>
+</html>
