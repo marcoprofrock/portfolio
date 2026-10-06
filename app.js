@@ -257,7 +257,10 @@ function setupVita(){
    xs.push(xs[index-1]+Math.max(...entries.map(entry=>entry.parts[index-1]?shown(entry.parts[index-1],20):0))+vitaColGap);
   return xs;
  };
+ // An entry with a url (a publication, a mention) is one link: the whole line, mark included, takes the
+ // pointer and fades like every other link (style.css, a:hover), and the article opens in a new tab.
  const row=(x,y,entry,xs,markRight)=>{
+  const from=list.childNodes.length;
   let next=x;
   entry.parts.forEach((part,index)=>{
    const at=index<xs.length?x+xs[index]:next;
@@ -265,6 +268,11 @@ function setupVita(){
    next=at+shown(part,20)+vitaColGap;
   });
   drawMark(entry.logo,markRight??x-vitaMarkGap,y);
+  if(entry.url){
+   // A clear band behind the line takes the pointer between the words too, so the fade does not flicker.
+   const left=(markRight??x-vitaMarkGap)-vitaMark,link=svgNode('a',{href:entry.url,target:'_blank',rel:'noopener'});
+   link.append(svgNode('rect',{x:left,y:y-vitaStep+5,width:next-vitaColGap-left,height:vitaStep,fill:'transparent'}),...[...list.childNodes].slice(from));list.append(link);
+  }
  };
  // Education and experience are set as pieces at fixed positions, and Illustrator leaves leading spaces
  // and tabs inside them. Chromium renders those, WebKit does not — which shifted every column in Safari
@@ -429,7 +437,7 @@ function setupMobileVita(){
  // closes the other (Marco, 04.10.).
  const sections=[];let current=null;
  const section=title=>sections.push(current={title,entries:[]});
- const add=(lines,logo)=>{if(!current)section(null);current.entries.push([lines,logo])};
+ const add=(lines,logo,url)=>{if(!current)section(null);current.entries.push([lines,logo,url])};
  // education and experience: the drawn row read as time, place, matter
  for(const line of vita.block.rows){
   const dates=line.parts.filter(part=>part.x<180).map(part=>part.t).join(' ');
@@ -442,14 +450,16 @@ function setupMobileVita(){
  for(const group of vita.columns.blocks){
   section(group.label);
   for(const item of group.entries)
-   add(item.parts.length>1?[item.parts[0]+' '+item.parts[1],item.parts.slice(2).join(', ')].filter(Boolean):[item.parts[0]],item.logo);
+   add(item.parts.length>1?[item.parts[0]+' '+item.parts[1],item.parts.slice(2).join(', ')].filter(Boolean):[item.parts[0]],item.logo,item.url);
  }
  const svg=svgNode('svg',{'aria-label':'Vita'});
  let parent=svg;
  const label=(x,y,words)=>parent.append(svgNode('text',{x,y,'font-family':roman,'font-weight':400,'font-size':mobileType.size},words));
  let top=vitaMobile.head;
  const rule=y=>svg.append(svgNode('line',{x1:15.15,x2:484.96,y1:y,y2:y,stroke:'black','stroke-width':.5}));
- const entry=(lines,logo)=>{
+ const entry=(lines,logo,url)=>{
+  // A linked entry (vita.json url) is one link, lines and mark together, as on the desktop.
+  const from=svg.childNodes.length;
   // Measured in Serie 57 at the 29 px it shows; measured in Rotis the lines ran past the right edge.
   const wrapped=lines.flatMap(line=>wrapSet(line,mobileType.set,text));
   wrapped.forEach((line,index)=>label(left,top+vitaMobile.top+index*vitaMobile.step,line));
@@ -460,6 +470,9 @@ function setupMobileVita(){
     x:vitaMobile.margin,y:top+vitaMobile.top-10-(mark.ink[3]/2+mark.ink[1])*scale,
     width:mark.view[0]*scale,height:mark.view[1]*scale}));
   }
+  const height=vitaMobile.top+(wrapped.length-1)*vitaMobile.step+vitaMobile.tail;
+  if(url){const link=svgNode('a',{href:url,target:'_blank',rel:'noopener'});
+   link.append(svgNode('rect',{x:0,y:top,width,height,fill:'transparent'}),...[...svg.childNodes].slice(from));svg.append(link)}
   top+=vitaMobile.top+(wrapped.length-1)*vitaMobile.step+vitaMobile.tail;
   rule(top);
  };
@@ -481,7 +494,7 @@ function setupMobileVita(){
   svg.replaceChildren();top=vitaMobile.head;
   for(const s of sections){
    if(s.title!==null)heading(s);
-   if(s.title===null||vitaOpen===s.title)for(const [lines,logo] of s.entries)entry(lines,logo);
+   if(s.title===null||vitaOpen===s.title)for(const [lines,logo,url] of s.entries)entry(lines,logo,url);
   }
   svg.setAttribute('viewBox',`0 0 ${width} ${(top+58.08).toFixed(2)}`);
   requestAnimationFrame(outline);
@@ -1193,7 +1206,7 @@ document.addEventListener('keydown',e=>{
  }
 });
 Promise.all([
- ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=intro-20261006`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
+ ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=vitalinks-20261006`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
  document.fonts.load('400 20px Serie57Archive').catch(()=>{}),
  fetch('assets/rotis-metrics.json?v=launch19-20261003').then(r=>{if(!r.ok)throw Error('rotis-metrics could not be loaded');return r.json()}).then(metrics=>{rotis=metrics}),
  // The sizes of the project pictures (scripts/prepare_image_sizes.py) shape the mobile project pages; without
