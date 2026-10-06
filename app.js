@@ -59,7 +59,7 @@ const formerAnchors={'#work':'#archive','#p-500ls':'#500ls','#p-wind':'#windkult
  '#p-opera':'#mediterainy-opera','#p-sentry':'#sentry','#photography':'#diary','#about':'#vita','#memberships':'#vita','#awards-list':'#vita',
  '#talks-publications':'#vita','#imprint':'#imprint','#top':'#home'};
 if(formerAnchors[location.hash]&&formerAnchors[location.hash]!==location.hash)history.replaceState(null,'',formerAnchors[location.hash]);
-const routeFromHash=()=>['home','archive','diary','vita','contact','imprint','mediterainy-opera','500ls','sentry','heritage-identity','hope-in-action','windkulturerbe','u-turn','azulejo-six','vote2cop','thank-you','plants-with-benefits','mission-octopus','kids-foundation'].includes(location.hash.slice(1))||projects?.some(project=>project.url===location.hash)?location.hash.slice(1):'home';
+const routeFromHash=()=>['home','archive','diary','vita','contact','imprint','mediterainy-opera','500ls','sentry','heritage-identity','hope-in-action','windkulturerbe','u-turn','azulejo-six','vote2cop','thank-you','s-neo','plants-with-benefits','mission-octopus','kids-foundation'].includes(location.hash.slice(1))||projects?.some(project=>project.url===location.hash)?location.hash.slice(1):'home';
 // The width of the window without anything a page pushes out past its edge: a phone widens innerWidth to fit
 // whatever overflows, and that wider number then picked the desktop layout for the very page that overflowed.
 const viewWidth=()=>document.documentElement.clientWidth||window.innerWidth;
@@ -925,8 +925,15 @@ function reflowProject(svg){
  }
  // Then the pictures and the loose texts, top to bottom, left to right.
  const flow=[...groups.map(g=>({group:g,y:g.art.y,x:g.art.x})),...loose.map(t=>({text:t,y:t.box.y,x:t.box.x}))].sort((a,b)=>a.y-b.y||a.x-b.x);
+ // data-mobile-order (s-neo, Marco 06.10.): pictures that carry it take the places they hold among themselves in that
+ // order, so the phone can keep an order the desktop arrangement swaps.
+ const orderOf=e=>{const n=e.group?.pieces[0].node;const v=n&&(n.dataset.mobileOrder??n.querySelector('[data-mobile-order]')?.dataset.mobileOrder);return v==null?null:+v};
+ const ordered=flow.map((e,i)=>[i,orderOf(e)]).filter(([,o])=>o!==null),sorted=ordered.map(([i])=>flow[i]).sort((a,b)=>orderOf(a)-orderOf(b));
+ ordered.forEach(([i],k)=>{flow[i]=sorted[k]});
  let cursor=end+P.gap*1.5;
- const caption=list=>list.sort((a,b)=>a.box.y-b.box.y).flatMap(t=>t.lines.flatMap(l=>l.text.trim()?wrapSet(l.text.trim(),P.size-1,column):[]));
+ // A caption of several lines (s-neo) flows on as a paragraph; a line the desktop broke by hand stays broken. It was
+ // broken at the width of its picture, so that is the measure a full line is held against.
+ const caption=(list,floor)=>list.sort((a,b)=>a.box.y-b.box.y).flatMap(t=>paragraphsOf(t.lines,stepOf(t.lines),t.size,floor).flatMap(p=>p?wrapSet(p,P.size-1,column):[]));
  for(const entry of flow){
   if(entry.text){
    const t=entry.text,lines=paragraphsOf(t.lines,stepOf(t.lines),t.size).flatMap(p=>p===null?['']:wrapSet(p,P.size-1,column));
@@ -939,7 +946,7 @@ function reflowProject(svg){
   // The wave lab is rebuilt as one column on the phone (waveLabMobile): its frame takes that height once it is placed.
   const lab=g.pieces.find(piece=>'wavelab' in piece.node.dataset)?.node;
   if(lab){h=waveLabMobile(column).height/s;lab.dataset.height=h.toFixed(2);lab.querySelector('rect')?.setAttribute('height',h.toFixed(2));g.art.b=g.art.y+h}
-  const above=caption(g.above),below=caption(g.below);
+  const above=caption(g.above,w),below=caption(g.below,w);
   g.above.concat(g.below).forEach(t=>t.text.remove());
   if(above.length){svg.append(setText(above,P.left,cursor+P.ascent));cursor+=P.ascent+(above.length-1)*P.step+P.above}
   const dx=P.left-g.art.x*s,dy=cursor-g.art.y*s;

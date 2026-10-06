@@ -1057,6 +1057,65 @@
       ]
     ]
   },
+  "s-neo": {
+    "title": "s-neo",
+    "logo_height": 51.6,
+    "logo_width": 184.29,
+    "sections": [
+      {
+        "label": "project",
+        "text": "s-neo is the new mobile broker of the sparkasse, right inside the sparkassen-app. for its launch, an out-of-home campaign across germany was to be developed. each headline takes its wordplay from the place it hangs in."
+      }
+    ],
+    "images": [
+      "assets/projects/s-neo/04_berlin_kudamm-mockup.webp",
+      "assets/projects/s-neo/05_hamburg_hammerbrook-mockup.webp",
+      "assets/projects/s-neo/07_muenchen_upsidedown-mockup.webp",
+      "assets/projects/s-neo/06_muenchen_sideways-mockup.webp"
+    ],
+    "videos": [],
+    "captions": [
+      "location: berlin-kurfürstendamm\n„become a kursfürst now!\" a kurfürst is a prince-elector – the street's namesake – while „kurs\" means share price in german.",
+      "location: hamburg-hammerbrook\n„hammer broker!\" hammerbrook is the district, while „hammer\" is german slang for awesome.",
+      "location: münchen-stachus\n„just gawking won't get you anywhere.\" in bavarian dialect, on a screen turned upside down – so everyone gawks.",
+      "location: münchen-stachus\nthe same line, turned sideways."
+    ],
+    "mobile_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "image_shift": [
+      0,
+      105.76,
+      105.76,
+      105.76
+    ],
+    "image_layout": [
+      null,
+      null,
+      [
+        202.85,
+        1292.69,
+        831.2,
+        467.55
+      ],
+      [
+        1214.38,
+        1204.2,
+        568.76,
+        382.55
+      ]
+    ],
+    "source": "OOH Headlines texten; 260909_GSK_S-Neo_OOH_Highlights_Summary.pdf, pages 7, 11 and 13. layout selections; campaign flight planned for october 2026 according to the chat. project logo: https://www.sparkasse.de/uploads/spk_desktop_1_39bb51c138.svg. mockups by marco (06.10.2026), in 54_Sparkasse_OOH/04_fotos (psd in 05_mockis): berlin on the led wall at kurfürstendamm/joachimstaler platz (photo: limes media, instagram DO75VkvjRSL, image 2), hamburg-hammerbrook (hamburg.png), munich twice in the stachus passagen (photos: rhythmsection.de img_4908 sideways, img_4906 upsidedown). the flat motifs are off the page (06.10.).",
+    "credits": [
+      [
+        "role",
+        "copywriting"
+      ]
+    ]
+  },
   "plants-with-benefits": {
     "title": "plants with benefits",
     "logo_height": 100,
