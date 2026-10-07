@@ -6,7 +6,7 @@
 const W=1920,H=1080;
 const S={text:'marco pröfrock',upper:false,font:'Serie57ArchiveMedium',size:209,tracking:0,bold:0.25,baseline:0.05,
  band:0.96,pad:0,contour:0,mode:'random',seed:232,curl:0,wave:4.2,x:868,y:110,w:1095,h:596,showRegion:false,avoid:true,drawn:null,
- hit:5,strength:1.1,ret:0,damp:0.953,walls:'page',bounce:0.21,solid:true,bend:1.69,iter:11,gravity:0.06,pin:'none'};
+ hit:5,strength:1.1,ret:0,damp:0.953,walls:'page',bounce:0.21,solid:true,bend:1.69,iter:11,gravity:0,pin:'none'};
 // The walls are the edges of the window, in drawing units: the drawing is 16:9, the window often is not.
 let cv,ctx,svg,mouse=null,mprev=null,run=0,view=[0,0,W,H],origin=[0,0];
 // ---------- layout of the type ----------
@@ -147,7 +147,8 @@ const onLeave=()=>{mouse=null;mprev=null};
 window.homeSnake=target=>{
  if(!target)return()=>{};
  svg=target;cv=document.createElement('canvas');cv.className='home-snake';cv.setAttribute('aria-hidden','true');ctx=cv.getContext('2d');
- svg.after(cv);const id=++run;let last=performance.now(),acc=0;
+ // On the body, not in main: main carries the page zoom, which shrank the canvas below the window.
+ document.body.append(cv);const id=++run;let last=performance.now(),acc=0;
  document.fonts.load(`400 ${S.size}px ${S.font}`).finally(()=>{if(id!==run)return;build();
   const loop=now=>{if(id!==run)return;acc=Math.min(acc+(now-last),100);last=now;while(acc>=1000/60){step();acc-=1000/60}
    const r=svg.getBoundingClientRect(),d=devicePixelRatio||1,vw=innerWidth,vh=innerHeight,s=r.width/W,w=Math.round(vw*d),h=Math.round(vh*d);
