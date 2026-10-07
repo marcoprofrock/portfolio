@@ -7,7 +7,8 @@ const W=1920,H=1080;
 const S={text:'marco pröfrock',upper:false,font:'Serie57ArchiveMedium',size:209,tracking:0,bold:0.25,baseline:0.05,
  band:0.96,pad:0,contour:0,mode:'random',seed:232,curl:0,wave:4.2,x:868,y:110,w:1095,h:596,showRegion:false,avoid:true,drawn:null,
  hit:5,strength:1.1,ret:0,damp:0.953,walls:'page',bounce:0.21,solid:true,bend:1.69,iter:11,gravity:0.06,pin:'none'};
-let cv,ctx,svg,mouse=null,mprev=null,run=0;
+// The walls are the edges of the window, in drawing units: the drawing is 16:9, the window often is not.
+let cv,ctx,svg,mouse=null,mprev=null,run=0,view=[0,0,W,H],origin=[0,0];
 // ---------- layout of the type ----------
 let glyphs=[],L=0,band=0,rest=[],P=[],Q=[],seg=4;
 function font(){return `400 ${S.size}px ${S.font}`}
@@ -67,7 +68,7 @@ function step(){
   if(mv&&(mv[0]||mv[1])){const d=distSeg(p,mprev,mouse);if(d<rad){const f=S.strength*(1-d/rad)**0.7;p[0]+=mv[0]*f;p[1]+=mv[1]*f;hit=true}}
  }
  const pred=P.map(p=>p.slice()),pin=i=>(S.pin!=='none'&&i===0)||(S.pin==='both'&&i===n-1);
- const box=S.walls==='none'?null:(m=>S.walls==='region'?[S.x+m,S.y+m,S.x+S.w-m,S.y+S.h-m]:[m,m,W-m,H-m])(band/2);
+ const box=S.walls==='none'?null:(m=>S.walls==='region'?[S.x+m,S.y+m,S.x+S.w-m,S.y+S.h-m]:[view[0]+m,view[1]+m,view[2]-m,view[3]-m])(band/2);
  const walls=()=>{if(box)for(const p of P){p[0]=Math.max(box[0],Math.min(box[2],p[0]));p[1]=Math.max(box[1],Math.min(box[3],p[1]))}};
  for(let it=0;it<S.iter;it++){
   for(let i=1;i<n;i++){const a=P[i-1],b=P[i],dx=b[0]-a[0],dy=b[1]-a[1],d=Math.hypot(dx,dy)||1e-6,k=(d-seg)/d;
@@ -125,7 +126,7 @@ function glyph(g){if(g.ch===' ')return;const [x,y,a]=at(g.c);ctx.save();ctx.tran
  const off=capH/2+S.baseline*S.size;if(S.bold){ctx.lineWidth=S.bold;ctx.strokeText(g.ch,0,off)}ctx.fillText(g.ch,0,off);ctx.restore()}
 let capH=0;
 function draw(k){
- ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cv.width,cv.height);ctx.setTransform(k,0,0,k,0,0);measure();const end=cum.at(-1);
+ ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cv.width,cv.height);ctx.setTransform(k,0,0,k,origin[0],origin[1]);measure();const end=cum.at(-1);
  if(S.showRegion){ctx.save();ctx.setLineDash([8,8]);ctx.strokeStyle='#f0f';ctx.lineWidth=1;ctx.strokeRect(S.x,S.y,S.w,S.h);ctx.restore()}
  ctx.font=font();ctx.textAlign='center';ctx.lineCap=ctx.lineJoin='round';
  const t=S.upper?'H':'x';capH=ctx.measureText(t).actualBoundingBoxAscent;
@@ -149,8 +150,9 @@ window.homeSnake=target=>{
  svg.after(cv);const id=++run;let last=performance.now(),acc=0;
  document.fonts.load(`400 ${S.size}px ${S.font}`).finally(()=>{if(id!==run)return;build();
   const loop=now=>{if(id!==run)return;acc=Math.min(acc+(now-last),100);last=now;while(acc>=1000/60){step();acc-=1000/60}
-   const r=svg.getBoundingClientRect(),d=devicePixelRatio||1,w=Math.round(r.width*d),h=Math.round(r.height*d);
-   Object.assign(cv.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});
+   const r=svg.getBoundingClientRect(),d=devicePixelRatio||1,vw=innerWidth,vh=innerHeight,s=r.width/W,w=Math.round(vw*d),h=Math.round(vh*d);
+   view=[-r.left/s,-r.top/s,(vw-r.left)/s,(vh-r.top)/s];origin=[r.left*d,r.top*d];
+   Object.assign(cv.style,{left:'0px',top:'0px',width:vw+'px',height:vh+'px'});
    if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h}
    draw(r.width/W*d);requestAnimationFrame(loop)};
   requestAnimationFrame(loop)});
