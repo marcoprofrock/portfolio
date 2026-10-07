@@ -17,7 +17,25 @@ function startAnalytics(){
  const script=document.createElement('script');script.async=true;script.src=`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`;
  document.head.append(script);
 }
-const trackPage=()=>{startAnalytics();if(analyticsOn)gtag('event','page_view',{page_location:location.href,page_path:location.pathname+location.hash,page_title:document.title})};
+// GA4 drops the hash from every page report, so each route is sent as a path of its own (/archive, /archive/500ls,
+// /diary …) — otherwise all of them land on „/“. render() also runs on a resize across 768 and after the consent
+// choice; the same route is counted only once in a row (Marco, 07.10.).
+let trackedPath=null;
+const track=(name,params)=>{if(analyticsOn)gtag('event',name,params)};
+const trackPage=(route,isProject)=>{
+ startAnalytics();if(!analyticsOn)return;
+ const path=route==='home'?'/':isProject?`/archive/${route}`:`/${route}`;
+ if(path===trackedPath)return;trackedPath=path;
+ track('page_view',{page_location:location.origin+path,page_title:document.title});
+ if(isProject)track('project_open',{project:route});
+};
+// Contact and demo links: which way people get in touch, and who opens a prototype.
+document.addEventListener('click',event=>{
+ const link=event.target.closest?.('a[href]');if(!link)return;const href=link.getAttribute('href');
+ const type=href.startsWith('mailto:')?'email':href.startsWith('tel:')?'phone':/instagram\.com/.test(href)?'instagram':/linkedin\.com/.test(href)?'linkedin':null;
+ if(type)track('contact_click',{link_type:type});
+ else if(link.classList.contains('demo-link')||/^\/?pwbapp\//.test(href))track('demo_open',{project:activeRoute});
+},true);
 // Declined: the cookies Analytics left (here or on the former marco.ad) go.
 const dropAnalytics=()=>{
  const host=location.hostname,domains=['',`;domain=${host}`,`;domain=.${host.replace(/^www\./,'')}`];
@@ -170,7 +188,7 @@ function render(){
  document.documentElement.classList.toggle('no-swing',['home','archive','vita'].includes(route));
  scale();
  document.body.classList.toggle('mobile-page',mobile&&(isProject||isInfo||route==='home'));
- navigation(isProject?'archive':route);if(isProject)footerProjects(route);if(isProject&&!mobile)footerDemo(projects?.find(project=>project.url===`#${route}`)?.demo);main.innerHTML=isProject||isInfo||mobile&&route==='home'?'':screens[route].body;document.title=route==='home'?'marco pröfrock':`${route} — marco pröfrock`;trackPage();window.scrollTo(0,0);
+ navigation(isProject?'archive':route);if(isProject)footerProjects(route);if(isProject&&!mobile)footerDemo(projects?.find(project=>project.url===`#${route}`)?.demo);main.innerHTML=isProject||isInfo||mobile&&route==='home'?'':screens[route].body;document.title=route==='home'?'marco pröfrock':`${route} — marco pröfrock`;trackPage(route,isProject);window.scrollTo(0,0);
  if(mobile&&(isProject||isInfo||route==='home')){mobileHead();mobileFooter(route,isProject)}
  if(route==='home'&&mobile)setupMobileHome();
  // The type snake in the empty right half of the desktop home (Marco, 07.10.): snake.js.
@@ -1527,6 +1545,7 @@ async function setupOpera(route){
     if(start)video.addEventListener('load',()=>video.contentWindow?.postMessage(
      JSON.stringify({event:'command',func:'playVideo',args:[]}),'https://www.youtube-nocookie.com'));
     stage.replaceChildren(video);
+    if(start)track('video_play',{project:route,video_id:box.video});
    };
    if(poster){
     const still=document.createElement('button');still.type='button';still.className='project-still';
