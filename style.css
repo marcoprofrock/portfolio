@@ -81,6 +81,9 @@ main.project-page{position:relative}
 .preview-clip.ready{visibility:visible}
 
 /* 500l/s: the 13 cuts of the typeface for the type tester — web copies with their own names (prepare_500ls.py). */
+@font-face{font-family:Serie57ArchiveMedium;src:url('assets/fonts/Serie57Archive-Medium.woff2') format('woff2');font-weight:400;font-style:normal;font-display:block}
+/* The type snake of the desktop home (snake.js) lies over the drawing and lets every click through. */
+.home-snake{position:fixed;pointer-events:none}
 @font-face{font-family:Archive500ls01;src:url('assets/fonts/500ls/Archive500ls01.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls01.otf') format('opentype');font-display:block}
 @font-face{font-family:Archive500ls02;src:url('assets/fonts/500ls/Archive500ls02.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls02.otf') format('opentype');font-display:block}
 @font-face{font-family:Archive500ls03;src:url('assets/fonts/500ls/Archive500ls03.woff2') format('woff2'),url('assets/fonts/500ls/Archive500ls03.otf') format('opentype');font-display:block}

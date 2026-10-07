@@ -173,6 +173,8 @@ function render(){
  navigation(isProject?'archive':route);if(isProject)footerProjects(route);if(isProject&&!mobile)footerDemo(projects?.find(project=>project.url===`#${route}`)?.demo);main.innerHTML=isProject||isInfo||mobile&&route==='home'?'':screens[route].body;document.title=route==='home'?'marco pröfrock':`${route} — marco pröfrock`;trackPage();window.scrollTo(0,0);
  if(mobile&&(isProject||isInfo||route==='home')){mobileHead();mobileFooter(route,isProject)}
  if(route==='home'&&mobile)setupMobileHome();
+ // The type snake in the empty right half of the desktop home (Marco, 07.10.): snake.js.
+ if(route==='home'&&!mobile)cleanupRoute=window.homeSnake?.(main.querySelector('svg'))||(()=>{});
  if(route==='archive')mobile?setupMobileArchive():setupArchive();
  // The diary is only its large view with the roll (Marco): the page opens on the newest entry.
  if(route==='diary')mobile?setupMobileDiary():openEntry(0,'route');
