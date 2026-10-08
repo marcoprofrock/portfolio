@@ -184,6 +184,35 @@ body.mobile-diary main{padding-bottom:max(58.08px,calc(100vh / var(--scale) - va
 .mobile header svg text.list-head{font-size:24px}
 /* Films, tester and wave lab on a phone: the frames are a quarter of their desktop size, the controls wrap. */
 .mobile .tester-controls{flex-wrap:wrap;row-gap:12px;white-space:normal;width:100%}
+/* Project pages flow in screen pixels: readable at 320 px as well as on a small tablet. */
+body.mobile-project main.project-page{width:100%;zoom:1;min-height:100svh;padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+.mobile-project main.project-page>svg{width:100%;height:auto}
+.mobile-project header{background:#000}
+.mobile-project-head{height:68px;max-width:600px;margin:auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;color:#fff}
+.mobile-project-head>a{display:flex;align-items:center;min-height:44px;padding:5px 12px;border:1px solid #fff;border-radius:30px;font-size:22px;line-height:30px}
+.mobile-project-head .menu-button{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;background:transparent;color:inherit}
+.mobile-project-head .menu-button span{display:block;width:28px;height:22px;background:repeating-linear-gradient(to bottom,currentColor 0,currentColor 1px,transparent 1px,transparent 7px)}
+.mobile-project-head :focus-visible{outline-color:#fff}
+.mobile-project-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;max-width:600px;margin:auto;padding:10px 20px calc(10px + env(safe-area-inset-bottom,0px));background:#fff;border-top:.5px solid #ddd;pointer-events:auto}
+.mobile-project-nav a{display:flex;align-items:center;justify-content:center;min-height:44px;padding:8px 14px;border-radius:30px;background:#000;color:#fff;font-size:17px;line-height:24px;justify-self:start}
+.mobile-project-nav a:last-child{justify-self:end}
+.mobile-project-nav a:focus-visible{outline-offset:3px}
+.mobile-project-action text{text-decoration:underline;text-underline-offset:4px}
+.mobile-project .tester-stage{padding:24px 20px 80px}
+.mobile-project .tester-caption{top:auto;bottom:16px;padding:0 16px;font-size:14px;line-height:20px}
+.mobile-project .tester-controls{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;top:calc(100% + 12px);font-size:16px;line-height:24px}
+.mobile-project .tester-controls label{display:grid;grid-template-columns:90px minmax(0,1fr);align-items:center;min-height:44px;gap:8px}
+.mobile-project .tester-controls label:has(input){grid-template-columns:105px minmax(0,1fr) 36px}
+.mobile-project .tester-controls select{min-width:0;width:100%;min-height:44px;font-size:16px;line-height:24px}
+.mobile-project .tester-controls input[type=range]{width:100%;height:44px}
+.mobile-project .tester-controls button{justify-self:start;min-height:44px;padding:6px 16px;border:.5px solid #000;border-radius:24px;font-size:16px}
+.mobile-project .tester-controls input[type=range]::-webkit-slider-thumb{width:22px;height:22px;margin-top:-10.5px}
+.mobile-project .tester-controls input[type=range]::-moz-range-thumb{width:22px;height:22px}
+.mobile-project .wavelab-mobile{font-size:16px;line-height:24px}
+.mobile-project .wavelab-springs{gap:0 4px}
+.mobile-project .wavelab-springs button{min-height:44px;justify-content:center;align-items:center;gap:4px;font-size:16px}
+.mobile-project .wavelab-row{min-height:36px;align-items:center;column-gap:10px}
+.mobile-project .wavelab-caption,.mobile-project .wavelab-name{font-size:15px;line-height:22px}
 /* Wave lab on a phone: one column — the springs in two rows of seven, waves, the values without the shape column
    (its name shows in the line below when a value is touched), that line, then the sheet and the name of the spring. */
 .wavelab-mobile .wavelab-springs{display:grid;grid-template-columns:repeat(7,auto);justify-content:space-between;row-gap:12px}
