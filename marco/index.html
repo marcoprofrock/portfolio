@@ -19,7 +19,8 @@
       border:1px solid #fff;border-radius:999px;padding:.35em .7em .4em;cursor:url('../assets/screens/Cursor.svg') 7 7,pointer}
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js"></script>
-  <script src="../snake.js?v=snake-20261008"></script>
+  <script src="https://cdn.jsdelivr.net/npm/clipper-lib@6.4.2/clipper.js"></script>
+  <script src="../snake.js?v=snake-20261008b"></script>
 </head>
 <body>
   <!-- The same 1920 × 1080 drawing space as the home page, so the snake has the same size and walls there. -->
@@ -27,11 +28,39 @@
   <button id="save" type="button">download svg</button>
   <script>
     homeSnake(document.getElementById('frame'));
-    // Letters go into the file as outlines, so it opens the same everywhere without the font installed.
+    // The file is one black path: the band as a filled outline with every letter cut out of it, so the letters are
+    // holes, not white shapes (Marco, 08.10.). Clipper turns the centre line into the band and subtracts the letters.
     const outlines=fetch('../assets/fonts/Serie57Archive-Medium.woff').then(r=>r.arrayBuffer()).then(b=>opentype.parse(b));
+    const K=100;   // Clipper works in integers: hundredths of a unit
+    function letterPolygons(font,l,shape){
+      const w=font.getAdvanceWidth(l.ch,shape.size),cs=Math.cos(l.a),sn=Math.sin(l.a),out=[];let cur=null,px=0,py=0;
+      const put=(x,y)=>{cur.push({X:Math.round((l.x+x*cs-y*sn)*K),Y:Math.round((l.y+x*sn+y*cs)*K)});px=x;py=y};
+      for(const c of font.getPath(l.ch,-w/2,shape.off,shape.size).commands){
+        if(c.type==='M'){cur=[];out.push(cur);put(c.x,c.y)}
+        else if(c.type==='L')put(c.x,c.y);
+        else if(c.type==='Q'){const x0=px,y0=py;for(let i=1;i<=16;i++){const u=i/16,v=1-u;put(v*v*x0+2*v*u*c.x1+u*u*c.x,v*v*y0+2*v*u*c.y1+u*u*c.y)}}
+        else if(c.type==='C'){const x0=px,y0=py;for(let i=1;i<=24;i++){const u=i/24,v=1-u;put(v*v*v*x0+3*v*v*u*c.x1+3*v*u*u*c.x2+u*u*u*c.x,v*v*v*y0+3*v*v*u*c.y1+3*v*u*u*c.y2+u*u*u*c.y)}}
+      }
+      return out.filter(p=>p.length>2);
+    }
     document.getElementById('save').onclick=async()=>{
-      const font=await outlines,size=209;
-      const svg=homeSnakeSVG((ch,y)=>{const w=font.getAdvanceWidth(ch,size);return font.getPath(ch,-w/2,y,size).toPathData(2)});
+      const font=await outlines,shape=homeSnakeShape(),f=n=>+(n/K).toFixed(2);
+      // the band: the centre line widened by half the band on each side, with round ends
+      const band=[],co=new ClipperLib.ClipperOffset(2,0.1*K);
+      co.AddPath(shape.line.map(([x,y])=>({X:Math.round(x*K),Y:Math.round(y*K)})),ClipperLib.JoinType.jtRound,ClipperLib.EndType.etOpenRound);
+      co.Execute(band,shape.band/2*K);
+      // the letters, a hair bolder as on screen (their white outline there), then cut out of the band
+      let letters=[];for(const l of shape.letters)letters.push(...letterPolygons(font,l,shape));
+      const u=new ClipperLib.Clipper();u.AddPaths(letters,ClipperLib.PolyType.ptSubject,true);
+      const merged=[];u.Execute(ClipperLib.ClipType.ctUnion,merged,ClipperLib.PolyFillType.pftNonZero,ClipperLib.PolyFillType.pftNonZero);
+      if(shape.bold){const lo=new ClipperLib.ClipperOffset(2,0.1*K);lo.AddPaths(merged,ClipperLib.JoinType.jtRound,ClipperLib.EndType.etClosedPolygon);letters=[];lo.Execute(letters,shape.bold/2*K)}
+      else letters=merged;
+      const c=new ClipperLib.Clipper(),cutout=[];
+      c.AddPaths(band,ClipperLib.PolyType.ptSubject,true);c.AddPaths(letters,ClipperLib.PolyType.ptClip,true);
+      c.Execute(ClipperLib.ClipType.ctDifference,cutout,ClipperLib.PolyFillType.pftNonZero,ClipperLib.PolyFillType.pftNonZero);
+      const d=cutout.map(p=>'M'+p.map(q=>f(q.X)+' '+f(q.Y)).join('L')+'Z').join('');
+      const [x0,y0,x1,y1]=shape.view,r=n=>+n.toFixed(2);
+      const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${r(x0)} ${r(y0)} ${r(x1-x0)} ${r(y1-y0)}" width="${r(x1-x0)}" height="${r(y1-y0)}">\n<path d="${d}" fill="#000" fill-rule="evenodd"/>\n</svg>\n`;
       const a=document.createElement('a'),stamp=new Date().toISOString().slice(0,19).replace(/[-:T]/g,'');
       a.href=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));a.download=`marco-proefrock-snake-${stamp}.svg`;
       document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);

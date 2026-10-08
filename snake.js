@@ -157,6 +157,13 @@ window.homeSnakeSVG=glyphPath=>{
  }
  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${f(x0)} ${f(y0)} ${f(x1-x0)} ${f(y1-y0)}" width="${f(x1-x0)}" height="${f(y1-y0)}">\n${out.join('\n')}\n</svg>\n`;
 };
+// The bare geometry of the snake as it lies now, for /marco/ to build one cut-out path from: the centre line, the
+// band width, and where each letter sits (centre, angle) with the baseline offset the canvas uses.
+window.homeSnakeShape=()=>{
+ measure();
+ return {view:view.slice(),band,size:S.size,bold:S.bold,off:capH/2+S.baseline*S.size,line:P.map(p=>p.slice()),
+  letters:glyphs.filter(g=>g.ch!==' ').map(g=>{const [x,y,a]=at(g.c);return {ch:g.ch,x,y,a}})};
+};
 const onMove=e=>{if(!svg)return;const r=svg.getBoundingClientRect(),k=r.width/W;mouse=[(e.clientX-r.left)/k,(e.clientY-r.top)/k]};
 const onLeave=()=>{mouse=null;mprev=null};
 // Mounted by app.js on the desktop home (and by /marco/); returns the clean-up that runs when the route changes.
