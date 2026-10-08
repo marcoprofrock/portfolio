@@ -141,9 +141,25 @@ function draw(k){
  }
 }
 
+// The snake as it lies right now, as an SVG of the visible window (Marco, 08.10., for the page /marco/): the band
+// chunk by chunk and each letter as an outline, in the same order the canvas paints them. glyphPath(ch,y) returns
+// the outline of one letter centred on its spot, with its baseline at y.
+window.homeSnakeSVG=glyphPath=>{
+ measure();const end=cum.at(-1),f=n=>+n.toFixed(2),[x0,y0,x1,y1]=view;
+ const line=(s0,s1)=>{const a=at(s0),b=at(s1),pts=[[a[0],a[1]]];for(let i=0;i<cum.length;i++)if(cum[i]>s0&&cum[i]<s1)pts.push(P[i]);pts.push([b[0],b[1]]);
+  return 'M'+pts.map(p=>f(p[0])+' '+f(p[1])).join('L')};
+ const off=capH/2+S.baseline*S.size,out=[],bounds=[0,...glyphs.map(g=>g.s0).filter(s=>s>0),end],reach=band/2+S.contour+2;
+ for(let k=0;k<bounds.length-1;k++){
+  const s0=bounds[k],s1=bounds[k+1],back=Math.max(0,s0-reach);
+  out.push(`<path d="${line(back,s1)}" fill="none" stroke="#000" stroke-width="${f(band)}" stroke-linecap="round" stroke-linejoin="round"/>`);
+  for(const g of glyphs)if(g.ch!==' '&&g.c>back-S.size&&g.c<s1+S.size*0.5&&g.s0<=s1){const [x,y,a]=at(g.c);
+   out.push(`<path transform="translate(${f(x)} ${f(y)}) rotate(${f(a*180/Math.PI)})" d="${glyphPath(g.ch,off)}" fill="#fff" stroke="#fff" stroke-width="${S.bold}"/>`)}
+ }
+ return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${f(x0)} ${f(y0)} ${f(x1-x0)} ${f(y1-y0)}" width="${f(x1-x0)}" height="${f(y1-y0)}">\n${out.join('\n')}\n</svg>\n`;
+};
 const onMove=e=>{if(!svg)return;const r=svg.getBoundingClientRect(),k=r.width/W;mouse=[(e.clientX-r.left)/k,(e.clientY-r.top)/k]};
 const onLeave=()=>{mouse=null;mprev=null};
-// Mounted by app.js on the desktop home; returns the clean-up that runs when the route changes.
+// Mounted by app.js on the desktop home (and by /marco/); returns the clean-up that runs when the route changes.
 window.homeSnake=target=>{
  if(!target)return()=>{};
  svg=target;cv=document.createElement('canvas');cv.className='home-snake';cv.setAttribute('aria-hidden','true');ctx=cv.getContext('2d');
