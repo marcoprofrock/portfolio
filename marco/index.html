@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The snake generator (Marco, 08.10.2026): the snake of the home page on its own, to knock into place and save as
+       an SVG of the window. Not linked anywhere and not indexed. -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>marco pröfrock</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/screens/Cursor.svg">
+  <style>
+    @font-face{font-family:Serie57Archive;src:url('../assets/fonts/Serie57Archive-Light.woff2') format('woff2');font-display:block}
+    @font-face{font-family:Serie57ArchiveMedium;src:url('../assets/fonts/Serie57Archive-Medium.woff2') format('woff2');font-display:block}
+    html,body{margin:0;height:100%;overflow:hidden;background:#fff;overscroll-behavior:none}
+    body{cursor:url('../assets/screens/Cursor.svg') 7 7,auto}
+    #frame{position:absolute;left:0;top:0;width:100vw;height:auto;display:block}
+    .home-snake{position:fixed;z-index:5;pointer-events:none}
+    #save{position:fixed;right:1.4vw;bottom:1.4vw;z-index:10;font:400 max(13px,.99vw)/1 Serie57Archive,sans-serif;color:#fff;background:#000;
+      border:1px solid #fff;border-radius:999px;padding:.35em .7em .4em;cursor:url('../assets/screens/Cursor.svg') 7 7,pointer}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js"></script>
+  <script src="../snake.js?v=snake-20261008"></script>
+</head>
+<body>
+  <!-- The same 1920 × 1080 drawing space as the home page, so the snake has the same size and walls there. -->
+  <svg id="frame" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" aria-hidden="true"></svg>
+  <button id="save" type="button">download svg</button>
+  <script>
+    homeSnake(document.getElementById('frame'));
+    // Letters go into the file as outlines, so it opens the same everywhere without the font installed.
+    const outlines=fetch('../assets/fonts/Serie57Archive-Medium.woff').then(r=>r.arrayBuffer()).then(b=>opentype.parse(b));
+    document.getElementById('save').onclick=async()=>{
+      const font=await outlines,size=209;
+      const svg=homeSnakeSVG((ch,y)=>{const w=font.getAdvanceWidth(ch,size);return font.getPath(ch,-w/2,y,size).toPathData(2)});
+      const a=document.createElement('a'),stamp=new Date().toISOString().slice(0,19).replace(/[-:T]/g,'');
+      a.href=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));a.download=`marco-proefrock-snake-${stamp}.svg`;
+      document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+    };
+  </script>
+</body>
+</html>
