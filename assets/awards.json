@@ -153,6 +153,20 @@
       306.2
     ]
   },
+  "self": {
+    "file": "assets/awards/self.png",
+    "label": "self",
+    "view": [
+      94,
+      128
+    ],
+    "ink": [
+      0,
+      0,
+      94,
+      128
+    ]
+  },
   "nwa": {
     "file": "assets/awards/nwa.svg",
     "label": "nwa",
