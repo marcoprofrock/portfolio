@@ -1751,45 +1751,6 @@
       }
     ],
     "images": [
-      "assets/projects/mission-octopus/01a_plakat_mockup.webp",
-      {
-        "size": [
-          2000,
-          3220
-        ],
-        "stagger": 0,
-        "outline": true,
-        "outline_radius": 160,
-        "parts": [
-          {
-            "href": "assets/projects/mission-octopus/ig-header.webp",
-            "box": [
-              0,
-              0,
-              2000,
-              360
-            ]
-          },
-          {
-            "href": "assets/projects/mission-octopus/01b_social.webp",
-            "box": [
-              0,
-              360,
-              2000,
-              2500
-            ]
-          },
-          {
-            "href": "assets/projects/mission-octopus/ig-caption.webp",
-            "box": [
-              0,
-              2860,
-              2000,
-              360
-            ]
-          }
-        ]
-      },
       "assets/projects/mission-octopus/02a_plakat_mockup.webp",
       {
         "size": [
@@ -1906,6 +1867,45 @@
             ]
           }
         ]
+      },
+      "assets/projects/mission-octopus/01a_plakat_mockup.webp",
+      {
+        "size": [
+          2000,
+          3220
+        ],
+        "stagger": 0,
+        "outline": true,
+        "outline_radius": 160,
+        "parts": [
+          {
+            "href": "assets/projects/mission-octopus/ig-header.webp",
+            "box": [
+              0,
+              0,
+              2000,
+              360
+            ]
+          },
+          {
+            "href": "assets/projects/mission-octopus/01b_social.webp",
+            "box": [
+              0,
+              360,
+              2000,
+              2500
+            ]
+          },
+          {
+            "href": "assets/projects/mission-octopus/ig-caption.webp",
+            "box": [
+              0,
+              2860,
+              2000,
+              360
+            ]
+          }
+        ]
       }
     ],
     "videos": [],
@@ -1964,19 +1964,19 @@
         "x": 1618.89,
         "y": 222.9,
         "width": 274.73,
-        "text": "knock one back with all eight arms, instead of knocking back an eight-armed one!\nastra. any objections?\n\nillegal fishing methods threaten octopuses in the mediterranean. sea shepherd removes the traps and frees the animals. in summer 2025 alone, that meant 1,584 octopuses.\n\n20 ct of every bottle sold go to sea shepherd."
+        "text": "use yours to protect three.\n\nillegal fishing methods threaten octopuses in the mediterranean. in summer 2025 alone, sea shepherd rescued 1,584 octopuses and removed 34,546 illegal traps. support our fight against it with your donation."
       },
       {
         "x": 1618.89,
         "y": 1123.11,
         "width": 274.73,
-        "text": "use yours to protect three.\n\nillegal fishing methods threaten octopuses in the mediterranean. in summer 2025 alone, sea shepherd rescued 1,584 octopuses and removed 34,546 illegal traps. support our fight against it with your donation."
+        "text": "show some backbone for invertebrates.\n\nillegal fishing methods threaten octopuses in the mediterranean. sea shepherd removes the traps and frees the animals. in summer 2025 alone, that meant 1,584 octopuses. support this mission with your donation."
       },
       {
         "x": 1618.89,
-        "y": 2023.32,
+        "y": 2923.53,
         "width": 274.73,
-        "text": "show some backbone for invertebrates.\n\nillegal fishing methods threaten octopuses in the mediterranean. sea shepherd removes the traps and frees the animals. in summer 2025 alone, that meant 1,584 octopuses. support this mission with your donation."
+        "text": "knock one back with all eight arms, instead of knocking back an eight-armed one!\nastra. any objections?\n\nillegal fishing methods threaten octopuses in the mediterranean. sea shepherd removes the traps and frees the animals. in summer 2025 alone, that meant 1,584 octopuses.\n\n20 ct of every bottle sold go to sea shepherd."
       }
     ],
     "source": "flyeralarm design award 2026, briefing sea shepherd. motifs from 55_Flyeralarm/02_export/finale_abgabe/_rgb_ansicht, poster and social post shown as pairs.",
@@ -1991,45 +1991,6 @@
       }
     ],
     "images": [
-      "assets/projects/kids-foundation/01a_plakat_mockup.webp",
-      {
-        "size": [
-          2000,
-          3220
-        ],
-        "stagger": 0,
-        "outline": true,
-        "outline_radius": 160,
-        "parts": [
-          {
-            "href": "assets/projects/kids-foundation/ig-header.webp",
-            "box": [
-              0,
-              0,
-              2000,
-              360
-            ]
-          },
-          {
-            "href": "assets/projects/kids-foundation/01b_social.webp",
-            "box": [
-              0,
-              360,
-              2000,
-              2500
-            ]
-          },
-          {
-            "href": "assets/projects/kids-foundation/ig-caption.webp",
-            "box": [
-              0,
-              2860,
-              2000,
-              360
-            ]
-          }
-        ]
-      },
       "assets/projects/kids-foundation/02a_plakat_mockup.webp",
       {
         "size": [
@@ -2107,6 +2068,45 @@
             ]
           }
         ]
+      },
+      "assets/projects/kids-foundation/01a_plakat_mockup.webp",
+      {
+        "size": [
+          2000,
+          3220
+        ],
+        "stagger": 0,
+        "outline": true,
+        "outline_radius": 160,
+        "parts": [
+          {
+            "href": "assets/projects/kids-foundation/ig-header.webp",
+            "box": [
+              0,
+              0,
+              2000,
+              360
+            ]
+          },
+          {
+            "href": "assets/projects/kids-foundation/01b_social.webp",
+            "box": [
+              0,
+              360,
+              2000,
+              2500
+            ]
+          },
+          {
+            "href": "assets/projects/kids-foundation/ig-caption.webp",
+            "box": [
+              0,
+              2860,
+              2000,
+              360
+            ]
+          }
+        ]
       }
     ],
     "videos": [],
@@ -2153,19 +2153,19 @@
         "x": 1618.89,
         "y": 222.9,
         "width": 274.73,
-        "text": "children aren't plants!\n\nsun and water aren't enough. children need protection, support and opportunities. that's what the flyeralarm kids foundation stands for."
+        "text": "what a child needs is much. it isn't too much to ask."
       },
       {
         "x": 1618.89,
         "y": 1123.11,
         "width": 274.73,
-        "text": "what a child needs is much. it isn't too much to ask."
+        "text": "we can already see you're headed for great heights.\n\nevery child deserves people who believe in them, and opportunities to grow with. that's what the flyeralarm kids foundation stands for."
       },
       {
         "x": 1618.89,
         "y": 2023.32,
         "width": 274.73,
-        "text": "we can already see you're headed for great heights.\n\nevery child deserves people who believe in them, and opportunities to grow with. that's what the flyeralarm kids foundation stands for."
+        "text": "children aren't plants!\n\nsun and water aren't enough. children need protection, support and opportunities. that's what the flyeralarm kids foundation stands for."
       }
     ],
     "source": "flyeralarm design award 2026, briefing fakf. motifs from 55_Flyeralarm/02_export/finale_abgabe/_rgb_ansicht, poster and social post shown as pairs.",
