@@ -157,13 +157,13 @@
     "file": "assets/awards/self.png",
     "label": "self",
     "view": [
-      94,
+      128,
       128
     ],
     "ink": [
       0,
       0,
-      94,
+      128,
       128
     ]
   },
