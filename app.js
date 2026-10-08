@@ -85,9 +85,17 @@ const viewWidth=()=>document.documentElement.clientWidth||window.innerWidth;
 const useMobile=()=>viewWidth()<=768;
 const zoom=()=>useMobile()?viewWidth()/mobileWidth:window.innerWidth/1920;
 const scale=()=>document.documentElement.style.setProperty('--scale',zoom());
+let mobileProjectWidth=0,projectResize=0;
 scale();window.addEventListener('resize',()=>{
  if(screens&&mobile!==useMobile()){render();return}
  scale();if(menu)sizeMenu();
+ // Reflow project text when the available width changes, but never for the phone keyboard or browser bars.
+ if(mobile&&main.classList.contains('project-page')&&mobileProjectWidth!==viewWidth()){
+  clearTimeout(projectResize);projectResize=setTimeout(()=>{
+   const progress=window.scrollY/Math.max(1,document.documentElement.scrollHeight-window.innerHeight);
+   main.dataset.restoreProgress=progress;render();
+  },120);
+ }
 });
 // Line breaks follow the reference: 405 units at 20 px (diary_auswahl.svg), 437 at 30 px (diary-mobile-auswahl1.svg).
 // Rotis itself no longer ships (Marco, 03.10.): it is measured from its numbers in assets/rotis-metrics.json —
@@ -173,6 +181,7 @@ function navigation(route){
  if(footerRows[route])footerRow(footerRows[route]);
 }
 function render(){
+ clearTimeout(projectResize);
  cleanupView();cleanupView=()=>{};cleanupRoute();cleanupRoute=()=>{};closeMenu();
  const route=routeFromHash(),isInfo=route in infoPages,isProject=!['home','archive','diary','vita'].includes(route)&&!isInfo;
  main.classList.toggle('project-page',isProject);
@@ -188,6 +197,7 @@ function render(){
  document.documentElement.classList.toggle('no-swing',['home','archive','vita'].includes(route));
  scale();
  document.body.classList.toggle('mobile-page',mobile&&(isProject||isInfo||route==='home'));
+ document.body.classList.toggle('mobile-project',mobile&&isProject);
  navigation(isProject?'archive':route);if(isProject)footerProjects(route);if(isProject&&!mobile)footerDemo(projects?.find(project=>project.url===`#${route}`)?.demo);main.innerHTML=isProject||isInfo||mobile&&route==='home'?'':screens[route].body;document.title=route==='home'?'marco pröfrock':`${route} — marco pröfrock`;trackPage(route,isProject);window.scrollTo(0,0);
  if(mobile&&(isProject||isInfo||route==='home')){mobileHead();mobileFooter(route,isProject)}
  if(route==='home'&&mobile)setupMobileHome();
@@ -202,6 +212,10 @@ function render(){
 }
 // The mobile head of every page: name on the left, menu on the right, the bar 93.67 deep (archive-mobile.svg).
 function mobileHead(){
+ if(main.classList.contains('project-page')){
+  document.querySelector('header').innerHTML=`<nav class="mobile-project-head"><a href="#home">marco pröfrock</a><button class="menu-button" type="button" aria-label="Open menu"><span aria-hidden="true"></span></button></nav>`;
+  wireMenuButton();return;
+ }
  document.querySelector('header').innerHTML=`<nav><svg xmlns="${namespace}" viewBox="0 0 ${mobileWidth} 93.67">
  <a href="#home"><text x="39.16" y="57.79">marco pröfrock</text></a>${menuButton}
  <line x1="15.15" y1="93.67" x2="484.96" y2="93.67" stroke="black" stroke-width=".5"/>
@@ -220,6 +234,13 @@ function mobileFooter(route,isProject){
   const index=projects?.findIndex(project=>project.url===`#${route}`)??-1,previous=projects?.[index-1],next=projects?.[index+1];
   left=previous?[[previous.url,'previous',`previous project: ${previous.title}`]]:[];
   right=next?[[next.url,'next',`next project: ${next.title}`]]:[];
+  const nav=document.createElement('nav');nav.className='mobile-project-nav';nav.setAttribute('aria-label','Project navigation');
+  for(const item of [left[0],['#archive','archive','Back to archive'],right[0]]){
+   const node=document.createElement(item?'a':'span');
+   if(item){node.href=item[0];node.textContent=item[1];node.setAttribute('aria-label',item[2])}
+   nav.append(node);
+  }
+  document.querySelector('footer').replaceChildren(nav);return;
  }
  const link=([href,label,aria],x,anchor)=>`<a href="${href}"${aria?` aria-label="${aria}"`:''}><text x="${x}" y="57.79" text-anchor="${anchor}">${label}</text></a>`;
  document.querySelector('footer').innerHTML=`<svg viewBox="0 0 ${mobileWidth} 93.67">${left.map(l=>link(l,39.16,'start')).join('')}${right.map(l=>link(l,459.01,'end')).join('')}</svg>`;
@@ -850,16 +871,26 @@ function setupMobileInfo(route){
  svg.setAttribute('viewBox',`0 0 ${mobileWidth} ${top.toFixed(2)}`);
  main.replaceChildren(svg);
 }
-// Mobile project page: the desktop drawing read once more on 498.17. First the text column, set again at 30 px from
-// 39.16 and broken at 459.01 — 1.5 times its desktop 20 px, as 36 is 1.5 times 24 — with its
-// logo and award marks 1.5 times their size. Then every picture, film and group of touching pictures in the order
-// they stand on the desktop, one under the other on the column 39.16 – 459.01, at most 1.5 times their desktop size.
-// Captions leave their pictures and are set at 30 px too, above or below them as on the desktop. Films, clips,
-// the type tester and the wave lab follow their frames.
-// ratio: mobile to desktop type, 24 : 20. Pictures may grow up to cap. Spacing scaled with the type (×0.8).
+// Shared geometry for mobile home/info. Project pages below use their own layout in CSS pixels.
 const projectMobile={left:39.16,right:459.01,size:mobileType.size,step:mobileType.step,ratio:1.2,cap:1.5,first:93.67+39.16,gap:43.2,tester:120,ascent:17,descent:6.4,above:24,below:34.4};
 function reflowProject(svg){
- const P=projectMobile,column=P.right-P.left;
+ // Keep type at 18 px after look.js, with a 26 px line step and a 560 px maximum measure.
+ const width=viewWidth(),margin=Math.max(20,(width-560)/2);
+ const P={left:margin,right:width-margin,size:19,step:26,ratio:.9,first:96,
+  gap:32,tester:224,ascent:18,descent:6,above:14,below:20,captionSize:16,captionStep:21};
+ const column=P.right-P.left;mobileProjectWidth=width;
+ svg.dataset.mobileLayout='';
+ // The desktop impact board is a wide collage. On a phone each device/post needs its own readable frame.
+ const impact=svg.querySelector('#impact-background'),board=impact?.nextElementSibling;
+ if(board?.querySelector('#stats-laptop')){
+  impact.remove();
+  for(const node of [...board.children]){
+   if(node.querySelector('image'))node.dataset.mobileSeparate='';
+   for(const text of node.matches('text')?[node]:node.querySelectorAll('text'))text.setAttribute('fill','#000');
+   svg.insertBefore(node,board);
+  }
+  board.remove();
+ }
  const root=svg.getScreenCTM().inverse(),toRoot=node=>root.multiply(node.getScreenCTM());
  const corners=(b,m)=>{const ps=[[b.x,b.y],[b.x+b.width,b.y],[b.x,b.y+b.height],[b.x+b.width,b.y+b.height]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(m));
   const xs=ps.map(p=>p.x),ys=ps.map(p=>p.y);return {x:Math.min(...xs),y:Math.min(...ys),r:Math.max(...xs),b:Math.max(...ys)}};
@@ -890,7 +921,7 @@ function reflowProject(svg){
  const zoomed=(()=>{const probe=svgNode('text');probe.style.fontSize='100px';svg.append(probe);const z=parseFloat(getComputedStyle(probe).fontSize)/100||1;probe.remove();return z})();
  const sizeOf=text=>parseFloat(text.getAttribute('font-size'))||parseFloat(getComputedStyle(text).fontSize)/zoomed||20;
  const linesOf=text=>readLines(text,toRoot(text));
- const setText=(lines,x,baseline,fill)=>{const t=setLines(svgNode('text',{'font-size':P.size}),x,baseline,lines,P.step);if(fill&&fill!=='rgb(0, 0, 0)')t.setAttribute('fill',fill);return t};
+ const setText=(lines,x,baseline,fill,size=P.size,step=P.step)=>{const t=setLines(svgNode('text',{'font-size':size}),x,baseline,lines,step);if(fill&&fill!=='rgb(0, 0, 0)')t.setAttribute('fill',fill);return t};
  const fillOf=text=>getComputedStyle(text).fill;
  const place=(node,dx,dy,s)=>{const old=node.getAttribute('transform');node.setAttribute('transform',`translate(${dx.toFixed(2)} ${dy.toFixed(2)}) scale(${s.toFixed(4)})${old?' '+old:''}`)};
  // The credits close the page (export_project_svgs.py); they are set at the very end, after every picture.
@@ -919,7 +950,7 @@ function reflowProject(svg){
  // Pictures that touch or overlap are one group and keep their arrangement.
  const groups=[];
  for(const piece of pieces.filter(p=>p.art)){
-  const near=groups.filter(g=>piece.art.x<=g.art.r+2&&piece.art.r>=g.art.x-2&&piece.art.y<=g.art.b+2&&piece.art.b>=g.art.y-2);
+  const near=groups.filter(g=>!piece.node.hasAttribute('data-mobile-separate')&&!g.pieces.some(p=>p.node.hasAttribute('data-mobile-separate'))&&piece.art.x<=g.art.r+2&&piece.art.r>=g.art.x-2&&piece.art.y<=g.art.b+2&&piece.art.b>=g.art.y-2);
   const group={art:piece.art,pieces:[piece],above:[],below:[],inside:[]};
   for(const g of near){group.art=join(group.art,g.art);group.pieces.push(...g.pieces);groups.splice(groups.indexOf(g),1)}
   groups.push(group);
@@ -936,79 +967,90 @@ function reflowProject(svg){
    if(overlaps(t.box,host.art))host.inside.push(t);else (t.box.b<=host.art.y+1?host.above:host.below).push(t);
   }
  }
- // Column first.
- items.sort((a,b)=>a.box.y-b.box.y);
- const origin=items.length?items[0].box.y:0;let extra=0,end=P.first;
- for(const item of items){
-  const mapY=y=>P.first+(y-origin)*P.ratio+extra;
-  if(item.lines){
-   const step=stepOf(item.lines),size=item.size*P.ratio,x=P.left+Math.max(0,item.lines[0].x-28.45)*P.ratio;
-   const lines=paragraphsOf(item.lines,step,item.size,405).flatMap(p=>p===null?['']:wrapSet(p,size-1,P.right-x));
-   const baseline=mapY(item.lines[0].y),t=setLines(svgNode('text',{'font-size':size}),x,baseline,lines,step*P.ratio);
-   if(item.fill&&item.fill!=='rgb(0, 0, 0)')t.setAttribute('fill',item.fill);
-   item.nodes[0].replaceWith(t);item.nodes.slice(1).forEach(n=>n.remove());
-   extra+=((lines.length-1)*step-(item.lines.at(-1).y-item.lines[0].y))*P.ratio;
-   end=Math.max(end,baseline+(lines.length-1)*step*P.ratio+P.descent);
-  }else{
-   const w=item.box.r-item.box.x,h=item.box.b-item.box.y,x=P.left+Math.max(0,item.box.x-28.45)*P.ratio;
-   const s=Math.min(P.ratio,(P.right-x)/w),y=mapY(item.box.y);
-   place(item.node,x-item.box.x*s,y-item.box.y*s,s);
-   extra+=h*(s-P.ratio);end=Math.max(end,y+h*s);
-  }
- }
- // Then the pictures and the loose texts, top to bottom, left to right.
+ // Read the desktop ordering, while keeping explicit mobile ordering (s-neo) intact.
  const flow=[...groups.map(g=>({group:g,y:g.art.y,x:g.art.x})),...loose.map(t=>({text:t,y:t.box.y,x:t.box.x}))].sort((a,b)=>a.y-b.y||a.x-b.x);
- // data-mobile-order (s-neo, Marco 06.10.): pictures that carry it take the places they hold among themselves in that
- // order, so the phone can keep an order the desktop arrangement swaps.
  const orderOf=e=>{const n=e.group?.pieces[0].node;const v=n&&(n.dataset.mobileOrder??n.querySelector('[data-mobile-order]')?.dataset.mobileOrder);return v==null?null:+v};
  const ordered=flow.map((e,i)=>[i,orderOf(e)]).filter(([,o])=>o!==null),sorted=ordered.map(([i])=>flow[i]).sort((a,b)=>orderOf(a)-orderOf(b));
  ordered.forEach(([i],k)=>{flow[i]=sorted[k]});
- let cursor=end+P.gap*1.5;
- // A caption of several lines (s-neo) flows on as a paragraph; a line the desktop broke by hand stays broken. It was
- // broken at the width of its picture, so that is the measure a full line is held against.
- const caption=(list,floor)=>list.sort((a,b)=>a.box.y-b.box.y).flatMap(t=>paragraphsOf(t.lines,stepOf(t.lines),t.size,floor).flatMap(p=>p?wrapSet(p,P.size-1,column):[]));
- for(const entry of flow){
-  if(entry.text){
-   const t=entry.text,lines=paragraphsOf(t.lines,stepOf(t.lines),t.size).flatMap(p=>p===null?['']:wrapSet(p,P.size-1,column));
-   const baseline=cursor+P.ascent,set=setText(lines,P.left,baseline,t.fill);
-   // In its place, so a link (try for yourself) stays a link and a rising group keeps rising.
-   t.text.replaceWith(set);
-   cursor=baseline+(lines.length-1)*P.step+P.descent+P.gap;continue;
-  }
-  const g=entry.group,w=g.art.r-g.art.x,s=Math.min(P.cap,column/w);let h=g.art.b-g.art.y;
-  // The wave lab is rebuilt as one column on the phone (waveLabMobile): its frame takes that height once it is placed.
+ const caption=(list,floor)=>list.sort((a,b)=>a.box.y-b.box.y).flatMap(t=>paragraphsOf(t.lines,stepOf(t.lines),t.size,floor).flatMap(p=>p?wrapSet(p,P.captionSize-1,column):[]));
+ let cursor=P.first;
+ const mediaBlock=g=>{
+  const w=g.art.r-g.art.x;let h=g.art.b-g.art.y;
   const lab=g.pieces.find(piece=>'wavelab' in piece.node.dataset)?.node;
-  if(lab){h=waveLabMobile(column).height/s;lab.dataset.height=h.toFixed(2);lab.querySelector('rect')?.setAttribute('height',h.toFixed(2));g.art.b=g.art.y+h}
+  const tester=g.pieces.find(piece=>'tester' in piece.node.dataset)?.node;
+  // A portrait can be read as one image; narrow motifs are centred, never left floating in a wide column.
+  let scale=Math.min(column/w,680/h);
+  if(lab||tester){
+   scale=column/w;h=(lab?waveLabMobile(column).height:300)/scale;
+   const marker=lab||tester;marker.dataset.height=h.toFixed(2);marker.querySelector('rect')?.setAttribute('height',h.toFixed(2));
+   g.art.b=g.art.y+h;
+  }
   const above=caption(g.above,w),below=caption(g.below,w);
   g.above.concat(g.below).forEach(t=>t.text.remove());
-  if(above.length){svg.append(setText(above,P.left,cursor+P.ascent));cursor+=P.ascent+(above.length-1)*P.step+P.above}
-  const dx=P.left-g.art.x*s,dy=cursor-g.art.y*s;
+  if(above.length){svg.append(setText(above,P.left,cursor+15,null,P.captionSize,P.captionStep));cursor+=15+(above.length-1)*P.captionStep+P.above}
+  const x=P.left+(column-w*scale)/2,dx=x-g.art.x*scale,dy=cursor-g.art.y*scale;
   for(const piece of g.pieces){
    const node=piece.node,d=node.dataset;
-   // Frames that carry their place as data (films, animations, tester, wave lab) take the new place there too.
-   if(marked(node))Object.assign(d,{x:(P.left+(+d.x-g.art.x)*s).toFixed(2),y:(cursor+(+d.y-g.art.y)*s).toFixed(2),width:(+d.width*s).toFixed(2),height:(+d.height*s).toFixed(2)});
-   if(!('gif' in d))place(node,dx,dy,s);
+   if(marked(node))Object.assign(d,{x:(x+(+d.x-g.art.x)*scale).toFixed(2),y:(cursor+(+d.y-g.art.y)*scale).toFixed(2),width:(+d.width*scale).toFixed(2),height:(+d.height*scale).toFixed(2)});
+   if(!('gif' in d))place(node,dx,dy,scale);
   }
-  cursor+=h*s;
-  // The tester's controls stand below its frame and wrap to three rows on a phone.
-  if(g.pieces.some(piece=>'tester' in piece.node.dataset))cursor+=P.tester;
-  if(below.length){svg.append(setText(below,P.left,cursor+P.below));cursor+=P.below+(below.length-1)*P.step+P.descent}
+  cursor+=h*scale;
+  if(tester)cursor+=P.tester;
+  if(below.length){svg.append(setText(below,P.left,cursor+P.below,null,P.captionSize,P.captionStep));cursor+=P.below+(below.length-1)*P.captionStep+5}
   cursor+=P.gap;
+ };
+ // Identity, opening image, then the project story. Long cases now start with the work on the first screen.
+ items.sort((a,b)=>a.box.y-b.box.y);
+ const identity=items[0]?.box.y<220?items.shift():null;
+ const columnBlock=(item,previous)=>{
+  if(previous){const gap=item.box.y-previous.box.b;cursor+=Math.max(6,Math.min(28,gap*P.ratio))}
+  if(item.lines){
+   const isIdentity=item===identity,size=isIdentity?27:P.size,step=isIdentity?32:P.step;
+   const lines=paragraphsOf(item.lines,stepOf(item.lines),item.size,405).flatMap(p=>p===null?['']:wrapSet(p,size-1,column));
+   const text=setText(lines,P.left,cursor+(isIdentity?25:P.ascent),item.fill,size,step);
+   item.nodes[0].replaceWith(text);item.nodes.slice(1).forEach(n=>n.remove());
+   cursor+=(isIdentity?25:P.ascent)+(lines.length-1)*step+P.descent;
+  }else{
+   const w=item.box.r-item.box.x,h=item.box.b-item.box.y;
+   const scale=Math.min(P.ratio,column/w,item===identity?88/h:Infinity);
+   place(item.node,P.left-item.box.x*scale,cursor-item.box.y*scale,scale);cursor+=h*scale;
+  }
+ };
+ if(identity){columnBlock(identity);cursor+=28}
+ // A project with a showreel opens with it (Marco 08.10.); otherwise the first picture on the page.
+ const reel=flow.findIndex(entry=>entry.group?.pieces.some(p=>/showreel/.test(p.node.dataset.clip??p.node.querySelector('[data-clip]')?.dataset.clip??'')));
+ const hero=reel>=0?reel:flow.findIndex(entry=>entry.group);
+ if(hero>=0)mediaBlock(flow.splice(hero,1)[0].group);
+ items.forEach((item,i)=>columnBlock(item,items[i-1]));
+ cursor+=P.gap+8;
+ for(const entry of flow){
+  if(entry.group){mediaBlock(entry.group);continue}
+  const t=entry.text,lines=paragraphsOf(t.lines,stepOf(t.lines),t.size).flatMap(p=>p===null?['']:wrapSet(p,P.size-1,column));
+  const baseline=cursor+P.ascent,set=setText(lines,P.left,baseline,t.fill);
+  // Keep links in place. Remove inherited desktop transforms before assigning page coordinates.
+  const parent=t.text.parentElement;
+  t.text.replaceWith(set);
+  if(parent!==svg&&!parent.querySelector(shapes))parent.removeAttribute('transform');
+  if(parent.tagName==='a'){
+   parent.classList.add('mobile-project-action');
+   parent.insertBefore(svgNode('rect',{x:P.left-10,y:cursor-5,width:Math.min(column+20,measureSet(lines[0],18)+20),height:44,rx:22,fill:'transparent'}),set);
+  }
+  cursor=baseline+(lines.length-1)*P.step+P.descent+P.gap;
  }
- // The rise of each motif is measured anew on the page; the desktop's own start and distance no longer fit.
+ // Mobile media stay in their measured slots. Desktop rise distances would overlap adjacent captions.
  svg.querySelectorAll('[data-reveal-start],[data-reveal-distance],[data-reveal-speed],[data-reveal-delay]').forEach(n=>{
   for(const k of ['revealStart','revealDistance','revealSpeed','revealDelay'])delete n.dataset[k]});
- // Credits as on the desktop: the label, its text one step below and broken for the column, the next label
- // 2.5 steps after the last line (60 to 24 there).
  if(credits){
-  let baseline=cursor+P.ascent;
-  for(const t of credits.querySelectorAll('text')){
-   const lines=[t.dataset.label,...t.dataset.body.split('\n').flatMap(p=>wrapSet(p,P.size-1,column))];
-   svg.append(setText(lines,P.left,baseline));baseline+=(lines.length-1)*P.step+2.5*P.step;
+  cursor+=8;
+  svg.append(svgNode('line',{x1:P.left,x2:P.right,y1:cursor,y2:cursor,stroke:'#000','stroke-opacity':.25,'stroke-width':.5}));
+  cursor+=28;
+  for(const text of credits.querySelectorAll('text')){
+   const label=setText([text.dataset.label],P.left,cursor+15,'#666',16,21);svg.append(label);cursor+=26;
+   const lines=text.dataset.body.split('\n').flatMap(p=>wrapSet(p,P.size-1,column));
+   svg.append(setText(lines,P.left,cursor+P.ascent));cursor+=P.ascent+(lines.length-1)*P.step+P.descent+24;
   }
-  cursor=baseline-2.5*P.step+P.descent+P.gap;
  }
- svg.setAttribute('viewBox',`0 0 ${mobileWidth} ${(cursor+P.gap).toFixed(2)}`);
+ svg.setAttribute('viewBox',`0 0 ${width} ${(cursor+12).toFixed(2)}`);
 }
 function setupMobileArchive(){
  // Positions and row spacing come from archive-mobile.svg (498.17 × 1080).
@@ -1371,10 +1413,11 @@ const inkR=[[25,124,700],[21,145,659],[25,172,599],[25,174,581],[24,172,550],[27
 // The wave lab on a phone, one thing under the other at the given width: springs (two rows), waves, the seven values,
 // two lines of caption, the sheet at 60 % of the width, the spring's name. 24 apart, 24 inside the edge.
 const waveLabMobile=width=>{
- const pad=24,inner=width-2*pad,springs=2*18+12,waves=pad+springs+pad,wavesHeight=inner*520/3000;
- const data=waves+wavesHeight+pad,caption=data+shapes.length*24+18,sheet=caption+48+18;
- const sheetWidth=inner*.6,sheetHeight=sheetWidth*4243/3000,name=sheet+sheetHeight+12;
- return {pad,waves,data,caption,sheet,sheetWidth,sheetHeight,name,height:name+24+pad};
+ const pad=16,inner=width-2*pad,columns=width<420?5:7;
+ const springs=Math.ceil(cuts.length/columns)*44+8,waves=pad+springs+16,wavesHeight=inner*520/3000;
+ const data=waves+wavesHeight+24,caption=data+shapes.length*36+16,sheet=caption+96;
+ const sheetWidth=Math.min(inner*.7,240),sheetHeight=sheetWidth*4243/3000,name=sheet+sheetHeight+16;
+ return {pad,columns,waves,data,caption,sheet,sheetWidth,sheetHeight,name,height:name+48+pad};
 };
 function waveLab(marker){
  const width=Number(marker.dataset.width),height=Number(marker.dataset.height),small=mobile,M=small?waveLabMobile(width):null,pad=small?M.pad:30,top=72;
@@ -1387,8 +1430,8 @@ function waveLab(marker){
  const $=selector=>lab.querySelector(selector),row=$('.wavelab-springs'),name=$('.wavelab-name'),waves=$('.wavelab-waves'),data=$('.wavelab-data'),sheet=$('.wavelab-sheet'),caption=$('.wavelab-caption');
  if(small){
   const at=(node,y,extra={})=>Object.assign(node.style,{left:pad+'px',top:y+'px',...extra});
-  at(row,pad,{right:pad+'px'});at(waves,M.waves,{width:column+'px',height:wavesHeight+'px'});at(data,M.data,{width:column+'px'});
-  at(caption,M.caption);at(sheet,M.sheet,{width:sheetWidth+'px',height:sheetHeight+'px'});at(name,M.name,{right:'auto'});
+  at(row,pad,{right:pad+'px',gridTemplateColumns:`repeat(${M.columns},minmax(0,1fr))`});at(waves,M.waves,{width:column+'px',height:wavesHeight+'px'});at(data,M.data,{width:column+'px'});
+  at(caption,M.caption);at(sheet,M.sheet,{left:((width-sheetWidth)/2)+'px',width:sheetWidth+'px',height:sheetHeight+'px'});at(name,M.name,{right:pad+'px'});
  }else{
  Object.assign(waves.style,{left:pad+'px',top:top+'px',width:column+'px',height:wavesHeight+'px'});
  Object.assign(data.style,{left:pad+'px',top:(top+wavesHeight+48)+'px',width:column+'px'});
@@ -1473,7 +1516,7 @@ function waveLab(marker){
   name.textContent=cuts[index].name.toLowerCase();
   data.replaceChildren(...shapes.map(([key,element,shape,unit,,low,high,log])=>{
    const line=document.createElement('div');line.className='wavelab-row';line.dataset.key=key;line.tabIndex=0;
-   line.style.gridTemplateColumns=small?`${firstColumn}px 1fr ${valueColumn*1.15}px`:`${firstColumn}px ${secondColumn}px 1fr ${valueColumn}px`;
+   line.style.gridTemplateColumns=small?'minmax(0,1fr) minmax(16px,.55fr) max-content':`${firstColumn}px ${secondColumn}px 1fr ${valueColumn}px`;
    const value=springs[index][key],cells=[element,shape,`${value>=1000?Math.round(value).toLocaleString('en-US'):value} ${unit}`];
    // Where this spring stands among all 13, as on the sketch: a thin line from the lowest to the highest, a mark on it.
    const bar=document.createElement('span');bar.className='wavelab-bar';bar.innerHTML=`<i style="left:${(within(value,low,high,log)*100).toFixed(1)}%"></i>`;
@@ -1687,7 +1730,7 @@ async function setupOpera(route){
     // A full image-height of scroll brings an initially hidden image up into place.
     const distance=item.distance??item.height,start=(item.start??item.top)+item.delay;
     // speed > 1 climbs faster than the page scrolls (staggered parts that start from below the window edge).
-    const remaining=item.initial||reduced.matches?0:Math.max(0,Math.min(distance,(start-bottom)*item.speed+distance));
+    const remaining=mobile||item.initial||reduced.matches?0:Math.max(0,Math.min(distance,(start-bottom)*item.speed+distance));
     item.wrapper.setAttribute('transform',`translate(0 ${remaining})`);
     // HTML over a frame (the type tester) takes the same way; main carries the drawing's units.
     if(item.overlay)item.overlay.style.transform=remaining?`translateY(${remaining}px)`:'';
@@ -1701,6 +1744,10 @@ async function setupOpera(route){
    for(const {video} of clips){video.pause();video.remove()}
    for(const {stage,video} of scrubs){video.pause();stage.remove()}};
   update();
+  if(main.dataset.restoreProgress!==undefined){
+   const progress=Number(main.dataset.restoreProgress);delete main.dataset.restoreProgress;
+   window.scrollTo(0,progress*Math.max(0,document.documentElement.scrollHeight-window.innerHeight));
+  }
  }catch(error){if(error.name!=='AbortError')main.textContent=error.message;}
 }
 
