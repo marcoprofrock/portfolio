@@ -16,7 +16,7 @@
       }
     ],
     "images": [
-      "assets/projects/500ls/04_5d0052ef.webp",
+      "assets/projects/500ls/00_showreel.mp4",
       "assets/projects/500ls/02_223d3fef.webp",
       {
         "widget": "wavelab"
@@ -65,7 +65,12 @@
       "assets/projects/500ls/05_6953b6c6.webp"
     ],
     "image_layout": [
-      null,
+      [
+        639.6,
+        89.48,
+        618.83,
+        348.09
+      ],
       null,
       null,
       null,
