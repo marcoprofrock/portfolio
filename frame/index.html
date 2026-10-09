@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ededed">
-  <meta name="description" content="Deine Fotos. Weiß gerahmt. Im Format 4:5. Direkt auf deinem Gerät.">
+  <meta name="description" content="Deine Fotos. Dein Rahmen. Farbe und Haarlinie frei einstellen. Im Format 4:5. Direkt auf deinem Gerät.">
   <meta name="robots" content="noindex,nofollow">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -20,7 +20,7 @@
   <header class="topbar"><a href="/" class="signature">marco.ad</a><span>PHOTO TOOL / 01</span></header>
   <main>
     <div class="title-row"><h1>frame<span>.</span></h1><span class="ratio">4:5</span></div>
-    <p class="intro">Dein ganzes Foto. Ein weißer Rahmen.</p>
+    <p class="intro">Dein ganzes Foto. Dein Rahmen.</p>
     <input id="file-input" class="visually-hidden" type="file" accept="image/*,.heic,.heif" multiple aria-label="Fotos auswählen">
     <div class="workspace">
       <section class="preview-section" aria-label="Fotovorschau">
@@ -31,19 +31,36 @@
             <span class="empty-note">Hochkant, quer oder quadratisch.</span>
             <span class="empty-note">Auch mehrere auf einmal.</span>
           </button>
-          <div id="photo-mat" class="photo-mat" hidden><img id="preview" alt="Foto mit weißem Rahmen im Format 4:5"></div>
+          <div id="photo-mat" class="photo-mat" hidden><img id="preview" alt="Gerahmtes Foto im Format 4:5"><svg id="preview-outline" class="preview-outline" viewBox="0 0 1080 1350" aria-hidden="true"><rect id="outline-rect" fill="none" stroke="#000000" stroke-width="0"/></svg></div>
         </div>
         <div class="preview-caption"><span id="photo-info">VORSCHAU</span><button id="remove" class="text-button" hidden>Foto entfernen</button></div>
         <div id="thumbnails" class="thumbnails" aria-label="Ausgewählte Fotos" hidden></div>
       </section>
       <section class="controls" aria-label="Rahmen und Export">
         <div class="control-block">
-          <div class="label-row"><label for="border">Weißer Rand</label><output id="border-value" for="border">4 %</output></div>
+          <div class="label-row"><label for="border">Randbreite</label><output id="border-value" for="border">4 %</output></div>
           <input id="border" type="range" min="0" max="15" value="4" step="0.5">
           <div class="range-labels"><span>Nur einpassen</span><span>Breiter Rand</span></div>
           <p class="hint">Gilt für alle Fotos. Das ganze Motiv bleibt erhalten.</p>
         </div>
-        <div class="control-block size-block"><label for="size">Ausgabe</label><select id="size"><option value="1080">1080 × 1350 px</option><option value="2160">2160 × 2700 px</option></select><p class="hint">JPEG · weißer Hintergrund · ohne Zuschnitt</p></div>
+        <div class="control-block color-block">
+          <label for="background">Rahmenfarbe</label>
+          <div class="color-inputs">
+            <input id="background" type="color" value="#ffffff" aria-label="Rahmenfarbe auswählen">
+            <label class="visually-hidden" for="background-hex">Rahmenfarbe als Hex-Code</label>
+            <input id="background-hex" type="text" value="#FFFFFF" placeholder="#FFFFFF" maxlength="7" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="color-hint color-error">
+          </div>
+          <p id="color-hint" class="hint">Farbe auswählen oder Hex-Code eingeben, z. B. #F0EEE9.</p>
+          <p id="color-error" class="field-error" hidden>Bitte 3 oder 6 Hex-Zeichen eingeben (0–9, A–F).</p>
+        </div>
+        <div class="control-block">
+          <div class="label-row"><label for="hairline">Haarlinie ums Bild</label><div class="number-input"><label class="visually-hidden" for="hairline-width">Dicke der Haarlinie in Pixeln</label><input id="hairline-width" type="number" min="0" max="10" step="0.25" value="0" required inputmode="decimal" aria-describedby="hairline-hint hairline-error"><span>px</span></div></div>
+          <input id="hairline" type="range" min="0" max="10" step="0.25" value="0" aria-describedby="hairline-hint">
+          <div class="range-labels"><span>Aus</span><span>10 px</span></div>
+          <p id="hairline-hint" class="hint">Schwarz · direkt um das Foto. Dicke in Ausgabepixeln, 0 = aus.</p>
+          <p id="hairline-error" class="field-error" hidden>Bitte 0 bis 10 px in 0,25er-Schritten eingeben.</p>
+        </div>
+        <div class="control-block size-block"><label for="size">Ausgabe</label><select id="size"><option value="1080">1080 × 1350 px</option><option value="2160">2160 × 2700 px</option></select><p class="hint">JPEG · ohne Zuschnitt</p></div>
         <div class="actions">
           <button id="add" class="button secondary" type="button">Fotos auswählen</button>
           <button id="prepare" class="button primary" type="button" disabled>Fotos vorbereiten</button>

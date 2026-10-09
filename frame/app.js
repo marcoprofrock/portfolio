@@ -3,14 +3,25 @@ import { makeZip } from './zip.js';
 
 const $ = id => document.getElementById(id);
 const input = $('file-input'), border = $('border'), size = $('size');
+const background = $('background'), backgroundHex = $('background-hex');
+const hairline = $('hairline'), hairlineWidth = $('hairline-width');
 const photos = []; let selected = 0, busy = false, exports = [], exportUrls = [], zipUrl = null;
 const maxPhotos = 30;
+
+function parseHex(value) {
+  const match = value.trim().match(/^#?([a-f\d]{3}|[a-f\d]{6})$/i);
+  if (!match) return null;
+  const hex = match[1];
+  return `#${hex.length === 3 ? [...hex].map(char => char + char).join('') : hex}`.toLowerCase();
+}
+function settingsValid() { return !!parseHex(backgroundHex.value) && hairlineWidth.validity.valid; }
+function settingsChanged() { invalidate(); status(); updatePreview(); }
 
 function status(message = '', error = false) { $('status').textContent = message; $('status').classList.toggle('error', error); }
 function setBusy(value) {
   busy = value;
-  for (const id of ['file-input', 'empty', 'add', 'prepare', 'border', 'size', 'remove']) $(id).disabled = value;
-  $('prepare').disabled = value || !photos.length;
+  for (const id of ['file-input', 'empty', 'add', 'prepare', 'border', 'size', 'remove', 'background', 'background-hex', 'hairline', 'hairline-width']) $(id).disabled = value;
+  $('prepare').disabled = value || !photos.length || !settingsValid();
   $('progress').hidden = !value;
   $('stage').setAttribute('aria-busy', String(value));
 }
@@ -22,17 +33,22 @@ function invalidate() {
 }
 function updatePreview() {
   $('border-value').value = `${Number(border.value).toLocaleString('de-DE')} %`;
+  $('photo-mat').style.backgroundColor = background.value;
+  $('thumbnails').style.setProperty('--mat-color', background.value);
   $('empty').hidden = photos.length > 0; $('photo-mat').hidden = !photos.length;
   $('remove').hidden = !photos.length; $('thumbnails').hidden = !photos.length;
   $('add').textContent = photos.length ? 'Weitere Fotos auswählen' : 'Fotos auswählen';
   $('prepare').textContent = photos.length ? `${photos.length === 1 ? '1 Foto' : `${photos.length} Fotos`} vorbereiten` : 'Fotos vorbereiten';
-  $('prepare').disabled = busy || !photos.length;
+  $('prepare').disabled = busy || !photos.length || !settingsValid();
   if (!photos.length) { $('preview').removeAttribute('src'); $('photo-info').textContent = 'VORSCHAU'; return; }
   const photo = photos[selected], image = $('preview');
   image.src = photo.url;
-  image.alt = `${photo.file.name}, vollständig auf weißem Hintergrund`;
-  const p = placement(photo.width, photo.height, 100, Number(border.value));
-  Object.assign(image.style, { left: `${p.x}%`, top: `${p.y / 1.25}%`, width: `${p.width}%`, height: `${p.height / 1.25}%` });
+  image.alt = `${photo.file.name}, vollständig auf Rahmenfarbe ${background.value}${Number(hairline.value) ? ' mit schwarzer Haarlinie' : ''}`;
+  const width = Number(size.value), height = width * 5 / 4, line = Number(hairline.value);
+  const p = placement(photo.width, photo.height, width, Number(border.value), line);
+  Object.assign(image.style, { left: `${p.x / width * 100}%`, top: `${p.y / height * 100}%`, width: `${p.width / width * 100}%`, height: `${p.height / height * 100}%` });
+  $('preview-outline').setAttribute('viewBox', `0 0 ${width} ${height}`);
+  for (const [key, value] of Object.entries({ x: p.x - line / 2, y: p.y - line / 2, width: p.width + line, height: p.height + line, 'stroke-width': line })) $('outline-rect').setAttribute(key, value);
   $('photo-info').textContent = `${selected + 1} / ${photos.length} · ${photo.file.name}`;
   $('thumbnails').querySelectorAll('button').forEach((button, i) => button.setAttribute('aria-pressed', String(i === selected)));
 }
@@ -105,14 +121,14 @@ function showExports() {
   }));
 }
 async function prepare() {
-  if (busy || !photos.length) return;
+  if (busy || !photos.length || !settingsValid()) return;
   invalidate(); setBusy(true); $('progress').max = photos.length; $('progress').value = 0;
-  const width = Number(size.value), inset = Number(border.value); let currentName = '';
+  const width = Number(size.value), inset = Number(border.value), color = background.value, line = Number(hairline.value); let currentName = '';
   try {
     for (let i = 0; i < photos.length; i++) {
       currentName = photos[i].file.name;
       status(`Rahme Foto ${i + 1} von ${photos.length} …`);
-      const blob = await framePhoto(photos[i].file, width, inset);
+      const blob = await framePhoto(photos[i].file, width, inset, color, line);
       const base = currentName.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 70) || 'foto';
       const file = new File([blob], `${String(i + 1).padStart(2, '0')}_${base}_4x5.jpg`, { type: 'image/jpeg' });
       exports.push(file); exportUrls.push(URL.createObjectURL(file)); $('progress').value = i + 1;
@@ -128,8 +144,34 @@ async function prepare() {
 
 for (const id of ['add', 'empty']) $(id).addEventListener('click', () => input.click());
 input.addEventListener('change', () => addFiles(input.files));
-border.addEventListener('input', () => { invalidate(); status(); updatePreview(); });
-size.addEventListener('change', () => { invalidate(); status(); });
+border.addEventListener('input', settingsChanged);
+size.addEventListener('change', settingsChanged);
+background.addEventListener('input', () => {
+  backgroundHex.value = background.value.toUpperCase();
+  backgroundHex.setAttribute('aria-invalid', 'false'); $('color-error').hidden = true;
+  settingsChanged();
+});
+backgroundHex.addEventListener('input', () => {
+  const color = parseHex(backgroundHex.value);
+  backgroundHex.setAttribute('aria-invalid', String(!color)); $('color-error').hidden = !!color;
+  if (color) background.value = color;
+  settingsChanged();
+});
+backgroundHex.addEventListener('blur', () => {
+  const color = parseHex(backgroundHex.value);
+  if (color) backgroundHex.value = color.toUpperCase();
+});
+hairline.addEventListener('input', () => {
+  hairlineWidth.value = hairline.value;
+  hairlineWidth.setAttribute('aria-invalid', 'false'); $('hairline-error').hidden = true;
+  settingsChanged();
+});
+hairlineWidth.addEventListener('input', () => {
+  const valid = hairlineWidth.validity.valid;
+  hairlineWidth.setAttribute('aria-invalid', String(!valid)); $('hairline-error').hidden = valid;
+  if (valid) hairline.value = hairlineWidth.value;
+  settingsChanged();
+});
 $('remove').addEventListener('click', () => {
   if (busy || !photos.length) return;
   invalidate(); URL.revokeObjectURL(photos[selected].url); photos.splice(selected, 1);
