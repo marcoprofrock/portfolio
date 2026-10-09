@@ -1554,7 +1554,7 @@ async function setupOpera(route){
  const controller=new AbortController();let frame=0;
  cleanupRoute=()=>{controller.abort();cancelAnimationFrame(frame)};
  try{
-  const response=await fetch(`assets/project-layouts/${route}.svg?v=launch19-20261003`,{signal:controller.signal});
+  const response=await fetch(`assets/project-layouts/${route}.svg?v=500ls-reel-20261010`,{signal:controller.signal});
   if(!response.ok)throw Error('Projektseite konnte nicht geladen werden.');
   const body=await response.text();if(controller.signal.aborted)return;
   if(typeof body==='string')main.innerHTML=body;else main.replaceChildren(buildProjectPage(body[route]));
