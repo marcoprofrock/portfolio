@@ -950,7 +950,10 @@ function reflowProject(svg){
  // Pictures that touch or overlap are one group and keep their arrangement.
  const groups=[];
  for(const piece of pieces.filter(p=>p.art)){
-  const near=groups.filter(g=>!piece.node.hasAttribute('data-mobile-separate')&&!g.pieces.some(p=>p.node.hasAttribute('data-mobile-separate'))&&piece.art.x<=g.art.r+2&&piece.art.r>=g.art.x-2&&piece.art.y<=g.art.b+2&&piece.art.b>=g.art.y-2);
+  // The parts of one motif (Bild-4-1 … Bild-4-6, heritage's logo evolution) stay one row as on the desktop,
+  // even where they don't touch (Marco 09.10.).
+  const motif=node=>/^Bild-(\d+)-\d+$/.exec(node.id)?.[1],own=motif(piece.node);
+  const near=groups.filter(g=>own&&g.pieces.some(p=>motif(p.node)===own)||!piece.node.hasAttribute('data-mobile-separate')&&!g.pieces.some(p=>p.node.hasAttribute('data-mobile-separate'))&&piece.art.x<=g.art.r+2&&piece.art.r>=g.art.x-2&&piece.art.y<=g.art.b+2&&piece.art.b>=g.art.y-2);
   const group={art:piece.art,pieces:[piece],above:[],below:[],inside:[]};
   for(const g of near){group.art=join(group.art,g.art);group.pieces.push(...g.pieces);groups.splice(groups.indexOf(g),1)}
   groups.push(group);
