@@ -225,7 +225,7 @@ function mobileHead(){
 // The mobile foot mirrors the head: the same 93.67 and baseline 57.79, a link on the left starts at the name's
 // 39.16, links on the right end where the menu's outline would (look.js lines them up). Project pages lead to the
 // project before and after, the other pages to the links of their desktop foot.
-const mobileFooterLinks={home:[['#contact','contact'],['#imprint','imprint']],archive:[['#contact','contact'],['#imprint','imprint']],
+const mobileFooterLinks={home:[['#contact','contact'],['#imprint','imprint'],['#archive','archive']],archive:[['#contact','contact'],['#imprint','imprint']],
  diary:[['#contact','contact'],['#imprint','imprint']],vita:[['#contact','contact'],['#imprint','imprint']],
  contact:[['#imprint','imprint']],imprint:[['#contact','contact']]};
 function mobileFooter(route,isProject){

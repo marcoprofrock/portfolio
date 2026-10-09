@@ -20,7 +20,8 @@
   // bar, which stays white on a white rect of its own.
   document.querySelector('header').classList.add('look-dark');
   const first=[...svg.children].find(n=>n.tagName==='a'||n.tagName==='line');
-  if(mobile&&view.height>h)svg.insertBefore(set(document.createElementNS(NS,'rect'),{x:0,y:h,width:view.width,height:view.height-h,fill:'#fff','class':'look-bar'}),first||null);
+  // The white goes to the very back, under the diary's film band too (it used to cover it).
+  if(mobile&&view.height>h)svg.prepend(set(document.createElementNS(NS,'rect'),{x:0,y:h,width:view.width,height:view.height-h,fill:'#fff','class':'look-bar'}));
   svg.insertBefore(set(document.createElementNS(NS,'rect'),{x:0,y:0,width:view.width,height:h,fill:'#000','class':'look-bar'}),first||null);
   // The rule under the bar goes; the lines of the menu button stay.
   svg.querySelectorAll(':scope>line').forEach(l=>{if(+l.getAttribute('y1')<=h+1&&l.getAttribute('x2')-l.getAttribute('x1')>300)l.style.display='none'});
