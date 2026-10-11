@@ -1276,7 +1276,7 @@ Promise.all([
  fetch('assets/rotis-metrics.json?v=launch19-20261003').then(r=>{if(!r.ok)throw Error('rotis-metrics could not be loaded');return r.json()}).then(metrics=>{rotis=metrics}),
  // The sizes of the project pictures (scripts/prepare_image_sizes.py) shape the mobile project pages; without
  // them those pages still work, each picture then counts with its whole frame.
- fetch('assets/image-sizes.json?v=mobile24-20261003').then(r=>r.ok?r.json():{}).catch(()=>({})).then(sizes=>{imageSizes=sizes}),
+ fetch('assets/image-sizes.json?v=hope-reel-20261011').then(r=>r.ok?r.json():{}).catch(()=>({})).then(sizes=>{imageSizes=sizes}),
 ]).then(([data,projectList,awardList,diary,vitaData])=>{
  screens=data;awards=awardList;vita=vitaData;
  projects=projectList.sort(newestFirst(projectKey));
@@ -1554,7 +1554,7 @@ async function setupOpera(route){
  const controller=new AbortController();let frame=0;
  cleanupRoute=()=>{controller.abort();cancelAnimationFrame(frame)};
  try{
-  const response=await fetch(`assets/project-layouts/${route}.svg?v=500ls-reel-20261010`,{signal:controller.signal});
+  const response=await fetch(`assets/project-layouts/${route}.svg?v=hope-reel-20261011`,{signal:controller.signal});
   if(!response.ok)throw Error('Projektseite konnte nicht geladen werden.');
   const body=await response.text();if(controller.signal.aborted)return;
   if(typeof body==='string')main.innerHTML=body;else main.replaceChildren(buildProjectPage(body[route]));
