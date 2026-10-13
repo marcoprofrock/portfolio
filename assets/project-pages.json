@@ -772,10 +772,11 @@
       }
     ],
     "images": [
-      "assets/projects/windkulturerbe/03_55774050.webp",
+      "assets/projects/windkulturerbe/00_showreel.mp4",
       "assets/projects/windkulturerbe/05_b340ac3c.webp",
       "assets/projects/windkulturerbe/04_8be2ddd4.webp",
-      "assets/projects/windkulturerbe/02_2ecbcc90.webp"
+      "assets/projects/windkulturerbe/02_2ecbcc90.webp",
+      "assets/projects/windkulturerbe/03_55774050.webp"
     ],
     "videos": [
       "VYUYr6bSIUo"
@@ -793,6 +794,24 @@
       [
         "awards",
         "adc talent award 2026 · 2× bronze\ncomm awards 2025 · 1× bronze"
+      ]
+    ],
+    "image_layout": [
+      [
+        639.6,
+        89.48,
+        618.83,
+        348.09
+      ],
+      null,
+      null,
+      null,
+      null,
+      [
+        26.38,
+        2135.96,
+        1037.85,
+        583.79
       ]
     ]
   },
