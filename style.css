@@ -16,7 +16,7 @@ header{position:fixed;inset:0 0 auto;z-index:10;background:white}
 header svg{display:block;width:100%;height:auto;font-family:Serie57Archive,sans-serif;font-size:20px;font-weight:400}
 main{position:relative;width:1920px;zoom:var(--scale);min-height:calc(100vh / var(--scale));padding-bottom:58.08px}
 main>svg{width:1920px;height:auto;display:block}
-main[data-route="home"],main[data-route="vita"],main[data-route="contact"],main[data-route="imprint"]{padding-bottom:0}
+main[data-route="home"],main[data-route="vita"],main[data-route="work"],main[data-route="contact"],main[data-route="imprint"]{padding-bottom:0}
 svg [tabindex]:focus{outline:none}
 svg [tabindex]:focus-visible{outline:1px solid #000;outline-offset:4px}
 footer{position:fixed;inset:auto 0 0;background:#fff;z-index:10}

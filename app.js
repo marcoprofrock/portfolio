@@ -71,13 +71,13 @@ const svgNode=(tag,attrs={},text)=>{const n=document.createElementNS(namespace,t
 // Both cuts carry a generic behind them: if a face fails to arrive the text lands on a sans,
 // not on the browser serif, which is what makes a half loaded page read as the wrong typeface.
 const roman='Serie57Archive, sans-serif',lightFace='Serie57Archive, sans-serif';
-const routeFor={ 'marco pröfrock':'home',archive:'archive',diary:'diary',vita:'vita' };
+const routeFor={ 'marco pröfrock':'home',work:'work',archive:'archive',diary:'diary',vita:'vita' };
 // Links to the former marco.ad (one long page with anchors) land on the matching route.
-const formerAnchors={'#work':'#archive','#p-500ls':'#500ls','#p-wind':'#windkulturerbe','#p-uturn':'#u-turn','#p-hope':'#hope-in-action',
+const formerAnchors={'#p-500ls':'#500ls','#p-wind':'#windkulturerbe','#p-uturn':'#u-turn','#p-hope':'#hope-in-action',
  '#p-opera':'#mediterainy-opera','#p-sentry':'#sentry','#photography':'#diary','#about':'#vita','#memberships':'#vita','#awards-list':'#vita',
  '#talks-publications':'#vita','#imprint':'#imprint','#top':'#home'};
 if(formerAnchors[location.hash]&&formerAnchors[location.hash]!==location.hash)history.replaceState(null,'',formerAnchors[location.hash]);
-const routeFromHash=()=>['home','archive','diary','vita','contact','imprint','mediterainy-opera','500ls','sentry','heritage-identity','hope-in-action','windkulturerbe','u-turn','azulejo-six','vote2cop','thank-you','s-neo','plants-with-benefits','mission-octopus','kids-foundation'].includes(location.hash.slice(1))||projects?.some(project=>project.url===location.hash)?location.hash.slice(1):'home';
+const routeFromHash=()=>['home','work','archive','diary','vita','contact','imprint','mediterainy-opera','500ls','sentry','heritage-identity','hope-in-action','windkulturerbe','u-turn','azulejo-six','vote2cop','thank-you','s-neo','plants-with-benefits','mission-octopus','kids-foundation'].includes(location.hash.slice(1))||projects?.some(project=>project.url===location.hash)?location.hash.slice(1):'home';
 // The width of the window without anything a page pushes out past its edge: a phone widens innerWidth to fit
 // whatever overflows, and that wider number then picked the desktop layout for the very page that overflowed.
 const viewWidth=()=>document.documentElement.clientWidth||window.innerWidth;
@@ -152,7 +152,7 @@ function footerLink(visible){
 // Contact and imprint (Marco, 03.10.): bottom right on home, archive, diary and vita; contact and imprint lead to
 // each other. “see my work” is gone from every foot (Marco, 03.10.). look.js lines them up from the right edge like
 // the buttons in the head.
-const footerRows={home:[['#contact','contact'],['#imprint','imprint']],archive:[['#contact','contact'],['#imprint','imprint']],
+const footerRows={work:[['#contact','contact'],['#imprint','imprint']],home:[['#contact','contact'],['#imprint','imprint']],archive:[['#contact','contact'],['#imprint','imprint']],
  diary:[['#contact','contact'],['#imprint','imprint']],vita:[['#contact','contact'],['#imprint','imprint']],
  contact:[['#imprint','imprint']],imprint:[['#contact','contact']]};
 function footerRow(links){
@@ -176,14 +176,14 @@ function footerDemo(demo){
  Object.entries({x:box.x-pad,y:box.y+box.height/2-h/2,width:box.width+pad*2,height:h,rx:h/2}).forEach(([k,v])=>pill.setAttribute(k,v));
 }
 function navigation(route){
- document.querySelector('header').innerHTML=`<nav><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 61">${screens.home.header.map(n=>`<a href="#${routeFor[n.label]}" ${routeFor[n.label]===route?'aria-current="page"':''}><text x="${n.x}" y="${n.y}">${n.label}</text></a>`).join('')}<line x1="26.38" y1="60.38" x2="1893.62" y2="60.38" stroke="black" stroke-width=".5"/></svg></nav>`;
+ document.querySelector('header').innerHTML=`<nav><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 61">${[...screens.home.header,{label:'work',x:1100,y:38.8236}].map(n=>`<a href="#${routeFor[n.label]}" ${routeFor[n.label]===route?'aria-current="page"':''}><text x="${n.x}" y="${n.y}">${n.label}</text></a>`).join('')}<line x1="26.38" y1="60.38" x2="1893.62" y2="60.38" stroke="black" stroke-width=".5"/></svg></nav>`;
  footerLink(!['archive','diary'].includes(route));
  if(footerRows[route])footerRow(footerRows[route]);
 }
 function render(){
  clearTimeout(projectResize);
  cleanupView();cleanupView=()=>{};cleanupRoute();cleanupRoute=()=>{};closeMenu();
- const route=routeFromHash(),isInfo=route in infoPages,isProject=!['home','archive','diary','vita'].includes(route)&&!isInfo;
+ const route=routeFromHash(),isInfo=route in infoPages,isProject=!['home','work','archive','diary','vita'].includes(route)&&!isInfo;
  main.classList.toggle('project-page',isProject);
  activeRoute=route;main.dataset.route=route;viewIndex=null;document.body.classList.remove('view-open');
  mobile=useMobile();document.body.classList.toggle('mobile',mobile);
@@ -192,18 +192,20 @@ function render(){
  document.body.classList.toggle('mobile-vita',mobile&&route==='vita');
  // Home and vita on the desktop are one screen and do not scroll (Marco, 03.10.): in a window flatter than 16:9 the
  // 1080 of the drawing ran a few pixels past it.
- document.documentElement.classList.toggle('still-page',!mobile&&['home','vita'].includes(route));
+ document.documentElement.classList.toggle('still-page',!mobile&&['home','vita','work'].includes(route));
  // Home, archive and vita do not swing at the end of a scroll, so the head never moves — as on the diary (Marco, 03.10.).
- document.documentElement.classList.toggle('no-swing',['home','archive','vita'].includes(route));
+ document.documentElement.classList.toggle('no-swing',['home','work','archive','vita'].includes(route));
  scale();
- document.body.classList.toggle('mobile-page',mobile&&(isProject||isInfo||route==='home'));
+ document.body.classList.toggle('mobile-page',mobile&&(isProject||isInfo||route==='home'||route==='work'));
  document.body.classList.toggle('mobile-project',mobile&&isProject);
- navigation(isProject?'archive':route);if(isProject)footerProjects(route);if(isProject&&!mobile)footerDemo(projects?.find(project=>project.url===`#${route}`)?.demo);main.innerHTML=isProject||isInfo||mobile&&route==='home'?'':screens[route].body;document.title=route==='home'?'marco pröfrock':`${route} — marco pröfrock`;trackPage(route,isProject);window.scrollTo(0,0);
- if(mobile&&(isProject||isInfo||route==='home')){mobileHead();mobileFooter(route,isProject)}
+ navigation(isProject?'archive':route);if(isProject)footerProjects(route);if(isProject&&!mobile)footerDemo(projects?.find(project=>project.url===`#${route}`)?.demo);main.innerHTML=isProject||isInfo||mobile&&route==='home'?'':(screens[route]?.body||'');document.title=route==='home'?'marco pröfrock':`${route} — marco pröfrock`;trackPage(route,isProject);window.scrollTo(0,0);
+ if(mobile&&(isProject||isInfo||route==='home'||route==='work')){mobileHead();mobileFooter(route,isProject)}
  if(route==='home'&&mobile)setupMobileHome();
  // The type snake in the empty right half of the desktop home (Marco, 07.10.): snake.js.
  if(route==='home'&&!mobile)cleanupRoute=window.homeSnake?.(main.querySelector('svg'))||(()=>{});
  if(route==='archive')mobile?setupMobileArchive():setupArchive();
+ // Four focus projects with their reels (Marco, 14.10.): selected.js.
+ if(route==='work')window.selectedWorks?.(main,mobile?'mobile':'page');
  // The diary is only its large view with the roll (Marco): the page opens on the newest entry.
  if(route==='diary')mobile?setupMobileDiary():openEntry(0,'route');
  if(route==='vita')mobile?setupMobileVita():setupVita();
@@ -225,7 +227,7 @@ function mobileHead(){
 // The mobile foot mirrors the head: the same 93.67 and baseline 57.79, a link on the left starts at the name's
 // 39.16, links on the right end where the menu's outline would (look.js lines them up). Project pages lead to the
 // project before and after, the other pages to the links of their desktop foot.
-const mobileFooterLinks={home:[['#contact','contact'],['#imprint','imprint'],['#archive','archive']],archive:[['#contact','contact'],['#imprint','imprint']],
+const mobileFooterLinks={work:[['#contact','contact'],['#imprint','imprint']],home:[['#contact','contact'],['#imprint','imprint'],['#archive','archive']],archive:[['#contact','contact'],['#imprint','imprint']],
  diary:[['#contact','contact'],['#imprint','imprint']],vita:[['#contact','contact'],['#imprint','imprint']],
  contact:[['#imprint','imprint']],imprint:[['#contact','contact']]};
 function mobileFooter(route,isProject){
@@ -1259,7 +1261,7 @@ function setupMobileDiary(){
 // Mobile menu after archive-mobile-menu.svg. Since 03.10. (Marco) without arrows, their animation and the rules
 // under the entries: each entry is a round outlined button, as in the head, and a tap goes straight to the page.
 const menuButton=`<g class="menu-button" role="button" tabindex="0" aria-label="Open menu"><rect x="418.25" y="25.19" width="55.53" height="43.52" fill="transparent"/>${[35.19,43.03,50.87,58.71].map(y=>`<line x1="428.25" y1="${y}" x2="463.78" y2="${y}" fill="none" stroke="black" stroke-width="1"/>`).join('')}</g>`;
-const menuItems=[['archive',276,311.88,270.19],['diary',366.96,402.85,358.99],['vita',458.5,494.39,446.71]];
+const menuItems=[['work',184.75,220.63,178.94],['archive',276,311.88,270.19],['diary',366.96,402.85,358.99],['vita',458.5,494.39,446.71]];
 const wireMenuButton=()=>{
  const button=document.querySelector('.menu-button');if(!button)return;
  button.addEventListener('click',openMenu);
