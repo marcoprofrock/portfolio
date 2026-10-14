@@ -525,6 +525,8 @@ function setupMobileVita(){
   parent.append(svgNode('rect',{x:0,y:top,width,height:vitaMobile.top+vitaMobile.tail,fill:'transparent'}));
   // The open heading steps in to the column of its entries (Marco, 04.10.).
   label(open?left:vitaMobile.margin,top+vitaMobile.top,s.title);parent.lastChild.classList.add('vita-heading');
+  // An open heading is a pressed pill: black, its word white (Marco, 14.10.).
+  if(open){parent.lastChild.classList.add('vita-heading-open');parent.lastChild.setAttribute('fill','#fff')}
   // The page is drawn anew; the heading just used keeps the focus.
   const toggle=()=>{vitaOpen=open?null:s.title;layout();
    svg.querySelectorAll('[role="button"]')[sections.filter(x=>x.title!==null).indexOf(s)]?.focus({preventScroll:true})};
@@ -548,7 +550,7 @@ function setupMobileVita(){
   for(const t of svg.querySelectorAll('.vita-heading')){
    t.previousElementSibling?.classList.contains('vita-outline')&&t.previousElementSibling.remove();
    const b=t.getBBox(),h=b.height+18;
-   t.before(svgNode('rect',{'class':'vita-outline',x:b.x-14,y:b.y-9,width:b.width+28,height:h,rx:h/2,fill:'none',stroke:'black','stroke-width':1.5}));
+   t.before(svgNode('rect',{'class':'vita-outline',x:b.x-14,y:b.y-9,width:b.width+28,height:h,rx:h/2,fill:t.classList.contains('vita-heading-open')?'black':'none',stroke:'black','stroke-width':1.5}));
   }};
  main.replaceChildren(svg);layout();document.fonts.ready.then(outline);
 }
