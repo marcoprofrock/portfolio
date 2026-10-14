@@ -15,7 +15,9 @@
     "year": "2026",
     "url": "#plants-with-benefits",
     "preview": "assets/previews/plants-with-benefits.webp",
-    "awards": [],
+    "awards": [
+      "cannes"
+    ],
     "demo": {
       "label": "try for yourself",
       "url": "pwbapp/",
