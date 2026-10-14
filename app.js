@@ -947,6 +947,28 @@ function reflowProject(svg){
  const pieces=top.filter(n=>!inColumn(n)).map(node=>({node,art:artOf(node),texts:[...(node.tagName==='text'?[node]:node.querySelectorAll('text'))]}))
   .filter(p=>p.art||p.texts.length);
  for(const piece of pieces)piece.texts=piece.texts.map(text=>({text,box:boxOf(text),lines:linesOf(text),size:sizeOf(text),fill:fillOf(text)})).filter(t=>t.box&&t.lines.some(l=>l.text.trim()));
+ // A mobile row (data-mobile-row, Marco 14.10.: plants with benefits' social, contextual ads and recap): its pictures
+ // stand side by side across the column at one scale, centred on each other; a text right under one on the desktop
+ // is its caption and stands centred below it.
+ const rows=new Map();
+ for(const piece of pieces){
+  const name=piece.art&&piece.node.dataset?.mobileRow;if(!name)continue;
+  if(!rows.has(name))rows.set(name,{cells:[],y:piece.art.y,x:piece.art.x});
+  // Its own texts under it (the influencers' name and field) are its caption too, line by line.
+  const captions=piece.texts.filter(t=>t.box.y>=piece.art.b-1).map(t=>({...t,node:t.text,lineByLine:true}));
+  // One above it (recap's “and on social”) heads the whole row.
+  const heads=piece.texts.filter(t=>t.box.b<=piece.art.y+1);
+  piece.texts=piece.texts.filter(t=>!captions.some(c=>c.text===t.text)&&!heads.includes(t));
+  const row=rows.get(name);row.cells.push({piece,captions});(row.heads??=[]).push(...heads);row.y=Math.min(row.y,piece.art.y);row.x=Math.min(row.x,piece.art.x);
+ }
+ const inRow=new Set([...rows.values()].flatMap(row=>row.cells.map(cell=>cell.piece))),cells=[...rows.values()].flatMap(row=>row.cells);
+ for(const piece of pieces){
+  if(piece.art||!piece.texts.length)continue;
+  const t=piece.texts[0],mid=(t.box.x+t.box.r)/2;
+  const cell=cells.find(c=>mid>c.piece.art.x&&mid<c.piece.art.r&&t.box.y>=c.piece.art.b-1&&t.box.y-c.piece.art.b<=80);
+  if(cell&&piece.texts.length===1){cell.captions.push({...t,node:piece.node});inRow.add(piece)}
+ }
+ pieces.splice(0,pieces.length,...pieces.filter(piece=>!inRow.has(piece)));
  // Pictures that touch or overlap are one group and keep their arrangement.
  const groups=[];
  for(const piece of pieces.filter(p=>p.art)){
@@ -971,7 +993,7 @@ function reflowProject(svg){
   }
  }
  // Read the desktop ordering, while keeping explicit mobile ordering (s-neo) intact.
- const flow=[...groups.map(g=>({group:g,y:g.art.y,x:g.art.x})),...loose.map(t=>({text:t,y:t.box.y,x:t.box.x}))].sort((a,b)=>a.y-b.y||a.x-b.x);
+ const flow=[...groups.map(g=>({group:g,y:g.art.y,x:g.art.x})),...loose.map(t=>({text:t,y:t.box.y,x:t.box.x})),...[...rows.values()].map(row=>({row,y:row.y,x:row.x}))].sort((a,b)=>a.y-b.y||a.x-b.x);
  const orderOf=e=>{const n=e.group?.pieces[0].node;const v=n&&(n.dataset.mobileOrder??n.querySelector('[data-mobile-order]')?.dataset.mobileOrder);return v==null?null:+v};
  const ordered=flow.map((e,i)=>[i,orderOf(e)]).filter(([,o])=>o!==null),sorted=ordered.map(([i])=>flow[i]).sort((a,b)=>orderOf(a)-orderOf(b));
  ordered.forEach(([i],k)=>{flow[i]=sorted[k]});
@@ -983,6 +1005,8 @@ function reflowProject(svg){
   const tester=g.pieces.find(piece=>'tester' in piece.node.dataset)?.node;
   // A portrait can be read as one image; narrow motifs are centred, never left floating in a wide column.
   let scale=Math.min(column/w,680/h);
+  // A phone that goes with a row (data-mobile-scale-as) takes that row's scale, never more.
+  const like=rows.get(g.pieces.map(p=>p.node.dataset?.mobileScaleAs).find(Boolean))?.scale;if(like)scale=Math.min(scale,like);
   if(lab||tester){
    scale=column/w;h=(lab?waveLabMobile(column).height:300)/scale;
    const marker=lab||tester;marker.dataset.height=h.toFixed(2);marker.querySelector('rect')?.setAttribute('height',h.toFixed(2));
@@ -1001,6 +1025,29 @@ function reflowProject(svg){
   if(tester)cursor+=P.tester;
   if(below.length){svg.append(setText(below,P.left,cursor+P.below,null,P.captionSize,P.captionStep));cursor+=P.below+(below.length-1)*P.captionStep+5}
   cursor+=P.gap;
+ };
+ const rowBlock=row=>{
+  // Every picture of the row gets the same width, so the captions under them get the same measure.
+  const cells=row.cells.sort((a,b)=>a.piece.art.x-b.piece.art.x),gap=10,size=13,step=16,w=(column-gap*(cells.length-1))/cells.length;
+  const scales=cells.map(c=>w/(c.piece.art.r-c.piece.art.x));row.scale=Math.min(...scales);
+  const heights=cells.map((c,i)=>(c.piece.art.b-c.piece.art.y)*scales[i]),tall=Math.max(...heights);
+  const heads=caption(row.heads||[],w*cells.length);(row.heads||[]).forEach(t=>t.text.remove());
+  if(heads.length){svg.append(setText(heads,P.left,cursor+15,null,P.captionSize,P.captionStep));cursor+=15+(heads.length-1)*P.captionStep+P.above}
+  let x=P.left,under=0;
+  cells.forEach((cell,i)=>{
+   const art=cell.piece.art,scale=scales[i];
+   place(cell.piece.node,x-art.x*scale,cursor+(tall-heights[i])/2-art.y*scale,scale);
+   // A sentence broken over the desktop lines is set anew; a name and its field keep a line each.
+   const source=cell.captions.sort((a,b)=>a.box.y-b.box.y).flatMap(t=>t.lines.map(l=>({text:l.text.trim(),own:t.lineByLine}))).filter(l=>l.text);
+   const paragraphs=source.reduce((list,l)=>{if(l.own||!list.length||list.at(-1).own)list.push({...l});else list.at(-1).text+=' '+l.text;return list},[]);
+   cell.captions.forEach(t=>t.node.remove());
+   if(paragraphs.length){
+    const lines=paragraphs.flatMap(p=>wrapSet(p.text,size-1,w)),text=setText(lines,x+w/2,cursor+tall+P.below-2,null,size,step);
+    text.setAttribute('text-anchor','middle');svg.append(text);under=Math.max(under,P.below-2+(lines.length-1)*step+5);
+   }
+   x+=w+gap;
+  });
+  cursor+=tall+under+P.gap;
  };
  // Identity, opening image, then the project story. Long cases now start with the work on the first screen.
  items.sort((a,b)=>a.box.y-b.box.y);
@@ -1028,6 +1075,7 @@ function reflowProject(svg){
  cursor+=P.gap+8;
  for(const entry of flow){
   if(entry.group){mediaBlock(entry.group);continue}
+  if(entry.row){rowBlock(entry.row);continue}
   const t=entry.text,lines=paragraphsOf(t.lines,stepOf(t.lines),t.size).flatMap(p=>p===null?['']:wrapSet(p,P.size-1,column));
   const baseline=cursor+P.ascent,set=setText(lines,P.left,baseline,t.fill);
   // Keep links in place. Remove inherited desktop transforms before assigning page coordinates.

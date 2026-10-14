@@ -935,6 +935,7 @@
         },
         {
           "id": "jameela",
+          "mobile_row": "influencers",
           "kind": "image",
           "file": "influencer-jameela.webp",
           "x": 550,
@@ -944,6 +945,7 @@
         },
         {
           "id": "gaz",
+          "mobile_row": "influencers",
           "kind": "image",
           "file": "influencer-gaz.webp",
           "x": 830,
@@ -953,6 +955,7 @@
         },
         {
           "id": "emily",
+          "mobile_row": "influencers",
           "kind": "image",
           "file": "influencer-emily.webp",
           "x": 1110,
@@ -962,6 +965,7 @@
         },
         {
           "id": "nimai",
+          "mobile_row": "influencers",
           "kind": "image",
           "file": "influencer-nimai.webp",
           "x": 1460,
@@ -1019,6 +1023,7 @@
         },
         {
           "id": "social-09",
+          "mobile_row": "social",
           "kind": "image",
           "file": "social-09.svg",
           "x": 555,
@@ -1028,6 +1033,7 @@
         },
         {
           "id": "social-08",
+          "mobile_row": "social",
           "kind": "image",
           "file": "social-08.svg",
           "x": 950,
@@ -1037,6 +1043,7 @@
         },
         {
           "id": "social-10",
+          "mobile_row": "social",
           "kind": "image",
           "file": "social-10.svg",
           "x": 1345,
@@ -1052,6 +1059,7 @@
         },
         {
           "id": "context-chatgpt",
+          "mobile_row": "context-1",
           "kind": "image",
           "file": "context-chatgpt.svg",
           "x": 530,
@@ -1061,6 +1069,7 @@
         },
         {
           "id": "context-podcast",
+          "mobile_row": "context-1",
           "kind": "image",
           "file": "context-podcast.svg",
           "x": 955,
@@ -1070,6 +1079,7 @@
         },
         {
           "id": "context-adameve",
+          "mobile_row": "context-1",
           "kind": "image",
           "file": "context-adameve.svg",
           "x": 1375,
@@ -1079,6 +1089,7 @@
         },
         {
           "id": "context-bellesa",
+          "mobile_row": "context-2",
           "kind": "image",
           "file": "context-bellesa.svg",
           "x": 530,
@@ -1088,6 +1099,7 @@
         },
         {
           "id": "context-reddit",
+          "mobile_row": "context-2",
           "kind": "image",
           "file": "context-reddit.svg",
           "x": 955,
@@ -1097,6 +1109,7 @@
         },
         {
           "id": "context-pharmacy",
+          "mobile_row": "context-2",
           "kind": "image",
           "file": "context-pharmacy.svg",
           "x": 1375,
@@ -1112,6 +1125,7 @@
         },
         {
           "id": "app-demo",
+          "mobile_scale_as": "social",
           "kind": "video",
           "file": "app-video-poster.svg",
           "x": 945,
@@ -1171,6 +1185,7 @@
         },
         {
           "id": "stats-phone",
+          "mobile_scale_as": "social",
           "kind": "image",
           "file": "stats-phone.svg",
           "x": 1495,
@@ -1183,6 +1198,7 @@
         },
         {
           "id": "recap-1",
+          "mobile_row": "recap",
           "kind": "image",
           "file": "recap-1-framed.svg",
           "x": 560,
@@ -1195,6 +1211,7 @@
         },
         {
           "id": "recap-2",
+          "mobile_row": "recap",
           "kind": "image",
           "file": "recap-2.webp",
           "x": 825,
@@ -1207,6 +1224,7 @@
         },
         {
           "id": "recap-3",
+          "mobile_row": "recap",
           "kind": "image",
           "file": "recap-3.webp",
           "x": 1090,
@@ -1219,6 +1237,7 @@
         },
         {
           "id": "recap-4",
+          "mobile_row": "recap",
           "kind": "image",
           "file": "recap-4.webp",
           "x": 1355,
