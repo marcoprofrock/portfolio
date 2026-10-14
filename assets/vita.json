@@ -309,8 +309,16 @@
     ]
    },
    {
-    "label": "talks",
+    "label": "talks and exhibitions",
     "entries": [
+     {
+      "logo": "gdg",
+      "parts": [
+       "10/2026",
+       "»make it make sense«, die neue sammlung, pinakothek der moderne munich",
+       "500l/s"
+      ]
+     },
      {
       "logo": "adc-germany",
       "parts": [
