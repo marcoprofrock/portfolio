@@ -11,10 +11,3 @@
 /* “more work” over a black pill with the white outline of the foot buttons. */
 .selected-more{position:absolute;display:flex;flex-direction:column;align-items:center;gap:12px;transform:translateY(-50%);font-size:19px;line-height:23px}
 .selected-more a{background:#000;color:#fff;border:1px solid #fff;border-radius:999px;padding:6px 10px}
-/* Phone: one column, the page scrolls; sizes in the drawn units of the 498.17 mobile page. */
-.mobile-works{position:static;display:flex;flex-direction:column;gap:43.2px;padding-bottom:43.2px}
-.mobile-works .selected-work{position:static}
-.mobile-works .selected-name{margin-top:12px;font-size:23px;line-height:28.8px}
-.mobile-works .selected-work:hover .selected-name{opacity:1}
-.mobile-works .selected-more{position:static;transform:none;gap:14px;font-size:23px;line-height:28.8px;margin-top:14px}
-.mobile-works .selected-more a{font-size:29px;line-height:34px;padding:9px 14px;border-width:1.5px}

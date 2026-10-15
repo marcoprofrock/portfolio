@@ -183,6 +183,8 @@ function navigation(route){
 function render(){
  clearTimeout(projectResize);
  cleanupView();cleanupView=()=>{};cleanupRoute();cleanupRoute=()=>{};closeMenu();
+ // work is a desktop page only (Marco, 15.10.): on a phone its address opens the archive.
+ if(useMobile()&&location.hash==='#work')history.replaceState(null,'','#archive');
  const route=routeFromHash(),isInfo=route in infoPages,isProject=!['home','work','archive','diary','vita'].includes(route)&&!isInfo;
  main.classList.toggle('project-page',isProject);
  activeRoute=route;main.dataset.route=route;viewIndex=null;document.body.classList.remove('view-open');
@@ -192,20 +194,22 @@ function render(){
  document.body.classList.toggle('mobile-vita',mobile&&route==='vita');
  // Home and vita on the desktop are one screen and do not scroll (Marco, 03.10.): in a window flatter than 16:9 the
  // 1080 of the drawing ran a few pixels past it.
- document.documentElement.classList.toggle('still-page',!mobile&&['home','vita','work'].includes(route));
+ document.documentElement.classList.toggle('still-page',!mobile&&['home','vita'].includes(route));
+ // work is one screen high and runs on sideways (Marco, 15.10.).
+ document.documentElement.classList.toggle('side-page',!mobile&&route==='work');
  // Home, archive and vita do not swing at the end of a scroll, so the head never moves — as on the diary (Marco, 03.10.).
  document.documentElement.classList.toggle('no-swing',['home','work','archive','vita'].includes(route));
  scale();
- document.body.classList.toggle('mobile-page',mobile&&(isProject||isInfo||route==='home'||route==='work'));
+ document.body.classList.toggle('mobile-page',mobile&&(isProject||isInfo||route==='home'));
  document.body.classList.toggle('mobile-project',mobile&&isProject);
  navigation(isProject?'archive':route);if(isProject)footerProjects(route);if(isProject&&!mobile)footerDemo(projects?.find(project=>project.url===`#${route}`)?.demo);main.innerHTML=isProject||isInfo||mobile&&route==='home'?'':(screens[route]?.body||'');document.title=route==='home'?'marco pröfrock':`${route} — marco pröfrock`;trackPage(route,isProject);window.scrollTo(0,0);
- if(mobile&&(isProject||isInfo||route==='home'||route==='work')){mobileHead();mobileFooter(route,isProject)}
+ if(mobile&&(isProject||isInfo||route==='home')){mobileHead();mobileFooter(route,isProject)}
  if(route==='home'&&mobile)setupMobileHome();
  // The type snake in the empty right half of the desktop home (Marco, 07.10.): snake.js.
  if(route==='home'&&!mobile)cleanupRoute=window.homeSnake?.(main.querySelector('svg'))||(()=>{});
  if(route==='archive')mobile?setupMobileArchive():setupArchive();
  // Four focus projects with their reels (Marco, 14.10.): selected.js.
- if(route==='work')window.selectedWorks?.(main,mobile?'mobile':'page');
+ if(route==='work'&&!mobile)window.selectedWorks?.(main);
  // The diary is only its large view with the roll (Marco): the page opens on the newest entry.
  if(route==='diary')mobile?setupMobileDiary():openEntry(0,'route');
  if(route==='vita')mobile?setupMobileVita():setupVita();
@@ -227,7 +231,7 @@ function mobileHead(){
 // The mobile foot mirrors the head: the same 93.67 and baseline 57.79, a link on the left starts at the name's
 // 39.16, links on the right end where the menu's outline would (look.js lines them up). Project pages lead to the
 // project before and after, the other pages to the links of their desktop foot.
-const mobileFooterLinks={work:[['#contact','contact'],['#imprint','imprint']],home:[['#contact','contact'],['#imprint','imprint'],['#archive','archive']],archive:[['#contact','contact'],['#imprint','imprint']],
+const mobileFooterLinks={home:[['#contact','contact'],['#imprint','imprint'],['#archive','archive']],archive:[['#contact','contact'],['#imprint','imprint']],
  diary:[['#contact','contact'],['#imprint','imprint']],vita:[['#contact','contact'],['#imprint','imprint']],
  contact:[['#imprint','imprint']],imprint:[['#contact','contact']]};
 function mobileFooter(route,isProject){
@@ -358,7 +362,7 @@ function setupVita(){
  // The drawn page ends 86.07 below its last award; when the lists run longer the page grows by as much.
  const bottom=Math.max(vita.awards.y+vitaFirst+(vita.awards.entries.length-1)*vitaStep,top-vitaGap)+86.07;
  const svg=content.ownerSVGElement;
- if(svg&&bottom>1080)svg.setAttribute('viewBox',`0 0 1920 ${bottom.toFixed(2)}`);
+ // Since 15.10. (Marco) the page stays one screen and each of the three blocks scrolls on its own (vitaBoxes).
  // Three blocks, parted by thin rules as between the rows of the archive (Marco's sketch, 03.10.): one upright
  // between the left lists and the awards, from the header line to the foot of the page, halfway between the
  // furthest line on the left and the marks of the awards; one across the left, from the header's left edge to
@@ -371,15 +375,54 @@ function setupVita(){
  const upright=(leftRight+awardsLeft)/2,lastRow=vita.block.y+vita.block.rows.at(-1).y;
  const across=(lastRow+5+vita.columns.y-14)/2,rule=attrs=>list.append(svgNode('line',{...attrs,stroke:'black','stroke-width':.5,'stroke-opacity':.5}));
  const lastAward=vita.awards.y+vitaFirst+(vita.awards.entries.length-1)*vitaStep,under=lastAward+(across-lastRow);
- rule({x1:upright,y1:61,x2:upright,y2:Math.max(1080,bottom)});
+ rule({x1:upright,y1:61,x2:upright,y2:1080});
  rule({x1:0,y1:across,x2:upright,y2:across});
- rule({x1:upright,y1:under,x2:1920,y2:under});
+ const underAt=Math.min(under,1080-58.08);
+ rule({x1:upright,y1:underAt,x2:1920,y2:underAt});
  // Two more from Marco's second sketch (03.10.): one across the awards' side above their heading, as far above it as
  // the rule across the left stands above “memberships”; and one upright in front of the lower left lists, from that
  // rule to the foot, as far left of their marks as the long upright stands left of the awards' marks.
  const over=vita.awards.y-(vita.columns.y-across),lowerUpright=columnMarkRight-vitaMark-(awardsLeft-upright);
  rule({x1:upright,y1:over,x2:1920,y2:over});
- rule({x1:lowerUpright,y1:across,x2:lowerUpright,y2:Math.max(1080,bottom)});
+ rule({x1:lowerUpright,y1:across,x2:lowerUpright,y2:1080});
+ vitaBoxes(list,[[0,61,upright,across],[lowerUpright,across,upright,1080],[upright,over,1920,underAt]]);
+}
+// Three windows that scroll on their own (Marco, 15.10.): education and experience; memberships, publications and
+// talks; the awards. Each is a box over its part of the page, between the rules, holding a drawing of its own with
+// the same coordinates. Below its last line a box keeps as much white as above its first, and it scrolls only
+// when its lists are longer than the box. Its foot ends where the window does, in a window flatter than 16:9 too.
+// Where more follows, the edge fades into white instead of showing a scrollbar.
+function vitaBoxes(list,regions){
+ const boxes=regions.map(([x0,y0,x1,y1])=>{
+  const box=document.createElement('div');box.className='vita-box';
+  const svg=svgNode('svg',{xmlns:namespace,'font-family':roman});box.append(svg);main.append(box);
+  return {x0,y0,x1,y1,box,svg};
+ });
+ // Rules stay on the page; every other mark goes to the box it lies in.
+ for(const node of [...list.children]){
+  if(node.tagName==='line')continue;
+  const b=node.getBBox(),cx=b.x+b.width/2,cy=b.y+b.height/2;
+  const target=boxes.find(r=>cx>=r.x0&&cx<r.x1&&cy>=r.y0&&cy<r.y1)||boxes.find(r=>cx>=r.x0&&cx<r.x1);
+  if(target)target.svg.append(node);
+ }
+ const place=()=>{
+  const view=Math.min(1080,window.innerHeight/zoom());
+  for(const r of boxes){
+   const height=Math.max(0,Math.min(r.y1,view)-r.y0),ink=r.svg.getBBox();
+   const content=Math.max(height,ink.y+ink.height+(ink.y-r.y0)-r.y0);
+   Object.assign(r.box.style,{left:r.x0+'px',top:r.y0+'px',width:(r.x1-r.x0)+'px',height:height+'px'});
+   r.svg.setAttribute('viewBox',`${r.x0} ${r.y0} ${r.x1-r.x0} ${content}`);
+   r.svg.setAttribute('width',r.x1-r.x0);r.svg.setAttribute('height',content);
+   fade(r.box);
+  }
+ };
+ const fade=box=>{
+  box.classList.toggle('more-above',box.scrollTop>1);
+  box.classList.toggle('more-below',box.scrollTop+box.clientHeight<box.scrollHeight-1);
+ };
+ for(const r of boxes)r.box.addEventListener('scroll',()=>fade(r.box),{passive:true});
+ place();document.fonts.ready.then(place);window.addEventListener('resize',place);
+ const done=cleanupRoute;cleanupRoute=()=>{window.removeEventListener('resize',place);done()};
 }
 // Contact and imprint: no drawing of their own; set on the grid of the vita's education block (Marco, 03.10.) —
 // heading at 28.13 / 148.66, first row 43.2 below it, rows 21.6 apart, values on the column at 190.02, a new
@@ -1261,7 +1304,7 @@ function setupMobileDiary(){
 // Mobile menu after archive-mobile-menu.svg. Since 03.10. (Marco) without arrows, their animation and the rules
 // under the entries: each entry is a round outlined button, as in the head, and a tap goes straight to the page.
 const menuButton=`<g class="menu-button" role="button" tabindex="0" aria-label="Open menu"><rect x="418.25" y="25.19" width="55.53" height="43.52" fill="transparent"/>${[35.19,43.03,50.87,58.71].map(y=>`<line x1="428.25" y1="${y}" x2="463.78" y2="${y}" fill="none" stroke="black" stroke-width="1"/>`).join('')}</g>`;
-const menuItems=[['work',184.75,220.63,178.94],['archive',276,311.88,270.19],['diary',366.96,402.85,358.99],['vita',458.5,494.39,446.71]];
+const menuItems=[['archive',276,311.88,270.19],['diary',366.96,402.85,358.99],['vita',458.5,494.39,446.71]];
 const wireMenuButton=()=>{
  const button=document.querySelector('.menu-button');if(!button)return;
  button.addEventListener('click',openMenu);
