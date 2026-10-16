@@ -294,17 +294,17 @@
     ]
   },
   "flyeralarm": {
-    "file": "assets/awards/flyeralarm.png",
+    "file": "assets/awards/flyeralarm.svg",
     "label": "flyeralarm",
     "view": [
-      66,
-      180
+      529.4,
+      529.4
     ],
     "ink": [
       0,
       0,
-      66,
-      180
+      529.4,
+      529.4
     ]
   }
 }
