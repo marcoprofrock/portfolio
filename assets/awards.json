@@ -278,5 +278,19 @@
       3571.0,
       1208.0
     ]
+  },
+  "baunetz": {
+    "file": "assets/awards/baunetz.svg",
+    "label": "baunetz",
+    "view": [
+      26.5,
+      31.73
+    ],
+    "ink": [
+      0,
+      0,
+      26.5,
+      31.73
+    ]
   }
 }
