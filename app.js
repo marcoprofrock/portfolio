@@ -533,7 +533,7 @@ function setupMobileVita(){
  }
  section('awards');
  // An entry may carry a shorter wording for the phone (mobile_parts, Marco 14.10.).
- for(const item of vita.awards.entries){const parts=item.mobile_parts||item.parts;add([parts[0]+' '+parts[1],parts.slice(2).join(', ')].filter(Boolean),item.logo)}
+ for(const item of vita.awards.entries){const parts=item.mobile_parts||item.parts;add([parts[0]+' '+parts[1],parts.slice(2).join(', ')].filter(Boolean),item.logo,item.url)}
  for(const group of vita.columns.blocks){
   section(group.label);
   for(const item of group.entries)
@@ -1367,7 +1367,7 @@ document.addEventListener('keydown',e=>{
  }
 });
 Promise.all([
- ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=vita-pipe-20261016`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
+ ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=vita-links-20261016`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
  document.fonts.load('400 20px Serie57Archive').catch(()=>{}),
  fetch('assets/rotis-metrics.json?v=launch19-20261003').then(r=>{if(!r.ok)throw Error('rotis-metrics could not be loaded');return r.json()}).then(metrics=>{rotis=metrics}),
  // The sizes of the project pictures (scripts/prepare_image_sizes.py) shape the mobile project pages; without
