@@ -1367,7 +1367,7 @@ document.addEventListener('keydown',e=>{
  }
 });
 Promise.all([
- ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=gdg-exhibition-20261014`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
+ ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=gotv-2hm-20261016`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
  document.fonts.load('400 20px Serie57Archive').catch(()=>{}),
  fetch('assets/rotis-metrics.json?v=launch19-20261003').then(r=>{if(!r.ok)throw Error('rotis-metrics could not be loaded');return r.json()}).then(metrics=>{rotis=metrics}),
  // The sizes of the project pictures (scripts/prepare_image_sizes.py) shape the mobile project pages; without
@@ -1650,7 +1650,7 @@ async function setupOpera(route){
  const controller=new AbortController();let frame=0;
  cleanupRoute=()=>{controller.abort();cancelAnimationFrame(frame)};
  try{
-  const response=await fetch(`assets/project-layouts/${route}.svg?v=v2c-yo-20261014`,{signal:controller.signal});
+  const response=await fetch(`assets/project-layouts/${route}.svg?v=gotv-2hm-20261016`,{signal:controller.signal});
   if(!response.ok)throw Error('Projektseite konnte nicht geladen werden.');
   const body=await response.text();if(controller.signal.aborted)return;
   if(typeof body==='string')main.innerHTML=body;else main.replaceChildren(buildProjectPage(body[route]));
