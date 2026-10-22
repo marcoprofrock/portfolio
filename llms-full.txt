@@ -1,0 +1,308 @@
+# Marco Pröfrock
+
+> Marco Pröfrock — creative, self employed, Stuttgart. Archive of award-winning work recognised by ADC, TDC, ICAD and Cannes Lions.
+
+i studied product design and got a little carried away. now there are campaigns, identities, headlines and a typeface made from mineral water. there’s a perfectly reasonable explanation for all of this. several, actually. i’ve put them in the archive.
+
+## s-neo
+
+https://marco.ad/archive/s-neo/  
+sparkasse · ooh / print series · 2026
+
+### project
+
+s-neo is the new mobile broker of the sparkasse, right inside the sparkassen-app. for its launch, an out-of-home campaign across germany was to be developed. each headline takes its wordplay from the place it hangs in.
+
+### credits
+
+- role: copywriting
+
+## plants with benefits
+
+https://marco.ad/archive/plants-with-benefits/  
+re:wild · integrated campaign · 2026
+
+### insight
+
+people care more about their wild life than wildlife.
+flexitarians are open to eating more plants. but distant benefits for the planet struggle to compete with personal desires: feeling healthier, more confident and more fulfilled. research suggests plant rich diets may support sexual wellbeing. an unexpected benefit that gives people a compelling reason to reconsider what’s on their plate.
+
+### idea
+
+make a personal desire a reason to give nature more room.
+plants with benefits is a movement inviting people to explore what eating more plants could do for their sex life, and for nature. instead of asking people to give something up for the planet, we give them something worth choosing for themselves. swapping meat for plant based protein can reduce demand for agricultural land, easing pressure on wildlife habitats.
+
+### execution
+
+arnold schwarzenegger challenges the myth that strength comes from meat, inviting people to discover what plants could do in the bedroom and beyond.
+
+creators across food, fitness and sexual wellness take the idea into their own worlds, while social, outdoor, dating apps and unexpected media placements turn plants with benefits into a cultural conversation.
+
+then the app turns curiosity into a habit. every plant protein choice builds a streak with nature, with reminders, recipes, challenges and food delivery integrations making the next one easier.
+
+a live impact tracker connects individual choices to a collective picture: meals swapped, habits built and land potentially freed for nature.
+
+one personal benefit.
+one daily choice.
+a whole lot more room for the wild.
+
+### credits
+
+- role: art direction
+- team: kunal khade; marco pröfrock; marion mondoloni; melissa duarte de alameida; mohamad al qarawi; norman wursthorn
+- awards: shortlist · results pending · cannes lions — the brief #6
+
+## chancen geben
+
+https://marco.ad/archive/kids-foundation/  
+fakf · ooh / print series · 2026
+
+### brief
+
+flyeralarm design award 2026, category children. the flyeralarm kids foundation asked: what does a child need to grow up well? three motifs about giving chances where they are missing, each as a4 poster and social post.
+
+## mission octopus
+
+https://marco.ad/archive/mission-octopus/  
+sea shepherd · ooh / print series · 2026
+
+### brief
+
+flyeralarm design award 2026, category animals. sea shepherd's brief „mission oktopus": finger weg von den tentakeln! illegal traps threaten octopuses in the mediterranean — an estimated 500,000 in the thracian sea alone. four motifs, each as a4 poster and social post.
+
+## azulejo six
+
+https://marco.ad/archive/azulejo-six/  
+the one club for creativity · type design · 2026
+
+### problem
+
+every number of the young ones countdown to the 2027 awards goes to a different hand. one asset, 1080 × 1350, and a digit that has to stay readable as a digit next to all the others in the feed. the usual answer is a number that morphs — interchangeable, and from nowhere in particular.
+
+### idea
+
+on a road trip across the iberian peninsula i filled almost 150 pages of a hand-bound grid sketchbook with sixes, drawn after azulejo tilework. so the animation does not show the number, it shows where it comes from: first the surface, then the joint grid, then the ornament lattice, then the sign — the order in which an azulejo panel is actually read.
+
+### solution
+
+a field of 28 × 34 tiles in blue 80 and white, with no soft transition anywhere: a tile is blue or white, there is no 40 % blue. the lines are laid tile by tile, the 6 peels out of the lattice counter-clockwise, and a surf runs left to right through its belly. the ornament frame is hand-drawn — one quarter of it, mirrored on both centre axes — and changes in time with the wave. four seconds, seamless loop, 1080 × 1350.
+
+### credits
+
+- assignment: number 6 · young ones countdown to yo 2027
+- role: concept, drawing, design, animation
+
+## vote2cop
+
+https://marco.ad/archive/vote2cop/  
+gotv | nike · brand activation · 2026
+
+### insight
+
+young adults camp from 3 a.m. for sneakers. they don't show up to vote.
+
+### idea
+
+we move the camp-out line to where it belongs: outside the polling stations.
+
+### execution
+
+nike times the release of its drop to the early-voting week. you can only get the limited shoe at pop-up stores next to polling stations. you show your sticker at the door. no sticker, no shoe.
+
+### credits
+
+- team: tabea reifenschweiler
+- awards: 2× honorable mention · young ones get out the vote
+
+## the right way to say thank you
+
+https://marco.ad/archive/thank-you/  
+gotv · ooh / print series · 2026
+
+### rationale
+
+the „i voted" sticker is the most ordinary symbol of election day: familiar, expected and often forgotten within hours. „the right way to say thank you" gives this everyday piece of voting culture a new meaning. the print series shows two emblematic landmarks in the broader history of voting rights — susan b. anthony's grave and the selma to montgomery national historic trail — covered with stickers from voters today. these sites represent defining struggles led by women and black americans while standing for the many people and movements that expanded access to the ballot. by placing a routine contemporary symbol at sites of historic significance, the campaign connects today's visual culture of participation with the sacrifices behind it. it turns a disposable badge into a lasting tribute: the most meaningful way to thank those who fought for your right to vote is to use it.
+
+### credits
+
+- team: tabea reifenschweiler
+
+## 500l/s
+
+https://marco.ad/archive/500ls/  
+academic work · design system · 2026
+
+### problem
+
+stuttgart sits on europe's second-largest mineral water deposit – yet 75% of young residents don't know it exists. the springs hide in backyards, the baths look like ordinary public pools, and no visual language communicates the richness beneath the city.
+
+### idea
+
+bring the mineral water to where the target group already is: bars and cafés. through "spring patronages," each venue adopts one of 13 springs and serves drinks made with its water. from cold drink to cold plunge.
+
+### solution
+
+a generative design system translates the chemical data of each spring into individual waveforms, colors, and a parametric display typeface with 13 cuts and 1,300 glyphs. it runs across all touchpoints – from out-of-home to drink menus to a stamp card that rewards a free bath entry once you've tasted all 13 springs.
+
+### credits
+
+- role: art direction
+- supervision: prof. ursula drees, lucie ilg
+- awards: selected for the tdc annual 2026; adc young ones 2026 · 1× merit; adc talent award 2026 · 1× bronze
+
+## sentry
+
+https://marco.ad/archive/sentry/  
+academic work · design system · 2023
+
+### problem
+
+an avalanche transceiver is the only piece of gear you buy hoping never to use it – and the only one you will operate with a heart rate of 180, gloves on, wind in your face and fifteen minutes before odds collapse. yet the category still communicates like consumer electronics: crowded housings, menu logic, feature lists.
+
+### idea
+
+build the brand around one promise – your sentry in the mountains – and judge every decision by a single question: does it survive panic? identity, housing and interface become one system, so intuition is treated as a safety feature rather than a nice-to-have.
+
+### solution
+
+three colours do the explaining: orange is everything you touch, sand is the body you hold, anthracite is the mount that holds you. one sliding switch, search, send, off, replaces the menu, guarded by a release button so the mode can never change by accident. soft, over-tensioned volumes read as impact-resistant before you know what the object does, and the same geometry generates the icons, the display and the chevron that runs across the brand.
+
+### credits
+
+- role: concept, product design, brand identity, interface design
+- university: stuttgart media university (hdm), integrated product design, 5th semester
+- supervision: prof. burkhard fritz
+- typeface: gotham narrow
+- colours: orange c0 m75 y100 k0; sand c0 m6 y11 k6; anthracite k85
+
+## hope in action
+
+https://marco.ad/archive/hope-in-action/  
+unicef · integrated campaign · 2024
+
+### problem
+
+unicef is losing connection with gen z. 75% find the future frightening, 55.7% believe humanity is doomed. in this climate, hope feels naive – and unicef's mission becomes invisible to the generation that could carry it forward.
+
+### idea
+
+reframe hope as something active, not passive. "hope in action" hijacks the pop culture moments gen z already loves – streaming, gaming, music – and places unicef's real-time results right next to fictional heroes saving the world.
+
+### solution
+
+an ai links streaming platforms' databases with unicef's annual report to generate contextual 5-second messages in real time: "while beth mastered chess, unicef helped 18.6 million children access education." the platform spans ott, twitch, spotify, tiktok (#hopecore), and ooh – all driving to a landing page for donations or volunteer sign-ups.
+
+### credits
+
+- role: art direction and concept
+- team: kunal khade, mohamad al qarawi, marion mondoloni, melissa duarte de almeida, niamh aremband
+- awards: global winner · cannes lions — the brief
+
+## mediterainy opera
+
+https://marco.ad/archive/mediterainy-opera/  
+royal irish academy for music · integrated campaign · 2024
+
+### problem
+
+the royal irish academy of music in dublin is staging an italian opera – but opera feels foreign, elitist, and irrelevant to both gen z and casual audiences. how do you sell something italian in a city known for rain, not romance?
+
+### idea
+
+embrace the contradiction. opera isn't italian in dublin, it's "mediterainy." the campaign reimagines iconic dublin landmarks as if they were italian, with ireland's rainy twist. irish self-deprecating humor becomes the bridge to high culture.
+
+### solution
+
+dublin landmarks are guerrilla-renamed with italian translations, witty ooh posters play on the cultural contrast, and targeted social ads lean into the joke. mementos and branded materials extend the tone – making opera feel fresh, fun, and locally relevant to a modern audience.
+
+### awards
+
+adc talent award 2025 · 1× silver · 4× merit · comm awards 2025 · icad awards 25 · 2× commendation
+
+## windkulturerbe
+
+https://marco.ad/archive/windkulturerbe/  
+enbw · brand activation · 2025
+
+### problem
+
+enbw is one of germany's largest energy companies – but virtually unknown outside baden-württemberg. at the same time, wind power faces constant public resistance, despite being one of the oldest forms of energy humans have ever used.
+
+### idea
+
+mallorca – germany's favorite holiday island – has over 3,300 historic windmills, many of them decaying. enbw turns them into a unesco world heritage petition: because wind power has history. and a future.
+
+### solution
+
+the windmills are restored on the outside and fitted with modern wind technology on the inside. the generated energy feeds directly into ev charging stations in front of each mill – so electric cars charge exactly where wind power was harnessed centuries ago. a petition, microsite, and social campaign invite the public to support "windkulturerbe" and turn wind energy into a cultural conversation.
+
+### credits
+
+- role: art direction and concept
+- copywriting: hannah kormann
+- awards: adc talent award 2026 · 2× bronze; comm awards 2025 · 1× bronze
+
+## u-turn
+
+https://marco.ad/archive/u-turn/  
+academic work · design system · 2025
+
+### problem
+
+car vs. public transport is one of the most polarizing debates in urban mobility – yet most arguments stay abstract. people know the statistics but rarely feel the trade-offs of either choice in a visceral way.
+
+### idea
+
+turn the debate into a game. two teams compete head-to-head in a spatial installation – one drives, one rides public transport. both face real obstacles. the winner is decided by play, not opinion.
+
+### solution
+
+a room-sized immersive board game splits visitors into two sides. the car team deals with traffic jams and parking costs; the public transport team navigates route planning and delays. microcontrollers, reactive sound and lighting, and „event cards“ played by opponents make every trade-off physically felt – not just discussed.
+
+### credits
+
+- role: creative direction, graphic design, documentation
+- production: jakob schmid
+- creative direction: felin jokuszies, marco pröfrock
+- graphic design: marco pröfrock
+- medientechnik: jakob zill, leon marschollek, markus walter, jakob schmid
+- sound: michael baumann, jakob zill
+- light: lukas sabo
+- social media: philine-marie heinrich, meg löffler
+- editing: marie grob, marco pröfrock
+- bühne: all
+- supervision: prof. ursula drees, moritz stuhlfauth, nadja weber
+- typeface: neue serie57
+- awards: adc talent award 2026 · 1× merit
+
+## Vita
+
+https://marco.ad/vita/
+
+- 2027 · german design award newcomer · nominee
+- 2026 · flyeralarm design award · finalist · results pending
+- 2026 · young ones | get out the vote · honorable mention
+- 2026 · young ones | get out the vote · honorable mention
+- 2026 · cannes lions | the brief #6 · shortlist · results pending
+- 2026 · hessian state prize for universal design · finalist
+- 2026 · adc talent award, germany · bronze
+- 2026 · adc talent award, germany · bronze
+- 2026 · adc talent award, germany · bronze
+- 2026 · adc talent award, germany · merit
+- 2026 · tdc young ones, new york · cert. of typographic excellence
+- 2026 · adc young ones, new york · merit
+- 2026 · young lions germany · top 5 print
+- 2026 · young lions germany · top 5 digital
+- 2026 · young lions germany · top 5 pr
+- 2025 · adc talent award, germany · silver
+- 2025 · adc talent award, germany · merit
+- 2025 · adc talent award, germany · merit
+- 2025 · adc talent award, germany · merit
+- 2025 · adc talent award, germany · merit
+- 2025 · icad awards, ireland · top 2 advertising student ireland
+- 2025 · icad awards, ireland · top 3 design student ireland
+- 2025 · comm awards, germany · bronze
+- 2025 · comm awards, germany · bronze
+- 2025 · comm awards, germany · finalist
+- 2025 · comm awards, germany · finalist
+- 2024 · cannes lions | the brief #4 · global winner

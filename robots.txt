@@ -5,4 +5,4 @@ Disallow: /kniffel/
 Disallow: /pwbapp/
 Disallow: /io/
 
-Sitemap: https://www.marco.ad/sitemap.xml
+Sitemap: https://marco.ad/sitemap.xml

@@ -4,7 +4,7 @@
 (()=>{
  const NS='http://www.w3.org/2000/svg',RIGHT=1893.62,MOBILE_RIGHT=473.01,GAP=10;
  // The route app.js settled on (an unknown address becomes home), not the raw address.
- const isProject=()=>!['','home','work','archive','diary','vita','contact','imprint'].includes(document.querySelector('main')?.dataset.route??(location.hash||'#home').slice(1));
+ const isProject=()=>!['','home','work','archive','diary','vita','contact','imprint'].includes(document.querySelector('main')?.dataset.route??(location.pathname.match(/^\/(?:archive\/)?([^/]+)\/?$/)?.[1]||'home'));
  const set=(node,attributes)=>{for(const [k,v] of Object.entries(attributes))node.setAttribute(k,v);return node};
  // An outline around a link's text: as tall as the text plus 6 (12 on mobile), ends round.
  const pill=(a,t,mobile,fill)=>{

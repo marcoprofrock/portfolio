@@ -76,8 +76,26 @@ const routeFor={ 'marco pröfrock':'home',work:'work',archive:'archive',diary:'d
 const formerAnchors={'#p-500ls':'#500ls','#p-wind':'#windkulturerbe','#p-uturn':'#u-turn','#p-hope':'#hope-in-action',
  '#p-opera':'#mediterainy-opera','#p-sentry':'#sentry','#photography':'#diary','#about':'#vita','#memberships':'#vita','#awards-list':'#vita',
  '#talks-publications':'#vita','#imprint':'#imprint','#top':'#home'};
-if(formerAnchors[location.hash]&&formerAnchors[location.hash]!==location.hash)history.replaceState(null,'',formerAnchors[location.hash]);
-const routeFromHash=()=>['home','work','archive','diary','vita','contact','imprint','mediterainy-opera','500ls','sentry','hope-in-action','windkulturerbe','u-turn','azulejo-six','vote2cop','thank-you','s-neo','plants-with-benefits','mission-octopus','kids-foundation'].includes(location.hash.slice(1))||projects?.some(project=>project.url===location.hash)?location.hash.slice(1):'home';
+const routeFromHash=(hash=routeHash())=>['home','work','archive','diary','vita','contact','imprint','mediterainy-opera','500ls','sentry','hope-in-action','windkulturerbe','u-turn','azulejo-six','vote2cop','thank-you','s-neo','plants-with-benefits','mission-octopus','kids-foundation'].includes(hash.slice(1))||projects?.some(project=>project.url===hash)?hash.slice(1):'home';
+// Every route has an address of its own (Marco, 23.10.: so search engines and AI crawlers find each page):
+// /, /work/, /archive/, /diary/, /vita/, /contact/, /imprint/ and /archive/<project>/. scripts/prerender.py writes a
+// page with the text at each of them. Links inside the site still say #route; the click below turns them into the
+// address, and an old #route link (or one of the former anchors) is rewritten to its address on arrival.
+const pageRoutes=['home','work','archive','diary','vita','contact','imprint'];
+const pathFor=route=>route==='home'?'/':pageRoutes.includes(route)?`/${route}/`:`/archive/${route}/`;
+const routeHash=()=>{const m=location.pathname.match(/^\/(?:archive\/([^/]+)|([^/]+))?\/?(?:index\.html)?$/);return `#${m?.[1]||m?.[2]||'home'}`};
+const adoptHash=()=>{
+ const hash=formerAnchors[location.hash]||location.hash;if(!hash||hash==='#cookies')return;
+ const route=routeFromHash(hash);if(route!=='home'||hash==='#home')history.replaceState(null,'',pathFor(route)+location.search);
+};
+const go=hash=>{const path=pathFor(routeFromHash(hash));if(path!==location.pathname){history.pushState(null,'',path);render()}};
+document.addEventListener('click',event=>{
+ const link=event.target.closest?.('a[href^="#"]');
+ if(!link||event.defaultPrevented||event.button||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+ const hash=formerAnchors[link.getAttribute('href')]||link.getAttribute('href');
+ if(hash==='#cookies'||routeFromHash(hash)==='home'&&hash!=='#home')return;
+ event.preventDefault();go(hash);
+});
 // The width of the window without anything a page pushes out past its edge: a phone widens innerWidth to fit
 // whatever overflows, and that wider number then picked the desktop layout for the very page that overflowed.
 const viewWidth=()=>document.documentElement.clientWidth||window.innerWidth;
@@ -184,7 +202,8 @@ function render(){
  clearTimeout(projectResize);
  cleanupView();cleanupView=()=>{};cleanupRoute();cleanupRoute=()=>{};closeMenu();
  // work is a desktop page only (Marco, 15.10.): on a phone its address opens the archive.
- if(useMobile()&&location.hash==='#work')history.replaceState(null,'','#archive');
+ adoptHash();
+ if(useMobile()&&routeFromHash()==='work')history.replaceState(null,'',pathFor('archive'));
  const route=routeFromHash(),isInfo=route in infoPages,isProject=!['home','work','archive','diary','vita'].includes(route)&&!isInfo;
  main.classList.toggle('project-page',isProject);
  activeRoute=route;main.dataset.route=route;viewIndex=null;document.body.classList.remove('view-open');
@@ -202,7 +221,7 @@ function render(){
  scale();
  document.body.classList.toggle('mobile-page',mobile&&(isProject||isInfo||route==='home'));
  document.body.classList.toggle('mobile-project',mobile&&isProject);
- navigation(isProject?'archive':route);if(isProject)footerProjects(route);if(isProject&&!mobile)footerDemo(projects?.find(project=>project.url===`#${route}`)?.demo);main.innerHTML=isProject||isInfo||mobile&&route==='home'?'':(screens[route]?.body||'');document.title=route==='home'?'marco pröfrock':`${route} — marco pröfrock`;trackPage(route,isProject);window.scrollTo(0,0);
+ navigation(isProject?'archive':route);if(isProject)footerProjects(route);if(isProject&&!mobile)footerDemo(projects?.find(project=>project.url===`#${route}`)?.demo);main.innerHTML=isProject||isInfo||mobile&&route==='home'?'':(screens[route]?.body||'');document.title=route==='home'?'marco pröfrock':`${isProject&&projects?.find(project=>project.url===`#${route}`)?.title||route} — marco pröfrock`;trackPage(route,isProject);window.scrollTo(0,0);
  if(mobile&&(isProject||isInfo||route==='home')){mobileHead();mobileFooter(route,isProject)}
  if(route==='home'&&mobile)setupMobileHome();
  // The type snake in the empty right half of the desktop home (Marco, 07.10.): snake.js.
@@ -664,7 +683,7 @@ function setupArchive(){
   }
   const hide=()=>{preview.setAttribute('visibility','hidden');stop()};
   row.addEventListener('pointerenter',show);row.addEventListener('pointerleave',hide);row.addEventListener('focus',show);row.addEventListener('blur',hide);
-  if(project.url){row.setAttribute('role','link');const open=()=>location.assign(project.url);row.addEventListener('click',open);row.addEventListener('keydown',e=>{if(e.key==='Enter')open()})}
+  if(project.url){row.setAttribute('role','link');const open=()=>go(project.url);row.addEventListener('click',open);row.addEventListener('keydown',e=>{if(e.key==='Enter')open()})}
   table.append(row);
  });
 }
@@ -1180,8 +1199,8 @@ function setupMobileArchive(){
   if(project.url){
    row.setAttribute('role','link');row.setAttribute('tabindex','0');
    row.append(svgNode('rect',{x:15.15,y:edges[i],width:469.81,height:edges[i+1]-edges[i],fill:'transparent'}));
-   row.addEventListener('click',()=>{location.hash=project.url});
-   row.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();location.hash=project.url}});
+   row.addEventListener('click',()=>go(project.url));
+   row.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();go(project.url)}});
   }
   const label=setLines(svgNode('text'),39.16,edges[i]+55.08,titles[i],mobileType.step);
   row.append(label,svgNode('text',{x:401.52,y:edges[i]+59.86},project.year));
@@ -1349,7 +1368,7 @@ function outlineMenuItem(item){
 }
 function chooseMenu(chosen){
  const route=chosen.dataset.route;closeMenu();
- if(route!==activeRoute)location.hash=`#${route}`;
+ if(route!==activeRoute)go(`#${route}`);
 }
 function closeMenu(){
  if(!menu)return;
@@ -1378,7 +1397,7 @@ Promise.all([
  projects=projectList.sort(newestFirst(projectKey));
  entries=diary.sort(newestFirst(diaryKey));
  projects.forEach(project=>{if(project.preview){const image=new Image();image.src=project.preview}});
- render();window.addEventListener('hashchange',render);
+ render();window.addEventListener('popstate',render);
  if(!consent())askConsent();
 }).catch(error=>{main.textContent='The website could not be loaded. Please reload the page.';console.error(error)});
 
