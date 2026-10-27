@@ -7,13 +7,15 @@
  // vote2cop has its own still here: only the words vote to cop, at 12.6 s of the reel (Marco).
  const works=[
   ['500l/s','#500ls','assets/projects/500ls/00_showreel'],
+  // hope in action here since 27.10.2026 (Marco).
+  ['hope in action','#hope-in-action','assets/projects/hope-in-action/02_showreel'],
   ['vote2cop','#vote2cop','assets/projects/vote2cop/02_showreel','assets/projects/vote2cop/02_showreel-type.webp'],
   ['sentry','#sentry','assets/projects/sentry/02_showreel'],
   // Added on the right (Marco, 15.10.): s-neo above plants with benefits. Its reel was built for this (54_Sparkasse_OOH/06_SHOWREEL).
   ['s-neo','#s-neo','assets/projects/s-neo/00_showreel'],
   ['plants with benefits','#plants-with-benefits','assets/projects/plants-with-benefits/showreel'],
  ];
- // Desktop: three columns, two rows — 500l/s, s-neo on top; vote2cop, sentry, plants with benefits below.
+ // Desktop: three columns, two rows — 500l/s, hope in action, s-neo on top; vote2cop, sentry, plants with benefits below.
  const cell=[[0,0],[1,0],[0,1],[1,1],[2,0],[2,1]];
  const L=26.38,GAP=26.38,CAP=60,TOP=134.84;
  // Both rows between 134.84 and the foot (1080 − 58.08), so the page does not scroll up and down.

@@ -1386,12 +1386,12 @@ document.addEventListener('keydown',e=>{
  }
 });
 Promise.all([
- ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=fellow-hh-20261016`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
+ ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=hope-work-20261027`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
  document.fonts.load('400 20px Serie57Archive').catch(()=>{}),
  fetch('assets/rotis-metrics.json?v=launch19-20261003').then(r=>{if(!r.ok)throw Error('rotis-metrics could not be loaded');return r.json()}).then(metrics=>{rotis=metrics}),
  // The sizes of the project pictures (scripts/prepare_image_sizes.py) shape the mobile project pages; without
  // them those pages still work, each picture then counts with its whole frame.
- fetch('assets/image-sizes.json?v=wke-reel-20261013').then(r=>r.ok?r.json():{}).catch(()=>({})).then(sizes=>{imageSizes=sizes}),
+ fetch('assets/image-sizes.json?v=hope-work-20261027').then(r=>r.ok?r.json():{}).catch(()=>({})).then(sizes=>{imageSizes=sizes}),
 ]).then(([data,projectList,awardList,diary,vitaData])=>{
  screens=data;awards=awardList;vita=vitaData;
  projects=projectList.sort(newestFirst(projectKey));
