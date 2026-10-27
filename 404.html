@@ -6,7 +6,8 @@
   <title>marco pröfrock</title>
   <!-- An address that does not exist goes to the start page. -->
   <meta http-equiv="refresh" content="0; url=/">
-  <script>location.replace('/')</script>
+  <!-- A project behind the password has no page here: app.js opens it again after the start page (Marco, 27.10.2026). -->
+  <script>try{if(location.pathname.startsWith('/archive/'))sessionStorage.setItem('private-return',location.pathname)}catch(e){}location.replace('/')</script>
 </head>
 <body><a href="/">marco pröfrock</a></body>
 </html>

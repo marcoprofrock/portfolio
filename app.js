@@ -24,6 +24,8 @@ let trackedPath=null;
 const track=(name,params)=>{if(analyticsOn)gtag('event',name,params)};
 const trackPage=(route,isProject)=>{
  startAnalytics();if(!analyticsOn)return;
+ // A project behind the password is not counted: its address would name it at Google.
+ if(privateArea?.routes.includes(route))return;
  const path=route==='home'?'/':isProject?`/archive/${route}`:`/${route}`;
  if(path===trackedPath)return;trackedPath=path;
  track('page_view',{page_location:location.origin+path,page_title:document.title});
@@ -61,6 +63,68 @@ function askConsent(){
 }
 document.addEventListener('click',event=>{if(!event.target.closest?.('a[href="#cookies"]'))return;event.preventDefault();askConsent()});
 let screens,projects,awards,entries,vita,imageSizes={},activeRoute='home',viewIndex=null,viewFocus=0;
+// The password area under the archive list (Marco, 27.10.2026): projects that may not be public yet lie online only
+// sealed (scripts/encrypt_private.py — AES-GCM, the key drawn from the password with PBKDF2). “more” turns into a
+// password field; the right password adds them to the list and hands the key to private-sw.js, which opens their
+// pictures and films for this tab. The key stays in the tab until it is closed, the password itself nowhere.
+let privateArea=null;
+const privateStore={get:name=>{try{return sessionStorage.getItem(name)}catch{return null}},
+ set:(name,value)=>{try{value===null?sessionStorage.removeItem(name):sessionStorage.setItem(name,value)}catch{}}};
+const privateIndex=()=>fetch('assets/private/index.bin',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('no private area');return r.arrayBuffer()});
+async function privateKey(password,sealed){
+ const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(password.normalize('NFC')),'PBKDF2',false,['deriveBits']);
+ return new Uint8Array(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:sealed.slice(0,16),iterations:600000},base,256));
+}
+// Throws on a wrong key (the seal does not open) and when the tab cannot run the worker.
+async function openPrivate(raw,sealed){
+ if(!navigator.serviceWorker)throw Error('no service worker');
+ const key=await crypto.subtle.importKey('raw',raw,'AES-GCM',false,['decrypt']);
+ const manifest=JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:sealed.slice(16,28)},key,sealed.slice(28))));
+ await navigator.serviceWorker.register('private-sw.js',{scope:'/'});
+ await navigator.serviceWorker.ready;
+ if(!navigator.serviceWorker.controller)await new Promise(resolve=>navigator.serviceWorker.addEventListener('controllerchange',resolve,{once:true}));
+ privateArea={key:raw,files:manifest.files,routes:manifest.routes};
+ navigator.serviceWorker.controller.postMessage({key:raw,files:manifest.files});
+ // Below the public list, in the order they were sealed.
+ for(const project of manifest.projects)if(!projects.some(p=>p.url===project.url))projects.push(project);
+ Object.assign(imageSizes,manifest.sizes);
+ privateStore.set('private-key',btoa(String.fromCharCode(...raw)));
+}
+// The worker forgets keys when the browser stops it; it then asks the tab again.
+navigator.serviceWorker?.addEventListener('message',event=>{
+ if(event.data?.private!=='key?')return;
+ event.ports[0]?.postMessage(privateArea?{key:privateArea.key,files:privateArea.files}:{});
+});
+// On a reload the area opens again from the kept key. A private project page has no page on the server: 404.html
+// notes the address and sends the tab home, and once the area is open the tab goes back there.
+async function restorePrivate(){
+ const kept=privateStore.get('private-key'),back=privateStore.get('private-return');
+ privateStore.set('private-return',null);
+ if(!kept)return;
+ try{await openPrivate(Uint8Array.from(atob(kept),c=>c.charCodeAt(0)),await privateIndex())}catch{privateStore.set('private-key',null);return}
+ const slug=back?.match(/^\/archive\/([^/]+)\/?$/)?.[1];
+ if(slug&&privateArea.routes.includes(slug))history.replaceState(null,'',`/archive/${slug}/`);
+}
+// “more”: a pill like “archive” on the work page; a click turns it into the password field, Enter opens.
+function privateMore(x,y){
+ const box=document.createElement('div');box.className='private-more';Object.assign(box.style,{left:x+'px',top:y+'px'});
+ const pill=document.createElement('button');pill.type='button';pill.textContent='more';
+ const field=document.createElement('input');
+ Object.assign(field,{type:'password',placeholder:'password',autocomplete:'current-password',spellcheck:false});
+ field.setAttribute('aria-label','password');field.setAttribute('autocapitalize','off');
+ const back=()=>{if(field.disabled)return;field.replaceWith(pill)};
+ pill.addEventListener('click',()=>{field.value='';field.placeholder='password';pill.replaceWith(field);field.focus()});
+ field.addEventListener('keydown',async event=>{
+  if(event.key==='Escape'){back();return}
+  if(event.key!=='Enter'||!field.value)return;
+  event.preventDefault();
+  const password=field.value;field.value='';field.placeholder='…';field.disabled=true;
+  try{const sealed=await privateIndex();await openPrivate(await privateKey(password,sealed),sealed);render()}
+  catch{field.disabled=false;field.placeholder='wrong password';field.focus()}
+ });
+ field.addEventListener('blur',()=>{if(!field.value)back()});
+ box.append(pill);main.append(box);
+}
 const namespace='http://www.w3.org/2000/svg';
 let mobile=false,cleanupRoute=()=>{},cleanupView=()=>{},menu=null;
 const mobileWidth=498.17;
@@ -686,6 +750,8 @@ function setupArchive(){
   if(project.url){row.setAttribute('role','link');const open=()=>go(project.url);row.addEventListener('click',open);row.addEventListener('keydown',e=>{if(e.key==='Enter')open()})}
   table.append(row);
  });
+ // “more” in the middle of the next drawn row, at the left edge of the list.
+ if(!privateArea){const n=projects.length,low=boundaries[n],high=boundaries[n+1]??low+low-boundaries[n-1];privateMore(26.38,(low+high)/2)}
 }
 // The list follows the film strip: head rule from diary.svg, every row ends where its frame ends.
 const diaryFirst=332.53;
@@ -1208,6 +1274,7 @@ function setupMobileArchive(){
   rows.push(row);
  }
  main.replaceChildren(svg);
+ if(!privateArea)privateMore(15.15,edges[count]+91.25/2);
  const preview=document.getElementById('mobile-project-preview');
  let selected=-1,frame=0;
  const update=()=>{
@@ -1397,8 +1464,10 @@ Promise.all([
  projects=projectList.sort(newestFirst(projectKey));
  entries=diary.sort(newestFirst(diaryKey));
  projects.forEach(project=>{if(project.preview){const image=new Image();image.src=project.preview}});
- render();window.addEventListener('popstate',render);
- if(!consent())askConsent();
+ restorePrivate().finally(()=>{
+  render();window.addEventListener('popstate',render);
+  if(!consent())askConsent();
+ });
 }).catch(error=>{main.textContent='The website could not be loaded. Please reload the page.';console.error(error)});
 
 // The 13 cuts of 500l/s, one per Stuttgart spring, each with its fixed colour — as in the Illustrator randomizer
