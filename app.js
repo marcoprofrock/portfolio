@@ -691,7 +691,9 @@ function setupArchive(){
  const boundaries=lines.map(n=>Number(n.getAttribute('y1')));boundaries.push(1080.5);
  // Only real projects get a row. The drawn rows below the last one are placeholders and go, ruled lines
  // included — the page stays open underneath until further projects arrive.
- lines.slice(projects.length+1).forEach(line=>line.remove());
+ // Projects behind the password get a table of their own further down, headed “confidential” (Marco, 27.10.2026).
+ const sealed=projects.filter(project=>privateArea?.routes.includes(project.url.slice(1))),shown=projects.filter(project=>!sealed.includes(project));
+ lines.slice(shown.length+1).forEach(line=>line.remove());
  for(const n of [...content.querySelectorAll('text')]){
   const [,y]=coordinates(n);if(y>260 || ['client','area','year'].includes(n.textContent))n.remove();
  }
@@ -730,10 +732,25 @@ function setupArchive(){
  };
  window.addEventListener('resize',place);
  cleanupRoute=()=>{window.removeEventListener('resize',place);for(const video of clips.values()){video.pause();video.remove()}};
- baselines.slice(0,projects.length).forEach((y,i)=>{
-  const project=projects[i];
+ // “more”, and once the area is open the head of the confidential table, sit one row lower than the next drawn
+ // row's middle (Marco: “eine Zeile mehr”). That table repeats the drawn one: head, rule, the same row heights.
+ const below=boundaries[shown.length],pitch=(boundaries[shown.length+1]??below+below-boundaries[shown.length-1])-below,middle=below+pitch*1.5;
+ const placed=shown.map((project,i)=>[project,baselines[i],boundaries[i],boundaries[i+1]]);
+ if(sealed.length){
+  const head=[...content.querySelectorAll('text')].find(n=>n.textContent.trim()==='projects');
+  const headY=middle+7,rule=headY+boundaries[0]-245.96;
+  const title=head.cloneNode(true);title.setAttribute('transform',`translate(26.87 ${headY+.35})`);title.querySelector('tspan').textContent='confidential';
+  content.append(title);
+  for(const [x,label] of [[400,'client'],[775,'area'],[1233.6,'year']])content.append(svgNode('text',{x,y:headY,'font-family':lightFace,'font-weight':400,'font-size':20},label));
+  sealed.forEach((project,i)=>{
+   const top=rule+boundaries[i]-boundaries[0],bottom=rule+boundaries[i+1]-boundaries[0];
+   placed.push([project,rule+baselines[i]-boundaries[0],top,bottom]);
+  });
+  for(const y of [rule,...placed.slice(shown.length).map(row=>row[3])]){const line=lines[0].cloneNode();line.setAttribute('y1',y);line.setAttribute('y2',y);content.append(line)}
+ }
+ placed.forEach(([project,y,rowTop,rowBottom])=>{
   const row=svgNode('g',{'class':'project-row',tabindex:0,'aria-label':[project.title,project.client,project.area,project.year,...(project.awards||[]).map(name=>awards[name]?.label||name)].filter(Boolean).join(', ')});
-  row.append(svgNode('rect',{x:26.38,y:boundaries[i],width:1244.34,height:boundaries[i+1]-boundaries[i],fill:'transparent'}));
+  row.append(svgNode('rect',{x:26.38,y:rowTop,width:1244.34,height:rowBottom-rowTop,fill:'transparent'}));
   [[26.87,project.title,false],[400,project.client,true],[775,project.area,true],[1233.6,project.year,true]].forEach(([x,label,light])=>row.append(svgNode('text',{x,y,'font-family':light?lightFace:roman,'font-size':20,'font-weight':400},label)));
   function show(){
    const scale=window.innerWidth/1920;
@@ -750,8 +767,7 @@ function setupArchive(){
   if(project.url){row.setAttribute('role','link');const open=()=>go(project.url);row.addEventListener('click',open);row.addEventListener('keydown',e=>{if(e.key==='Enter')open()})}
   table.append(row);
  });
- // “more” in the middle of the next drawn row, at the left edge of the list.
- if(!privateArea){const n=projects.length,low=boundaries[n],high=boundaries[n+1]??low+low-boundaries[n-1];privateMore(26.38,(low+high)/2)}
+ if(!privateArea)privateMore(26.38,middle);
 }
 // The list follows the film strip: head rule from diary.svg, every row ends where its frame ends.
 const diaryFirst=332.53;
@@ -1255,33 +1271,44 @@ function setupMobileArchive(){
  // than the Rotis these rows were drawn in (“the right way to say thank you” reached into 2026).
  const count=projects.length,drawn=[top,608.42,699.97,790.93,882.47,973.44,1064.98];
  const titles=projects.map(project=>wrapSet(project.title,mobileType.set,401.52-24-39.16));
- const edges=[top];
- for(let i=0;i<count;i++)edges.push(edges[i]+(drawn[i+1]?drawn[i+1]-drawn[i]:91.25)+(titles[i].length-1)*mobileType.step);
- const svg=svgNode('svg',{viewBox:`0 0 ${width} ${edges[count]}`,'aria-label':'Projects and year'});
+ // Projects behind the password follow in a table of their own, headed “confidential” where “more” sat — one row
+ // lower than the middle of the next row (Marco, 27.10.2026); its rows take the drawn heights from the start again.
+ const shown=projects.filter(project=>!privateArea?.routes.includes(project.url.slice(1))).length;
+ const tops=[],bottoms=[];let y=top,headY=0;
+ for(let i=0;i<count;i++){
+  if(i===shown){headY=y+91.25*1.5+8;y=headY+517.21-481.57}
+  const j=i<shown?i:i-shown;
+  tops.push(y);y+=(drawn[j+1]?drawn[j+1]-drawn[j]:91.25)+(titles[i].length-1)*mobileType.step;bottoms.push(y);
+ }
+ const svg=svgNode('svg',{viewBox:`0 0 ${width} ${y}`,'aria-label':'Projects and year'});
+ if(headY){
+  svg.append(svgNode('text',{'class':'list-head',x:39.16,y:headY},'confidential'),svgNode('text',{'class':'list-head',x:409.73,y:headY-.7,'letter-spacing':'.02em'},'year'),
+   svgNode('line',{x1:15.15,x2:484.96,y1:tops[shown],y2:tops[shown],stroke:'black','stroke-width':.5}));
+ }
  const rows=[];
  for(let i=0;i<count;i++){
   const project=projects[i];
   const row=svgNode('g',{'class':'mobile-project-row','aria-label':`${project.title}, ${project.year}`});
   if(project.url){
    row.setAttribute('role','link');row.setAttribute('tabindex','0');
-   row.append(svgNode('rect',{x:15.15,y:edges[i],width:469.81,height:edges[i+1]-edges[i],fill:'transparent'}));
+   row.append(svgNode('rect',{x:15.15,y:tops[i],width:469.81,height:bottoms[i]-tops[i],fill:'transparent'}));
    row.addEventListener('click',()=>go(project.url));
    row.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();go(project.url)}});
   }
-  const label=setLines(svgNode('text'),39.16,edges[i]+55.08,titles[i],mobileType.step);
-  row.append(label,svgNode('text',{x:401.52,y:edges[i]+59.86},project.year));
-  svg.append(row,svgNode('line',{x1:15.15,x2:484.96,y1:edges[i+1],y2:edges[i+1],stroke:'black','stroke-width':.5}));
+  const label=setLines(svgNode('text'),39.16,tops[i]+55.08,titles[i],mobileType.step);
+  row.append(label,svgNode('text',{x:401.52,y:tops[i]+59.86},project.year));
+  svg.append(row,svgNode('line',{x1:15.15,x2:484.96,y1:bottoms[i],y2:bottoms[i],stroke:'black','stroke-width':.5}));
   rows.push(row);
  }
  main.replaceChildren(svg);
- if(!privateArea)privateMore(15.15,edges[count]+91.25/2);
+ if(!privateArea)privateMore(15.15,(bottoms[count-1]??top)+91.25*1.5);
  const preview=document.getElementById('mobile-project-preview');
  let selected=-1,frame=0;
  const update=()=>{
   frame=0;
   const scroll=window.scrollY/zoom();
   let index=0;
-  while(index<count-1&&edges[index+1]-top<=scroll+.25)index++;
+  while(index<count-1&&tops[index+1]-top<=scroll+.25)index++;
   if(index===selected)return;
   if(selected>=0){rows[selected].classList.remove('selected');rows[selected].removeAttribute('aria-current')}
   selected=index;rows[index].classList.add('selected');rows[index].setAttribute('aria-current','true');

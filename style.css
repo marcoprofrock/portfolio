@@ -245,9 +245,10 @@ html.no-swing,html.no-swing body{overscroll-behavior:none}
 /* work runs on sideways; the page stays white past the first screen (html is black for Safari's swing above the head). */
 html.side-page{overflow-x:auto;overflow-y:hidden;overscroll-behavior:none;background:#fff}
 /* The password area (Marco, 27.10.2026): “more” under the archive list is the pill of “archive” on the work page
-   (selected.css) and turns into the password field in the same shape. */
+   (selected.css), but white with a black outline (Marco), and turns into the password field in the same shape. */
 .private-more{position:absolute;transform:translateY(-50%);font-size:19px;line-height:23px}
-.private-more button,.private-more input{font:inherit;line-height:inherit;background:#000;color:#fff;border:1px solid #fff;border-radius:999px;padding:.3158em .5263em;margin:0;cursor:pointer}
-.private-more input{width:16em;cursor:text;outline:none;caret-color:#fff}
-.private-more input::placeholder{color:#fff;opacity:.5}
+.private-more button,.private-more input{font:inherit;line-height:inherit;background:#fff;color:#000;border:1px solid #000;border-radius:999px;padding:.3158em .5263em;margin:0;cursor:pointer}
+.private-more input{width:16em;cursor:text;outline:none;caret-color:#000}
+.private-more input::placeholder{color:#000;opacity:.5}
+.mobile main svg text.list-head{font-size:24px}
 body.mobile .private-more{font-size:24px;line-height:29px}
