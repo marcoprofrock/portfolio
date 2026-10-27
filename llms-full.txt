@@ -16,6 +16,7 @@ s-neo is the new mobile broker of the sparkasse, right inside the sparkassen-app
 ### credits
 
 - role: copywriting
+- agency: scholz & friends
 
 ## plants with benefits
 
