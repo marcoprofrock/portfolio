@@ -164,6 +164,9 @@ body{background:#fff;min-height:100vh}
 header.look-dark{background:#000}
 header text.look-white{fill:#fff}
 header .menu-button line{stroke:#fff}
+/* Over the black bar the cursor turns white (Marco, 27.10.); the white list head below it on mobile keeps the black one. */
+header .look-bar[fill="#000"]{cursor:url('assets/screens/Cursor_weiss.svg') 7 7,auto}
+header a:has(.look-white),header .menu-button{cursor:url('assets/screens/Cursor_Auswahl_weiss.svg') 7 7,pointer}
 footer{background:transparent;pointer-events:none}
 footer a{pointer-events:auto}
 footer svg text{fill:#fff}
