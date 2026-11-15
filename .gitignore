@@ -4,3 +4,5 @@ node_modules/
 *.log
 index_snapshot.pdf
 *.pdf
+# the vita as PDF behind "download cv" (15.11.2026)
+!vita/marco-proefrock-cv.pdf

@@ -139,8 +139,10 @@ const routeFor={ 'marco pröfrock':'home',work:'work',archive:'archive',diary:'d
 // Links to the former marco.ad (one long page with anchors) land on the matching route.
 const formerAnchors={'#p-500ls':'#500ls','#p-wind':'#windkulturerbe','#p-uturn':'#u-turn','#p-hope':'#hope-in-action',
  '#p-opera':'#mediterainy-opera','#p-sentry':'#sentry','#photography':'#diary','#about':'#vita','#memberships':'#vita','#awards-list':'#vita',
- '#talks-publications':'#vita','#imprint':'#imprint','#top':'#home'};
-const routeFromHash=(hash=routeHash())=>['home','work','archive','diary','vita','contact','imprint','mediterainy-opera','500ls','sentry','hope-in-action','windkulturerbe','u-turn','azulejo-six','vote2cop','thank-you','s-neo','plants-with-benefits','mission-octopus','kids-foundation'].includes(hash.slice(1))||projects?.some(project=>project.url===hash)?hash.slice(1):'home';
+ '#talks-publications':'#vita','#imprint':'#imprint','#top':'#home',
+ // sea shepherd and fakf became one project, ngo poster (Marco, 15.11.2026).
+ '#mission-octopus':'#ngo-poster','#kids-foundation':'#ngo-poster'};
+const routeFromHash=(hash=routeHash())=>['home','work','archive','diary','vita','contact','imprint','mediterainy-opera','500ls','sentry','hope-in-action','windkulturerbe','u-turn','azulejo-six','vote2cop','thank-you','s-neo','plants-with-benefits','ngo-poster'].includes(hash.slice(1))||projects?.some(project=>project.url===hash)?hash.slice(1):'home';
 // Every route has an address of its own (Marco, 23.10.: so search engines and AI crawlers find each page):
 // /, /work/, /archive/, /diary/, /vita/, /contact/, /imprint/ and /archive/<project>/. scripts/prerender.py writes a
 // page with the text at each of them. Links inside the site still say #route; the click below turns them into the
@@ -237,9 +239,19 @@ function footerLink(visible){
 const footerRows={work:[['#contact','contact'],['#imprint','imprint']],home:[['#contact','contact'],['#imprint','imprint']],archive:[['#contact','contact'],['#imprint','imprint']],
  diary:[['#contact','contact'],['#imprint','imprint']],vita:[['#contact','contact'],['#imprint','imprint']],
  contact:[['#imprint','imprint']],imprint:[['#contact','contact']]};
-function footerRow(links){
- document.querySelector('footer').innerHTML=`<svg viewBox="0 0 1920 58.08" class="look-row">${links.map(([href,label])=>`<a href="${href}"><text x="1893.62" y="32.03" text-anchor="end">${label}</text></a>`).join('')}</svg>`;
+function footerRow(links,left=[]){
+ document.querySelector('footer').innerHTML=`<svg viewBox="0 0 1920 58.08" class="look-row">${left.map(([href,label])=>`<a href="${href}" class="look-left${href===cvFile?' cv-link':''}"><text x="26.38" y="32.03">${label}</text></a>`).join('')}${links.map(([href,label])=>`<a href="${href}"><text x="1893.62" y="32.03" text-anchor="end">${label}</text></a>`).join('')}</svg>`;
 }
+// “download cv” on the vita (Marco, 15.11.2026): a black pill like contact and imprint, bottom left where a project
+// page has “previous project”. It saves the vita as a 16:9 PDF; scripts/vita_pdf.mjs makes that file from this very
+// page (build_live.py runs it). The click goes through a plain HTML link, because not every browser downloads from
+// an <a download> inside an SVG.
+const cvFile='vita/marco-proefrock-cv.pdf',cvName='marco-proefrock-cv.pdf',footerLeft={vita:[[cvFile,'download cv']]};
+document.addEventListener('click',event=>{
+ if(!event.target.closest?.('a.cv-link'))return;
+ event.preventDefault();const link=document.createElement('a');link.href=cvFile;link.download=cvName;
+ document.body.append(link);link.click();link.remove();
+});
 // Projektseite: links das Projekt darüber, rechts das darunter, in der Reihenfolge der Archivliste.
 // Gleiche Grundlinie wie "see my work", Kanten auf der Header-Linie (26.38 / 1893.62); an den Enden fehlt der Link.
 function footerProjects(route){
@@ -260,7 +272,7 @@ function footerDemo(demo){
 function navigation(route){
  document.querySelector('header').innerHTML=`<nav><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 61">${[...screens.home.header,{label:'work',x:1100,y:38.8236}].map(n=>`<a href="#${routeFor[n.label]}" ${routeFor[n.label]===route?'aria-current="page"':''}><text x="${n.x}" y="${n.y}">${n.label}</text></a>`).join('')}<line x1="26.38" y1="60.38" x2="1893.62" y2="60.38" stroke="black" stroke-width=".5"/></svg></nav>`;
  footerLink(!['archive','diary'].includes(route));
- if(footerRows[route])footerRow(footerRows[route]);
+ if(footerRows[route])footerRow(footerRows[route],footerLeft[route]);
 }
 function render(){
  clearTimeout(projectResize);
@@ -668,6 +680,12 @@ function setupMobileVita(){
    if(s.title!==null)heading(s);
    if(s.title===null||vitaOpen===s.title)for(const [lines,logo,url] of s.entries)entry(lines,logo,url);
   }
+  // “download cv” (Marco, 15.11.2026): on the phone a row of its own under the list, because the foot has no room
+  // for it beside contact and imprint. Set like a heading, as a pressed (black) pill — the colour of the foot buttons.
+  parent=svg.appendChild(svgNode('a',{href:cvFile,'class':'cv-link','aria-label':'download cv (pdf)'}));
+  parent.append(svgNode('rect',{x:0,y:top,width,height:vitaMobile.top+vitaMobile.tail,fill:'transparent'}));
+  label(vitaMobile.margin,top+vitaMobile.top,'download cv');parent.lastChild.classList.add('vita-heading','vita-heading-open');parent.lastChild.setAttribute('fill','#fff');
+  parent=svg;top+=vitaMobile.top+vitaMobile.tail;
   svg.setAttribute('viewBox',`0 0 ${width} ${(top+58.08).toFixed(2)}`);
   requestAnimationFrame(outline);
  };
@@ -1368,7 +1386,9 @@ function setupMobileDiary(){
   const story=setLines(svgNode('text',{'class':'entry-story'}),39.16,132.27+extra,lines,mobileType.step);
   const rule=svgNode('line',{x1:15.15,x2:484.96,y1:pitch+extra,y2:pitch+extra,stroke:'black','stroke-width':.5});
   row.append(mark,story,rule);
-  row.base=pitch+extra;row.height=132.27+extra+(lines.length-1)*mobileType.step+36.17;
+  // An entry without text (all of them since 15.11.2026, Marco: date and place only) opens without growing — opening
+  // still turns its frame positive.
+  row.base=pitch+extra;row.height=entry.text?.trim()?132.27+extra+(lines.length-1)*mobileType.step+36.17:row.base;
   row.rule=rule;
   row.addEventListener('click',()=>toggle(index));
   row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle(index)}});
@@ -1480,7 +1500,7 @@ document.addEventListener('keydown',e=>{
  }
 });
 Promise.all([
- ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=brief6-gdg-20261030`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
+ ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=ngo-poster-20261115`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
  document.fonts.load('400 20px Serie57Archive').catch(()=>{}),
  fetch('assets/rotis-metrics.json?v=launch19-20261003').then(r=>{if(!r.ok)throw Error('rotis-metrics could not be loaded');return r.json()}).then(metrics=>{rotis=metrics}),
  // The sizes of the project pictures (scripts/prepare_image_sizes.py) shape the mobile project pages; without
@@ -1765,7 +1785,7 @@ async function setupOpera(route){
  const controller=new AbortController();let frame=0;
  cleanupRoute=()=>{controller.abort();cancelAnimationFrame(frame)};
  try{
-  const response=await fetch(`assets/project-layouts/${route}.svg?v=brief6-gdg-20261030`,{signal:controller.signal});
+  const response=await fetch(`assets/project-layouts/${route}.svg?v=ngo-poster-20261115`,{signal:controller.signal});
   if(!response.ok)throw Error('Projektseite konnte nicht geladen werden.');
   const body=await response.text();if(controller.signal.aborted)return;
   if(typeof body==='string')main.innerHTML=body;else main.replaceChildren(buildProjectPage(body[route]));

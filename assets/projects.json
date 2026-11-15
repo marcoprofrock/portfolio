@@ -25,22 +25,15 @@
     }
   },
   {
-    "title": "chancen geben",
-    "client": "fakf",
+    "title": "ngo poster",
+    "client": "sea shepherd, fakf",
     "area": "ooh / print series",
     "year": "2026",
-    "url": "#kids-foundation",
-    "preview": "assets/previews/kids-foundation.webp",
-    "awards": []
-  },
-  {
-    "title": "mission octopus",
-    "client": "sea shepherd",
-    "area": "ooh / print series",
-    "year": "2026",
-    "url": "#mission-octopus",
+    "url": "#ngo-poster",
     "preview": "assets/previews/mission-octopus.webp",
-    "awards": []
+    "awards": [
+      "flyeralarm"
+    ]
   },
   {
     "title": "azulejo six",

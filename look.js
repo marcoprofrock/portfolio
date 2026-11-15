@@ -61,10 +61,11 @@
  const dressFooter=()=>{
   const svg=document.querySelector('footer svg');if(!svg||svg.dataset.dressed)return;svg.dataset.dressed=1;
   const mobile=svg.viewBox.baseVal.width<1000;
-  // A row of footer links (contact, imprint) closes up from the right edge as in the head.
+  // A row of footer links (contact, imprint) closes up from the right edge as in the head; a .look-left link (download
+  // cv on the vita) keeps its place on the left.
   if(svg.classList.contains('look-row')&&!mobile){
    let right=RIGHT;
-   for(const t of [...svg.querySelectorAll('a text')].reverse()){const w=t.getBBox().width;right-=10;t.setAttribute('text-anchor','start');t.setAttribute('x',(right-w).toFixed(2));right-=w+10+GAP}
+   for(const t of [...svg.querySelectorAll('a:not(.look-left) text')].reverse()){const w=t.getBBox().width;right-=10;t.setAttribute('text-anchor','start');t.setAttribute('x',(right-w).toFixed(2));right-=w+10+GAP}
   }
   // On a phone the links on the right close up from 473.01, where the head's outlines end on the left at 25.16.
   if(mobile){
