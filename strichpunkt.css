@@ -1,0 +1,165 @@
+/* strichpunkt (strichpunkt.js), version 2 (Marco, 16.11.2026): below the head everything in the manner of sp.design.
+   Typeface, colours, radii and type styles are theirs (their stylesheet, sizes at a 1920 wide screen); the head of the
+   site keeps its own look. Strichpunkt Sans is under the SIL Open Font License (github.com/strichpunkt-design/
+   Strichpunkt_Sans); self-hosted, so no visitor's browser asks Google for it. */
+@font-face{font-family:'Strichpunkt Sans';font-style:normal;font-weight:400 900;font-stretch:100% 200%;font-display:swap;
+ src:url(assets/fonts/StrichpunktSans-latin-ext.woff2) format('woff2');
+ unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Strichpunkt Sans';font-style:normal;font-weight:400 900;font-stretch:100% 200%;font-display:swap;
+ src:url(assets/fonts/StrichpunktSans-latin.woff2) format('woff2');
+ unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+main.sp-page{
+ --sp-font:'Strichpunkt Sans',Helvetica,sans-serif;--sp-purple:#B591FF;--sp-subtle:#CFCFCF;--sp-border:#626262;--sp-field:#2E2E2E;
+ --sp-radius-md:8px;--sp-radius-sm:4px;
+ padding-bottom:0;color:#fff;font-family:var(--sp-font)}
+main.sp-page *{box-sizing:border-box}
+main.sp-page p{margin:0}
+/* The page and its foot black, as sp.design in its dark theme. Desktop: the foot is clear over the band (Marco, 16.11.);
+   on a phone it stays black, since it stands over the letter while scrolling. */
+body:has(main.sp-page){background:#000}
+body:has(main.sp-page) footer{background:#000}
+body:not(.mobile):has(main.sp-page) footer{background:transparent}
+/* Desktop: the banner lies above the head, which moves down by its 32 (sp.design's order). */
+body:not(.mobile):has(main.sp-page) header{top:calc(32px * var(--scale))}
+main.sp-page>*{position:absolute}
+main.sp-page input,main.sp-page button{font-family:var(--sp-font)!important;font-weight:500!important}
+/* sp.design's type styles. display: black, expanded, capitals, line .9 — heading-1: 24, wide, line 1.1, tight —
+   body-2: 18, medium, line 1.4 — body-1: 16 — caption: capitals, semibold, wide, spaced .04em. */
+.sp-display{display:inline-block;white-space:nowrap;font-weight:900;font-stretch:200%;text-transform:uppercase;line-height:.9;font-size:200px}
+.sp-heading{font-size:24px;line-height:1.1;font-weight:450;font-stretch:150%;letter-spacing:-.015em}
+.sp-body{font-size:18px;line-height:1.4;font-weight:500}
+.sp-footnote{font-size:16px;line-height:1.4;font-weight:500;color:var(--sp-subtle);margin-top:24px!important}
+.sp-caption{font-size:14px;line-height:1.4;font-weight:600;font-stretch:150%;letter-spacing:.04em;text-transform:uppercase}
+/* “to:” and the mark at the height of a capital. */
+.sp-to svg{height:.72em;width:auto;fill:#fff;vertical-align:baseline;margin-left:.15em}
+.sp-letter .sp-heading{margin-bottom:16px}
+.sp-letter .sp-body+.sp-body{margin-top:12px}
+.sp-portrait{position:relative;overflow:hidden;border-radius:var(--sp-radius-md)}
+.sp-portrait img{position:absolute;top:0;height:auto;display:block}
+.sp-arrow{left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+.sp-more{transform:translate(-50%,-50%);white-space:nowrap;color:#fff}
+/* The purple banner: their purple, black, capitals with a heavier call to action. */
+.sp-banner{left:0;z-index:2;display:flex;align-items:center;justify-content:center;gap:16px;background:var(--sp-purple);color:#000;
+ font-size:14px;font-weight:500;font-stretch:150%;letter-spacing:.04em;text-transform:uppercase}
+.sp-banner a{font-weight:900;font-stretch:200%;letter-spacing:0;color:#000}
+.sp-banner button{position:absolute;right:32px;top:50%;transform:translateY(-50%);width:28px;height:28px;padding:8px;border:0;background:none;cursor:pointer}
+.sp-banner button svg{display:block;width:12px;height:12px}
+/* The band under the cases: Marco's evening sky, blurred already in its file and softened once more here. */
+.sp-band{overflow:hidden;background:#000}
+.sp-band-glow{position:absolute;inset:0;filter:blur(37px);transform:scale(1.1)}
+/* sp.design's newsletter block lays 40 % black over its blurred picture. */
+.sp-band::after{content:'';position:absolute;inset:0;background:color-mix(in srgb,#000 40%,transparent);pointer-events:none}
+.mobile .sp-list{z-index:1}
+.sp-band-glow img{width:100%;height:100%;object-fit:cover;display:block}
+/* The cases: 16:9 with sp.design's medium radius, the reel over the still once it has a picture, the name under it. */
+.sp-case{display:block;color:#fff}
+.sp-case:hover,.sp-case:focus-visible{opacity:1}
+.sp-frame{position:relative;display:block;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:var(--sp-radius-md);background:#000}
+.sp-frame img,.sp-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.sp-frame video{visibility:hidden}
+.sp-frame video.ready{visibility:visible}
+.sp-name{display:block;margin-top:12px;font-size:18px;line-height:1.4;font-weight:500}
+a.sp-case:hover .sp-name,a.sp-case:focus-visible .sp-name{opacity:.2}
+/* Behind the password: an outlined frame, in it sp.design's dark field and white button (small radius). */
+.sp-locked{background:transparent;border:1px solid var(--sp-border);display:flex;align-items:center;justify-content:center}
+.sp-unlock{display:flex;gap:8px}
+.sp-unlock input{width:300px;height:48px;padding:0 16px;font-size:18px;color:#fff;background:color-mix(in srgb,var(--sp-field) 80%,transparent);border:1px solid var(--sp-border);border-radius:var(--sp-radius-sm);outline:none}
+.sp-unlock input::placeholder{color:#A3A3A3}
+.sp-unlock input:focus{border-color:#fff}
+.sp-unlock button{height:48px;padding:0 16px;font-size:18px;color:#000;background:#fff;border:0;border-radius:var(--sp-radius-sm);cursor:pointer}
+/* Phone (498.17 wide, about 1.33 to a screen pixel): one column from 39.16, sp.design's smaller sizes. */
+.mobile main.sp-page>*{position:static}
+.mobile .sp-flow{padding:93.67px 39.16px 0}
+.mobile .sp-banner{position:relative;margin:0 -39.16px;padding:10px 60px 10px 39.16px;justify-content:flex-start;flex-wrap:wrap;gap:4px 12px;font-size:16px;line-height:1.3}
+.mobile .sp-banner button{right:12px}
+.mobile .sp-to{margin-top:48px}
+.mobile .sp-claim{margin-top:32px}
+.mobile .sp-heading{font-size:26.6px}
+.mobile .sp-body,.mobile .sp-name{font-size:21.3px}
+.mobile .sp-footnote{font-size:18.6px;margin-top:16px!important}
+.mobile .sp-portrait{margin-top:48px}
+.mobile .sp-letter{margin-top:32px}
+.mobile .sp-band{position:relative;margin:48px -39.16px 0;padding:43.2px 39.16px 93.67px}
+.mobile .sp-list{position:relative;display:flex;flex-direction:column;gap:43.2px}
+.mobile .sp-unlock input{width:240px;height:56px;font-size:21.3px}
+.mobile .sp-unlock button{height:56px;font-size:21.3px}
+/* The switch for the specs: a pill like the head's buttons (archive, diary, vita) — white outline, round ends; on: white. */
+.sp-pill{display:inline-block;padding:0 .5em;margin:0;border:1px solid #fff;border-radius:999px;background:none;color:#fff;
+ font-size:inherit!important;line-height:1.3;cursor:pointer;vertical-align:baseline}
+.sp-toggle[aria-pressed="true"]{background:#fff;color:#000}
+.sp-pill:focus-visible{outline:1px solid var(--sp-purple);outline-offset:2px}
+/* The contact pill is a link: it does not fade like other links, it fills like the switch when hovered. */
+.sp-contact:hover{opacity:1;background:#fff;color:#000}
+/* The specs: a layer that takes no pointer and moves nothing. Hairlines and small lowercase labels in a monospace face,
+   all in the banner's purple; they fade in and out unless the visitor asked for less motion. */
+.sp-specs{left:0;top:0;pointer-events:none;z-index:5;opacity:0;transition:opacity .2s ease}
+.sp-specs.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.sp-specs{transition:none}}
+.mobile main.sp-page>.sp-specs{position:absolute}
+.sp-specs svg{position:absolute;left:0;top:0;overflow:visible}
+.sp-specs line{stroke:var(--sp-purple);stroke-width:1;shape-rendering:crispEdges}
+.sp-specs line.sp-leader{stroke-dasharray:2 2}
+.sp-column{position:absolute;background:color-mix(in srgb,var(--sp-purple) 9%,transparent);box-shadow:inset 1px 0 0 color-mix(in srgb,var(--sp-purple) 50%,transparent),inset -1px 0 0 color-mix(in srgb,var(--sp-purple) 50%,transparent)}
+.sp-label{position:absolute;white-space:normal;width:max-content;max-width:300px;padding:1px 5px;background:#000;color:var(--sp-purple);outline:1px solid var(--sp-purple);
+ font:11px/1.35 ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;text-transform:lowercase;letter-spacing:0}
+.mobile .sp-label{font-size:14px;white-space:normal;max-width:419.85px}
+/* The colours, read from the page: a label of swatches beside the footnote while the specs are shown. */
+.sp-label.sp-legend{display:flex;flex-wrap:wrap;gap:4px 14px;max-width:560px;padding:4px 6px}
+.sp-legend span{display:flex;align-items:center;gap:6px}
+.sp-legend i{display:block;width:12px;height:12px;outline:1px solid var(--sp-purple)}
+.mobile .sp-label.sp-legend{max-width:419.85px}
+.mobile .sp-legend i{width:16px;height:16px}
+.sp-label-line{white-space:nowrap;max-width:none}
+/* Text blocks in a dashed purple hairline while the specs are shown. */
+.sp-box{position:absolute;outline:1px dashed var(--sp-purple);outline-offset:0}
+/* The cursor white on the black page (Marco, 16.11.), as over the head; black again over the light case pictures
+   and the white button. */
+body:has(main.sp-page){cursor:url('assets/screens/Cursor_weiss.svg') 7 7,auto}
+body:has(main.sp-page) a,body:has(main.sp-page) button,body:has(main.sp-page) footer a{cursor:url('assets/screens/Cursor_Auswahl_weiss.svg') 7 7,pointer}
+main.sp-page .sp-frame,main.sp-page .sp-unlock button{cursor:url('assets/screens/Cursor_Auswahl.svg') 7 7,pointer}
+main.sp-page .sp-unlock input{cursor:url('assets/screens/Cursor_weiss.svg') 7 7,text}
+@media (hover:none){body:has(main.sp-page),body:has(main.sp-page) a,body:has(main.sp-page) button{cursor:auto}}
+/* Phone: the labels on one short line, so they fit the gaps between the blocks. */
+.mobile .sp-label{white-space:nowrap;max-width:none;font-size:13px}
+.mobile .sp-label.sp-legend{white-space:normal;max-width:419.85px;font-size:13px}
+.sp-legend b{flex-basis:100%;font-weight:400}
+.mobile .sp-label.sp-label-wrap{white-space:normal;max-width:419.85px}
+/* Phone: the band's own lower padding already makes room for the foot. */
+body.mobile main.sp-page{padding-bottom:0}
+/* While the specs show, the site's own head and foot (Marco's design, not sp.design's) step aside (Marco, 16.11.),
+   and with them the arrow to the archive pill. */
+body:has(main.sp-page.sp-specs-on) header,body:has(main.sp-page.sp-specs-on) footer,
+main.sp-specs-on .sp-arrow,main.sp-specs-on .sp-more{opacity:0;pointer-events:none;transition:opacity .2s ease}
+body:has(main.sp-page) header,body:has(main.sp-page) footer,main.sp-page .sp-arrow,main.sp-page .sp-more{transition:opacity .2s ease}
+@media (prefers-reduced-motion:reduce){body:has(main.sp-page) header,body:has(main.sp-page) footer,main.sp-page .sp-arrow,main.sp-page .sp-more{transition:none}}
+/* The navigation in sp.design's manner, only while the specs show (in place of the site's head and foot). */
+.sp-nav,.sp-foot{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,visibility .2s}
+main.sp-specs-on .sp-nav,main.sp-specs-on .sp-foot{opacity:1;visibility:visible;pointer-events:auto}
+@media (prefers-reduced-motion:reduce){.sp-nav,.sp-foot{transition:none}}
+.sp-nav{z-index:4;display:flex;align-items:center;gap:16px;padding:0 32px;background:#000}
+.sp-nav-name{margin-inline-end:auto;color:#fff;font-size:32px;line-height:1.1;font-weight:450;font-stretch:150%;letter-spacing:-.015em}
+/* Their header is 104 high: “to: SP” steps 43 lower while it shows, to keep their 32 below it (at once, so the specs
+   measure it where it ends up). */
+main.sp-specs-on .sp-to{transform:translateY(43px)}
+.mobile main.sp-specs-on .sp-to{transform:none}
+
+.sp-nav-items{display:flex;align-items:center;gap:16px}
+.sp-nav-items a{display:inline-flex;align-items:center;padding:12px;border:1px solid transparent;border-radius:var(--sp-radius-sm);color:#fff;
+ font-size:14px;line-height:1.4;font-weight:500;font-stretch:100%}
+.sp-nav-items a:hover,.sp-nav-items a[aria-current="page"]{opacity:1;background:var(--sp-field)}
+.sp-nav-items svg{height:calc(14px * 1.4);width:auto;fill:#fff;padding:4px 0}
+.sp-nav a:focus-visible,.sp-foot a:focus-visible{outline:2px solid #fff;outline-offset:2px}
+/* Their page margin also from the bottom edge (Marco, 16.11.: they sat on the edge): the links end 32 above it. */
+.sp-foot{z-index:4;display:flex;align-items:flex-end;justify-content:flex-end;gap:16px;padding:0 32px 32px}
+.sp-foot a{color:#fff;font-size:16px;line-height:1.4;font-weight:500;text-decoration:underline;text-decoration-color:#9F80E0;
+ text-decoration-thickness:1px;text-underline-offset:4px}
+.sp-foot a:hover{opacity:1;color:#9F80E0}
+/* Phone: the name and sp.design's square menu button where the site's head is. */
+.mobile .sp-flow{position:relative}
+.mobile main.sp-page .sp-nav{position:absolute;left:0;top:0;width:498.17px;height:93.67px;padding:0 39.16px}
+.mobile .sp-nav-name{font-size:26.6px}
+.sp-nav-toggle{display:inline-flex;align-items:center;justify-content:center;position:relative;width:53px;height:53px;padding:0;border:1px solid transparent;
+ border-radius:var(--sp-radius-sm);background:var(--sp-field);cursor:pointer}
+.sp-nav-toggle span{position:absolute;left:30%;width:40%;height:2px;background:#fff}
+.sp-nav-toggle span:first-child{transform:translateY(-4px)}
+.sp-nav-toggle span:last-child{transform:translateY(4px)}

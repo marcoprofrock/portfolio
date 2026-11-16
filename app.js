@@ -142,12 +142,12 @@ const formerAnchors={'#p-500ls':'#500ls','#p-wind':'#windkulturerbe','#p-uturn':
  '#talks-publications':'#vita','#imprint':'#imprint','#top':'#home',
  // sea shepherd and fakf became one project, ngo poster (Marco, 15.11.2026).
  '#mission-octopus':'#ngo-poster','#kids-foundation':'#ngo-poster'};
-const routeFromHash=(hash=routeHash())=>['home','work','archive','diary','vita','contact','imprint','mediterainy-opera','500ls','sentry','hope-in-action','windkulturerbe','u-turn','azulejo-six','vote2cop','thank-you','s-neo','plants-with-benefits','ngo-poster'].includes(hash.slice(1))||projects?.some(project=>project.url===hash)?hash.slice(1):'home';
+const routeFromHash=(hash=routeHash())=>['home','work','strichpunkt','archive','diary','vita','contact','imprint','mediterainy-opera','500ls','sentry','hope-in-action','windkulturerbe','u-turn','azulejo-six','vote2cop','thank-you','s-neo','plants-with-benefits','ngo-poster'].includes(hash.slice(1))||projects?.some(project=>project.url===hash)?hash.slice(1):'home';
 // Every route has an address of its own (Marco, 23.10.: so search engines and AI crawlers find each page):
 // /, /work/, /archive/, /diary/, /vita/, /contact/, /imprint/ and /archive/<project>/. scripts/prerender.py writes a
 // page with the text at each of them. Links inside the site still say #route; the click below turns them into the
 // address, and an old #route link (or one of the former anchors) is rewritten to its address on arrival.
-const pageRoutes=['home','work','archive','diary','vita','contact','imprint'];
+const pageRoutes=['home','work','strichpunkt','archive','diary','vita','contact','imprint'];
 const pathFor=route=>route==='home'?'/':pageRoutes.includes(route)?`/${route}/`:`/archive/${route}/`;
 const routeHash=()=>{const m=location.pathname.match(/^\/(?:archive\/([^/]+)|([^/]+))?\/?(?:index\.html)?$/);return `#${m?.[1]||m?.[2]||'home'}`};
 const adoptHash=()=>{
@@ -236,7 +236,7 @@ function footerLink(visible){
 // Contact and imprint (Marco, 03.10.): bottom right on home, archive, diary and vita; contact and imprint lead to
 // each other. “see my work” is gone from every foot (Marco, 03.10.). look.js lines them up from the right edge like
 // the buttons in the head.
-const footerRows={work:[['#contact','contact'],['#imprint','imprint']],home:[['#contact','contact'],['#imprint','imprint']],archive:[['#contact','contact'],['#imprint','imprint']],
+const footerRows={work:[['#contact','contact'],['#imprint','imprint']],strichpunkt:[['#contact','contact'],['#imprint','imprint']],home:[['#contact','contact'],['#imprint','imprint']],archive:[['#contact','contact'],['#imprint','imprint']],
  diary:[['#contact','contact'],['#imprint','imprint']],vita:[['#contact','contact'],['#imprint','imprint']],
  contact:[['#imprint','imprint']],imprint:[['#contact','contact']]};
 function footerRow(links,left=[]){
@@ -269,8 +269,12 @@ function footerDemo(demo){
  const label=footer.querySelector('.demo-link text'),box=label.getBBox(),pill=footer.querySelector('.demo-link rect'),h=box.height+12;
  Object.entries({x:box.x-pad,y:box.y+box.height/2-h/2,width:box.width+pad*2,height:h,rx:h/2}).forEach(([k,v])=>pill.setAttribute(k,v));
 }
+// strichpunkt (Marco, 16.11.2026): on its application page the head carries Strichpunkt's mark where “work” stands,
+// as the page you are on (look.js sets the mark into the pill; the text under it only lends the pill its height).
+const strichpunktMark='<path fill-rule="evenodd" clip-rule="evenodd" d="M1013 0L702 311.2C787.44 317.2 863.92 354.24 920.96 411.28C983.44 473.68 1022 560.4 1022 655.6C1022 750.8 983.36 836.56 920.96 898.96C858.56 961.44 781.72 1000 633 1000H14V667H278.72C208.88 655 146.4 621.6 98.4004 573.6C37.6004 512.8 0 428.8 0 336C0 243.2 37.6004 159.2 98.4004 98.4004C159.2 37.6004 234.12 0 379 0H1013ZM323 333V667H657V333H323Z" /><path fill-rule="evenodd" clip-rule="evenodd" d="M2036 0V850H1524V1000H1070V0H2036ZM1553 306C1445.88 306 1359 392.88 1359 500C1359 607.12 1445.88 694 1553 694C1660.12 694 1747 607.12 1747 500C1747 392.88 1660.12 306 1553 306Z" />';
 function navigation(route){
- document.querySelector('header').innerHTML=`<nav><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 61">${[...screens.home.header,{label:'work',x:1100,y:38.8236}].map(n=>`<a href="#${routeFor[n.label]}" ${routeFor[n.label]===route?'aria-current="page"':''}><text x="${n.x}" y="${n.y}">${n.label}</text></a>`).join('')}<line x1="26.38" y1="60.38" x2="1893.62" y2="60.38" stroke="black" stroke-width=".5"/></svg></nav>`;
+ const items=route==='strichpunkt'?[...screens.home.header,{label:'SP',x:1100,y:38.8236,route:'strichpunkt'}]:[...screens.home.header,{label:'work',x:1100,y:38.8236}];
+ document.querySelector('header').innerHTML=`<nav><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 61">${items.map(n=>{const to=n.route||routeFor[n.label];return n.route?`<a href="#${to}" aria-label="strichpunkt" ${to===route?'aria-current="page"':''} data-logo><text x="${n.x}" y="${n.y}" opacity="0" aria-hidden="true">${n.label}</text><g class="look-logo" fill="#fff">${strichpunktMark}</g></a>`:`<a href="#${to}" ${to===route?'aria-current="page"':''}><text x="${n.x}" y="${n.y}">${n.label}</text></a>`}).join('')}<line x1="26.38" y1="60.38" x2="1893.62" y2="60.38" stroke="black" stroke-width=".5"/></svg></nav>`;
  footerLink(!['archive','diary'].includes(route));
  if(footerRows[route])footerRow(footerRows[route],footerLeft[route]);
 }
@@ -280,8 +284,9 @@ function render(){
  // work is a desktop page only (Marco, 15.10.): on a phone its address opens the archive.
  adoptHash();
  if(useMobile()&&routeFromHash()==='work')history.replaceState(null,'',pathFor('archive'));
- const route=routeFromHash(),isInfo=route in infoPages,isProject=!['home','work','archive','diary','vita'].includes(route)&&!isInfo;
+ const route=routeFromHash(),isInfo=route in infoPages,isProject=!['home','work','strichpunkt','archive','diary','vita'].includes(route)&&!isInfo;
  main.classList.toggle('project-page',isProject);
+ main.classList.toggle('sp-page',route==='strichpunkt');
  activeRoute=route;main.dataset.route=route;viewIndex=null;document.body.classList.remove('view-open');
  mobile=useMobile();document.body.classList.toggle('mobile',mobile);
  document.body.classList.toggle('mobile-archive',mobile&&route==='archive');
@@ -289,22 +294,24 @@ function render(){
  document.body.classList.toggle('mobile-vita',mobile&&route==='vita');
  // Home and vita on the desktop are one screen and do not scroll (Marco, 03.10.): in a window flatter than 16:9 the
  // 1080 of the drawing ran a few pixels past it.
- document.documentElement.classList.toggle('still-page',!mobile&&['home','vita'].includes(route));
+ document.documentElement.classList.toggle('still-page',!mobile&&['home','vita','strichpunkt'].includes(route));
  // work is one screen high and runs on sideways (Marco, 15.10.).
  document.documentElement.classList.toggle('side-page',!mobile&&route==='work');
  // Home, archive and vita do not swing at the end of a scroll, so the head never moves — as on the diary (Marco, 03.10.).
- document.documentElement.classList.toggle('no-swing',['home','work','archive','vita'].includes(route));
+ document.documentElement.classList.toggle('no-swing',['home','work','strichpunkt','archive','vita'].includes(route));
  scale();
- document.body.classList.toggle('mobile-page',mobile&&(isProject||isInfo||route==='home'));
+ document.body.classList.toggle('mobile-page',mobile&&(isProject||isInfo||route==='home'||route==='strichpunkt'));
  document.body.classList.toggle('mobile-project',mobile&&isProject);
  navigation(isProject?'archive':route);if(isProject)footerProjects(route);if(isProject&&!mobile)footerDemo(projects?.find(project=>project.url===`#${route}`)?.demo);main.innerHTML=isProject||isInfo||mobile&&route==='home'?'':(screens[route]?.body||'');document.title=route==='home'?'marco pröfrock':`${isProject&&projects?.find(project=>project.url===`#${route}`)?.title||route} — marco pröfrock`;trackPage(route,isProject);window.scrollTo(0,0);
- if(mobile&&(isProject||isInfo||route==='home')){mobileHead();mobileFooter(route,isProject)}
+ if(mobile&&(isProject||isInfo||route==='home'||route==='strichpunkt')){mobileHead();mobileFooter(route,isProject)}
  if(route==='home'&&mobile)setupMobileHome();
  // The type snake in the empty right half of the desktop home (Marco, 07.10.): snake.js.
  if(route==='home'&&!mobile)cleanupRoute=window.homeSnake?.(main.querySelector('svg'))||(()=>{});
  if(route==='archive')mobile?setupMobileArchive():setupArchive();
  // Four focus projects with their reels (Marco, 14.10.): selected.js.
  if(route==='work'&&!mobile)window.selectedWorks?.(main);
+ // The application page for Strichpunkt (Marco, 16.11.2026): strichpunkt.js.
+ if(route==='strichpunkt')window.strichpunktPage?.(main,mobile);
  // The diary is only its large view with the roll (Marco): the page opens on the newest entry.
  if(route==='diary')mobile?setupMobileDiary():openEntry(0,'route');
  if(route==='vita')mobile?setupMobileVita():setupVita();
@@ -326,7 +333,7 @@ function mobileHead(){
 // The mobile foot mirrors the head: the same 93.67 and baseline 57.79, a link on the left starts at the name's
 // 39.16, links on the right end where the menu's outline would (look.js lines them up). Project pages lead to the
 // project before and after, the other pages to the links of their desktop foot.
-const mobileFooterLinks={home:[['#contact','contact'],['#imprint','imprint'],['#archive','archive']],archive:[['#contact','contact'],['#imprint','imprint']],
+const mobileFooterLinks={home:[['#contact','contact'],['#imprint','imprint'],['#archive','archive']],strichpunkt:[['#contact','contact'],['#imprint','imprint']],archive:[['#contact','contact'],['#imprint','imprint']],
  diary:[['#contact','contact'],['#imprint','imprint']],vita:[['#contact','contact'],['#imprint','imprint']],
  contact:[['#imprint','imprint']],imprint:[['#contact','contact']]};
 function mobileFooter(route,isProject){

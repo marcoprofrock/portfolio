@@ -4,12 +4,16 @@
 (()=>{
  const NS='http://www.w3.org/2000/svg',RIGHT=1893.62,MOBILE_RIGHT=473.01,GAP=10;
  // The route app.js settled on (an unknown address becomes home), not the raw address.
- const isProject=()=>!['','home','work','archive','diary','vita','contact','imprint'].includes(document.querySelector('main')?.dataset.route??(location.pathname.match(/^\/(?:archive\/)?([^/]+)\/?$/)?.[1]||'home'));
+ const isProject=()=>!['','home','work','strichpunkt','archive','diary','vita','contact','imprint'].includes(document.querySelector('main')?.dataset.route??(location.pathname.match(/^\/(?:archive\/)?([^/]+)\/?$/)?.[1]||'home'));
  const set=(node,attributes)=>{for(const [k,v] of Object.entries(attributes))node.setAttribute(k,v);return node};
  // An outline around a link's text: as tall as the text plus 6 (12 on mobile), ends round.
+ // A mark in place of a word (strichpunkt, 16.11.2026): as high as a capital of the head's text, its width taken
+ // for the pill instead of the hidden word's. The mark's drawing is 1000 high and 2036 wide.
+ const capOf=(()=>{const c=document.createElement('canvas').getContext('2d');return size=>{c.font='100px Serie57Archive';return c.measureText('H').actualBoundingBoxAscent/100*size}})();
+ const logoSize=t=>{const cap=capOf(parseFloat(t.style.fontSize)||19);return [cap*2.036,cap]};
  const pill=(a,t,mobile,fill)=>{
-  const b=t.getBBox(),px=mobile?14:10,py=mobile?9:6;
-  a.insertBefore(set(document.createElementNS(NS,'rect'),{x:b.x-px,y:b.y-py,width:b.width+2*px,height:b.height+2*py,rx:(b.height+2*py)/2,
+  const b=t.getBBox(),px=mobile?14:10,py=mobile?9:6,bw=+t.dataset.width||b.width;
+  a.insertBefore(set(document.createElementNS(NS,'rect'),{x:b.x-px,y:b.y-py,width:bw+2*px,height:b.height+2*py,rx:(b.height+2*py)/2,
    fill,stroke:'#fff','stroke-width':mobile?1.5:1,'class':'look-pill'}),t);
  };
  const dressHeader=()=>{
@@ -37,11 +41,14 @@
    // archive, diary and vita close together, the last outline flush with the right edge of the page.
    const nav=[...svg.querySelectorAll('a')].filter(a=>a.getAttribute('href')!=='#home'&&!a.classList.contains('look-back'))
     .map(a=>a.querySelector('text')).filter(Boolean).sort((p,q)=>+(p.dataset.x0??=p.getAttribute('x'))-+(q.dataset.x0??=q.getAttribute('x')));
+   for(const t of nav)if(t.parentNode.hasAttribute('data-logo'))t.dataset.width=logoSize(t)[0];
    let right=RIGHT;
-   for(const t of nav.reverse()){const w=t.getBBox().width;right-=10;t.setAttribute('x',(right-w).toFixed(2));right-=w+10+GAP}
+   for(const t of nav.reverse()){const w=+t.dataset.width||t.getBBox().width;right-=10;t.setAttribute('x',(right-w).toFixed(2));right-=w+10+GAP}
   }
   svg.querySelectorAll('a').forEach(a=>{
    const t=a.querySelector('text');if(!t||t.getBBox().y>h)return;
+   const logo=a.querySelector(':scope>.look-logo');
+   if(logo){const [,cap]=logoSize(t);logo.setAttribute('transform',`translate(${t.getAttribute('x')} ${(+t.getAttribute('y')-cap).toFixed(2)}) scale(${(cap/1000).toFixed(5)})`)}
    t.classList.add('look-white');pill(a,t,mobile,'none');
   });
   // The page you are on (Marco, 03.10.): its button is not greyed but drops out of the bar — black, with the white
