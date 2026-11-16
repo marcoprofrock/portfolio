@@ -138,9 +138,9 @@ main.sp-specs-on .sp-nav,main.sp-specs-on .sp-foot{opacity:1;visibility:visible;
 @media (prefers-reduced-motion:reduce){.sp-nav,.sp-foot{transition:none}}
 .sp-nav{z-index:4;display:flex;align-items:center;gap:16px;padding:0 32px;background:#000}
 .sp-nav-name{margin-inline-end:auto;color:#fff;font-size:32px;line-height:1.1;font-weight:450;font-stretch:150%;letter-spacing:-.015em}
-/* Their header is 104 high: “to: SP” steps 43 lower while it shows, to keep their 32 below it (at once, so the specs
-   measure it where it ends up). */
-main.sp-specs-on .sp-to{transform:translateY(43px)}
+/* Their header is 104 high: “to: SP” steps 19 lower while it shows — 8 (their size-4xs) under the nav, clear of DESIGN*,
+   which sits higher since 16.11. (at once, so the specs measure it where it ends up). */
+main.sp-specs-on .sp-to{transform:translateY(19px)}
 .mobile main.sp-specs-on .sp-to{transform:none}
 
 .sp-nav-items{display:flex;align-items:center;gap:16px}

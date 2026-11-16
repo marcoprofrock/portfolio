@@ -54,6 +54,13 @@
  const px=n=>n+'px';
  const el=(tag,cls,style={},html='')=>{const n=document.createElement(tag);if(cls)n.className=cls;Object.assign(n.style,style);n.innerHTML=html;return n};
  const at=(node,left,top,more={})=>{Object.assign(node.style,{left:px(left),top:px(top)},more);return node};
+ // How far the asterisk's ink ends above the baseline, as a share of the font size (black, widest cut).
+ const asteriskRise=(()=>{let k=null;return ()=>{if(k!==null)return k;
+  const c=document.createElement('canvas');c.width=400;c.height=300;const x=c.getContext('2d');
+  x.font='900 ultra-expanded 100px "Strichpunkt Sans"';x.fillStyle='#000';x.textBaseline='alphabetic';x.fillText('*',100,200);
+  const d=x.getImageData(0,0,400,300).data;let bottom=-1;
+  for(let y=299;y>=0&&bottom<0;y--)for(let xx=0;xx<400;xx++)if(d[(y*400+xx)*4+3]>40){bottom=y;break}
+  const v=bottom<0?.38:(200-bottom-1)/100;if(document.fonts?.check('900 100px "Strichpunkt Sans"'))k=v;return v}})();
  // The project behind the password, once this tab has opened the area: its row, reel and still.
  const sealed=()=>{
   const project=projects?.find(p=>privateArea?.routes.includes(p.url.slice(1)));if(!project)return null;
@@ -186,6 +193,7 @@
    const spots=[],along=(a0,a1,n=5)=>Array.from({length:n},(_,i)=>a0+(a1-a0)*i/(n-1));
    const around=(d,p)=>{
     if(p==='inside')return d===6?[[target.l+8,(target.t+target.b-h)/2]]:[];
+    if(p==='inside-top')return d===6?[[target.l+8,target.t+8]]:[];
     const xs=[target.l,target.r-w,...along(target.l-w+40,target.r-40,9),target.l-w-160,target.l-w-320,target.r+160];
     if(p==='above')return xs.map(x=>[x,target.t-d-h]);
     if(p==='below')return xs.map(x=>[x,target.b+d]);
@@ -274,6 +282,8 @@
    // DESIGN* to its footnote.
    if(rect.display&&rect.note)dim(rect.display.r-24,rect.display.b,rect.display.r-24,rect.note.t,`size-lg ${fmt(rect.note.t-rect.display.b)} px`,['left','right','below']);
   }
+  // The grid's label first, so it gets its place beside the band's top edge.
+  if(grid)label(grid[0],grid[1],['below','above']);
   // Type, colour and radius labels at the main pieces (the ones of the brief: headline, footnote, letter heading and
   // body, banner, case titles; radii of the cards). A label may touch its own piece, never another's.
   const add=(k,text,prefs,cls)=>{if(!rect[k])return;const own=keepOut.find(r=>Math.abs(r.l-rect[k].l)<.5&&Math.abs(r.t-rect[k].t)<.5&&Math.abs(r.r-rect[k].r)<.5)||null;label(text,rect[k],prefs,own,cls)};
@@ -290,7 +300,7 @@
   add('display',`display (größe auf 2 spalten) · ${type(pieces.display)}`,phone?['above']:['above','below']);
   add('body',`body-2 · ${type(pieces.body)}`,phone?['below']:['below','left']);
   add('note',`body-1 · ${type(pieces.note)}`,['below','right']);
-  if(!phone&&rect.frame)add('frame',`bild 16:9 · ${fmt(rect.frame.r-rect.frame.l)} × ${fmt(rect.frame.b-rect.frame.t)} px · ${radius(pieces.frame)} (porträt ${radius(pieces.portrait)})`,['above','below']);
+  if(!phone&&rect.frame)add('frame',`bild 16:9 · ${fmt(rect.frame.r-rect.frame.l)} × ${fmt(rect.frame.b-rect.frame.t)} px · ${radius(pieces.frame)} (porträt ${radius(pieces.portrait)})`,['inside-top','above','below']);
   add('name',`body-2 · ${type(pieces.name)}`,['below']);
   if(!phone&&rect.field)add('field',`input · ${radius(pieces.field)} · button · ${radius(pieces.button)}`,['above','below']);
   if(noteLine&&!phone)label(swatches,noteLine,['right','below'],rect.note&&keepOut.find(r=>Math.abs(r.l-rect.note.l)<.5&&Math.abs(r.t-rect.note.t)<.5)||null,'sp-legend');
@@ -299,7 +309,6 @@
   if(phone&&lastName)label(`<b>strichpunkt sans</b>${swatches}`,box(lastName),['below'],null,'sp-legend');
   // Then the values of the distances and the grid, beside their lines.
   for(const [text,r,prefs] of dims)label(text,r,prefs,r);
-  if(grid)label(grid[0],grid[1],['below','above']);
   requestAnimationFrame(()=>layer.classList.add('on'));
  };
 
@@ -378,7 +387,16 @@
    const nodes=[at(banner(),0,0,{width:'1920px',height:'32px'})];
    // Columns 1–2: “to: SP”, then DESIGN* across both, the footnote under it.
    const pic=portrait(PORTRAIT),text=letterBlock();
-   const settle=claim=>{const top=BAND-48-claim.getBoundingClientRect().height/zoom();claim.style.top=px(top);pic.style.top=px(top);text.style.top=px(top)};
+   // Portrait and letter as before (their top where DESIGN*'s box would start with the footnote ending 48 above the
+   // band); DESIGN* and its footnote a little higher (Marco, 16.11.): the bottom of the asterisk's ink on the top edge
+   // of the portrait. The ink is found by drawing the asterisk once on a canvas; the baseline with a probe in the line.
+   const settle=claim=>{
+    const z=zoom(),top=BAND-48-claim.getBoundingClientRect().height/z;pic.style.top=px(top);text.style.top=px(top);
+    const big=claim.querySelector('.sp-display'),fs=parseFloat(big.style.fontSize)||200;
+    const probe=el('span','',{display:'inline-block',width:'0',height:'0',verticalAlign:'baseline'});big.append(probe);
+    const baseline=(probe.getBoundingClientRect().top-big.getBoundingClientRect().top)/z;probe.remove();
+    claim.style.top=px(top-(baseline-asteriskRise()*fs));
+   };
    const claim=claimBlock(2*COL+GUT,settle);
    // sp.design's nav where the head is, at their size (Marco, 16.11.: it looked smaller than theirs): 32 above and
    // below a 40 high mark = 104 under the banner; their foot links where the foot is.
