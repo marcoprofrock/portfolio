@@ -567,7 +567,7 @@ const infoPages={
   ['google analytics',[
   ['anbieter','google ireland limited, gordon house, barrow street, dublin 4, irland.'],
   ['einbindung','mit „accept cookies“ misst diese website ihre aufrufe mit google analytics 4; ohne ihre einwilligung wird google analytics nicht geladen. die eigenständige unterseite marco.ad/500ls, eine fallstudie zum projekt 500l/s, setzt google analytics ohne vorherige abfrage ein.'],
-  ['daten','google analytics legt cookies an und erfasst, wie die seite genutzt wird: aufgerufene seiten, verweildauer, gerät, browser und ein ungefährer standort. eine übermittlung in die usa ist möglich; google ist unter dem eu-us data privacy framework zertifiziert (art. 45 dsgvo).'],
+  ['daten','google analytics legt cookies an und erfasst, wie die seite genutzt wird: aufgerufene seiten, verweildauer, gerät, browser und ein ungefährer standort. auf der unterseite marco.ad/strichpunkt außerdem, welche projekte wie lange angesehen und welche angeklickt werden und ob die spezifikation oder die kontaktdaten geöffnet werden. eine übermittlung in die usa ist möglich; google ist unter dem eu-us data privacy framework zertifiziert (art. 45 dsgvo).'],
   ['rechtsgrundlage','auf dieser website ihre einwilligung, art. 6 abs. 1 lit. a dsgvo und § 25 abs. 1 tdddg; sie können sie jederzeit mit wirkung für die zukunft widerrufen. auf marco.ad/500ls art. 6 abs. 1 lit. f dsgvo (berechtigtes interesse daran, die resonanz auf die fallstudie zu messen); dort können sie widersprechen, indem sie cookies von google in ihrem browser blockieren.'],
   ['einstellungen','cookie-einstellungen ändern','#cookies']]],
   ['lokaler speicher',[

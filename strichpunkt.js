@@ -31,6 +31,24 @@
  // (sp 3xl) above the band, the portrait and letter start on the top of DESIGN*'s box; set once DESIGN* has its size.
  const HEAD=93,TO=HEAD+PAD,PORTRAIT=150;
  let specsOn=false,placeMore=()=>{};
+ // Measuring (Marco, 16.11.): Google Analytics 4 through the site's own track() (app.js), so only after “accept
+ // cookies” and only on marco.ad. Events, all with page: strichpunkt —
+ //   sp_case_view   project, how (hover | scroll), seconds — how long a case was looked at (hover on the desktop,
+ //                  at least 60 % in view on a phone); under 0.3 s (desktop) or 1 s (phone) is not counted
+ //   sp_case_open   project — a case clicked
+ //   sp_specs       state (on | off), seconds when switched off — the specs view
+ //   sp_contact_open / sp_contact_link (link_type) — the contact block and what was clicked in it
+ //   sp_banner_click, sp_more_work, sp_unlock (result ok | wrong)
+ // The project behind the password is always reported as “confidential”, never by its name.
+ const ga=(name,params={})=>{try{track(name,{page:'strichpunkt',...params})}catch{}};
+ const secs=ms=>Math.round(ms/100)/10;
+ let specsSince=0;
+ // Views still running when the tab is hidden or left are reported then.
+ const running=new Map();
+ const endView=(key,how)=>{const v=running.get(key);if(!v)return;running.delete(key);const ms=performance.now()-v.since;
+  if(ms>=(how==='hover'?300:1000))ga('sp_case_view',{project:v.project,how,seconds:secs(ms)})};
+ const flushViews=()=>{for(const [key,v] of [...running])endView(key,v.how)};
+ addEventListener('pagehide',flushViews);document.addEventListener('visibilitychange',()=>{if(document.hidden)flushViews()});
  const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
  const zoom=()=>parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--scale'))||1;
  const px=n=>n+'px';
@@ -69,11 +87,13 @@
  const contactCard=pill=>{
   const open=main.querySelector('.sp-contact-card');
   if(open){open.remove();pill.setAttribute('aria-expanded','false');return}
+  ga('sp_contact_open');
   const rows=(typeof infoPages!=='undefined'&&infoPages.contact?.[0]?.[1])||[];
   const card=el('div','sp-contact-card',{},`<button type="button" class="sp-contact-close" aria-label="schließen"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="#000" stroke-width="1.2"/></svg></button><dl>${rows.map(([label,value,href])=>`<dt>${label}</dt><dd>${href?`<a href="${href}"${/^https?:/.test(href)?' target="_blank" rel="noopener"':''}>${value}</a>`:value}</dd>`).join('')}</dl>`);
   card.id='sp-contact-card';card.setAttribute('role','region');card.setAttribute('aria-label','contact');
   const close=()=>{card.remove();pill.setAttribute('aria-expanded','false');pill.focus()};
   card.querySelector('.sp-contact-close').addEventListener('click',close);
+  card.querySelectorAll('dd a').forEach(link=>link.addEventListener('click',()=>ga('sp_contact_link',{link_type:link.closest('dd').previousElementSibling.textContent})));
   card.addEventListener('keydown',e=>{if(e.key==='Escape'){e.stopPropagation();close()}});
   main.append(card);pill.setAttribute('aria-expanded','true');
   // Placed in the units of main: under the pill, from the letter's left edge to its right edge.
@@ -122,6 +142,7 @@
   return a!==undefined&&a<1?`${h} · ${Math.round(a*100)} %`:h;
  };
  const setSpecs=on=>{
+  if(on!==specsOn){if(on){specsSince=performance.now();ga('sp_specs',{state:'on'})}else ga('sp_specs',{state:'off',seconds:secs(performance.now()-specsSince)})}
   specsOn=on;
   for(const t of main.querySelectorAll('.sp-toggle')){t.textContent=on?'specs ausblenden':'specs zeigen';t.setAttribute('aria-pressed',on)}
   specs();
@@ -284,8 +305,12 @@
 
  // ---------------------------------------------------------------------------------------------------------- cases
  // One case: the still, the reel over it once it has a picture, the name underneath.
- const frame=([name,url,file,still=file+'.webp'],mobile)=>{
+ const frame=([name,url,file,still=file+'.webp'],mobile,label=name)=>{
   const a=el('a','sp-case');a.href=url;
+  const begin=how=>running.set(a,{project:label,how,since:performance.now()});
+  if(mobile){const io=new IntersectionObserver(([e])=>{if(!a.isConnected){io.disconnect();endView(a,'scroll');return}e.isIntersecting?begin('scroll'):endView(a,'scroll')},{threshold:.6});requestAnimationFrame(()=>io.observe(a))}
+  else{a.addEventListener('pointerenter',()=>begin('hover'));a.addEventListener('pointerleave',()=>endView(a,'hover'))}
+  a.addEventListener('click',()=>{endView(a,mobile?'scroll':'hover');ga('sp_case_open',{project:label})});
   a.innerHTML=`<span class="sp-frame"><img src="${still}" alt="">${file?`<video src="${file}.mp4" muted loop playsinline ${mobile?'autoplay preload="auto"':'preload="metadata"'} aria-hidden="true"></video>`:''}</span><span class="sp-name">${name}</span>`;
   const v=a.querySelector('video');
   if(v){
@@ -307,13 +332,13 @@
   form.addEventListener('submit',async event=>{
    event.preventDefault();if(!field.value)return;
    const password=field.value;field.value='';field.placeholder='…';field.disabled=true;
-   try{const sealed=await privateIndex();await openPrivate(await privateKey(password,sealed),sealed);render()}
-   catch{field.disabled=false;field.placeholder='falsches passwort';field.focus()}
+   try{const sealed=await privateIndex();await openPrivate(await privateKey(password,sealed),sealed);ga('sp_unlock',{result:'ok'});render()}
+   catch{ga('sp_unlock',{result:'wrong'});field.disabled=false;field.placeholder='falsches passwort';field.focus()}
   });
   field.addEventListener('keydown',event=>{if(event.key==='Escape'){field.value='';field.blur()}});
   return card;
  };
- const caseCards=mobile=>{const third=sealed();return [...open.map(w=>frame(w,mobile)),third?frame(third,mobile):locked()]};
+ const caseCards=mobile=>{const third=sealed();return [...open.map(w=>frame(w,mobile)),third?frame(third,mobile,'confidential'):locked()]};
  // The band under the cases, built as sp.design's newsletter block: a picture blurred (their 37 px, scaled 1.1) under
  // 40 % black, the padding 32. The picture is Marco's evening sky, never shown sharp — the file itself is blurred
  // (480 wide, gaussian 14, assets/strichpunkt/band-blur.webp; the sharp original is not online).
@@ -322,6 +347,7 @@
  const banner=()=>{
   const box=el('div','sp-banner',{},`<span>ich würde gern bei strichpunkt identity anfangen</span><a href="mailto:hello@marco.ad?subject=strichpunkt">lasst uns reden!</a><button type="button" aria-label="close"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="#000" stroke-width="1.2"/></svg></button>`);
   box.lang='de';box.querySelector('button').addEventListener('click',()=>{box.remove();specs()});
+  box.querySelector('a').addEventListener('click',()=>ga('sp_banner_click'));
   return box;
  };
  // “see more work” with an arrow up to the archive pill in the head (Marco, 16.11.): the arrow from 12 under the pill
@@ -330,7 +356,7 @@
   const svg=svgNode('svg',{viewBox:'0 0 1920 1080','class':'sp-arrow','aria-hidden':'true'});
   const shaft=svgNode('path',{fill:'none',stroke:'#fff','stroke-width':1,'stroke-linecap':'round','stroke-linejoin':'round'});
   svg.append(shaft);
-  const link=el('a','sp-more sp-caption',{},'see more work');link.href='#archive';
+  const link=el('a','sp-more sp-caption',{},'see more work');link.href='#archive';link.addEventListener('click',()=>ga('sp_more_work'));
   const place=quiet=>{
    const pill=document.querySelector('header svg:not(.look-drop) a[href="#archive"] .look-pill');if(!pill||!svg.isConnected)return;
    const r=pill.getBoundingClientRect(),x=(r.left+r.width/2)/zoom(),top=r.bottom/zoom()+12,words=top+60;
