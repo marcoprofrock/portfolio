@@ -550,7 +550,7 @@ const infoPages={
   // cookies of its own, YouTube only with consent or on a click, fonts from this server.
   ['datenschutz',[
   ['verantwortlich','marco pröfrock, anschrift und kontakt wie oben.'],
-  ['überblick','diese website ist ein privates portfolio. google analytics und eingebettete youtube-filme laufen nur mit ihrer einwilligung; ohne sie legt die seite keine cookies an. ausnahme ist die eigenständige unterseite marco.ad/500ls (siehe google analytics). personenbezogene daten werden sonst nur verarbeitet, soweit es für die auslieferung der seite oder die beantwortung ihrer anfrage nötig ist.']]],
+  ['überblick','diese website ist ein privates portfolio. google analytics und eingebettete youtube-filme laufen nur mit ihrer einwilligung; ohne sie legt die seite keine cookies an. personenbezogene daten werden sonst nur verarbeitet, soweit es für die auslieferung der seite oder die beantwortung ihrer anfrage nötig ist.']]],
   ['hosting',[
   ['anbieter','github pages, github inc., 88 colin p. kelly jr. street, san francisco, ca 94107, usa.'],
   ['daten','beim aufruf verarbeitet der hoster technisch notwendige verbindungsdaten (ip-adresse, datum und uhrzeit, aufgerufene adresse, browser und betriebssystem) in server-logdateien, um die seite auszuliefern und ihre sicherheit zu gewährleisten.'],
@@ -562,13 +562,13 @@ const infoPages={
   ['einbindung','filme werden über die datenschutzfreundliche adresse youtube-nocookie.com eingebunden. ohne ihre einwilligung wird keine verbindung zu youtube aufgebaut, bis sie auf das standbild eines films klicken. mit „accept cookies“ laden die filme direkt mit der seite. dabei erhält youtube ihre ip-adresse und technische angaben zu ihrem gerät und kann cookies oder ähnliche speicher verwenden; eine übermittlung in die usa ist möglich.'],
   ['rechtsgrundlage','ihre einwilligung, art. 6 abs. 1 lit. a dsgvo und § 25 abs. 1 tdddg. sie können sie jederzeit mit wirkung für die zukunft widerrufen.'],
   ['einstellungen','cookie-einstellungen ändern','#cookies']]],
-  // Analytics on the archive only with consent; /500ls/ (the ADCE case study) stays online unchanged and loads GA4
-  // without a banner (Marco, 03.10.), so the policy names both.
+  // Analytics only with consent. The old /500ls/ case study, which loaded GA4 without asking, is offline since
+  // 16.11.2026 (Marco), so the policy no longer names it.
   ['google analytics',[
   ['anbieter','google ireland limited, gordon house, barrow street, dublin 4, irland.'],
-  ['einbindung','mit „accept cookies“ misst diese website ihre aufrufe mit google analytics 4; ohne ihre einwilligung wird google analytics nicht geladen. die eigenständige unterseite marco.ad/500ls, eine fallstudie zum projekt 500l/s, setzt google analytics ohne vorherige abfrage ein.'],
+  ['einbindung','mit „accept cookies“ misst diese website ihre aufrufe mit google analytics 4; ohne ihre einwilligung wird google analytics nicht geladen.'],
   ['daten','google analytics legt cookies an und erfasst, wie die seite genutzt wird: aufgerufene seiten, verweildauer, gerät, browser und ein ungefährer standort. auf der unterseite marco.ad/strichpunkt außerdem, welche projekte wie lange angesehen und welche angeklickt werden und ob die spezifikation oder die kontaktdaten geöffnet werden. eine übermittlung in die usa ist möglich; google ist unter dem eu-us data privacy framework zertifiziert (art. 45 dsgvo).'],
-  ['rechtsgrundlage','auf dieser website ihre einwilligung, art. 6 abs. 1 lit. a dsgvo und § 25 abs. 1 tdddg; sie können sie jederzeit mit wirkung für die zukunft widerrufen. auf marco.ad/500ls art. 6 abs. 1 lit. f dsgvo (berechtigtes interesse daran, die resonanz auf die fallstudie zu messen); dort können sie widersprechen, indem sie cookies von google in ihrem browser blockieren.'],
+  ['rechtsgrundlage','ihre einwilligung, art. 6 abs. 1 lit. a dsgvo und § 25 abs. 1 tdddg. sie können sie jederzeit mit wirkung für die zukunft widerrufen.'],
   ['einstellungen','cookie-einstellungen ändern','#cookies']]],
   ['lokaler speicher',[
   ['','ihre auswahl im cookie-hinweis wird im lokalen speicher ihres browsers abgelegt, damit der hinweis nicht bei jedem besuch erscheint. das ist technisch erforderlich (§ 25 abs. 2 nr. 2 tdddg); sie können den eintrag jederzeit in ihrem browser löschen.']]],
@@ -579,7 +579,7 @@ const infoPages={
   ['ihre rechte',[
   ['','sie haben das recht auf auskunft, berichtigung, löschung und einschränkung der verarbeitung, auf datenübertragbarkeit, auf widerspruch gegen eine verarbeitung nach art. 6 abs. 1 lit. f dsgvo sowie auf widerruf einer einwilligung (art. 15–21 dsgvo).'],
   ['','sie können sich außerdem bei einer datenschutz-aufsichtsbehörde beschweren, etwa beim landesbeauftragten für den datenschutz und die informationsfreiheit baden-württemberg.'],
-  ['stand','oktober 2026']]]]
+  ['stand','november 2026']]]]
 };
 const infoLang={imprint:'de'};
 function setupInfo(route){
