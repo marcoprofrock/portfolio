@@ -14,7 +14,7 @@
  const greeting='hi strichpunkt :)',title='ich bin marco.',claim='design*',footnote='*dieser seite ist geklaut. die arbeiten darunter nicht.';
  const letter=[
   'ihr sucht jemanden, der marken versteht. also hab ich mir eure mal angesehen.',
-  'aber eine marke ist mehr als ihr design. der rest heißt culture, und die lässt sich nicht nachbauen. ob wir da zusammenpassen, finden wir am besten in einem gespräch raus.'];
+  'aber eine marke ist mehr als ihr design. der rest heißt culture, und die lässt sich nicht nachbauen. ob wir da zusammenpassen, finden wir am besten in einem gespräch raus.'];
  const open=[['500l/s','#500ls','assets/projects/500ls/00_showreel'],['sentry','#sentry','assets/projects/sentry/02_showreel']];
  // The portrait keeps the crop of the home page (index.svg): 207.47 × 262.03 of the picture drawn 240 × 300, 24.5 in.
  const CROP={x:24.5/240,w:207.47/240,ratio:262.03/207.47};
