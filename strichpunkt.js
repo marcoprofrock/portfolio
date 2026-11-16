@@ -194,6 +194,9 @@
    const around=(d,p)=>{
     if(p==='inside')return d===6?[[target.l+8,(target.t+target.b-h)/2]]:[];
     if(p==='inside-top')return d===6?[[target.l+8,target.t+8]]:[];
+    // A spot worked out by the caller from the label's own size.
+    if(typeof p==='function')return d===6?[p(w,h)]:[];
+    if(p==='below-center')return [[(target.l+target.r-w)/2,target.b+d]];
     const xs=[target.l,target.r-w,...along(target.l-w+40,target.r-40,9),target.l-w-160,target.l-w-320,target.r+160];
     if(p==='above')return xs.map(x=>[x,target.t-d-h]);
     if(p==='below')return xs.map(x=>[x,target.b+d]);
@@ -202,7 +205,7 @@
    };
    for(const d of [6,16,32,56,88,128,176,240,320])for(const p of prefs)spots.push(...around(d,p));
    for(const d of [6,16,32,56,88,128,176,240,320,420])for(const p of ['above','below','right','left'])spots.push(...around(d,p));
-   const ok=([x,y])=>{const r={l:x,t:y,r:x+w,b:y+h};return x>=4&&y>=0&&x+w<=W-4&&y+h<=Hh-4&&!placed.some(q=>hits(q,r))&&!keepOut.some(q=>q!==own&&hits(q,r))};
+   const ok=([x,y])=>{const r={l:x,t:y,r:x+w,b:y+h};return x>=4&&y>=0&&x+w<=W-4&&y+h<=Hh-4&&!placed.some(q=>hits(q,r))&&!keepOut.some(q=>!(Array.isArray(own)?own.includes(q):q===own)&&hits(q,r))};
    const clamp=([x,y])=>[Math.min(Math.max(x,4),W-4-w),Math.min(Math.max(y,0),Hh-4-h)];
    const [x,y]=spots.find(ok)||clamp(spots[0]);
    at(tag,x,y);const r={l:x,t:y,r:x+w,b:y+h};placed.push(r);
@@ -287,7 +290,11 @@
   // Type, colour and radius labels at the main pieces (the ones of the brief: headline, footnote, letter heading and
   // body, banner, case titles; radii of the cards). A label may touch its own piece, never another's.
   const add=(k,text,prefs,cls)=>{if(!rect[k])return;const own=keepOut.find(r=>Math.abs(r.l-rect[k].l)<.5&&Math.abs(r.t-rect[k].t)<.5&&Math.abs(r.r-rect[k].r)<.5)||null;label(text,rect[k],prefs,own,cls)};
-  add('banner',`pre-header · ${type(pieces.banner)} · ${hex(getComputedStyle(q('.sp-banner')).backgroundColor)} · höhe ${fmt(box(q('.sp-banner')).b-box(q('.sp-banner')).t)} px`,phone?['below']:['inside','below'],phone?'sp-label-wrap':'sp-label-line');
+  const bannerText=rect.banner&&`pre-header · ${type(pieces.banner)} · ${hex(getComputedStyle(q('.sp-banner')).backgroundColor)} · höhe ${fmt(rect.banner.b-rect.banner.t)} px`;
+  // On a desktop straight under the banner, centred, in the empty middle of the nav (its name and links stay clear).
+  const same=a=>b=>Math.abs(a.l-b.l)<.5&&Math.abs(a.t-b.t)<.5&&Math.abs(a.r-b.r)<.5&&Math.abs(a.b-b.b)<.5;
+  if(rect.banner&&!phone&&q('.sp-nav'))label(bannerText,rect.banner,['below-center','below'],[keepOut.find(same(rect.banner)),keepOut.find(same(box(q('.sp-nav'))))],'sp-label-line');
+  else add('banner',bannerText,phone?['below']:['inside','below'],phone?'sp-label-wrap':'sp-label-line');
   // The navigation in sp.design's manner (only while the specs show).
   const navLink=q('.sp-nav-items a:not([aria-current])'),navCurrent=q('.sp-nav-items a[aria-current]');
   if(!phone&&navLink){
@@ -295,10 +302,23 @@
    label(`nav-items a · ${type(navLink)} · padding ${fmt(parseFloat(cs.paddingTop)/unit)} px · ${radius(navLink)} · gap ${fmt(parseFloat(getComputedStyle(q('.sp-nav-items')).columnGap)/unit)} px · aktiv ${hex(getComputedStyle(navCurrent).backgroundColor)}`,items,['below','left'],null);
   }
   const footLink=q('.sp-foot a');
-  if(!phone&&footLink)label(`text-link · ${type(footLink)} · unterstrichen ${hex(getComputedStyle(footLink).textDecorationColor)} · abstand ${fmt(parseFloat(getComputedStyle(footLink).textUnderlineOffset)/unit)} px`,box(q('.sp-foot')),['above','left'],null);
+  // Beside the links themselves (the foot's box is as wide as the page).
+  const footLinks=[...main.querySelectorAll('.sp-foot a')].map(box).reduce((a,b)=>a?{l:Math.min(a.l,b.l),t:Math.min(a.t,b.t),r:Math.max(a.r,b.r),b:Math.max(a.b,b.b)}:b,null);
+  if(!phone&&footLink)label(`text-link · ${type(footLink)} · unterstrichen ${hex(getComputedStyle(footLink).textDecorationColor)} · abstand ${fmt(parseFloat(getComputedStyle(footLink).textUnderlineOffset)/unit)} px`,footLinks,['left','above'],null);
   add('head',`heading-1 · ${type(pieces.head)}`,phone?['above']:['above','left']);
-  add('display',`display (größe auf 2 spalten) · ${type(pieces.display)}`,phone?['above']:['above','below']);
-  add('body',`body-2 · ${type(pieces.body)}`,phone?['below']:['below','left']);
+  // DESIGN*'s label in one line between the nav and the letters (Marco, 16.11.), right of “to: SP”: its box reaches
+  // above the ink by the line height, so the space up to the caps' top counts as free.
+  const displayText=rect.display&&`display (größe auf 2 spalten) · ${type(pieces.display)}`;
+  if(rect.display&&!phone){
+   const big=pieces.display,cs=getComputedStyle(big),fs=parseFloat(cs.fontSize)/unit;
+   const base=el('span','',{display:'inline-block',width:'0',height:'0',verticalAlign:'baseline'});big.append(base);const baseline=box(base).t;base.remove();
+   const c=document.createElement('canvas').getContext('2d');c.font=`${cs.fontWeight} ultra-expanded 100px "Strichpunkt Sans"`;
+   const ink=baseline-c.measureText(big.textContent.replace('*','').toUpperCase()).actualBoundingBoxAscent/100*fs;
+   const navB=q('.sp-nav')?box(q('.sp-nav')).b:0,left=rect.to?rect.to.r+16:rect.display.l;
+   label(displayText,rect.display,[(w,h)=>[left,Math.max(navB+4,Math.min(ink-8-h,rect.to?(rect.to.t+rect.to.b-h)/2:ink))],'above','below'],keepOut.find(same(rect.display))||null,'sp-label-line');
+  }else add('display',displayText,['above']);
+  if(phone)add('body',`body-2 · ${type(pieces.body)}`,['below']);
+  else if(pieces.body)label(`body-2 · ${type(pieces.body)}`,box(q('.sp-letter')),['below','left'],null);
   add('note',`body-1 · ${type(pieces.note)}`,['below','right']);
   if(!phone&&rect.frame)add('frame',`bild 16:9 · ${fmt(rect.frame.r-rect.frame.l)} × ${fmt(rect.frame.b-rect.frame.t)} px · ${radius(pieces.frame)} (porträt ${radius(pieces.portrait)})`,['inside-top','above','below']);
   add('name',`body-2 · ${type(pieces.name)}`,['below']);
@@ -354,7 +374,7 @@
  const band=()=>el('div','sp-band',{},'<div class="sp-band-glow"><img src="assets/strichpunkt/band-blur.webp" alt=""></div>');
  // The purple banner as sp.design's: 32 high, their purple, a line in capitals, a heavier call to action, a cross.
  const banner=()=>{
-  const box=el('div','sp-banner',{},`<span>ich würde gern bei strichpunkt identity anfangen</span><a href="mailto:hello@marco.ad?subject=strichpunkt">lasst uns reden!</a><button type="button" aria-label="close"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="#000" stroke-width="1.2"/></svg></button>`);
+  const box=el('div','sp-banner',{},`<span>ich würde gern bei strichpunkt identity anfangen</span><a href="mailto:hello@marco.ad?subject=strichpunkt">let’s talk!</a><button type="button" aria-label="close"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="#000" stroke-width="1.2"/></svg></button>`);
   box.lang='de';box.querySelector('button').addEventListener('click',()=>{box.remove();specs()});
   box.querySelector('a').addEventListener('click',()=>ga('sp_banner_click'));
   return box;
