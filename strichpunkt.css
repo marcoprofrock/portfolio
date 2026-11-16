@@ -89,7 +89,7 @@ a.sp-case:hover .sp-name,a.sp-case:focus-visible .sp-name{opacity:.2}
 .sp-toggle[aria-pressed="true"]{background:#fff;color:#000}
 .sp-pill:focus-visible{outline:1px solid var(--sp-purple);outline-offset:2px}
 /* The contact pill is a link: it does not fade like other links, it fills like the switch when hovered. */
-.sp-contact:hover{opacity:1;background:#fff;color:#000}
+.sp-contact:hover,.sp-contact[aria-expanded="true"]{opacity:1;background:#fff;color:#000}
 /* The specs: a layer that takes no pointer and moves nothing. Hairlines and small lowercase labels in a monospace face,
    all in the banner's purple; they fade in and out unless the visitor asked for less motion. */
 .sp-specs{left:0;top:0;pointer-events:none;z-index:5;opacity:0;transition:opacity .2s ease}
@@ -163,3 +163,16 @@ main.sp-specs-on .sp-to{transform:translateY(43px)}
 .sp-nav-toggle span{position:absolute;left:30%;width:40%;height:2px;background:#fff}
 .sp-nav-toggle span:first-child{transform:translateY(-4px)}
 .sp-nav-toggle span:last-child{transform:translateY(4px)}
+/* The contact details (Marco, 16.11.): a block in the accent purple, black, in the specs' monospace; radius sm. */
+.sp-contact-card{position:absolute;z-index:6;background:var(--sp-purple);color:#000;border-radius:var(--sp-radius-sm);padding:14px 40px 14px 16px;
+ font:14px/1.6 ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;text-transform:lowercase}
+.sp-contact-card dl{display:grid;grid-template-columns:max-content 1fr;gap:2px 20px;margin:0}
+.sp-contact-card dt{opacity:.6}
+.sp-contact-card dd{margin:0}
+.sp-contact-card a{color:#000;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.sp-contact-card a:hover{opacity:.6}
+.sp-contact-card a:focus-visible,.sp-contact-close:focus-visible{outline:1px solid #000;outline-offset:2px}
+.sp-contact-close{position:absolute;right:8px;top:8px;width:28px;height:28px;padding:8px;border:0;background:none;cursor:pointer}
+.sp-contact-close svg{display:block;width:12px;height:12px}
+.mobile .sp-contact-card{font-size:17px}
+.mobile main.sp-page>.sp-contact-card{position:absolute}

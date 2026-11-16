@@ -55,10 +55,31 @@
   const toggle=el('button','sp-pill sp-toggle',{},'specs zeigen');toggle.type='button';
   toggle.addEventListener('click',()=>setSpecs(!specsOn));
   box.querySelector('.sp-body').append(' ',toggle);
-  // The last paragraph ends with a pill to the contact page (Marco, 16.11.: “[contact]”).
-  const contact=el('a','sp-pill sp-contact',{},'contact');contact.href='#contact';
+  // The last paragraph ends with a pill “contact” (Marco, 16.11.): it does not leave the page but opens the contact
+  // details right under the letter, in a block of the accent purple in the manner of the specs.
+  const contact=el('button','sp-pill sp-contact',{},'contact');contact.type='button';
+  contact.setAttribute('aria-expanded','false');contact.setAttribute('aria-controls','sp-contact-card');
+  contact.addEventListener('click',()=>contactCard(contact));
   box.querySelector('.sp-body:last-child').append(' ',contact);
   return box;
+ };
+ // The contact details, taken from the site's contact page (app.js, infoPages.contact) so they never differ:
+ // label and value per row, the values as links. Under the pill, as wide as the letter; Escape, the cross or the pill
+ // again close it.
+ const contactCard=pill=>{
+  const open=main.querySelector('.sp-contact-card');
+  if(open){open.remove();pill.setAttribute('aria-expanded','false');return}
+  const rows=(typeof infoPages!=='undefined'&&infoPages.contact?.[0]?.[1])||[];
+  const card=el('div','sp-contact-card',{},`<button type="button" class="sp-contact-close" aria-label="schließen"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="#000" stroke-width="1.2"/></svg></button><dl>${rows.map(([label,value,href])=>`<dt>${label}</dt><dd>${href?`<a href="${href}"${/^https?:/.test(href)?' target="_blank" rel="noopener"':''}>${value}</a>`:value}</dd>`).join('')}</dl>`);
+  card.id='sp-contact-card';card.setAttribute('role','region');card.setAttribute('aria-label','contact');
+  const close=()=>{card.remove();pill.setAttribute('aria-expanded','false');pill.focus()};
+  card.querySelector('.sp-contact-close').addEventListener('click',close);
+  card.addEventListener('keydown',e=>{if(e.key==='Escape'){e.stopPropagation();close()}});
+  main.append(card);pill.setAttribute('aria-expanded','true');
+  // Placed in the units of main: under the pill, from the letter's left edge to its right edge.
+  const z=zoom(),m=main.getBoundingClientRect(),p=pill.getBoundingClientRect(),letterBox=main.querySelector('.sp-letter').getBoundingClientRect();
+  at(card,(letterBox.left-m.left)/z,(p.bottom-m.top)/z+12,{width:px(letterBox.width/z)});
+  card.querySelector('a')?.focus({preventScroll:true});
  };
  // DESIGN* as wide as columns 1–2: measured in the face once it has arrived, then set to that width.
  const claimBlock=(width,onFit)=>{
@@ -106,7 +127,9 @@
   specs();
  };
  // Escape hides them; a resize draws them again (the layout itself is redrawn by app.js across 768).
- document.addEventListener('keydown',e=>{if(e.key==='Escape'&&specsOn&&main.classList.contains('sp-page'))setSpecs(false)});
+ document.addEventListener('keydown',e=>{if(e.key!=='Escape'||!main.classList.contains('sp-page'))return;
+  const card=main.querySelector('.sp-contact-card');if(card){card.remove();main.querySelector('.sp-contact')?.setAttribute('aria-expanded','false');return}
+  if(specsOn)setSpecs(false)});
  let resizeTimer=0;
  window.addEventListener('resize',()=>{if(!specsOn)return;clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>main.classList.contains('sp-page')&&specs(),150)});
  const specs=()=>{
