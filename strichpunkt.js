@@ -11,7 +11,7 @@
 // neither its name nor its address is anywhere in this file — it is read from the opened private area (app.js).
 // Values not drawn by Marco: see README "strichpunkt".
 (()=>{
- const greeting='hi strichpunkt :)',title='ich bin marco.',claim='design*',footnote='*diese seite ist geklaut. die arbeiten darunter nicht.';
+ const greeting='hi strichpunkt :)',title='ich bin marco.',claim='design*',footnote='*dieser seite ist geklaut. die arbeiten darunter nicht.';
  const letter=[
   'ihr sucht jemanden, der marken versteht. also hab ich eure auseinandergebaut.',
   'aber eine marke ist mehr als ihr design. der rest heißt culture, und die lässt sich nicht nachbauen. ob wir da zusammenpassen, finden wir am besten in einem gespräch raus.'];
