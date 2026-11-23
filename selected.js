@@ -18,8 +18,11 @@
  // Desktop: three columns, two rows — 500l/s, hope in action, s-neo on top; vote2cop, sentry, plants with benefits below.
  const cell=[[0,0],[1,0],[0,1],[1,1],[2,0],[2,1]];
  const L=26.38,GAP=26.38,CAP=60,TOP=134.84;
- // Both rows between 134.84 and the foot (1080 − 58.08), so the page does not scroll up and down.
- const H=(1080-58.08-TOP-2*CAP)/2,W=H*16/9;
+ // Both rows between 134.84 and the foot (1080 − 58.08), so the page does not scroll up and down. In a window flatter
+ // than 16:9 (an external screen under the browser bar) the foot moves up with the window's bottom edge, so the frames
+ // shrink with it instead of running under the foot (23.11.2026). The field for “more work” keeps its 477.16.
+ const size=()=>{const view=Math.min(1080,document.documentElement.clientHeight/(window.innerWidth/1920)),H=(view-58.08-TOP-2*CAP)/2;return [H,H*16/9]};
+ const H0=(1080-58.08-TOP-2*CAP)/2,FIELD=1893.62-(L+2*H0*16/9+GAP);
  const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
  const frame=(title,url,file,still,height,video)=>{
   const a=document.createElement('a');a.href=url;a.className='selected-work';
@@ -29,25 +32,34 @@
  };
  const more=()=>{const box=document.createElement('div');box.className='selected-more';box.innerHTML='<span>more work</span><a href="#archive">archive</a>';return box};
  window.selectedWorks=main=>{
-  const box=document.createElement('div');box.className='selected-works';box.style.top=TOP+'px';box.style.height=2*(H+CAP)+'px';
-  works.forEach(([title,url,file,still=file+'.webp'],i)=>{
-   const [a,v]=frame(title,url,file,still,H,'preload="metadata"');
-   a.style.left=(L+cell[i][0]*(W+GAP))+'px';a.style.top=(cell[i][1]*(H+CAP))+'px';a.style.width=W+'px';
-   if(!v){box.append(a);return}
+  const box=document.createElement('div');box.className='selected-works';box.style.top=TOP+'px';
+  const items=works.map(([title,url,file,still=file+'.webp'])=>{
+   const [a,v]=frame(title,url,file,still,H0,'preload="metadata"');
+   box.append(a);
+   if(!v)return a;
    // From its start on every visit, back to the still when the pointer leaves.
    const play=()=>{if(reduced())return;v.currentTime=0;v.play().catch(()=>{})};
    const stop=()=>{v.pause();v.classList.remove('ready');v.currentTime=0};
    a.addEventListener('pointerenter',play);a.addEventListener('pointerleave',stop);a.addEventListener('focus',play);a.addEventListener('blur',stop);
-   box.append(a);
+   return a;
   });
   main.append(box);
   // Right of the last column: “more work” over a pill to the archive, centred on a field as wide as the gap it
   // had beside two columns (477.16) and on the middle of the two picture rows; then the page margin.
-  const left=L+3*W+2*GAP,field=1893.62-(L+2*W+GAP),side=more();
-  side.style.left=left+'px';side.style.width=field+'px';side.style.top=(TOP+(2*H+CAP)/2)+'px';
-  main.append(side);box.style.width=(left+field+L)+'px';
+  const side=more();main.append(side);
+  const place=()=>{
+   const [H,W]=size();box.style.height=2*(H+CAP)+'px';
+   items.forEach((a,i)=>{
+    a.style.left=(L+cell[i][0]*(W+GAP))+'px';a.style.top=(cell[i][1]*(H+CAP))+'px';a.style.width=W+'px';
+    a.querySelector('.selected-frame').style.height=H+'px';
+   });
+   const left=L+3*W+2*GAP;
+   side.style.left=left+'px';side.style.width=FIELD+'px';side.style.top=(TOP+(2*H+CAP)/2)+'px';
+   box.style.width=(left+FIELD+L)+'px';
+  };
+  place();window.addEventListener('resize',place);
   const wheel=e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)&&!e.ctrlKey){e.preventDefault();window.scrollBy(e.deltaY,0)}};
   window.addEventListener('wheel',wheel,{passive:false});
-  const done=cleanupRoute;cleanupRoute=()=>{window.removeEventListener('wheel',wheel);done()};
+  const done=cleanupRoute;cleanupRoute=()=>{window.removeEventListener('wheel',wheel);window.removeEventListener('resize',place);done()};
  };
 })();
