@@ -1839,12 +1839,12 @@
       "assets/projects/i-love-stuttgart/11_anstossen.webp",
       "assets/projects/i-love-stuttgart/09_bts.mp4",
       "assets/projects/i-love-stuttgart/10_love-language.webp",
-      "assets/projects/i-love-stuttgart/08_esel-sticker.webp",
       "assets/projects/i-love-stuttgart/12_wasen-kessel.webp",
-      "assets/projects/i-love-stuttgart/08_sticker-baum.webp",
-      "assets/projects/i-love-stuttgart/12_herbst-fassade.webp",
+      "assets/projects/i-love-stuttgart/06_wasen-eingang.webp",
       "assets/projects/i-love-stuttgart/12_ballon.webp",
-      "assets/projects/i-love-stuttgart/06_wasen-eingang.webp"
+      "assets/projects/i-love-stuttgart/08_esel-sticker.webp",
+      "assets/projects/i-love-stuttgart/12_herbst-fassade.webp",
+      "assets/projects/i-love-stuttgart/08_sticker-baum.webp"
     ],
     "videos": [],
     "sound": [
@@ -1919,40 +1919,40 @@
         583.79
       ],
       [
-        855.77,
-        3052.03,
-        467.03,
-        583.79
-      ],
-      [
         202.85,
         2835.82,
-        450.0,
-        800.0
+        400.0,
+        711.11
       ],
       [
-        944.38,
-        3836.82,
-        382.55,
-        382.55
-      ],
-      [
-        494.12,
-        3751.82,
-        374.04,
-        467.55
+        720.56,
+        2951.82,
+        551.64,
+        367.76
       ],
       [
         1403.14,
-        2835.82,
+        3019.0,
         490.48,
         871.97
       ],
       [
-        1403.14,
-        3892.38,
-        490.48,
-        326.99
+        760.0,
+        3435.58,
+        400.0,
+        500.0
+      ],
+      [
+        26.38,
+        3662.93,
+        340.0,
+        425.0
+      ],
+      [
+        1214.38,
+        4006.97,
+        382.55,
+        382.55
       ]
     ],
     "source": "texte nach den pressemitteilungen von stadtwerke stuttgart (23.06.2026) und scholz & friends sowie horizont (24.09.2026); bilder und filme aus 60_Stadtwerke.",
