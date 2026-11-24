@@ -777,8 +777,8 @@ function setupArchive(){
   const row=svgNode('g',{'class':'project-row',tabindex:0,'aria-label':[project.title,project.client,project.area,project.year,...(project.awards||[]).map(name=>awards[name]?.label||name)].filter(Boolean).join(', ')});
   row.append(svgNode('rect',{x:26.38,y:rowTop,width:1244.34,height:rowBottom-rowTop,fill:'transparent'}));
   [[26.87,project.title,false],[400,project.client,true],[775,project.area,true],[1233.6,project.year,true]].forEach(([x,label,light])=>row.append(svgNode('text',{x,y,'font-family':light?lightFace:roman,'font-size':20,'font-weight':400},label)));
-  // status (projects.json): published, competition or spec work, between area and year — desktop only (Marco, 24.11.).
-  if(project.status)row.append(svgNode('text',{x:1004.3,y,'font-family':lightFace,'font-size':20,'font-weight':400},project.status));
+  // status (projects.json): published, competition or spec work, centred in the gap between the longest area and year — desktop only (Marco, 24.11.).
+  if(project.status)row.append(svgNode('text',{x:1041.04,y,'font-family':lightFace,'font-size':20,'font-weight':400},project.status));
   function show(){
    const scale=window.innerWidth/1920;
    const badgeSpace=project.awards?.length?awardOffset+awardHeight:0;
