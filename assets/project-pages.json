@@ -1811,5 +1811,160 @@
     ],
     "source": "flyeralarm design award 2026 (2nd place), briefings sea shepherd and fakf, merged into one project (Marco, 15.11.2026); fakf motifs 01 and 03 taken off. motifs from 55_Flyeralarm/02_export/finale_abgabe/_rgb_ansicht, poster and social post shown as pairs.",
     "credits": []
+  },
+  "i-love-stuttgart": {
+    "title": "i love stuttgart",
+    "sections": [
+      {
+        "label": "problem",
+        "text": "the energy transition is complex and mostly told as must and should. hard to love – especially for gen z and millennials. stadtwerke stuttgart wanted the city to fall for it anyway."
+      },
+      {
+        "label": "idea",
+        "text": "treat it like a relationship: „aus liebe zu stuttgart\" – out of love for stuttgart. and every relationship needs a coach. meet dr. kessel, named after the basin stuttgart sits in and played by merlin sandmeyer. he spots the red flags and teaches the city new love languages."
+      },
+      {
+        "label": "solution",
+        "text": "four colours, one love coach. films and key visuals like „erkenn die red flags: zu viel kohle.\" ran on billboards, trams, the cannstatter wasen and social media – while i love stuttgart stickers turned up all over town."
+      }
+    ],
+    "images": [
+      "assets/projects/i-love-stuttgart/01_sticker-banner.webp",
+      "assets/projects/i-love-stuttgart/02_film-rot.mp4",
+      "assets/projects/i-love-stuttgart/03_film-blau.mp4",
+      "assets/projects/i-love-stuttgart/04_film-lila.mp4",
+      "assets/projects/i-love-stuttgart/05_bts-2.mp4",
+      "assets/projects/i-love-stuttgart/06_wasen-eingang.webp",
+      "assets/projects/i-love-stuttgart/07_matchcuts.mp4",
+      "assets/projects/i-love-stuttgart/11_anstossen.webp",
+      "assets/projects/i-love-stuttgart/09_bts.mp4",
+      "assets/projects/i-love-stuttgart/10_love-language.webp",
+      "assets/projects/i-love-stuttgart/08_esel-sticker.webp",
+      "assets/projects/i-love-stuttgart/12_wasen-kessel.webp",
+      "assets/projects/i-love-stuttgart/08_sticker-baum.webp",
+      "assets/projects/i-love-stuttgart/12_herbst-fassade.webp",
+      "assets/projects/i-love-stuttgart/12_ballon.webp"
+    ],
+    "videos": [],
+    "sound": [
+      "assets/projects/i-love-stuttgart/02_film-rot.mp4",
+      "assets/projects/i-love-stuttgart/03_film-blau.mp4",
+      "assets/projects/i-love-stuttgart/04_film-lila.mp4"
+    ],
+    "unmute": [
+      "assets/projects/i-love-stuttgart/05_bts-2.mp4",
+      "assets/projects/i-love-stuttgart/09_bts.mp4"
+    ],
+    "image_layout": [
+      [
+        559.65,
+        89.48,
+        778.73,
+        348.09
+      ],
+      [
+        855.77,
+        465.81,
+        328.38,
+        583.79
+      ],
+      [
+        1210.5,
+        465.81,
+        328.38,
+        583.79
+      ],
+      [
+        1565.23,
+        465.81,
+        328.38,
+        583.79
+      ],
+      [
+        494.12,
+        771.74,
+        331.8,
+        488.24
+      ],
+      [
+        202.85,
+        1292.69,
+        831.2,
+        467.55
+      ],
+      [
+        1214.38,
+        1204.2,
+        568.76,
+        382.55
+      ],
+      [
+        720.56,
+        1792.95,
+        551.64,
+        310.3
+      ],
+      [
+        1312.69,
+        1748.24,
+        580.93,
+        871.97
+      ],
+      [
+        26.38,
+        2135.96,
+        1037.85,
+        583.79
+      ],
+      [
+        855.77,
+        3052.03,
+        467.03,
+        583.79
+      ],
+      [
+        202.85,
+        2835.82,
+        450.0,
+        800.0
+      ],
+      [
+        1011.99,
+        3836.82,
+        382.55,
+        382.55
+      ],
+      [
+        494.12,
+        3751.82,
+        374.04,
+        467.55
+      ],
+      [
+        1403.14,
+        2835.82,
+        490.48,
+        871.97
+      ]
+    ],
+    "source": "texte nach den pressemitteilungen von stadtwerke stuttgart (23.06.2026) und scholz & friends sowie horizont (24.09.2026); bilder und filme aus 60_Stadtwerke.",
+    "credits": [
+      [
+        "agency",
+        "scholz & friends"
+      ],
+      [
+        "copy",
+        "norman wursthorn"
+      ],
+      [
+        "art",
+        "dominik lang, gerrit-john gerischer, carolin scherer, marco pröfrock"
+      ],
+      [
+        "production",
+        "miss murphy"
+      ]
+    ]
   }
 }

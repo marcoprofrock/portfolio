@@ -142,7 +142,7 @@ const formerAnchors={'#p-500ls':'#500ls','#p-wind':'#windkulturerbe','#p-uturn':
  '#talks-publications':'#vita','#imprint':'#imprint','#top':'#home',
  // sea shepherd and fakf became one project, ngo poster (Marco, 15.11.2026).
  '#mission-octopus':'#ngo-poster','#kids-foundation':'#ngo-poster'};
-const routeFromHash=(hash=routeHash())=>['home','work','strichpunkt','archive','diary','vita','contact','imprint','mediterainy-opera','500ls','sentry','hope-in-action','windkulturerbe','u-turn','azulejo-six','vote2cop','thank-you','s-neo','plants-with-benefits','ngo-poster'].includes(hash.slice(1))||projects?.some(project=>project.url===hash)?hash.slice(1):'home';
+const routeFromHash=(hash=routeHash())=>['home','work','strichpunkt','archive','diary','vita','contact','imprint','mediterainy-opera','500ls','sentry','hope-in-action','windkulturerbe','u-turn','azulejo-six','vote2cop','thank-you','s-neo','plants-with-benefits','ngo-poster','i-love-stuttgart'].includes(hash.slice(1))||projects?.some(project=>project.url===hash)?hash.slice(1):'home';
 // Every route has an address of its own (Marco, 23.10.: so search engines and AI crawlers find each page):
 // /, /work/, /archive/, /diary/, /vita/, /contact/, /imprint/ and /archive/<project>/. scripts/prerender.py writes a
 // page with the text at each of them. Links inside the site still say #route; the click below turns them into the
@@ -777,6 +777,8 @@ function setupArchive(){
   const row=svgNode('g',{'class':'project-row',tabindex:0,'aria-label':[project.title,project.client,project.area,project.year,...(project.awards||[]).map(name=>awards[name]?.label||name)].filter(Boolean).join(', ')});
   row.append(svgNode('rect',{x:26.38,y:rowTop,width:1244.34,height:rowBottom-rowTop,fill:'transparent'}));
   [[26.87,project.title,false],[400,project.client,true],[775,project.area,true],[1233.6,project.year,true]].forEach(([x,label,light])=>row.append(svgNode('text',{x,y,'font-family':light?lightFace:roman,'font-size':20,'font-weight':400},label)));
+  // published (projects.json): work that ran for real, marked between area and year — desktop only (Marco, 24.11.).
+  if(project.published)row.append(svgNode('text',{x:1004.3,y,'font-family':lightFace,'font-size':20,'font-weight':400},'published'));
   function show(){
    const scale=window.innerWidth/1920;
    const badgeSpace=project.awards?.length?awardOffset+awardHeight:0;
@@ -1507,7 +1509,7 @@ document.addEventListener('keydown',e=>{
  }
 });
 Promise.all([
- ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=ngo-poster-20261115`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
+ ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=ils-20261124`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
  document.fonts.load('400 20px Serie57Archive').catch(()=>{}),
  fetch('assets/rotis-metrics.json?v=launch19-20261003').then(r=>{if(!r.ok)throw Error('rotis-metrics could not be loaded');return r.json()}).then(metrics=>{rotis=metrics}),
  // The sizes of the project pictures (scripts/prepare_image_sizes.py) shape the mobile project pages; without
@@ -1792,7 +1794,7 @@ async function setupOpera(route){
  const controller=new AbortController();let frame=0;
  cleanupRoute=()=>{controller.abort();cancelAnimationFrame(frame)};
  try{
-  const response=await fetch(`assets/project-layouts/${route}.svg?v=ngo-poster-20261115`,{signal:controller.signal});
+  const response=await fetch(`assets/project-layouts/${route}.svg?v=ils-20261124`,{signal:controller.signal});
   if(!response.ok)throw Error('Projektseite konnte nicht geladen werden.');
   const body=await response.text();if(controller.signal.aborted)return;
   if(typeof body==='string')main.innerHTML=body;else main.replaceChildren(buildProjectPage(body[route]));
@@ -1926,13 +1928,64 @@ async function setupOpera(route){
    // Look again once it can play: the first look can come before the page is laid out, and a film in the
    // first screen (sentry) would then wait for the first scroll to start.
    video.addEventListener('loadeddata',()=>schedule(),{once:true,signal:controller.signal});
-   document.body.append(video);clips.push({marker,video});
+   // data-sound (sound in project-pages.json): a film with its sound, not a motif. It waits on its still with the
+   // ring of the YouTube films, starts with sound on the click, and goes back to its still at the end or when it
+   // leaves the window. Nothing plays by itself.
+   let ring=null;
+   if('sound' in marker.dataset){
+    video.muted=false;video.defaultMuted=false;video.loop=false;video.preload='metadata';
+    video.classList.add('project-clip-sound');video.setAttribute('aria-label',`${route} — film`);
+    video.addEventListener('loadedmetadata',()=>schedule(),{once:true,signal:controller.signal});
+    ring=document.createElement('button');ring.type='button';ring.className='project-still project-clip-ring';
+    ring.setAttribute('aria-label',`${route} — play film`);
+    ring.innerHTML='<svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="25.5" fill="none" stroke="#fff"/><polygon points="19,15 39,26 19,37" fill="#fff"/></svg>';
+    const rest=()=>{video.controls=false;ring.hidden=false};
+    ring.addEventListener('click',()=>{
+     for(const other of clips)if(other.video!==video){if(other.ring&&!other.video.paused)other.video.pause();if(other.toggle&&!other.video.muted){other.video.muted=true;other.show()}}
+     ring.hidden=true;video.controls=true;video.play().catch(rest);track('video_play',{project:route,video_id:marker.dataset.clip});
+    },{signal:controller.signal});
+    video.addEventListener('ended',()=>{video.load();rest()},{signal:controller.signal});
+    video.addEventListener('pause',()=>{if(!video.seeking&&video.dataset.left)rest()},{signal:controller.signal});
+    document.body.append(ring);
+   }
+   // data-unmute (unmute in project-pages.json): loops mute like every motif, but a click on the film turns its sound
+   // on and off; a speaker in the lower right corner says which. Only one film speaks at a time, and it falls silent
+   // again when it leaves the window.
+   let toggle=null,show=null;
+   if('unmute' in marker.dataset){
+    toggle=document.createElement('button');toggle.type='button';toggle.className='project-clip-unmute';
+    show=()=>{const on=!video.muted;toggle.setAttribute('aria-label',`${route} — ${on?'sound off':'sound on'}`);toggle.setAttribute('aria-pressed',String(on));
+     toggle.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h4l5-4v14l-5-4H3z" fill="#fff"/>${on?'<path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="#fff" stroke-width="1.5"/>':'<path d="M16 9l6 6M22 9l-6 6" fill="none" stroke="#fff" stroke-width="1.5"/>'}</svg>`};
+    toggle.addEventListener('click',()=>{
+     const on=video.muted;
+     if(on)for(const other of clips)if(other.video!==video){if(other.ring&&!other.video.paused)other.video.pause();if(other.toggle&&!other.video.muted){other.video.muted=true;other.show()}}
+     video.muted=!on;if(on&&video.paused)video.play().catch(()=>{});show();
+     if(on)track('video_sound',{project:route,video_id:marker.dataset.clip});
+    },{signal:controller.signal});
+    show();document.body.append(toggle);
+   }
+   document.body.append(video);clips.push({marker,video,ring,toggle,show});
   }
-  const placeClips=()=>{for(const {marker,video} of clips){
+  const placeClips=()=>{for(const {marker,video,ring,toggle,show} of clips){
    // The still, not the group: the group also holds the caption above the frame.
    const b=(marker.querySelector('image')||marker).getBoundingClientRect();
-   Object.assign(video.style,{left:(b.left+window.scrollX)+'px',top:(b.top+window.scrollY)+'px',width:b.width+'px',height:b.height+'px'});
+   const box={left:(b.left+window.scrollX)+'px',top:(b.top+window.scrollY)+'px',width:b.width+'px',height:b.height+'px'};
+   Object.assign(video.style,box);
    const visible=b.top<window.innerHeight&&b.bottom>0;
+   if(ring||toggle){
+    // The player takes the picture's own size inside the frame, so its controls end where the film ends.
+    const ratio=video.videoWidth/video.videoHeight;
+    if(ratio){const w=Math.min(b.width,b.height*ratio),h=w/ratio;
+     Object.assign(box,{left:(b.left+window.scrollX+(b.width-w)/2)+'px',top:(b.top+window.scrollY+(b.height-h)/2)+'px',width:w+'px',height:h+'px'});
+     Object.assign(video.style,box)}
+   }
+   if(toggle){Object.assign(toggle.style,box);if(!visible&&!video.muted){video.muted=true;show()}}
+   if(ring){
+    Object.assign(ring.style,box);
+    if(visible)delete video.dataset.left;
+    else if(!video.paused){video.dataset.left='1';video.pause()}
+    continue;
+   }
    if(visible&&video.paused)video.play().catch(()=>{});
    if(!visible&&!video.paused)video.pause();
   }};
@@ -1982,7 +2035,7 @@ async function setupOpera(route){
   window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule);
   cleanupRoute=()=>{controller.abort();cancelAnimationFrame(frame);window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);
    for(const {stage} of films)stage.remove();for(const {stage,video} of localVideos){video.pause();stage.remove()}
-   for(const {video} of clips){video.pause();video.remove()}
+   for(const {video,ring,toggle} of clips){video.pause();video.remove();ring?.remove();toggle?.remove()}
    for(const {stage,video} of scrubs){video.pause();stage.remove()}};
   update();
   if(main.dataset.restoreProgress!==undefined){

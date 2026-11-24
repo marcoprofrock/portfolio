@@ -75,6 +75,13 @@ main.project-page{position:relative}
 .project-local-demo video{position:absolute;display:block;object-fit:fill;background:#000}
 .project-local-demo>img{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .project-clip{position:absolute;z-index:1;display:block;object-fit:contain;background:transparent;pointer-events:none}
+/* Ein lokaler Film mit Ton (sound): Standbild mit dem Ring der YouTube-Filme darüber, beim Klick läuft er mit Ton und eigener Steuerung. */
+.project-clip-sound{pointer-events:auto}
+.project-clip-ring{position:absolute;z-index:2;display:block}
+.project-clip-ring[hidden]{display:none}
+/* Ein Schleifenfilm, dessen Ton ein Klick einschaltet (unmute): die ganze Bildfläche ist der Schalter, der Lautsprecher steht unten rechts. */
+.project-clip-unmute{position:absolute;z-index:2;display:block;padding:0;border:0;background:none;cursor:url('assets/screens/Cursor_Auswahl.svg') 7 7,pointer}
+.project-clip-unmute svg{position:absolute;right:12px;bottom:12px;width:24px;height:24px;filter:drop-shadow(0 0 2px rgba(0,0,0,.45))}
 /* Bewegtes Vorschaubild im Archive: app.js legt es über den gezeichneten Rahmen und schneidet es zu wie die
    Standbilder (cover = slice). Ohne Größe, bis es gebraucht wird, damit es die Seite nicht verlängert. */
 .preview-clip{position:absolute;left:0;top:0;width:0;height:0;z-index:1;display:block;object-fit:cover;pointer-events:none;visibility:hidden}
