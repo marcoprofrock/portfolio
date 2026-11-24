@@ -1844,7 +1844,8 @@
       "assets/projects/i-love-stuttgart/12_ballon.webp",
       "assets/projects/i-love-stuttgart/08_esel-sticker.webp",
       "assets/projects/i-love-stuttgart/12_herbst-fassade.webp",
-      "assets/projects/i-love-stuttgart/08_sticker-baum.webp"
+      "assets/projects/i-love-stuttgart/08_sticker-baum.webp",
+      "assets/projects/i-love-stuttgart/16_u-bahn.mp4"
     ],
     "videos": [],
     "sound": [
@@ -1855,7 +1856,8 @@
     ],
     "unmute": [
       "assets/projects/i-love-stuttgart/05_bts-2.mp4",
-      "assets/projects/i-love-stuttgart/09_bts.mp4"
+      "assets/projects/i-love-stuttgart/09_bts.mp4",
+      "assets/projects/i-love-stuttgart/16_u-bahn.mp4"
     ],
     "image_layout": [
       [
@@ -1953,6 +1955,12 @@
         4006.97,
         382.55,
         382.55
+      ],
+      [
+        560.0,
+        4051.58,
+        280.0,
+        497.78
       ]
     ],
     "source": "texte nach den pressemitteilungen von stadtwerke stuttgart (23.06.2026) und scholz & friends sowie horizont (24.09.2026); bilder und filme aus 60_Stadtwerke.",
