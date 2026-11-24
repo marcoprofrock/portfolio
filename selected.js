@@ -6,27 +6,30 @@
 (()=>{
  // vote2cop has its own still here: only the words vote to cop, at 12.6 s of the reel (Marco).
  const works=[
+  // Far left since 24.11.2026 (Marco): s-neo above i love stuttgart (Stadtwerke), which replaced plants with benefits.
+  // Its reel is the three spots joined into one film (02_spots), the only 16:9 film of the case.
+  ['s-neo','#s-neo','assets/projects/s-neo/00_showreel'],
+  ['i love stuttgart','#i-love-stuttgart','assets/projects/i-love-stuttgart/02_spots'],
   ['500l/s','#500ls','assets/projects/500ls/00_showreel'],
   // hope in action here since 27.10.2026 (Marco).
   ['hope in action','#hope-in-action','assets/projects/hope-in-action/02_showreel'],
   ['vote2cop','#vote2cop','assets/projects/vote2cop/02_showreel','assets/projects/vote2cop/02_showreel-type.webp'],
   ['sentry','#sentry','assets/projects/sentry/02_showreel'],
-  // Added on the right (Marco, 15.10.): s-neo above plants with benefits. Its reel was built for this (54_Sparkasse_OOH/06_SHOWREEL).
-  ['s-neo','#s-neo','assets/projects/s-neo/00_showreel'],
-  ['plants with benefits','#plants-with-benefits','assets/projects/plants-with-benefits/showreel'],
  ];
- // Desktop: three columns, two rows — 500l/s, hope in action, s-neo on top; vote2cop, sentry, plants with benefits below.
- const cell=[[0,0],[1,0],[0,1],[1,1],[2,0],[2,1]];
+ // Desktop: three columns, two rows — s-neo, 500l/s, hope in action on top; i love stuttgart, vote2cop, sentry below.
+ const cell=[[0,0],[0,1],[1,0],[2,0],[1,1],[2,1]];
  const L=26.38,GAP=26.38,CAP=60,TOP=134.84;
  // Both rows between 134.84 and the foot (1080 − 58.08), so the page does not scroll up and down. In a window flatter
  // than 16:9 (an external screen under the browser bar) the foot moves up with the window's bottom edge, so the frames
  // shrink with it instead of running under the foot (23.11.2026). The field for “more work” keeps its 477.16.
  const size=()=>{const view=Math.min(1080,document.documentElement.clientHeight/(window.innerWidth/1920)),H=(view-58.08-TOP-2*CAP)/2;return [H,H*16/9]};
  const H0=(1080-58.08-TOP-2*CAP)/2,FIELD=1893.62-(L+2*H0*16/9+GAP);
+ // “[published]” centred on the name line under the cases that ran (Marco, 24.11.2026), like the archive's status column.
+ const published=new Set(["#s-neo","#i-love-stuttgart"]);
  const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
  const frame=(title,url,file,still,height,video)=>{
   const a=document.createElement('a');a.href=url;a.className='selected-work';
-  a.innerHTML=`<span class="selected-frame" style="height:${height}px"><img src="${still}" alt="">${file?`<video src="${file}.mp4" muted loop playsinline ${video} aria-hidden="true"></video>`:''}</span><span class="selected-name">${title}</span>`;
+  a.innerHTML=`<span class="selected-frame" style="height:${height}px"><img src="${still}" alt="">${file?`<video src="${file}.mp4" muted loop playsinline ${video} aria-hidden="true"></video>`:''}</span><span class="selected-name"><span>${title}</span>${published.has(url)?'<span class="selected-status">[published]</span>':''}</span>`;
   const v=a.querySelector('video');if(v){v.muted=true;v.addEventListener('playing',()=>v.classList.add('ready'))}
   return [a,v];
  };

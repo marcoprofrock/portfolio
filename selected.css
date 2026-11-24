@@ -6,7 +6,9 @@
 .selected-frame img,.selected-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .selected-frame video{visibility:hidden}
 .selected-frame video.ready{visibility:visible}
-.selected-name{display:block;margin-top:15px;font-size:19px;line-height:19px}
+.selected-name{position:relative;display:block;margin-top:15px;font-size:19px;line-height:19px}
+/* “published” centred under the frame on the name line (Marco, 24.11.2026). */
+.selected-status{position:absolute;left:50%;top:0;transform:translateX(-50%);white-space:nowrap}
 .selected-work:hover .selected-name,.selected-work:focus-visible .selected-name{opacity:.2}
 /* “more work” over a black pill with the white outline of the foot buttons. */
 .selected-more{position:absolute;display:flex;flex-direction:column;align-items:center;gap:12px;transform:translateY(-50%);font-size:19px;line-height:23px}
