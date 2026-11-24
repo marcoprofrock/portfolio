@@ -7,7 +7,7 @@
     "url": "#s-neo",
     "preview": "assets/projects/s-neo/04_berlin_kudamm-mockup.webp",
     "awards": [],
-    "published": true
+    "status": "published"
   },
   {
     "title": "plants with benefits",
@@ -23,7 +23,8 @@
       "label": "try for yourself",
       "url": "pwbapp/",
       "placement": "inline"
-    }
+    },
+    "status": "competition"
   },
   {
     "title": "i love stuttgart",
@@ -33,7 +34,7 @@
     "url": "#i-love-stuttgart",
     "preview": "assets/previews/i-love-stuttgart.webp",
     "awards": [],
-    "published": true
+    "status": "published"
   },
   {
     "title": "ngo poster",
@@ -44,7 +45,8 @@
     "preview": "assets/previews/mission-octopus.webp",
     "awards": [
       "flyeralarm"
-    ]
+    ],
+    "status": "competition"
   },
   {
     "title": "azulejo six",
@@ -53,7 +55,8 @@
     "year": "2026",
     "url": "#azulejo-six",
     "preview": "assets/previews/azulejo-six.webp",
-    "awards": []
+    "awards": [],
+    "status": "spec work"
   },
   {
     "title": "vote2cop",
@@ -64,7 +67,8 @@
     "preview": "assets/previews/vote2cop.webp",
     "awards": [
       "YoungOnesLogo"
-    ]
+    ],
+    "status": "competition"
   },
   {
     "title": "the right way to say thank you",
@@ -73,7 +77,8 @@
     "year": "2026",
     "url": "#thank-you",
     "preview": "assets/previews/thank-you.webp",
-    "awards": []
+    "awards": [],
+    "status": "competition"
   },
   {
     "title": "500l/s",
@@ -87,7 +92,8 @@
       "adc-ny",
       "adc-germany",
       "gdg"
-    ]
+    ],
+    "status": "spec work"
   },
   {
     "title": "sentry",
@@ -96,7 +102,8 @@
     "year": "2023",
     "url": "#sentry",
     "preview": "assets/previews/sentry.webp",
-    "awards": []
+    "awards": [],
+    "status": "spec work"
   },
   {
     "title": "hope in action",
@@ -107,7 +114,8 @@
     "preview": "assets/previews/hope-in-action.webp",
     "awards": [
       "cannes"
-    ]
+    ],
+    "status": "competition"
   },
   {
     "title": "mediterainy opera",
@@ -120,7 +128,8 @@
       "adc-germany",
       "comm",
       "icad"
-    ]
+    ],
+    "status": "spec work"
   },
   {
     "title": "windkulturerbe",
@@ -132,7 +141,8 @@
     "awards": [
       "adc-germany",
       "comm"
-    ]
+    ],
+    "status": "spec work"
   },
   {
     "title": "u-turn",
@@ -143,6 +153,7 @@
     "preview": "assets/previews/u-turn.webp",
     "awards": [
       "adc-germany"
-    ]
+    ],
+    "status": "spec work"
   }
 ]

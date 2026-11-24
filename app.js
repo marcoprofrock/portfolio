@@ -777,8 +777,8 @@ function setupArchive(){
   const row=svgNode('g',{'class':'project-row',tabindex:0,'aria-label':[project.title,project.client,project.area,project.year,...(project.awards||[]).map(name=>awards[name]?.label||name)].filter(Boolean).join(', ')});
   row.append(svgNode('rect',{x:26.38,y:rowTop,width:1244.34,height:rowBottom-rowTop,fill:'transparent'}));
   [[26.87,project.title,false],[400,project.client,true],[775,project.area,true],[1233.6,project.year,true]].forEach(([x,label,light])=>row.append(svgNode('text',{x,y,'font-family':light?lightFace:roman,'font-size':20,'font-weight':400},label)));
-  // published (projects.json): work that ran for real, marked between area and year — desktop only (Marco, 24.11.).
-  if(project.published)row.append(svgNode('text',{x:1004.3,y,'font-family':lightFace,'font-size':20,'font-weight':400},'published'));
+  // status (projects.json): published, competition or spec work, between area and year — desktop only (Marco, 24.11.).
+  if(project.status)row.append(svgNode('text',{x:1004.3,y,'font-family':lightFace,'font-size':20,'font-weight':400},project.status));
   function show(){
    const scale=window.innerWidth/1920;
    const badgeSpace=project.awards?.length?awardOffset+awardHeight:0;
@@ -1509,7 +1509,7 @@ document.addEventListener('keydown',e=>{
  }
 });
 Promise.all([
- ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=ils-20261124`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
+ ...['screens','projects','awards','diary','vita'].map(name=>fetch(`assets/${name}.json?v=ils-status-20261124`).then(r=>{if(!r.ok)throw Error(`${name} could not be loaded`);return r.json()})),
  document.fonts.load('400 20px Serie57Archive').catch(()=>{}),
  fetch('assets/rotis-metrics.json?v=launch19-20261003').then(r=>{if(!r.ok)throw Error('rotis-metrics could not be loaded');return r.json()}).then(metrics=>{rotis=metrics}),
  // The sizes of the project pictures (scripts/prepare_image_sizes.py) shape the mobile project pages; without
@@ -1794,7 +1794,7 @@ async function setupOpera(route){
  const controller=new AbortController();let frame=0;
  cleanupRoute=()=>{controller.abort();cancelAnimationFrame(frame)};
  try{
-  const response=await fetch(`assets/project-layouts/${route}.svg?v=ils-20261124`,{signal:controller.signal});
+  const response=await fetch(`assets/project-layouts/${route}.svg?v=ils-status-20261124`,{signal:controller.signal});
   if(!response.ok)throw Error('Projektseite konnte nicht geladen werden.');
   const body=await response.text();if(controller.signal.aborted)return;
   if(typeof body==='string')main.innerHTML=body;else main.replaceChildren(buildProjectPage(body[route]));
