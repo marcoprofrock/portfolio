@@ -1830,11 +1830,11 @@
     ],
     "images": [
       "assets/projects/i-love-stuttgart/01_sticker-banner.webp",
+      "assets/projects/i-love-stuttgart/02_spots.mp4",
+      "assets/projects/i-love-stuttgart/05_bts-2.mp4",
       "assets/projects/i-love-stuttgart/02_film-rot.mp4",
       "assets/projects/i-love-stuttgart/03_film-blau.mp4",
       "assets/projects/i-love-stuttgart/04_film-lila.mp4",
-      "assets/projects/i-love-stuttgart/05_bts-2.mp4",
-      "assets/projects/i-love-stuttgart/06_wasen-eingang.webp",
       "assets/projects/i-love-stuttgart/07_matchcuts.mp4",
       "assets/projects/i-love-stuttgart/11_anstossen.webp",
       "assets/projects/i-love-stuttgart/09_bts.mp4",
@@ -1843,10 +1843,12 @@
       "assets/projects/i-love-stuttgart/12_wasen-kessel.webp",
       "assets/projects/i-love-stuttgart/08_sticker-baum.webp",
       "assets/projects/i-love-stuttgart/12_herbst-fassade.webp",
-      "assets/projects/i-love-stuttgart/12_ballon.webp"
+      "assets/projects/i-love-stuttgart/12_ballon.webp",
+      "assets/projects/i-love-stuttgart/06_wasen-eingang.webp"
     ],
     "videos": [],
     "sound": [
+      "assets/projects/i-love-stuttgart/02_spots.mp4",
       "assets/projects/i-love-stuttgart/02_film-rot.mp4",
       "assets/projects/i-love-stuttgart/03_film-blau.mp4",
       "assets/projects/i-love-stuttgart/04_film-lila.mp4"
@@ -1865,19 +1867,7 @@
       [
         855.77,
         465.81,
-        328.38,
-        583.79
-      ],
-      [
-        1210.5,
-        465.81,
-        328.38,
-        583.79
-      ],
-      [
-        1565.23,
-        465.81,
-        328.38,
+        1037.85,
         583.79
       ],
       [
@@ -1889,7 +1879,19 @@
       [
         202.85,
         1292.69,
-        831.2,
+        263.0,
+        467.55
+      ],
+      [
+        486.95,
+        1292.69,
+        263.0,
+        467.55
+      ],
+      [
+        771.05,
+        1292.69,
+        263.0,
         467.55
       ],
       [
@@ -1929,7 +1931,7 @@
         800.0
       ],
       [
-        1011.99,
+        944.38,
         3836.82,
         382.55,
         382.55
@@ -1945,6 +1947,12 @@
         2835.82,
         490.48,
         871.97
+      ],
+      [
+        1403.14,
+        3892.38,
+        490.48,
+        326.99
       ]
     ],
     "source": "texte nach den pressemitteilungen von stadtwerke stuttgart (23.06.2026) und scholz & friends sowie horizont (24.09.2026); bilder und filme aus 60_Stadtwerke.",
